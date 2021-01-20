@@ -1,6 +1,6 @@
 #include "microshell.h"
 
-int		ft_strlen(char *str)
+int		ft_strlen(const char *str)
 {
 	int	index;
 
@@ -10,7 +10,7 @@ int		ft_strlen(char *str)
 	return (index);
 }
 
-char	ft_strcpy(char *dst, char *src)
+char	*ft_strcpy(char *dst, const char *src)
 {
 	int	index;
 
@@ -24,7 +24,7 @@ char	ft_strcpy(char *dst, char *src)
 	return (dst);
 }
 
-char	ft_strdup(char const *str)
+char	*ft_strdup(char const *str)
 {
 
 	int		count;

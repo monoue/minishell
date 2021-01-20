@@ -3,10 +3,17 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <string.h>
+# include <stdbool.h>
 
+# define HAS_NO_CHILD 0
+# define ERROR		-1
 # define TYPE_END	3
 # define TYPE_PIPE	4
 # define TYPE_BREAK	5
+
+# define READ_END	0
+# define WRITE_END	1
 
 // typedef struct	s_list
 // {
@@ -23,13 +30,13 @@ typedef struct	s_base
 	char			**argv;
 	int				size;
 	int				type;
-	int				fds[2];
+	int				pipefds[2];
 	struct s_base	*previous;
 	struct s_base	*next;
-}				t_base;
+}				t_chunk;
 
-int		ft_strlen(char *str);
-char	ft_strcpy(char *dst, char *src);
-char	ft_strdup(char const *str);
+int		ft_strlen(const char *str);
+char	*ft_strcpy(char *dst, const char *src);
+char	*ft_strdup(char const *str);
 
 #endif

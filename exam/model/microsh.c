@@ -5,8 +5,9 @@
 #include <sys/types.h> //for linux
 #include <sys/wait.h> //for linux
 
+#define ERROR		-1
+
 #define STDIN		0
-#define STDOUT		1
 #define STDERR		2
 
 #define TYPE_END	3
@@ -18,10 +19,10 @@ typedef struct s_base
     char **argv;
     int size;
 	int type;
-	int fd[2];
+	int pipefds[2];
 	struct s_base *prev;
     struct s_base *next;
-} t_base;
+} t_chunk;
 
 /*
 **====================================
@@ -95,9 +96,9 @@ int exit_cd_2(char *str)
 **====================================
 */
 
-void ft_lstadd_back(t_base **lst, t_base *new)
+void ft_lstadd_back(t_chunk **lst, t_chunk *new)
 {
-    t_base *temp;
+    t_chunk *temp;
 
 	if (!(*lst))
 		*lst = new;
@@ -130,12 +131,12 @@ int get_last_arg_type(char *av)
     return (0);
 }
 
-int add_parsed_info_back(t_base **lst, char **av)
+int add_parsed_info_back(t_chunk **lst, char **av)
 {
     int size = count_args(av);
-    t_base *new;
+    t_chunk *new;
 
-    if (!(new = (t_base *)malloc(sizeof(t_base))))
+    if (!(new = (t_chunk *)malloc(sizeof(t_chunk))))
         exit_fatal();
     if (!(new->argv = (char **)malloc(sizeof(char *) * (size + 1))))
         exit_fatal();
@@ -156,7 +157,7 @@ int add_parsed_info_back(t_base **lst, char **av)
 **====================================
 */
 
-void exec_cmd(t_base *temp, char **env)
+void exec_cmd(t_chunk *temp, char **env)
 {
 	pid_t pid;
 	int status;
@@ -166,17 +167,17 @@ void exec_cmd(t_base *temp, char **env)
 	if (temp->type == TYPE_PIPE || (temp->prev && temp->prev->type == TYPE_PIPE))
 	{
 		pipe_open = 1;
-		if (pipe(temp->fd))
+		if (pipe(temp->pipefds))
 			exit_fatal();
 	}
 	pid = fork();
-	if (pid < 0)
+	if (pid == ERROR)
 		exit_fatal();
 	else if (pid == 0) //child
 	{
-		if (temp->type == TYPE_PIPE && dup2(temp->fd[1], STDOUT) < 0)
+		if (temp->type == TYPE_PIPE && dup2(temp->pipefds[1], STDOUT_FILENO) < 0)
 			exit_fatal();
-		if (temp->prev && temp->prev->type == TYPE_PIPE && dup2(temp->prev->fd[0], STDIN) < 0)
+		if (temp->prev && temp->prev->type == TYPE_PIPE && dup2(temp->prev->pipefds[0], STDIN) < 0)
 			exit_fatal();
 		if ((execve(temp->argv[0], temp->argv, env)) < 0)
 			exit_execve(temp->argv[0]);
@@ -187,32 +188,32 @@ void exec_cmd(t_base *temp, char **env)
 		waitpid(pid, &status, 0);
 		if (pipe_open)
 		{
-			close(temp->fd[1]);
+			close(temp->pipefds[1]);
 			if (!temp->next || temp->type == TYPE_BREAK)
-				close(temp->fd[0]);
+				close(temp->pipefds[0]);
 		}
 		if (temp->prev && temp->prev->type == TYPE_PIPE)
-			close(temp->prev->fd[0]);
+			close(temp->prev->pipefds[0]);
 	}
 }
 
-void exec_cmds(t_base *ptr, char **env)
+void exec_cmds(t_chunk *ptr, char **env)
 {
-	t_base *temp;
+	t_chunk *tmp;
 
-	temp = ptr;
-	while (temp)
+	tmp = ptr;
+	while (tmp)
 	{
-		if (strcmp("cd", temp->argv[0]) == 0)
+		if (strcmp("cd", tmp->argv[0]) == 0)
 		{
-			if (temp->size < 2)
+			if (tmp->size < 2)
 				exit_cd_1();
-			else if (chdir(temp->argv[1]))
-				exit_cd_2(temp->argv[1]);
+			else if (chdir(tmp->argv[1]))
+				exit_cd_2(tmp->argv[1]);
 		}
 		else
-			exec_cmd(temp, env);
-		temp = temp->next;
+			exec_cmd(tmp, env);
+		tmp = tmp->next;
 	}
 }
 
@@ -222,9 +223,9 @@ void exec_cmds(t_base *ptr, char **env)
 **====================================
 */
 
-void clear_leaks(t_base *ptr)
+void clear_leaks(t_chunk *ptr)
 {
-	t_base *temp;
+	t_chunk *temp;
 	int i;
 
 	while (ptr)
@@ -242,7 +243,7 @@ void clear_leaks(t_base *ptr)
 
 int main(int ac, char **av, char **env)
 {
-	t_base *lst = NULL;
+	t_chunk *lst = NULL;
 	int i;
 
 	i = 1;
