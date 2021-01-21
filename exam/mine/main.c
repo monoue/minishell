@@ -9,7 +9,6 @@ void	exit_fatal(void)
 {
 	ft_putstr_err("error: fatal\n");
 	exit(EXIT_FAILURE);
-	// 	return (EXIT_FAILURE); // 要らないのでは…？
 }
 
 void	ft_lstadd_back(t_chunk **chunks, t_chunk *new)
@@ -77,7 +76,7 @@ int	add_parsed_info_back(t_chunk **lst, char **argv)
 		index++;
 	}
 	new->type = get_last_arg_type(argv[new->size]); // 区切れの最後の要素
-	ft_lstadd_back(lst, new); // 本家とは、「空なら作る」点が異なる。
+	ft_lstadd_back(lst, new); // 本家とは、「空なら作る」点が異なる。-> 本家のを使って調整すべき…？
 	return (new->size);
 }
 
@@ -191,7 +190,6 @@ void	clear_leaks(t_chunk *ptr)
 
 int main(int argc, char *argv[], char **env)
 {
-	// t_chunk	*chunks = NULL;
 	t_chunk	*chunk;
 	int		i;
 

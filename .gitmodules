@@ -1,0 +1,6 @@
+[submodule "playground/libft"]
+	path = playground/libft
+	url = https://github.com/monoue/libft.git
+[submodule "playground/ft_mini_ls"]
+	path = playground/ft_mini_ls
+	url = https://github.com/monoue/ft_mini_ls.git
