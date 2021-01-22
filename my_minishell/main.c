@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/22 15:37:21 by monoue           ###   ########.fr       */
+/*   Updated: 2021/01/22 17:41:25 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,15 @@ int	help()
 {
 	int	i;
 
-	printf("Type program names and arguments, and hit enter.\n");
-	printf("The following are built in: \n");
+	// printf("Type program names and arguments, and hit enter.\n");
+	// printf("The following are built in: \n");
+	ft_putstr("Type program names and arguments, and hit enter.\n");
+	ft_putstr("The following are built in: \n");
 	i = 0;	
 	while (i < num_builtins())
 	{
-		printf(" %s\n", builtin_str[i]);
+		ft_putstr(builtin_str[i]);
+		ft_putstr("\n");
 		i++;
 	}
 	return (1);
@@ -228,13 +231,26 @@ void	do_child(t_chunk *chunk)
 		help();
 	else if (ft_strequal(chunk->argv[0], "exit"))
 		minishell_exit();
+	else if (ft_strequal(chunk->argv[0], "pwd"))
+	{
+		if (chunk->argv[1])
+		{
+			ft_putstr("pwd: too many arguments\n");
+			exit(EXIT_FAILURE);
+		}
+		ft_putstr(getcwd(NULL, 0));
+	}
 	else if (ft_strequal(chunk->argv[0], "wc"))
 	{
 		fullpath_cmd = ft_strjoin("/usr/bin/", chunk->argv[0]);
 		if (!fullpath_cmd)
 			perror("");
 		else if (execve(fullpath_cmd, chunk->argv, environ) == ERROR)
-			perror("execve: ");
+		{
+			
+			// ft_putstr("")
+
+		}
 		SAFE_FREE(fullpath_cmd);
 	}
 	else
