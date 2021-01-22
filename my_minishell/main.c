@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/22 13:13:17 by monoue           ###   ########.fr       */
+/*   Updated: 2021/01/22 15:37:21 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	exit_err_msg(char *err_msg)
 }
 
 int	cd(char **args);
-int	help(char **args);
-int	lsh_exit(char **args);
+// int	help(char **args);
+// int	lsh_exit(char **args);
 
 char	*builtin_str[] = {
 	"cd",
@@ -36,11 +36,11 @@ char	*builtin_str[] = {
 	"exit"
 };
 
-int	(*builtin_func[])(char **) = {
-	&cd,
-	&help,
-	&lsh_exit
-};
+// int	(*builtin_func[])(char **) = {
+// 	&cd,
+// 	&help,
+// 	&lsh_exit
+// };
 
 int	num_builtins()
 {
@@ -62,7 +62,8 @@ int	cd(char **args)
 	return 1;
 }
 
-int	help(char **args)
+// int	help(char **args)
+int	help()
 {
 	int	i;
 
@@ -77,7 +78,8 @@ int	help(char **args)
 	return (1);
 }
 
-int	lsh_exit(char **args)
+// int	minishell_exit(char **args)
+int	minishell_exit()
 {
 	return (0);
 }
@@ -209,6 +211,7 @@ bool	is_type_pipe(t_chunk *chunk)
 void	do_child(t_chunk *chunk)
 {
 	extern char	**environ;
+	char		*fullpath_cmd;
 
 	if (is_type_pipe(chunk))
 	{
@@ -221,8 +224,28 @@ void	do_child(t_chunk *chunk)
 		if (dup2(chunk->prev->fds[0], STDIN_FILENO) == ERROR)
 			exit_fatal();
 	}
-	if (execve(chunk->argv[0], chunk->argv, environ) == ERROR)
-		perror("execve: ");
+	if (ft_strequal(chunk->argv[0], "help"))
+		help();
+	else if (ft_strequal(chunk->argv[0], "exit"))
+		minishell_exit();
+	else if (ft_strequal(chunk->argv[0], "wc"))
+	{
+		fullpath_cmd = ft_strjoin("/usr/bin/", chunk->argv[0]);
+		if (!fullpath_cmd)
+			perror("");
+		else if (execve(fullpath_cmd, chunk->argv, environ) == ERROR)
+			perror("execve: ");
+		SAFE_FREE(fullpath_cmd);
+	}
+	else
+	{
+		fullpath_cmd = ft_strjoin("/bin/", chunk->argv[0]);
+		if (!fullpath_cmd)
+			perror("");
+		else if (execve(fullpath_cmd, chunk->argv, environ) == ERROR)
+			perror("execve: ");
+		SAFE_FREE(fullpath_cmd);
+	}
 	exit(EXIT_SUCCESS);
 }
 
@@ -358,7 +381,7 @@ void	loop(void)
 	}
 }
 
-int main(int argc, char **argv, char **env)
+int main(void)
 {
 	ft_putstr_err("❤️\n");
 	loop();
