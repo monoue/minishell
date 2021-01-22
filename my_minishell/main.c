@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/22 17:41:25 by monoue           ###   ########.fr       */
+/*   Updated: 2021/01/22 17:47:53 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,7 @@ void	do_child(t_chunk *chunk)
 		else if (execve(fullpath_cmd, chunk->argv, environ) == ERROR)
 		{
 			
-			// ft_putstr("")
+			ft_putstr("");
 
 		}
 		SAFE_FREE(fullpath_cmd);
