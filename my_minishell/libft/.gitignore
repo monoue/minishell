@@ -1,0 +1,12 @@
+*.o
+*.a
+*.out
+*.dSYM
+main.c
+test.c
+tmp.c
+example.c
+gitignored.c
+includes
+.DS_Store
+.vscode
