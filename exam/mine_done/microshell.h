@@ -8,9 +8,15 @@
 
 # define HAS_NO_CHILD 0
 # define ERROR		-1
-# define TYPE_END	3
-# define TYPE_PIPE	4
-# define TYPE_BREAK	5
+
+typedef			enum
+{
+	TYPE_END,
+	TYPE_PIPE,
+	TYPE_BREAK,
+
+	TYPES_NUM
+}				t_type;
 
 # define READ_END	0
 # define WRITE_END	1
@@ -25,7 +31,7 @@
 // 	struct s_list	*next;
 // }				t_list;
 
-typedef struct	s_base
+typedef struct	s_chunk
 {
 	char			**argv;
 	int				size;

@@ -1,5 +1,10 @@
 #include "microshell.h"
 
+bool	ft_strequal(const char *s1, const char *s2)
+{
+	return (strcmp(s1, s2) == 0);
+}
+
 void	ft_putstr_err(char *str)
 {
 	write(STDERR_FILENO, str, ft_strlen(str));
@@ -27,18 +32,17 @@ void	ft_lstadd_back(t_chunk **chunks, t_chunk *new)
 	new->previous = tmp;
 }
 
-int	count_args(char **argv)
+size_t	count_chunk_members(char **argv)
 {
-	int	i;
+	size_t	index;
 
-	i = 0;
-	while (argv[i] != NULL && strcmp(argv[i], "|") != 0 && strcmp(argv[i], ";") != 0)
-		i++;
-	return (i);
+	index = 0;
+	while (argv[index] && !ft_strequal(argv[index], "|") && !ft_strequal(argv[index], ";"))
+		index++;
+	return (index);
 }
 
-
-int	get_last_arg_type(char *arg)
+t_type	get_type(char *arg)
 {
 	if (arg == NULL)
 		return (TYPE_END);
@@ -57,7 +61,7 @@ int	add_parsed_info_back(t_chunk **lst, char **argv)
 	new = malloc(sizeof(t_chunk));
 	if (new == NULL)
 		exit_fatal();
-	size = count_args(argv);
+	size = count_chunk_members(argv);
 	new->argv = malloc(sizeof(char *) * (size + 1));
 	if (new->argv == NULL)
 		exit_fatal();
@@ -75,7 +79,7 @@ int	add_parsed_info_back(t_chunk **lst, char **argv)
 			exit(EXIT_FAILURE);
 		index++;
 	}
-	new->type = get_last_arg_type(argv[new->size]); // 区切れの最後の要素
+	new->type = get_type(argv[new->size]); // 区切れの最後の要素
 	ft_lstadd_back(lst, new); // 本家とは、「空なら作る」点が異なる。-> 本家のを使って調整すべき…？
 	return (new->size);
 }

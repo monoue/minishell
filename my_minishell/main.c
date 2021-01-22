@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/21 16:17:08 by monoue           ###   ########.fr       */
+/*   Updated: 2021/01/22 12:40:23 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,48 +76,52 @@ int	lsh_exit(char **args)
 	return (0);
 }
 
-int		launch(char **args)
-{
-	extern char	**environ;
-	pid_t	pid;
-	int		status;
+// int		launch(char **args)
+// {
+// 	extern char	**environ;
+// 	pid_t	pid;
+// 	int		status;
 
-	pid = fork();
-	if (pid == ERROR)
-		perror("");
-	else if (pid == 0) // 子プロセス
-	{
-		if (execve(args[0], args, environ) == ERROR)
-			exit_err_msg("execvp failed");
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		status = false;
-		while (!WIFEXITED(status) && !WIFSIGNALED(status))
-			waitpid(pid, &status, WUNTRACED); // 子プロセスが停止した場合にも復帰する。
-	}
-	return (1);
-}
+// 	pid = fork();
+// 	if (pid == ERROR)
+// 		perror("");
+// 	else if (pid == 0) // 子プロセス
+// 	{
+// 		if (execve(args[0], args, environ) == ERROR)
+// 			exit_err_msg("execvp failed");
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	else
+// 	{
+// 		status = false;
+// 		while (!WIFEXITED(status) && !WIFSIGNALED(status))
+// 			waitpid(pid, &status, WUNTRACED); // 子プロセスが停止した場合にも復帰する。
+// 	}
+// 	return (1);
+// }
 
-int		execute(char **args)
-{
-	int	i;
+// int		execute(char **args)
+// {
+// 	int	i;
 
-	if (!args[0])
-		return (1);
-	i = 0;
-	while (i < num_builtins())
-	{
-		if (ft_strequal(args[0], builtin_str[i]))
-			return ((*builtin_func[i])(args));
-		i++;
-	}
-	return (launch(args));
-}
+// 	if (!args[0])
+// 		return (1);
+// 	i = 0;
+// 	while (i < num_builtins())
+// 	{
+// 		if (ft_strequal(args[0], builtin_str[i]))
+// 			return ((*builtin_func[i])(args));
+// 		i++;
+// 	}
+// 	return (launch(args));
+// }
 
 void	loop(void)
 {
+	t_chunk	*chunk;
+	t_chunk	*new;
+	// ここまで追加
+
 	char	*line;
 	char	**args;
 	int		status;
@@ -129,7 +133,13 @@ void	loop(void)
 		if (get_next_line(STDIN_FILENO, &line) == ERROR)
 			exit_err_msg(MALLOC_ERR);
 		args = ft_split(line, ' ');
-		status = execute(args);
+
+		// status = execute(args); 以下、この一行を、exam バージョンに変更中
+		// ここから
+		
+		
+
+		// ここまで
 		SAFE_FREE(line);
 		ft_free_split(args);
 	}

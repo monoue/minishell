@@ -244,6 +244,7 @@ void clear_leaks(t_chunk *ptr)
 int main(int ac, char **av, char **env)
 {
 	t_chunk *lst = NULL;
+
 	int i;
 
 	i = 1;
