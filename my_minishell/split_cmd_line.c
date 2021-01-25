@@ -1,75 +1,105 @@
 #include "minishell.h"
 
-static size_t	count_words(char const *str, char sep_c)
+static bool		is_symbol(char c)
+{
+	return (ft_strchr("><|", c));
+}
+
+static size_t	count_words(char const *str)
 {
 	size_t	index;
 	size_t	words_num;
 
 	index = 0;
-	while (str[index] != '\0' && str[index] == sep_c)
+	while (str[index] != '\0' && str[index] == ' ')
 		index++;
 	words_num = 0;
 	while (str[index] != '\0')
 	{
-		while (str[index] != '\0' && str[index] != sep_c)
+		if (ft_strncmp(&str[index], ">>", 2) == 0)
+			index += 2;
+		else if (is_symbol(str[index]))
+			index++;
+		else
+			while (str[index] != '\0' && !is_symbol(str[index]) && str[index] != ' ')
+				index++;
+		while (str[index] != '\0' && str[index] == ' ')
 			index++;
 		words_num++;
-		while (str[index] != '\0' && str[index] == sep_c)
-			index++;
 	}
 	return (words_num);
 }
 
-static char		**return_null_freeing_all(char **arr, int i)
-{
-	int	index;
 
-	index = i;
-	while (index >= 0)
-	{
-		SAFE_FREE(arr[index]);
-		index--;
-	}
-	SAFE_FREE(arr);
-	return (NULL);
-}
-
-static char		*cut_out_one_word(const char *str, char sep_c, size_t *index)
+static char		*cut_out_one_word(const char *str, size_t *index)
 {
 	size_t			start;
-	const size_t	s_len = ft_strlen(str);
 
-	while (*index < s_len && str[*index] == sep_c)
+	while (str[*index] && str[*index] == ' ')
 		(*index)++;
 	start = *index;
-	while (*index < s_len && str[*index] != sep_c)
+	if (ft_strncmp(&str[*index], ">>", 2) == 0)
+		*index += 2;
+	else if (is_symbol(str[*index]))
 		(*index)++;
+	else
+		while (str[*index] != '\0' && !is_symbol(str[*index]) && str[*index] != ' ')
+			(*index)++;
 	return (ft_substr(str, start, *index - start));
 }
 
-char			**ft_split(char const *str, char sep_c)
+char			**split_cmd_line(char const *str)
 {
 	char	**words;
 	size_t	words_num;
 	size_t	index;
-	int		w_i;
+	size_t	w_i;
 
-	if (str == NULL)
+	if (!str)
 		return (NULL);
-	words_num = count_words(str, sep_c);
+	words_num = count_words(str);
 	words = ft_calloc((words_num + 1), sizeof(*words));
-	if (words == NULL)
+	if (!words)
 		return (NULL);
-	if (sep_c == '\0')
-		return (words);
 	w_i = 0;
 	index = 0;
-	while (w_i < (int)words_num)
+	while (w_i < words_num)
 	{
-		words[w_i] = cut_out_one_word(str, sep_c, &index);
-		if (words[w_i] == NULL)
-			return (return_null_freeing_all(words, w_i - 1));
+		words[w_i] = cut_out_one_word(str, &index);
+		if (!words[w_i])
+		{
+			ft_free_split(words);
+			return (NULL);
+		}
 		w_i++;
 	}
 	return (words);
 }
+
+// void	print_strs(char **str)
+// {
+// 	size_t	index;
+
+// 	index = 0;
+// 	while (str[index])
+// 	{
+// 		DS(str[index]);
+// 		index++;
+// 	}
+// }
+
+// int main()
+// {
+
+	// print_strs(split_cmd_line("hoge | > ls | wc"));
+	// print_strs(split_cmd_line("hoge|>ls|wc"));
+	// print_strs(split_cmd_line("ls | hoge | > ls | wc"));
+	// print_strs(split_cmd_line("ls|hoge|>ls|wc"));
+	// print_strs(split_cmd_line("ls | wc | hoge | > ls | wc"));
+	// print_strs(split_cmd_line("ls|wc|hoge|>ls|wc"));
+	// print_strs(split_cmd_line("ls | >>> ls | wc"));
+	// print_strs(split_cmd_line("ls|>ls|wc"));
+	// print_strs(split_cmd_line("ls | | > ls | wc"));
+	// print_strs(split_cmd_line("ls||>ls|wc"));
+	// print_strs(split_cmd_line(""));
+// }
