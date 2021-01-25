@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 11:56:31 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/21 16:04:03 by monoue           ###   ########.fr       */
+/*   Updated: 2021/01/23 10:41:34 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,6 @@ char				ft_itoc(int n);
 bool				ft_strequal(const char *s1, const char *s);
 void				ft_free_split(char **strs);
 void				ft_putstr_err(char *s);
-void				put_color_fd(const char *str, t_colors color, int fd);
+void				put_color_fd(char *str, t_colors color, int fd);
 
 #endif

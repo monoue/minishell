@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/22 15:17:23 by monoue           ###   ########.fr       */
+/*   Updated: 2021/01/24 10:12:05 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 
 # define ERR_MSG		"error: "
 # define FATAL_ERR_MSG	ERR_MSG"fatal\n"
+#define MALLOC_ERR "memory allocation error\n"
+
+__BEGIN_DECLS
+extern int * __error(void);
+#define errno (*__errosr())
+__END_DECLS
 
 typedef			enum
 {
@@ -40,4 +46,12 @@ typedef struct	s_chunk
 	struct s_chunk	*next;
 }				t_chunk;
 
+void	pwd(t_chunk *chunk);
+int		help();
+int		minishell_exit();
+int		cd(char **args);
+void	wc(char *fullpath_cmd, t_chunk *chunk, char **environ);
+void	echo(t_chunk *chunk);
+void    env(char **environ);
+void	export(t_chunk *chunk, char **environ);
 #endif

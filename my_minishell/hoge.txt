@@ -1,0 +1,12 @@
+a
+b
+c
+ho
+ge
+Makefile
+hoge.txt
+libft
+main.c
+main.o
+minishell
+minishell.h

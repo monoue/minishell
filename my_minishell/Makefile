@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/01/22 15:17:41 by monoue           ###   ########.fr        #
+#    Updated: 2021/01/23 12:33:28 by sperrin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-CC = gcc
+CC = gcc -g
 
 # PATH
 LIBFT_PATH =		libft/
@@ -23,7 +23,7 @@ LIBFT =				$(LIBFT_PATH)libft.a
 SRCS_NAME =
 # CFLAGS = -Wall -Wextra -Werror
 
-SRCS += main.c
+SRCS += main.c pwd_command.c help_command.c exit_command.c cd_command.c wc_command.c echo_command.c env_command.c export_command.c
 
 OBJS = $(SRCS:%.c=%.o)
 

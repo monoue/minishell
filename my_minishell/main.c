@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/22 17:47:53 by monoue           ###   ########.fr       */
+/*   Updated: 2021/01/24 10:12:20 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-#define MALLOC_ERR "memory allocation error\n"
 
 void	exit_fatal(void)
 {
@@ -26,14 +24,10 @@ void	exit_err_msg(char *err_msg)
 	exit(EXIT_FAILURE);
 }
 
-int	cd(char **args);
-// int	help(char **args);
-// int	lsh_exit(char **args);
-
 char	*builtin_str[] = {
 	"cd",
 	"help",
-	"exit"
+	"exit",
 };
 
 // int	(*builtin_func[])(char **) = {
@@ -45,46 +39,6 @@ char	*builtin_str[] = {
 int	num_builtins()
 {
 	return (sizeof(builtin_str) / sizeof(char *));
-}
-
-int	cd(char **args)
-{
-	if (args[1] == NULL)
-	{
-		if (chdir("/") == ERROR)
-			perror("");
-	}
-	else
-	{
-		if (chdir(args[1]) == ERROR)
-			perror("");
-	}
-	return 1;
-}
-
-// int	help(char **args)
-int	help()
-{
-	int	i;
-
-	// printf("Type program names and arguments, and hit enter.\n");
-	// printf("The following are built in: \n");
-	ft_putstr("Type program names and arguments, and hit enter.\n");
-	ft_putstr("The following are built in: \n");
-	i = 0;	
-	while (i < num_builtins())
-	{
-		ft_putstr(builtin_str[i]);
-		ft_putstr("\n");
-		i++;
-	}
-	return (1);
-}
-
-// int	minishell_exit(char **args)
-int	minishell_exit()
-{
-	return (0);
 }
 
 // int		launch(char **args)
@@ -182,7 +136,7 @@ t_chunk	*chunk_add_back(t_chunk **chunks, char **argv)
 	if (!new)
 		exit_fatal();
 	// size = ft_count_strs(argv);
-	new->size = count_chunk_members(argv); // count_chunk_members???
+	new->size = count_chunk_members(argv); // count size of the command
 	// new->argv = malloc(sizeof(char *) * new->size + 1); // calloc 使っておけば、ft_free_split できる。
 	// new->argv = malloc(sizeof(char *) * new->size + 1);
 	new->argv = ft_calloc(new->size + 1, sizeof(char *));
@@ -191,7 +145,7 @@ t_chunk	*chunk_add_back(t_chunk **chunks, char **argv)
 	index = 0;
 	while (index < new->size)
 	{
-		new->argv[index] = ft_strdup(argv[index]); // 各要素の代入
+		new->argv[index] = ft_strdup(argv[index]); // 各要素の代入 (Substitution of each element)
 		if (!new->argv[index])
 			exit_fatal();
 		index++;
@@ -232,27 +186,15 @@ void	do_child(t_chunk *chunk)
 	else if (ft_strequal(chunk->argv[0], "exit"))
 		minishell_exit();
 	else if (ft_strequal(chunk->argv[0], "pwd"))
-	{
-		if (chunk->argv[1])
-		{
-			ft_putstr("pwd: too many arguments\n");
-			exit(EXIT_FAILURE);
-		}
-		ft_putstr(getcwd(NULL, 0));
-	}
+		pwd(chunk);
 	else if (ft_strequal(chunk->argv[0], "wc"))
-	{
-		fullpath_cmd = ft_strjoin("/usr/bin/", chunk->argv[0]);
-		if (!fullpath_cmd)
-			perror("");
-		else if (execve(fullpath_cmd, chunk->argv, environ) == ERROR)
-		{
-			
-			ft_putstr("");
-
-		}
-		SAFE_FREE(fullpath_cmd);
-	}
+		wc(fullpath_cmd, chunk, environ);
+	else if (ft_strequal(chunk->argv[0], "echo"))
+		echo(chunk);
+	else if (ft_strequal(chunk->argv[0], "env"))
+		env(environ);
+	else if (ft_strequal(chunk->argv[0], "export"))
+		export(chunk, environ);
 	else
 	{
 		fullpath_cmd = ft_strjoin("/bin/", chunk->argv[0]);
@@ -399,7 +341,7 @@ void	loop(void)
 
 int main(void)
 {
-	ft_putstr_err("❤️\n");
+	ft_putstr_err("Bienvenue dans notre Minishell ❤️\n");
 	loop();
 	return (EXIT_SUCCESS);
 }
