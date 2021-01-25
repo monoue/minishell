@@ -8,6 +8,7 @@
         v, __FILE__, __LINE__, __FUNCTION__);
 
 # define DC(v) DEBUGV("%c", v);
+# define DP(v) DEBUGV("%p", v);
 # define DS(v) DEBUGV("%s", v);
 # define DI(v) DEBUGV("%d", v);
 # define DF(v) DEBUGV("%f", v);

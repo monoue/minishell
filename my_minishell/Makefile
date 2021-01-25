@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+         #
+#    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/01/23 12:33:28 by sperrin          ###   ########.fr        #
+#    Updated: 2021/01/26 07:33:14 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,18 @@ LIBFT =				$(LIBFT_PATH)libft.a
 SRCS_NAME =
 # CFLAGS = -Wall -Wextra -Werror
 
-SRCS += main.c pwd_command.c help_command.c exit_command.c cd_command.c wc_command.c echo_command.c env_command.c export_command.c
+SRCS  = cd_command.c \
+		echo_command.c \
+		env_command.c \
+		exit_command.c \
+		export_command.c \
+		help_command.c \
+		is_quoted_wrongly \
+		main.c \
+		op_list.c \
+		pwd_command.c \
+		split_cmd_line.c \
+		wc_command.c
 
 OBJS = $(SRCS:%.c=%.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/24 10:12:20 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/01/26 07:06:43 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,30 +81,6 @@ int	num_builtins()
 // 	return (launch(args));
 // }
 
-t_chunk	*lstlast(t_chunk *chunk)
-{
-	if (!chunk)
-		return (NULL);
-	while (chunk->next)
-		chunk = chunk->next;
-	return (chunk);
-}
-
-void	lstadd_back(t_chunk **chunks, t_chunk *new)
-{
-	t_chunk	*tmp;
-
-	if (!chunks || !new)
-		return ;
-	if (!(*chunks))
-	{
-		*chunks = new;
-		return ;
-	}
-	tmp = lstlast(*chunks);
-	tmp->next = new;
-	new->prev = tmp;
-}
 
 t_type	get_type(char *arg)
 {
@@ -114,6 +90,12 @@ t_type	get_type(char *arg)
 		return (TYPE_PIPE);
 	if (ft_strequal(arg, ";"))
 		return (TYPE_BREAK);
+	if (ft_strequal(arg, "<"))
+		return (TYPE_READ);
+	if (ft_strequal(arg, ">"))
+		return (TYPE_WRITE);
+	if (ft_strequal(arg, ">>"))
+		return (TYPE_APPEND);
 	return (ERROR);
 }
 
@@ -273,16 +255,17 @@ void	clear_leaks(t_chunk *ptr)
 	while (ptr)
 	{
 		tmp = ptr->next;
-		index = 0;
+		// index = 0;
 		// TODO: ft_free_split に置き換えて試す。
-		while (index < ptr->size)
-		{
-			free(ptr->argv[index]);
-			index++;
-		}
-		free(ptr->argv);
+		ft_free_split(ptr->argv);
+		// while (index < ptr->size)
+		// {
+		// 	free(ptr->argv[index]);
+		// 	index++;
+		// }
+		// free(ptr->argv);
 		// ここまで
-		free(ptr);
+		SAFE_FREE(ptr);
 		ptr = tmp;
 	}
 	ptr = NULL;
@@ -305,7 +288,8 @@ void	loop(void)
 		ft_putstr("❯ ");
 		if (get_next_line(STDIN_FILENO, &line) == ERROR)
 			exit_err_msg(MALLOC_ERR);
-		argv = ft_split(line, ' ');
+		// TODO: if (is_quoted_wrongly(line))
+		argv = split_cmd_line(line);
 		// if (ft_count_strs(args) == 0)
 		if (!ft_count_strs((const char**)argv))
 			continue ;

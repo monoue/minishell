@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/25 13:44:12 by monoue           ###   ########.fr       */
+/*   Updated: 2021/01/26 07:29:23 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,15 @@ typedef struct	s_chunk
 	struct s_chunk	*next;
 }				t_chunk;
 
-char			**split_cmd_line(char const *str);
+/*
+** list operation
+*/
+t_chunk			*lstlast(t_chunk *chunk);
+void			lstadd_back(t_chunk **chunks, t_chunk *new);
+
+/*
+** commands
+*/
 void			pwd(t_chunk *chunk);
 int				help();
 int				minishell_exit();
@@ -59,5 +67,11 @@ void			wc(char *fullpath_cmd, t_chunk *chunk, char **environ);
 void			echo(t_chunk *chunk);
 void			env(char **environ);
 void			export(t_chunk *chunk, char **environ);
+
+/*
+** parser
+*/
+bool			is_quoted_wrongly(char *str);
+char			**split_cmd_line(char const *str);
 
 #endif

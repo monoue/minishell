@@ -80,10 +80,10 @@ void    show_export(t_chunk *chunk, t_list *environ)
     }
 }
 
-int     check_valid_arg(t_chunk *chunk)
-{
+// int     check_valid_arg(t_chunk *chunk)
+// {
     
-}
+// }
 
 void    export(t_chunk *chunk, char **environ)
 {
@@ -103,9 +103,9 @@ void    export(t_chunk *chunk, char **environ)
     i = 0;
     if (!chunk->argv[1])
         show_export(chunk, envp); //export コマンドに引数がなかったとき、環境変数を、一覧で表示する
-    while (chunk->argv[i])
-    {
-        if (chek_valid_arg(chunk))
-            add_var(chunk, envp);
-    }
+    // while (chunk->argv[i])
+    // {
+    //     if (chek_valid_arg(chunk))
+    //         add_var(chunk, envp);
+    // }
 }
