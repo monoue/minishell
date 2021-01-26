@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/01/26 07:33:14 by monoue           ###   ########.fr        #
+#    Updated: 2021/01/26 07:55:52 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRCS  = cd_command.c \
 		exit_command.c \
 		export_command.c \
 		help_command.c \
-		is_quoted_wrongly \
+		is_quoted_wrongly.c \
 		main.c \
 		op_list.c \
 		pwd_command.c \
