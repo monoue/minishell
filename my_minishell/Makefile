@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/01/26 07:55:52 by monoue           ###   ########.fr        #
+#    Updated: 2021/01/26 16:36:37 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,12 +24,15 @@ SRCS_NAME =
 # CFLAGS = -Wall -Wextra -Werror
 
 SRCS  = cd_command.c \
+		count_cmd_line_words.c \
 		echo_command.c \
 		env_command.c \
 		exit_command.c \
 		export_command.c \
 		help_command.c \
+		is_quote.c \
 		is_quoted_wrongly.c \
+		is_redirection.c \
 		main.c \
 		op_list.c \
 		pwd_command.c \

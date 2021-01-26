@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/26 07:29:23 by monoue           ###   ########.fr       */
+/*   Updated: 2021/01/26 16:34:20 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ void			export(t_chunk *chunk, char **environ);
 ** parser
 */
 bool			is_quoted_wrongly(char *str);
+char			**split_cmd_line(char const *str);
+bool			is_quote(char c);
+bool			is_redirection(char c);
+size_t			count_cmd_line_words(char const *str);
 char			**split_cmd_line(char const *str);
 
 #endif

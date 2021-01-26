@@ -19,7 +19,7 @@ size_t	count_quotes_sets(char *str)
 	index = 0;
 	while (index < len)
 	{
-		if (str[index] == '\'' || str[index] == '\"')
+		if (is_quote(str[index]))
 		{
 			quote = str[index];
 			index++;
@@ -31,6 +31,18 @@ size_t	count_quotes_sets(char *str)
 	}
 	return (sets_num);
 }
+
+bool	has_quote(char *str)
+{
+	return (ft_strchr(str, '\'') || ft_strchr(str, '\"'));
+}
+
+char	*trim_quotes(char *str)
+{
+
+
+}
+
  // 次、malloc。
 // bool	has_quote_set(char *str)
 // {
@@ -54,15 +66,15 @@ size_t	count_quotes_sets(char *str)
 
 // }
 // bool	has_quotes_set(char *str, char quote)
-bool	has_quotes_set(char *str, char quote)
-{
-	const char		*tmp = ft_strchr(str, quote);
-	const size_t	len = ft_strlen(tmp);
+// bool	has_quotes_set(char *str, char quote)
+// {
+// 	const char		*tmp = ft_strchr(str, quote);
+// 	const size_t	len = ft_strlen(tmp);
 
-	if (len < 2)
-		return (false);
-	return (ft_strchr(&tmp[1], quote));
-}
+// 	if (len < 2)
+// 		return (false);
+// 	return (ft_strchr(&tmp[1], quote));
+// }
 
 
 // int	trim_quotes(char **str)

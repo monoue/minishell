@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/26 07:06:43 by monoue           ###   ########.fr       */
+/*   Updated: 2021/01/26 14:25:44 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,13 +155,15 @@ void	do_child(t_chunk *chunk)
 	if (is_type_pipe(chunk))
 	{
 		// その前に close しなくていいのか？
-		if (dup2(chunk->fds[1], STDOUT_FILENO) == ERROR)
-			exit_fatal();
+		// if (dup2(chunk->fds[1], STDOUT_FILENO) == ERROR) // この chunk からの出力を、標準出力にしている。
+		// if (dup2(chunk->fds[1], STDOUT_FILENO) == ERROR) // 標準出力されたものは、このパイプに入ってくるようになっている。
+		if (dup2(chunk->fds[1], STDOUT_FILENO) == ERROR) // 標準出力されたものがもしあったならば、このパイプが吸収するようにした。初回は関係ない。
+			exit_fatal();									// ls | wc で言えば、wc の受け取り側
 	}
 	if (is_type_pipe(chunk->prev))
 	{
-		if (dup2(chunk->prev->fds[0], STDIN_FILENO) == ERROR)
-			exit_fatal();
+		if (dup2(chunk->prev->fds[0], STDIN_FILENO) == ERROR) // 前の chunk で出されたものが、標準入力として解釈されるようになった。
+			exit_fatal();										// ls | wc で言えば、ls の出すもの
 	}
 	if (ft_strequal(chunk->argv[0], "help"))
 		help();
@@ -193,7 +195,7 @@ void	do_parent(t_chunk *chunk, pid_t child_pid, bool is_pipe_open)
 {
 	int	status;
 
-	waitpid(child_pid, &status, 0);
+	waitpid(child_pid, &status, 0);	// 閉じて初めて流れる
 	if (is_pipe_open)
 	{
 		close(chunk->fds[1]); // ひとまず、このチャンクにて書き込むことはなくなるので閉じる。
