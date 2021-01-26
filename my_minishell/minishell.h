@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/26 16:34:20 by monoue           ###   ########.fr       */
+/*   Updated: 2021/01/26 19:12:15 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,15 @@ void			lstadd_back(t_chunk **chunks, t_chunk *new);
 /*
 ** commands
 */
-void			pwd(t_chunk *chunk);
-int				help();
-int				minishell_exit();
-int				cd(char **args);
-void			wc(char *fullpath_cmd, t_chunk *chunk, char **environ);
-void			echo(t_chunk *chunk);
-void			env(char **environ);
-void			export(t_chunk *chunk, char **environ);
+void	pwd(t_chunk *chunk);
+int		help();
+int		minishell_exit();
+int		cd(char **args);
+void	echo(t_chunk *chunk);
+void    env(t_list *envp);
+void	export(t_chunk *chunk, t_list *envp);
+void    unset(t_chunk *chunk, t_list *envp);
+void	no_pipe(t_chunk *chunk, t_list *envp);
 
 /*
 ** parser
@@ -78,4 +79,19 @@ bool			is_redirection(char c);
 size_t			count_cmd_line_words(char const *str);
 char			**split_cmd_line(char const *str);
 
+/*
+** utils command
+*/
+int		check_command(char *argv);
+int		pipe_or_not_pipe(t_chunk *chunk);
+void	ascii_sort(char **args);
+int     check_valid_arg(char *argv);
+int     arg_is_str(char *argv);
+
+/*
+** utils command 2
+*/
+char    *check_key(char **argv);
+void	*delete_variable(void *ptr);
+int		same_key(char *key, t_list *envp);
 #endif

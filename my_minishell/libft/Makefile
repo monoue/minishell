@@ -43,6 +43,7 @@ PART2 += ft_split.c
 PART2 += ft_itoa.c
 PART2 += ft_strmapi.c
 PART2 += ft_putchar_fd.c
+PART2 += ft_putchar.c
 PART2 += ft_putstr_fd.c
 PART2 += ft_putendl_fd.c
 PART2 += ft_putnbr_fd.c

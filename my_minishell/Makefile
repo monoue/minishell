@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/01/26 16:36:37 by monoue           ###   ########.fr        #
+#    Updated: 2021/01/26 18:37:01 by sperrin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,10 @@ SRCS  = cd_command.c \
 		op_list.c \
 		pwd_command.c \
 		split_cmd_line.c \
-		wc_command.c
+		unset_command.c \
+		utils_command.c \
+		utils_command2.c \
+		no_pipe_command.c
 
 OBJS = $(SRCS:%.c=%.o)
 

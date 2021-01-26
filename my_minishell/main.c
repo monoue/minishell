@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/26 14:25:44 by monoue           ###   ########.fr       */
+/*   Updated: 2021/01/26 18:05:43 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,64 +23,6 @@ void	exit_err_msg(char *err_msg)
 	ft_putstr_err(err_msg);
 	exit(EXIT_FAILURE);
 }
-
-char	*builtin_str[] = {
-	"cd",
-	"help",
-	"exit",
-};
-
-// int	(*builtin_func[])(char **) = {
-// 	&cd,
-// 	&help,
-// 	&lsh_exit
-// };
-
-int	num_builtins()
-{
-	return (sizeof(builtin_str) / sizeof(char *));
-}
-
-// int		launch(char **args)
-// {
-// 	extern char	**environ;
-// 	pid_t	pid;
-// 	int		status;
-
-// 	pid = fork();
-// 	if (pid == ERROR)
-// 		perror("");
-// 	else if (pid == 0) // 子プロセス
-// 	{
-// 		if (execve(args[0], args, environ) == ERROR)
-// 			exit_err_msg("execvp failed");
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	else
-// 	{
-// 		status = false;
-// 		while (!WIFEXITED(status) && !WIFSIGNALED(status))
-// 			waitpid(pid, &status, WUNTRACED); // 子プロセスが停止した場合にも復帰する。
-// 	}
-// 	return (1);
-// }
-
-// int		execute(char **args)
-// {
-// 	int	i;
-
-// 	if (!args[0])
-// 		return (1);
-// 	i = 0;
-// 	while (i < num_builtins())
-// 	{
-// 		if (ft_strequal(args[0], builtin_str[i]))
-// 			return ((*builtin_func[i])(args));
-// 		i++;
-// 	}
-// 	return (launch(args));
-// }
-
 
 t_type	get_type(char *arg)
 {
@@ -147,7 +89,7 @@ bool	is_type_pipe(t_chunk *chunk)
 	return (chunk->type == TYPE_PIPE);
 }
 
-void	do_child(t_chunk *chunk)
+void	do_child(t_chunk *chunk, t_list *envp)
 {
 	extern char	**environ;
 	char		*fullpath_cmd;
@@ -167,18 +109,6 @@ void	do_child(t_chunk *chunk)
 	}
 	if (ft_strequal(chunk->argv[0], "help"))
 		help();
-	else if (ft_strequal(chunk->argv[0], "exit"))
-		minishell_exit();
-	else if (ft_strequal(chunk->argv[0], "pwd"))
-		pwd(chunk);
-	else if (ft_strequal(chunk->argv[0], "wc"))
-		wc(fullpath_cmd, chunk, environ);
-	else if (ft_strequal(chunk->argv[0], "echo"))
-		echo(chunk);
-	else if (ft_strequal(chunk->argv[0], "env"))
-		env(environ);
-	else if (ft_strequal(chunk->argv[0], "export"))
-		export(chunk, environ);
 	else
 	{
 		fullpath_cmd = ft_strjoin("/bin/", chunk->argv[0]);
@@ -206,10 +136,11 @@ void	do_parent(t_chunk *chunk, pid_t child_pid, bool is_pipe_open)
 		close(chunk->prev->fds[0]);
 }
 
-void	exec_cmd(t_chunk *chunk)
+void	exec_cmd(t_chunk *chunk, t_list *envp)
 {
 	pid_t		pid;
 	bool		is_pipe_open;
+	int			flag;
 
 	is_pipe_open = false;
 	if (is_type_pipe(chunk) || is_type_pipe(chunk->prev))
@@ -218,16 +149,23 @@ void	exec_cmd(t_chunk *chunk)
 		if (pipe(chunk->fds) == ERROR)
 			exit_fatal();
 	}
-	pid = fork();
-	if (pid == ERROR)
-		exit_fatal();
-	if (pid == 0)
-		do_child(chunk);
+	flag = pipe_or_not_pipe(chunk);//ここはPIPEあるかない、または builtinsではあるかないを確認して、FLAG＝０場合はコマンドを移動して、FLAG=１場合はFORKに行く
+	if (flag == 0) 
+		no_pipe(chunk, envp);//builtins
 	else
-		do_parent(chunk, pid, is_pipe_open);
+	{
+		pid = fork();
+		if (pid == ERROR)
+			exit_fatal();
+		if (pid == 0)
+			do_child(chunk, envp);
+		else
+			do_parent(chunk, pid, is_pipe_open);
+	}
+	flag = 0;
 }
 
-void	exec_cmds(t_chunk *ptr)
+void	exec_cmds(t_chunk *ptr, t_list *envp)
 {
 	t_chunk	*tmp;
 
@@ -244,7 +182,7 @@ void	exec_cmds(t_chunk *ptr)
 			}
 		}
 		else
-			exec_cmd(tmp);
+			exec_cmd(tmp, envp);
 		tmp = tmp->next;	
 	}
 }
@@ -275,15 +213,26 @@ void	clear_leaks(t_chunk *ptr)
 
 void	loop(void)
 {
-	t_chunk	*chunk;
-	t_chunk	*new;
+	t_chunk		*chunk;
+	t_chunk		*new;
+	t_list		*envp;
+	t_list		*tmp;
 	// ここまで追加
-	size_t	index;
+	size_t		index;
+	extern char **environ;
+	char		*line;
+	char		**argv;
+	int			status;
 
-	char	*line;
-	char	**argv;
-	int		status;
-
+	//環境変数のリスト構造体を作る
+	envp = ft_lstnew(*environ);
+    environ++;
+    while(*environ)
+    {
+        tmp = ft_lstnew(*environ);
+        ft_lstadd_back(&envp, tmp);
+        environ++;
+    }
 	status = true;
 	while (status)
 	{
@@ -311,7 +260,7 @@ void	loop(void)
 		}
 		if (!chunk)
 			return ;
-		exec_cmds(chunk);
+		exec_cmds(chunk, envp);
 		clear_leaks(chunk);
 
 		// status = execute(args); 以下、この一行を、exam バージョンに変更中

@@ -1,14 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_command.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/26 17:41:01 by sperrin           #+#    #+#             */
+/*   Updated: 2021/01/26 17:49:38 by sperrin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void    env(char **environ)
+void	env(t_list *envp)
 {
-    int index;
-
-    index = 0;
-    while(environ[index])
-    {
-        ft_putstr_fd(environ[index], 1);
-        ft_putchar_fd('\n', 1);
-        index++;
-    }
+	while (envp && envp->next != NULL)
+	{
+		ft_putendl_fd(envp->content, 1);
+		envp = envp->next;
+	}
+	if (envp)
+		ft_putendl_fd(envp->content, 1);
 }
