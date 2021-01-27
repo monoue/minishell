@@ -6,15 +6,15 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 15:58:09 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/23 10:41:04 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/01/27 09:15:53 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	put_color_fd(char *str, t_colors color, int fd)
+void	put_color_fd(const char *str, t_colors color, int fd)
 {
-	char *color_strs[COLORS_NUM] = {
+	const char *color_strs[COLORS_NUM] = {
 		RED_S,
 		GREEN_S,
 		YELLOW_S,

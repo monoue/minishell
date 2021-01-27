@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/01/26 19:14:39 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/01/27 11:32:41 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	**copy_env(t_list *environ)
 {
@@ -104,7 +104,7 @@ void	export(t_chunk *chunk, t_list *envp)
 		count = ft_strlen(key);
 		if (!arg_is_str(chunk->argv[i]))//環境変数は数字じゃない、または”＝”じゃないを確認する関数。
 			return (ft_putstr_fd("bash: export: not a valid identifier\n", 1));
-		if (same_key(key, envp) == 1)
+		if (is_key_duplicated(key, envp))
 		{
 			while (envp && envp->next)
 			{

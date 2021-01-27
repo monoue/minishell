@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_command.c                                      :+:      :+:    :+:   */
+/*   exit_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/26 17:41:01 by sperrin           #+#    #+#             */
-/*   Updated: 2021/01/26 17:49:38 by sperrin          ###   ########.fr       */
+/*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
+/*   Updated: 2021/01/27 11:32:38 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-void	env(t_list *envp)
+int	minishell_exit()
 {
-	while (envp && envp->next != NULL)
-	{
-		ft_putendl_fd(envp->content, 1);
-		envp = envp->next;
-	}
-	if (envp)
-		ft_putendl_fd(envp->content, 1);
+	return (EXIT_SUCCESS);
 }

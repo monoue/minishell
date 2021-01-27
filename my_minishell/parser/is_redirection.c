@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_command.c                                     :+:      :+:    :+:   */
+/*   is_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/01/26 17:41:06 by sperrin          ###   ########.fr       */
+/*   Created: 2021/01/26 16:24:05 by monoue            #+#    #+#             */
+/*   Updated: 2021/01/27 11:33:10 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	minishell_exit()
+bool	is_redirection(char c)
 {
-	return (0);
+	return (ft_strchr("><|", c));
 }
-

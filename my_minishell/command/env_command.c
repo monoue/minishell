@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   env_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/29 16:14:14 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/27 09:16:59 by monoue           ###   ########.fr       */
+/*   Created: 2021/01/26 17:41:01 by sperrin           #+#    #+#             */
+/*   Updated: 2021/01/27 11:32:34 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-void	ft_putstr_fd(const char *s, int fd)
+void	env(t_list *envp)
 {
-	if (s == NULL)
-		return ;
-	write(fd, s, ft_strlen(s));
+	while (envp)
+	{
+		ft_putendl_fd(envp->content, STDOUT_FILENO);
+		envp = envp->next;
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/26 18:05:43 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/01/27 12:58:02 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,9 +239,9 @@ void	loop(void)
 		ft_putstr("❯ ");
 		if (get_next_line(STDIN_FILENO, &line) == ERROR)
 			exit_err_msg(MALLOC_ERR);
-		// TODO: if (is_quoted_wrongly(line))
+		if (is_quoted_wrongly(line))
+			exit(EXIT_FAILURE);
 		argv = split_cmd_line(line);
-		// if (ft_count_strs(args) == 0)
 		if (!ft_count_strs((const char**)argv))
 			continue ;
 		index = 0;
@@ -276,7 +276,7 @@ void	loop(void)
 
 int main(void)
 {
-	ft_putstr_err("Bienvenue dans notre Minishell ❤️\n");
+	ft_putstr_err("Bienvenue dans notre Minishell❤️\n");
 	loop();
 	return (EXIT_SUCCESS);
 }

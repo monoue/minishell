@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd_command.c                                      :+:      :+:    :+:   */
+/*   ft_strequal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/26 17:41:21 by sperrin           #+#    #+#             */
-/*   Updated: 2021/01/26 17:41:22 by sperrin          ###   ########.fr       */
+/*   Created: 2021/01/21 06:24:21 by monoue            #+#    #+#             */
+/*   Updated: 2021/01/27 07:32:45 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void		pwd(t_chunk *chunk)
+bool	ft_strnequal(const char *s1, const char *s2, size_t n)
 {
-	if (chunk->argv[1])
-		{
-			ft_putstr("pwd: too many arguments\n");
-			exit(EXIT_FAILURE);
-		}
-		ft_putstr(getcwd(NULL, 0));
-		ft_putchar('\n');
+	return (ft_strncmp(s1, s2, n) == 0);
 }

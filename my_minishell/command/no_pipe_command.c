@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   no_pipe_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 18:04:13 by sperrin           #+#    #+#             */
-/*   Updated: 2021/01/26 18:04:20 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/01/27 11:32:44 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	no_pipe(t_chunk *chunk, t_list *envp)
 {
@@ -18,7 +18,7 @@ void	no_pipe(t_chunk *chunk, t_list *envp)
 		help();
 	else if (ft_strequal(chunk->argv[0], "exit"))
 		minishell_exit();
-		else if (ft_strequal(chunk->argv[0], "cd"))
+	else if (ft_strequal(chunk->argv[0], "cd"))
 		cd(chunk->argv);
 	else if (ft_strequal(chunk->argv[0], "pwd"))
 		pwd(chunk);

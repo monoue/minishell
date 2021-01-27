@@ -1,18 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_redirection.c                                   :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/26 16:24:05 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/26 16:24:41 by monoue           ###   ########.fr       */
+/*   Created: 2021/01/27 07:16:04 by monoue            #+#    #+#             */
+/*   Updated: 2021/01/27 09:00:30 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-bool	is_redirection(char c)
+char	*ft_strncpy(char *dst, const char *src, size_t len)
 {
-	return (ft_strchr("><|", c));
+	size_t	index;
+
+	index = 0;
+	while (index < len && src[index] != '\0')
+	{
+		dst[index] = src[index];
+		index++;
+	}
+	while (index < len)
+	{
+		dst[index] = '\0';
+		index++;
+	}
+	return (dst);
 }

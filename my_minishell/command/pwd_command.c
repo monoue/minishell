@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   pwd_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/29 16:14:14 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/27 09:16:59 by monoue           ###   ########.fr       */
+/*   Created: 2021/01/26 17:41:21 by sperrin           #+#    #+#             */
+/*   Updated: 2021/01/27 11:32:46 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-void	ft_putstr_fd(const char *s, int fd)
+void	pwd(t_chunk *chunk)
 {
-	if (s == NULL)
-		return ;
-	write(fd, s, ft_strlen(s));
+	if (chunk->argv[1])
+	{
+		ft_putstr("pwd: too many arguments\n");
+		exit(EXIT_FAILURE);
+	}
+	ft_putendl(getcwd(NULL, 0));
 }

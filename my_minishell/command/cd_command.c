@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   cd_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:49 by sperrin           #+#    #+#             */
-/*   Updated: 2021/01/26 17:49:11 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/01/27 11:33:47 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
+// can be void?
 int	cd(char **args)
 {
 	if (args[1] == NULL)
 	{
-		if (chdir("/") == ERROR)
+		if (chdir("/") == ERROR) // 違う。
 			perror("");
 	}
 	else
@@ -24,5 +25,5 @@ int	cd(char **args)
 		if (chdir(args[1]) == ERROR)
 			perror("");
 	}
-	return (1);
+	return (1); // unnecessary?
 }

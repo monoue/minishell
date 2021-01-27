@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 11:56:31 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/26 17:04:56 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/01/27 09:17:55 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char				**ft_split(char const *str, char sep_c);
 char				*ft_itoa(int n);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void				ft_putchar_fd(char c, int fd);
-void				ft_putstr_fd(char *s, int fd);
+void				ft_putstr_fd(const char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
 t_list				*ft_lstnew(void *content);
@@ -109,7 +109,7 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 size_t				ft_count_strs(const char **strs);
 size_t				ft_intlen(int n);
 void				ft_putchar(char c);
-void				ft_putstr(char *s);
+void				ft_putstr(const char *s);
 void				ft_putnbr(int n);
 bool				ft_str_is_numeric(const char *str);
 char				*ft_strjoin_free_both(char *s1, char *s2);
@@ -120,11 +120,13 @@ char				*ft_strstr(const char *haystack, const char *needle);
 char				*ft_ctoa(char c);
 char				*ft_utoa(unsigned int num);
 char				*ft_xtoa(unsigned num);
-void				ft_putendl(char *s);
+void				ft_putendl(const char *s);
 char				ft_itoc(int n);
 bool				ft_strequal(const char *s1, const char *s);
 void				ft_free_split(char **strs);
 void				ft_putstr_err(char *s);
-void				put_color_fd(char *str, t_colors color, int fd);
+void				put_color_fd(const char *str, t_colors color, int fd);
+char				*ft_strncpy(char *dst, const char *src, size_t len);
+bool				ft_strnequal(const char *s1, const char *s2, size_t n);
 
 #endif

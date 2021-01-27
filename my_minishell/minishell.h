@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/26 19:12:15 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/01/27 13:14:11 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@
 # include "debug.h"
 
 # include <sys/wait.h>
+# include <fcntl.h>
 
 # define ERR_MSG		"error: "
 # define FATAL_ERR_MSG	ERR_MSG"fatal\n"
-# define MALLOC_ERR "memory allocation error\n"
+# define MALLOC_ERR		"memory allocation error\n"
 
 __BEGIN_DECLS
 extern int * __error(void);
@@ -59,15 +60,15 @@ void			lstadd_back(t_chunk **chunks, t_chunk *new);
 /*
 ** commands
 */
-void	pwd(t_chunk *chunk);
-int		help();
-int		minishell_exit();
-int		cd(char **args);
-void	echo(t_chunk *chunk);
-void    env(t_list *envp);
-void	export(t_chunk *chunk, t_list *envp);
-void    unset(t_chunk *chunk, t_list *envp);
-void	no_pipe(t_chunk *chunk, t_list *envp);
+void			pwd(t_chunk *chunk);
+int				help();
+int				minishell_exit();
+int				cd(char **args);
+void			echo(t_chunk *chunk);
+void		    env(t_list *envp);
+void			export(t_chunk *chunk, t_list *envp);
+void			unset(t_chunk *chunk, t_list *envp);
+void			no_pipe(t_chunk *chunk, t_list *envp);
 
 /*
 ** parser
@@ -82,16 +83,16 @@ char			**split_cmd_line(char const *str);
 /*
 ** utils command
 */
-int		check_command(char *argv);
-int		pipe_or_not_pipe(t_chunk *chunk);
-void	ascii_sort(char **args);
-int     check_valid_arg(char *argv);
-int     arg_is_str(char *argv);
+bool			is_command(char *argv);
+bool			pipe_or_not_pipe(t_chunk *chunk);
+void			ascii_sort(char **args);
+bool			check_valid_arg(char *argv);
+bool			arg_is_str(char *argv);
 
 /*
 ** utils command 2
 */
-char    *check_key(char **argv);
-void	*delete_variable(void *ptr);
-int		same_key(char *key, t_list *envp);
+char			*check_key(char **argv);
+void			*delete_variable(void *ptr);
+bool			is_key_duplicated(char *key, t_list *envp);
 #endif
