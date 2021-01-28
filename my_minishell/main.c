@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/26 14:25:44 by monoue           ###   ########.fr       */
+/*   Updated: 2021/01/28 12:54:45 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ size_t	count_chunk_members(char **argv)
 	size_t	index;;
 
 	index = 0;
-	while (argv[index] && !ft_strequal(argv[index], "|") && !ft_strequal(argv[index], ";"))
+	while (argv[index] && !ft_strequal(argv[index], "|") && !ft_strequal(argv[index], ";") && !ft_strequal(argv[index], ">") && !ft_strequal(argv[index], ">>"))
 		index++;
 	return (index);
 }
@@ -147,23 +147,46 @@ bool	is_type_pipe(t_chunk *chunk)
 	return (chunk->type == TYPE_PIPE);
 }
 
+bool	is_type_read(t_chunk *chunk)
+{
+	if (!chunk)
+		return (false);
+	return (chunk->type == TYPE_READ);
+}
+
+bool	is_type_write(t_chunk *chunk)
+{
+	if (!chunk)
+		return (false);
+	return (chunk->type == TYPE_WRITE);
+}
+
+bool	is_type_append(t_chunk *chunk)
+{
+	if (!chunk)
+		return (false);
+	return (chunk->type == TYPE_APPEND);
+}
+
+#include <fcntl.h>
+
 void	do_child(t_chunk *chunk)
 {
 	extern char	**environ;
 	char		*fullpath_cmd;
 
-	if (is_type_pipe(chunk))
+	if (is_type_pipe(chunk) || is_type_write(chunk) || is_type_append(chunk))
 	{
-		// その前に close しなくていいのか？
-		// if (dup2(chunk->fds[1], STDOUT_FILENO) == ERROR) // この chunk からの出力を、標準出力にしている。
-		// if (dup2(chunk->fds[1], STDOUT_FILENO) == ERROR) // 標準出力されたものは、このパイプに入ってくるようになっている。
-		if (dup2(chunk->fds[1], STDOUT_FILENO) == ERROR) // 標準出力されたものがもしあったならば、このパイプが吸収するようにした。初回は関係ない。
-			exit_fatal();									// ls | wc で言えば、wc の受け取り側
+		if (dup2(chunk->fds[1], STDOUT_FILENO) == ERROR)
+			exit_fatal();
+		close(chunk->fds[0]); // どうせ、次のプロセスに引き継がれるのは、親プロセスだから…？
+		close(chunk->fds[1]);
 	}
-	if (is_type_pipe(chunk->prev))
+	if (is_type_pipe(chunk->prev) || is_type_write(chunk->prev) || is_type_append(chunk->prev))
 	{
-		if (dup2(chunk->prev->fds[0], STDIN_FILENO) == ERROR) // 前の chunk で出されたものが、標準入力として解釈されるようになった。
-			exit_fatal();										// ls | wc で言えば、ls の出すもの
+		if (dup2(chunk->prev->fds[0], STDIN_FILENO) == ERROR) // 前のヤツの出口から標準入力に流れるようにしている。
+			exit_fatal();
+		// close(chunk->prev->fds[0]);
 	}
 	if (ft_strequal(chunk->argv[0], "help"))
 		help();
@@ -179,6 +202,28 @@ void	do_child(t_chunk *chunk)
 		env(environ);
 	else if (ft_strequal(chunk->argv[0], "export"))
 		export(chunk, environ);
+	else if (is_type_write(chunk->prev))
+	{
+		char	*line;
+		int fd = open(chunk->argv[0], O_CREAT | O_WRONLY, 0644);
+		while (get_next_line(0, &line) > 0)
+		{
+			write(fd, line, ft_strlen(line));
+			write(fd, "\n", 1);
+			free(line);
+		}
+	}
+	else if (is_type_append(chunk->prev))
+	{
+		char	*line;
+		int fd = open(chunk->argv[0], O_APPEND | O_WRONLY);
+		while (get_next_line(0, &line) > 0)
+		{
+			write(fd, line, ft_strlen(line));
+			write(fd, "\n", 1);
+			free(line);
+		}
+	}
 	else
 	{
 		fullpath_cmd = ft_strjoin("/bin/", chunk->argv[0]);
@@ -195,15 +240,15 @@ void	do_parent(t_chunk *chunk, pid_t child_pid, bool is_pipe_open)
 {
 	int	status;
 
-	waitpid(child_pid, &status, 0);	// 閉じて初めて流れる
+	waitpid(child_pid, &status, 0);
 	if (is_pipe_open)
 	{
-		close(chunk->fds[1]); // ひとまず、このチャンクにて書き込むことはなくなるので閉じる。
-		if (!chunk->next || chunk->type == TYPE_BREAK) // 次がない、もしくはここで区切れているなら
-			close(chunk->fds[0]); // 読み込む必要もなくなるので閉じる。
+		close(chunk->fds[1]);
+		if (!chunk->next || chunk->type == TYPE_BREAK)
+			close(chunk->fds[0]); // このように、出力側を閉じないと動かない。なぜ閉じると動く？
 	}
-	if (is_type_pipe(chunk->prev)) // 前のチャンクにて読む必要もなくなる（？）ので閉じる。
-		close(chunk->prev->fds[0]);
+	if (is_type_pipe(chunk->prev) || is_type_write(chunk->prev) || is_type_append(chunk->prev))
+		close(chunk->prev->fds[0]); // 前のを閉じることで、
 }
 
 void	exec_cmd(t_chunk *chunk)
@@ -212,7 +257,7 @@ void	exec_cmd(t_chunk *chunk)
 	bool		is_pipe_open;
 
 	is_pipe_open = false;
-	if (is_type_pipe(chunk) || is_type_pipe(chunk->prev))
+	if (is_type_pipe(chunk) || is_type_pipe(chunk->prev) || is_type_write(chunk) || is_type_write(chunk->prev) || is_type_append(chunk) || is_type_append(chunk->prev))
 	{
 		is_pipe_open = true;
 		if (pipe(chunk->fds) == ERROR)
