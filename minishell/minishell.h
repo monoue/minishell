@@ -118,6 +118,7 @@ void				lstadd_back(t_redirection_set **chunks,
 void			process_command_line(void);
 char			**space_and_tab_split(char const *str);
 int				get_redirection_type(char *element);
+bool			is_reproduction(char *word);
 
 // bool			is_syntax_wrong(char *str);
 // char			**split_cmd_line(char const *str);

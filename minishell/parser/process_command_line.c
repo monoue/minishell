@@ -108,6 +108,8 @@ bool	is_reproduction(char *word)
 	return (false);
 }
 
+
+
 void	make_set_list(t_redirection_set **set, char **elements, size_t elements_num)
 {
 	t_redirection_set	*new;
@@ -129,37 +131,32 @@ void	make_set_list(t_redirection_set **set, char **elements, size_t elements_num
 	}
 }
 
-void	exec_command_chunk(char *command_chunk)
+// void	exec_command_chunk(char *command_chunk)
+// {
+// 	t_redirection_set	*set;
+// 	t_fd				fds;
+// 	size_t				index;
+// 	size_t				strs_num;
+// 	char				**elements;
+
+// 	elements = split_cmd_line(command_chunk);
+// 	strs_num = ft_count_strs((const char**)elements);
+// 	if (!strs_num)
+// 		return ;
+// 	set_fds(&fds);
+// 	set = NULL; // 返り値で作った方が綺麗な感じはする。まあ、動いてからでいいや。
+// 	make_set_list(&set, elements, strs_num);
+// }
+void	exec_split(char **chunk_words)
 {
 	t_redirection_set	*set;
 	t_fd				fds;
-	size_t				index;
 	size_t				strs_num;
 	char				**elements;
 
-	elements = split_cmd_line(command_chunk);
-	strs_num = ft_count_strs((const char**)elements);
-	if (!strs_num)
-		return ;
 	set_fds(&fds);
 	set = NULL; // 返り値で作った方が綺麗な感じはする。まあ、動いてからでいいや。
 	make_set_list(&set, elements, strs_num);
-}
-
-int		exec_command_chunk(char *command_chunk)
-{
-	int	ret;
-	char	*str;
-	t_fd	fds;
-	char	**elements;
-
-
-	// elements = split_
-	// ret = 0;
-	// str = ft_strdup(command_chunk);
-	set_fds(&fds);
-		
-	
 }
 
 void	exec_no_pipe_chunk(char **piped_chunks)
@@ -168,7 +165,7 @@ void	exec_no_pipe_chunk(char **piped_chunks)
 
 	chunk_words = space_and_tab_split(piped_chunks[0]);
 	if (is_reproduction(chunk_words[0])) // 自作コマンドであるなら
-		exec_command_chunk(piped_chunks[0]);
+		exec_split(chunk_words);
 	else	
 		fork_exec_commands(piped_chunks);
 }
@@ -183,15 +180,14 @@ void	process_one_command(char *command) // ; 区切りで１つずつ渡って�
 	// エラー処理
 	chunks_num = ft_count_strs((const char**)piped_chunks);
 	if (chunks_num == 1)
-	{
-		chunk_words = space_and_tab_split(piped_chunks[0]);
-		// エラー処理
-		if (is_reproduction(chunk_words[0])) // 自作コマンドであるなら
-			// それぞれ、exit のナンバーを後ほど受け取る
-			exec_command_chunk(piped_chunks[0]);
-		else	
-			fork_exec_commands(piped_chunks);
-	}
+		exec_no_pipe_chunk(piped_chunks);
+		// chunk_words = space_and_tab_split(piped_chunks[0]);
+		// // エラー処理
+		// if (is_reproduction(chunk_words[0])) // 自作コマンドであるなら
+		// 	// それぞれ、exit のナンバーを後ほど受け取る
+		// 	exec_command_chunk(piped_chunks[0]);
+		// else	
+		// 	fork_exec_commands(piped_chunks);
 	else if (chunks_num >= 2)
 		fork_exec_commands(piped_chunks);
 	ft_free_split(piped_chunks);
