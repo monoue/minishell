@@ -1,20 +1,22 @@
-#include "minishell.h"
+#include "../minishell.h"
 
-t_type	get_redirection_type(char *element)
+int	get_redirection_type(char *element)
 {
-	const t_redirection_combination redirection_sets[] = {
+	const t_redirection_combination combs[] = {
 		{">", TYPE_OUTPUT},
 		{">>", TYPE_APPEND},
 		{"<", TYPE_INPUT},
 		{NULL, TYPES_NUM}
 	};
-	size_t					index;
+	t_redirection_combination		comb;
+	size_t							index;
 
 	index = 0;
 	while (index < TYPES_NUM)
 	{
-		if (ft_strequal(element, redirection_sets[index].symbol))
-			return (redirection_sets[index].type);
+		comb = combs[index];
+		if (ft_strequal(element, comb.symbol))
+			return (comb.type);
 		index++;
 	}
 	return (ERROR);

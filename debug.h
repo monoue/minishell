@@ -11,6 +11,7 @@
 # define DP(v) DEBUGV("%p", v);
 # define DS(v) DEBUGV("%s", v);
 # define DI(v) DEBUGV("%d", v);
+# define DU(v) DEBUGV("%u", v);
 # define DF(v) DEBUGV("%f", v);
 # define DD(v) DEBUGV("%lf", v);
 # define DX(v) DEBUGV("%x", v);

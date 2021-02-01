@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   space_n_tab_split.c                                :+:      :+:    :+:   */
+/*   space_and_tab_split.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -64,7 +64,7 @@ static char		*cut_out_one_word(const char *str, size_t *index)
 	return (ft_substr(str, start, *index - start));
 }
 
-char			**space_n_tab_split(char const *str)
+char			**space_and_tab_split(char const *str)
 {
 	char	**words;
 	size_t	words_num;

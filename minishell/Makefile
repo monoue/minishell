@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/02 06:51:30 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/02 08:13:03 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,12 +38,13 @@ SRCS  = main.c \
 		$(COMMAND_PATH)unset_command.c \
 		$(COMMAND_PATH)utils_command.c \
 		$(COMMAND_PATH)utils_command2.c \
+		$(PARSER_PATH)count_cmd_line_words.c \
+		$(PARSER_PATH)get_redirection_type.c \
 		$(PARSER_PATH)is_quote.c \
 		$(PARSER_PATH)is_quoted_wrongly.c \
 		$(PARSER_PATH)is_redirection.c \
-		$(PARSER_PATH)count_cmd_line_words.c \
 		$(PARSER_PATH)space_n_tab_split.c \
-		$(PARSER_PATH)split_cmd_line.c \
+		$(PARSER_PATH)split_command_line.c \
 		$(EXIT_PATH)exit.c
 
 OBJS = $(SRCS:%.c=%.o)

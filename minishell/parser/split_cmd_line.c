@@ -65,12 +65,12 @@ static char		*cut_out_one_elem(const char *str, size_t *index)
 		(*index)++;
 		if (str[*index] == '>')	
 			(*index)++;
-		return (ft_substr(str, start, *index - start))	;
+		return (ft_substr(str, start, *index - start));
 	}
 	return (cut_out_one_word(str, index));
 }
 
-char			**split_cmd_line(char const *str)
+char			**split_command_line(char const *str)
 {
 	char	**words;
 	size_t	words_num;
@@ -97,4 +97,16 @@ char			**split_cmd_line(char const *str)
 	}
 	words[w_i] = NULL;
 	return (words);
+}
+
+#include <stdio.h>
+int main()
+{
+	size_t	index;
+	index = 0;
+	while ()
+	{
+		printf("%s\n", );
+		index++;
+	}
 }

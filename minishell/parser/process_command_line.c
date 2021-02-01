@@ -75,64 +75,116 @@
 // 	ptr = NULL;
 // }
 
-// void	set_fds(t_fd *fds)
-// {
-// 	fds->input = STDIN_FILENO;
-// 	fds->output = STDOUT_FILENO;
-// }
+void	set_fds(t_fd *fds)
+{
+	fds->input = STDIN_FILENO;
+	fds->output = STDOUT_FILENO;
+}
 
 
-// void	make_set_list(t_redirection_set **set, char **elements, size_t elements_num)
-// {
-// 	t_redirection_set	*new;
-// 	size_t				index;
-
-// 	index = 0;
-// 	while (index < elements_num)
-// 	{
-// 		new = ft_calloc(1, sizeof(t_redirection_set));
-// 		if (!new)
-// 			exit_fatal();
-// 		new->word = ft_strdup(elements[index]); // 各要素の代入 (Substitution of each element)
-// 		if (index == 0)
-// 			new->type = NULL; // first, とかを enum で作っても良い。
-// 		else
-// 			new->type = get_redirection_type(elements[index - 1]);
-// 		lstadd_back(set, new); // libft と名前が重複するため
-// 		index += 2;
-// 	}
-// }
-
-// void	exec_command_chunk(char *command_chunk)
-// {
-// 	t_redirection_set	*set;
-// 	t_fd				fds;
-// 	size_t				index;
-// 	size_t				strs_num;
-// 	char				**elements;
-
-// 	elements = split_cmd_line(command_chunk);
-// 	strs_num = ft_count_strs((const char**)elements);
-// 	if (!strs_num)
-// 		return ;
-// 	set_fds(&fds);
-// 	set = NULL; // 返り値で作った方が綺麗な感じはする。まあ、動いてからでいいや。
-// 	make_set_list(&set, elements, strs_num);
-// }
 
 // 元の
+bool	is_reproduction(char *word)
+{
+	const char	*reproductions[] = {
+		"cd",
+		"echo",
+		"env",
+		"exit",
+		"export",
+		"pwd",
+		"unset",
+		NULL
+	};
+	size_t	index;
+
+	index = 0;
+	while (reproductions[index])
+	{
+		if (ft_strequal(word, reproductions[index]))
+			return (true);
+		index++;
+	}
+	return (false);
+}
+
+void	make_set_list(t_redirection_set **set, char **elements, size_t elements_num)
+{
+	t_redirection_set	*new;
+	size_t				index;
+
+	index = 0;
+	while (index < elements_num)
+	{
+		new = ft_calloc(1, sizeof(t_redirection_set));
+		if (!new)
+			exit_fatal();
+		new->word = ft_strdup(elements[index]); // 各要素の代入 (Substitution of each element)
+		if (index == 0)
+			new->type = NULL; // first, とかを enum で作っても良い。
+		else
+			new->type = get_redirection_type(elements[index - 1]);
+		lstadd_back(set, new); // libft と名前が重複するため
+		index += 2;
+	}
+}
+
+void	exec_command_chunk(char *command_chunk)
+{
+	t_redirection_set	*set;
+	t_fd				fds;
+	size_t				index;
+	size_t				strs_num;
+	char				**elements;
+
+	elements = split_cmd_line(command_chunk);
+	strs_num = ft_count_strs((const char**)elements);
+	if (!strs_num)
+		return ;
+	set_fds(&fds);
+	set = NULL; // 返り値で作った方が綺麗な感じはする。まあ、動いてからでいいや。
+	make_set_list(&set, elements, strs_num);
+}
+
+int		exec_command_chunk(char *command_chunk)
+{
+	int	ret;
+	char	*str;
+	t_fd	fds;
+	char	**elements;
+
+
+	// elements = split_
+	// ret = 0;
+	// str = ft_strdup(command_chunk);
+	set_fds(&fds);
+		
+	
+}
+
+void	exec_no_pipe_chunk(char **piped_chunks)
+{
+	char	**chunk_words;
+
+	chunk_words = space_and_tab_split(piped_chunks[0]);
+	if (is_reproduction(chunk_words[0])) // 自作コマンドであるなら
+		exec_command_chunk(piped_chunks[0]);
+	else	
+		fork_exec_commands(piped_chunks);
+}
+
 void	process_one_command(char *command) // ; 区切りで１つずつ渡ってくる
 {
+	char	**chunk_words;
 	char	**piped_chunks;
 	size_t	chunks_num;
-	char	**chunk_words;
 
 	piped_chunks = ft_split(command, '|');
 	// エラー処理
-	chunks_num = ft_count_strs(piped_chunks);
+	chunks_num = ft_count_strs((const char**)piped_chunks);
 	if (chunks_num == 1)
 	{
-		chunk_words = space_n_tab_split(piped_chunks[0]);
+		chunk_words = space_and_tab_split(piped_chunks[0]);
 		// エラー処理
 		if (is_reproduction(chunk_words[0])) // 自作コマンドであるなら
 			// それぞれ、exit のナンバーを後ほど受け取る
@@ -162,7 +214,7 @@ void	process_one_command(char *command) // ; 区切りで１つずつ渡って�
 // 	// DSZ(chunks_num);
 // 	// if (chunks_num == 1)
 // 	// {
-// 		chunk_words = space_n_tab_split(piped_chunks[0]);
+// 		chunk_words = space_and_tab_split(piped_chunks[0]);
 
 // 	index = 0;
 // 	while (chunk_words[index])
@@ -215,22 +267,22 @@ void	process_command_line(void)
 	exec_one_line(line);
 }
 
-void	test_process_command_line(char *line)
-{
-	ft_putstr(PROMPT);
-	// if (get_next_line(STDIN_FILENO, &line) == ERROR)
-	// 	exit_err_msg(MALLOC_ERR);
-	// if (is_invalid_syntax(line)) // 未完成
-	// {
-	// 	SAFE_FREE(line);
-	// 	exit(EXIT_FAILURE);
-	// }
-	// 環境変数をここで整える
-	// コメントもここで削る
-	exec_one_line(line);
-}
-int main()
-{
-	char *str = "hoge fuga \t | hoge; peko | poko";
-	test_process_command_line(str);
-}
+// void	test_process_command_line(char *line)
+// {
+// 	ft_putstr(PROMPT);
+// 	// if (get_next_line(STDIN_FILENO, &line) == ERROR)
+// 	// 	exit_err_msg(MALLOC_ERR);
+// 	// if (is_invalid_syntax(line)) // 未完成
+// 	// {
+// 	// 	SAFE_FREE(line);
+// 	// 	exit(EXIT_FAILURE);
+// 	// }
+// 	// 環境変数をここで整える
+// 	// コメントもここで削る
+// 	exec_one_line(line);
+// }
+// int main()
+// {
+// 	char *str = "hoge fuga \t | hoge; peko | poko";
+// 	test_process_command_line(str);
+// }
