@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/01 16:48:42 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/02 06:51:30 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,11 @@ NAME = minishell
 CC = gcc -g
 
 # PATH
-LIBFT_PATH =		../libft/
-SORT_FILES_PATH =	sort_files/
-PARSER_PATH =		parser/
-COMMAND_PATH =		command/
+LIBFT_PATH		= ../libft/
+SORT_FILES_PATH	= sort_files/
+PARSER_PATH		= parser/
+COMMAND_PATH	= command/
+EXIT_PATH		= exit/
 
 LIBFT =				$(LIBFT_PATH)libft.a
 
@@ -42,7 +43,8 @@ SRCS  = main.c \
 		$(PARSER_PATH)is_redirection.c \
 		$(PARSER_PATH)count_cmd_line_words.c \
 		$(PARSER_PATH)space_n_tab_split.c \
-		$(PARSER_PATH)split_cmd_line.c
+		$(PARSER_PATH)split_cmd_line.c \
+		$(EXIT_PATH)exit.c
 
 OBJS = $(SRCS:%.c=%.o)
 
