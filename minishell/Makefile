@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/02 08:45:27 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/02 08:47:50 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRCS  = main.c \
 		$(PARSER_PATH)is_quoted_wrongly.c \
 		$(PARSER_PATH)is_redirection.c \
 		$(PARSER_PATH)is_reproduction.c \
+		$(PARSER_PATH)set_fds.c \
 		$(PARSER_PATH)space_n_tab_split.c \
 		$(PARSER_PATH)split_command_line.c \
 		$(EXIT_PATH)exit.c

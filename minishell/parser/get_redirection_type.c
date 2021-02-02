@@ -6,7 +6,6 @@ int	get_redirection_type(char *element)
 		{">", TYPE_OUTPUT},
 		{">>", TYPE_APPEND},
 		{"<", TYPE_INPUT},
-		{NULL, TYPES_NUM}
 	};
 	t_redirection_combination		comb;
 	size_t							index;

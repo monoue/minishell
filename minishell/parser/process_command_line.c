@@ -1,5 +1,23 @@
 #include "../minishell.h"
 
+static int	get_child_process_result_from(int status) // 分析
+{
+	int	result;
+
+	if (WIFEXITED(status))
+	{
+		result = WEXITSTATUS(status);
+	}
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	{
+		result = EXIT_INVALID + SIGINT;
+	}
+	else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+	{
+		result = EXIT_INVALID + SIGQUIT;
+	}
+	return (result);
+}
 
 // void	exec_cmd(t_chunk *chunk, t_list *envp)
 // {
@@ -75,61 +93,32 @@
 // 	ptr = NULL;
 // }
 
-void	set_fds(t_fd *fds)
-{
-	fds->input = STDIN_FILENO;
-	fds->output = STDOUT_FILENO;
-}
+
 
 
 
 // 元の
-bool	is_reproduction(char *word)
-{
-	const char	*reproductions[] = {
-		"cd",
-		"echo",
-		"env",
-		"exit",
-		"export",
-		"pwd",
-		"unset",
-		NULL
-	};
-	size_t	index;
+// void	make_set_list(t_redirection_set **set, char **elements, size_t elements_num)
+// {
+// 	t_redirection_set	*new;
+// 	size_t				index;
 
-	index = 0;
-	while (reproductions[index])
-	{
-		if (ft_strequal(word, reproductions[index]))
-			return (true);
-		index++;
-	}
-	return (false);
-}
+// 	index = 0;
+// 	while (index < elements_num)
+// 	{
+// 		new = ft_calloc(1, sizeof(t_redirection_set));
+// 		if (!new)
+// 			exit_fatal();
+// 		new->word = ft_strdup(elements[index]); // 各要素の代入 (Substitution of each element)
+// 		if (index == 0)
+// 			new->type = NULL; // first, とかを enum で作っても良い。
+// 		else
+// 			new->type = get_redirection_type(elements[index - 1]);
+// 		lstadd_back(set, new); // libft と名前が重複するため
+// 		index += 2;
+// 	}
+// }
 
-
-
-void	make_set_list(t_redirection_set **set, char **elements, size_t elements_num)
-{
-	t_redirection_set	*new;
-	size_t				index;
-
-	index = 0;
-	while (index < elements_num)
-	{
-		new = ft_calloc(1, sizeof(t_redirection_set));
-		if (!new)
-			exit_fatal();
-		new->word = ft_strdup(elements[index]); // 各要素の代入 (Substitution of each element)
-		if (index == 0)
-			new->type = NULL; // first, とかを enum で作っても良い。
-		else
-			new->type = get_redirection_type(elements[index - 1]);
-		lstadd_back(set, new); // libft と名前が重複するため
-		index += 2;
-	}
-}
 
 // void	exec_command_chunk(char *command_chunk)
 // {
@@ -147,28 +136,184 @@ void	make_set_list(t_redirection_set **set, char **elements, size_t elements_num
 // 	set = NULL; // 返り値で作った方が綺麗な感じはする。まあ、動いてからでいいや。
 // 	make_set_list(&set, elements, strs_num);
 // }
-void	exec_split(char **chunk_words)
+
+
+// いきなり flags で構造体に突っ込んでも良いような…？
+// エラー処理を返り値で処理する必要があるかも
+int		get_open_flags(t_type type)
+{
+	if (type == TYPE_INPUT)
+		return (O_RDONLY);
+	if (type == TYPE_OUTPUT)
+		return (O_WRONLY | O_CREAT | O_TRUNC);
+	if (type == TYPE_APPEND)
+		return (O_WRONLY | O_CREAT | O_APPEND);
+	return (ERROR);
+}
+
+void	set_redirection(t_redirection_set *set, t_fd *fds)
+{
+	int				flags;
+	int				file_fd;
+	int				*p_fd;
+	int				std_fd;
+	const t_type	type = set->type;
+
+	flags = get_open_flags(type);
+	file_fd = open(set->filename, flags, OPEN_MODE);
+	if (file_fd == ERROR)
+		exit_fatal();
+	if (type == TYPE_INPUT)
+		p_fd = &(fds->input);
+	else
+		p_fd = &(fds->output);
+	std_fd = dup(*p_fd);
+	close(*p_fd);
+	if (type == TYPE_INPUT)
+		dup2(file_fd, STDIN_FILENO);
+	else
+		dup2(file_fd, STDOUT_FILENO);
+	close(file_fd);
+	*p_fd = std_fd;
+}
+
+// void	exec_command_argv(char **argv)
+// {
+
+// }
+
+void	exec_command_chunk(char *command_chunk)
 {
 	t_redirection_set	*set;
 	t_fd				fds;
-	size_t				strs_num;
-	char				**elements;
+	size_t	index;
+	size_t	redirection_i;
+	char	**argv;
+	char	**chunk_words;
 
+	chunk_words = space_and_tab_split(command_chunk);
+	set = NULL;
 	set_fds(&fds);
-	set = NULL; // 返り値で作った方が綺麗な感じはする。まあ、動いてからでいいや。
-	make_set_list(&set, elements, strs_num);
+	index = 0;
+	redirection_i = 0;
+	while (chunk_words[index])
+	{
+		if (is_redirection_str(chunk_words[index]))	
+		{
+			redirection_i = index;
+			set = make_redirection_list(&chunk_words[index]);
+			break ;
+		}
+		index++;
+	}
+	while (set)	
+	{
+		set_redirection(set, &fds);
+		set = set->next;
+	}
+	argv = ft_calloc(redirection_i + 1, sizeof(char*));
+	index = 0;
+	while (index < redirection_i)
+	{
+		argv[index] = chunk_words[index];
+		index++;
+	}
+	exec_command_argv(argv); // 各コマンドに入れるだけ
 }
 
-void	exec_no_pipe_chunk(char **piped_chunks)
+// pipe があるのかどうかを…渡してあげる？ それとも、この中でスプリット？
+int		exec_pipe_command(char **piped_chunks, int i, size_t chunks_num) // この関数が不明
+{
+	pid_t			pid;
+	int				fds[2];
+
+	if (i == chunks_num - 1)
+		exec_command_chunk(piped_chunks[0]);
+	else
+	{
+		pipe(fds);
+		pid = fork();
+		if (pid == 0)
+		{
+			close(fds[0]);
+			dup2(fds[1], STDOUT_FILENO);
+			close(fds[1]);
+			exec_pipe_command(piped_chunks, i + 1, chunks_num);
+		}
+		else
+		{
+			close(fds[1]);
+			dup2(fds[0], STDIN_FILENO);
+			close(fds[0]);
+			exec_command_chunk(piped_chunks[(chunks_num - 1) - i]);
+			// exec
+		}
+	}
+	// int		fds[2];
+	// pid_t	pids[2];
+
+	// if (!piped_chunks[1])
+	// {
+	// 	// ここに渡すため、スプリットが必要
+	// 	exec_split();
+	// 	return ;
+	// }
+	// if (pipe(fds) == ERROR)
+	// 	exit_fatal();
+	// pids[0] = fork();
+	// if (pids[0] == ERROR)
+	// 	exit_fatal();
+	// if (pids[0] == 0)
+	// {
+	// 	close_and_dup(fds, STDIN_FILENO);
+	// 	exit(exec_pipe_command(&piped_chunks[1])); // 再帰的に実行
+	// }
+
+
+	// pids[1] = fork();
+	// if (pids[1] == ERROR)
+	// 	exit_fatal();
+	// if (pids[1] == 0)
+	// {
+	// 	close_and_dup(fds, STDOUT_FILENO);
+	// 	exit(exec_command_chunk(piped_chunks[0]));
+	// }
+	// return (parent_wait(pids[0], pids[1], fds));
+
+}
+
+// int		fork_exec_commands(char **chunk_words)
+int		fork_exec_commands(char **piped_chunks) // ここに入るのは２パターン。1) パイプなし、not reproduction
+													// 2) パイプありは必ず。つまり、パイプなしでreproduction の時は特別、入らない。
+{
+	pid_t	pid;
+	int		ret;
+	int		status;
+
+	pid = fork(); // なぜ、このタイミングで fork が必要なのか。
+	if (pid == ERROR)
+		exit_fatal();
+	// シグナル処理？
+	if (pid == 0)
+	{
+		ret = exec_pipe_command(piped_chunks, 0, ft_count_strs((const char**)piped_chunks));
+		exit(ret);
+	}
+	wait(&status);
+	return (get_child_process_result_from(status)); // ??
+}
+
+void	exec_no_pipe_chunk(char **chunks)
 {
 	char	**chunk_words;
 
-	chunk_words = space_and_tab_split(piped_chunks[0]);
+	chunk_words = space_and_tab_split(chunks[0]);
 	if (is_reproduction(chunk_words[0])) // 自作コマンドであるなら
-		exec_split(chunk_words);
+		exec_command_chunk(chunks[0]);
 	else	
-		fork_exec_commands(piped_chunks);
+		fork_exec_commands(chunks); // こいつがここでなんかやり方汚い。１つだけ受け取るようにできないのか？
 }
+
 
 void	process_one_command(char *command) // ; 区切りで１つずつ渡ってくる
 {

@@ -27,6 +27,8 @@
 # define OUTPUT			">"
 # define APPEND			">>"
 # define INPUT			"<"
+# define OPEN_MODE		0666
+# define EXIT_INVALID	128
 
 __BEGIN_DECLS
 extern int * __error(void);
@@ -66,17 +68,23 @@ typedef			enum
 
 typedef struct	s_redirection_set
 {
-	char			*word;
 	t_type			type;
+	char			*filename;
 	// 下、両方は要らないかも	
-	struct s_chunk	*prev;
-	struct s_chunk	*next;
+	// struct s_chunk	*prev;
+	struct s_redirection_set	*next;
 }				t_redirection_set;
 
 typedef struct	s_redirection_combination {
 	char	*symbol;
 	t_type	type;
 }				t_redirection_combination;
+
+
+// typedef struct	s_type_flag {
+// 	t_type	type;
+// 	int		flags;	
+// }				t_type_flag;
 
 typedef enum	e_redirection {
 	REDIRECT_INPUT,
@@ -119,6 +127,10 @@ void			process_command_line(void);
 char			**space_and_tab_split(char const *str);
 int				get_redirection_type(char *element);
 bool			is_reproduction(char *word);
+void			set_fds(t_fd *fds);
+bool			is_redirection_char(char c);
+bool			is_redirection_str(char *str);
+t_redirection_set	*make_redirection_list(char **elements);
 
 // bool			is_syntax_wrong(char *str);
 // char			**split_cmd_line(char const *str);

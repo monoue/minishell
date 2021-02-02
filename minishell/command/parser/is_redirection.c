@@ -16,7 +16,7 @@
 
 #include "../minishell.h"
 
-bool	is_redirection(char c)
+bool	is_redirection_char(char c)
 {
 	return (ft_strchr("><|", c));
 }

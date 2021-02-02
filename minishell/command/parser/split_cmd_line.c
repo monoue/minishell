@@ -7,7 +7,7 @@ static size_t	get_ret_s_len(const char *str, size_t *index)
 	char			quote;
 
 	quotes_sets_num = 0;
-	while (str[*index] != '\0' && str[*index] != ' ' && !is_redirection(str[*index]))
+	while (str[*index] != '\0' && str[*index] != ' ' && !is_redirection_char(str[*index]))
 	{
 		if (is_quote(str[*index]))
 		{
@@ -20,7 +20,7 @@ static size_t	get_ret_s_len(const char *str, size_t *index)
 		}
 		else
 		{
-			while (str[*index] != '\0' && !is_quote(str[*index]) && !is_redirection(str[*index]) && str[*index] != ' ')
+			while (str[*index] != '\0' && !is_quote(str[*index]) && !is_redirection_char(str[*index]) && str[*index] != ' ')
 				(*index)++;
 		}
 	}
@@ -60,7 +60,7 @@ static char		*cut_out_one_elem(const char *str, size_t *index)
 	while (str[*index] && str[*index] == ' ')
 		(*index)++;
 	start = *index;
-	if (is_redirection(str[*index]))
+	if (is_redirection_char(str[*index]))
 	{
 		(*index)++;
 		if (str[*index] == '>')	

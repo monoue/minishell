@@ -47,5 +47,5 @@ void	lstadd_back(t_redirection_set **sets, t_redirection_set *new)
 	}
 	set = lstlast(*sets);
 	set->next = new;
-	new->prev = set;
+	// new->prev = set;
 }

@@ -4,7 +4,7 @@ static void	skip_word(char const *str, size_t *index)
 {
 	char	quote;
 
-	while (str[*index] != '\0' && str[*index] != ' ' && !is_redirection(str[*index]))
+	while (str[*index] != '\0' && str[*index] != ' ' && !is_redirection_char(str[*index]))
 	{
 		if (is_quote(str[*index]))
 		{
@@ -16,7 +16,7 @@ static void	skip_word(char const *str, size_t *index)
 		}
 		else
 		{
-			while (str[*index] != '\0' && !is_quote(str[*index]) && !is_redirection(str[*index]) && str[*index] != ' ')
+			while (str[*index] != '\0' && !is_quote(str[*index]) && !is_redirection_char(str[*index]) && str[*index] != ' ')
 				(*index)++;
 		}
 	}
@@ -35,7 +35,7 @@ size_t		count_cmd_line_words(char const *str)
 	{
 		if (ft_strncmp(&str[index], ">>", 2) == 0)
 			index += 2;
-		else if (is_redirection(str[index]))
+		else if (is_redirection_char(str[index]))
 			index++;
 		else // 文字、もしくは quote 始まり
 			skip_word(str, &index);
