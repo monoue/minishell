@@ -177,10 +177,31 @@ void	set_redirection(t_redirection_set *set, t_fd *fds)
 	*p_fd = std_fd;
 }
 
-// void	exec_command_argv(char **argv)
-// {
+void	exec_command_argv(char **argv)
+{
+	extern char	**environ;
+	char		*fullpath_cmd;
 
-// }
+	if (ft_strequal(argv[0], "wc"))
+		fullpath_cmd = ft_strjoin("/usr/bin/", argv[0]);
+	else
+		fullpath_cmd = ft_strjoin("/bin/", argv[0]);
+
+	size_t	index = 0;
+	while (argv[index])
+	{
+		DS(argv[index]);
+		index++;
+	}
+	DS(fullpath_cmd);
+
+	if (!fullpath_cmd)
+		perror("");
+	else if (execve(fullpath_cmd, argv, environ) == ERROR)
+		perror("execve: ");
+	SAFE_FREE(fullpath_cmd);
+	exit(EXIT_SUCCESS);
+}
 
 void	exec_command_chunk(char *command_chunk)
 {
@@ -200,12 +221,13 @@ void	exec_command_chunk(char *command_chunk)
 	{
 		if (is_redirection_str(chunk_words[index]))	
 		{
-			redirection_i = index;
+			// redirection_i = index;
 			set = make_redirection_list(&chunk_words[index]);
 			break ;
 		}
 		index++;
 	}
+	redirection_i = index;
 	while (set)	
 	{
 		set_redirection(set, &fds);
@@ -216,6 +238,7 @@ void	exec_command_chunk(char *command_chunk)
 	while (index < redirection_i)
 	{
 		argv[index] = chunk_words[index];
+		DS(argv[index]);
 		index++;
 	}
 	exec_command_argv(argv); // 各コマンドに入れるだけ
@@ -249,6 +272,7 @@ int		exec_pipe_command(char **piped_chunks, int i, size_t chunks_num) // この�
 			// exec
 		}
 	}
+	return (0);
 	// int		fds[2];
 	// pid_t	pids[2];
 

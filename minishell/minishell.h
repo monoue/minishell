@@ -134,9 +134,9 @@ t_redirection_set	*make_redirection_list(char **elements);
 
 // bool			is_syntax_wrong(char *str);
 // char			**split_cmd_line(char const *str);
-// bool			is_quote(char c);
+bool			is_quote(char c);
 // bool			is_redirection(char c);
-// size_t			count_cmd_line_words(char const *str);
+size_t			count_cmd_line_words(char const *str);
 char			**split_command_line(char const *str);
 
 /*

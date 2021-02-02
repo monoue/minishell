@@ -99,14 +99,14 @@ char			**split_command_line(char const *str)
 	return (words);
 }
 
-#include <stdio.h>
-int main()
-{
-	size_t	index;
-	index = 0;
-	while ()
-	{
-		printf("%s\n", );
-		index++;
-	}
-}
+// #include <stdio.h>
+// int main()
+// {
+// 	size_t	index;
+// 	index = 0;
+// 	while ()
+// 	{
+// 		printf("%s\n", );
+// 		index++;
+// 	}
+// }
