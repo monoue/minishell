@@ -6,24 +6,22 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:49 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/01 06:33:42 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/03 07:14:37 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// can be void?
-int	cd(char **args)
+void	cd(char **argv)
 {
-	if (args[1] == NULL)
-	{
-		if (chdir("/") == ERROR) // 違う。
+	// if (!argv[1])
+	// {
+	// 	if (chdir("$home") == ERROR) // 違う。
+	// 		perror("");
+	// }
+	// else
+	// {
+		if (chdir(argv[1]) == ERROR)
 			perror("");
-	}
-	else
-	{
-		if (chdir(args[1]) == ERROR)
-			perror("");
-	}
-	return (1); // unnecessary?
+	// }
 }

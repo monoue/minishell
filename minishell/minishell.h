@@ -111,11 +111,13 @@ void				lstadd_back(t_redirection_set **chunks,
 ** commands
 */
 // void			pwd(t_chunk *chunk);
-// int				help();
-// int				minishell_exit();
+int				help();
+int				minishell_exit();
 // int				cd(char **args);
+void			cd(char **argv);
 // void			echo(t_chunk *chunk);
-// void		    env(t_list *envp);
+void			echo(char **argv);
+void		    env(t_list *envp);
 // void			export(t_chunk *chunk, t_list *envp);
 // void			unset(t_chunk *chunk, t_list *envp);
 // void			no_pipe(t_chunk *chunk, t_list *envp);
@@ -130,8 +132,12 @@ bool			is_reproduction(char *word);
 void			set_fds(t_fd *fds);
 bool			is_redirection_char(char c);
 bool			is_redirection_str(char *str);
-t_redirection_set	*make_redirection_list(char **elements);
+void					set_redirections(char **chunk_words, t_fd *fds);
+size_t			set_redirections_if(char **chunk_words, t_fd *fds);
+void			process_one_command(char *command);
+// int				process_pipes(char **piped_chunks, size_t i, size_t chunks_num);
 
+void	exec_command_chunk(char *command_chunk);
 // bool			is_syntax_wrong(char *str);
 // char			**split_cmd_line(char const *str);
 bool			is_quote(char c);
