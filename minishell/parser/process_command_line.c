@@ -5,7 +5,7 @@ static void	exec_one_line(char *line)
 	char	**commands;	
 	size_t	index;
 	
-	commands = ft_split(line, ';');
+	commands = ft_split_considering_quotes(line, ';');
 	index = 0;
 	while (commands[index])	
 	{

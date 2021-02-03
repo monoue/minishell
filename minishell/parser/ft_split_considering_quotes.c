@@ -6,28 +6,16 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 17:04:52 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/03 12:13:41 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/03 12:22:15 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void		skip_quotes(char const *str, size_t *index)
-{
-	char	quote;
-
-	quote = str[*index];
-	(*index)++;
-	while (str[*index] && str[*index] != quote)
-		(*index)++;
-	(*index)++;
-}
-
 static size_t	count_words(char const *str, char sep_c)
 {
 	size_t	index;
 	size_t	words_num;
-	char	quote;
 
 	index = 0;
 	while (str[index] != '\0' && str[index] == sep_c && !is_quote(str[index]))
@@ -65,7 +53,6 @@ static char		**return_null_freeing_all(char **arr, int i)
 
 static char		*cut_out_one_word(const char *str, char sep_c, size_t *index)
 {
-	char			quote;
 	size_t			start;
 	const size_t	s_len = ft_strlen(str);
 

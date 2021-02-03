@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static bool		is_space_or_tab(char c)
+static bool		is_space_oo_tab(char c)
 {
 	return (c == ' ' || c == '\t');
 }
@@ -23,12 +23,12 @@ static size_t	count_words(char const *str)
 	size_t	words_num;
 
 	index = 0;
-	while (str[index] != '\0' && is_space_or_tab(str[index]) && !is_quote(str[index]))
+	while (str[index] != '\0' && is_space_oo_tab(str[index]) && !is_quote(str[index]))
 		index++;
 	words_num = 0;
 	while (str[index] != '\0')
 	{
-		while (str[index] != '\0' && !is_space_or_tab(str[index]))
+		while (str[index] != '\0' && !is_space_oo_tab(str[index]))
 		{
 			if (is_quote(str[index]))
 				skip_quotes(str, &index);
@@ -36,7 +36,7 @@ static size_t	count_words(char const *str)
 				index++;
 		}
 		words_num++;
-		while (str[index] != '\0' && is_space_or_tab(str[index]) && !is_quote(str[index]))
+		while (str[index] != '\0' && is_space_oo_tab(str[index]) && !is_quote(str[index]))
 			index++;
 	}
 	return (words_num);
@@ -61,10 +61,10 @@ static char		*cut_out_one_word(const char *str, size_t *index)
 	size_t			start;
 	const size_t	s_len = ft_strlen(str);
 
-	while (*index < s_len && is_space_or_tab(str[*index]) && !is_quote(str[*index]))
+	while (*index < s_len && is_space_oo_tab(str[*index]) && !is_quote(str[*index]))
 		(*index)++;
 	start = *index;
-	while (*index < s_len && !is_space_or_tab(str[*index]))
+	while (*index < s_len && !is_space_oo_tab(str[*index]))
 	{
 		if (is_quote(str[*index]))
 			skip_quotes(str, index);

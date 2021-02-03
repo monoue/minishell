@@ -79,7 +79,7 @@ void	process_one_command(char *command) // ; 区切りで１つずつ渡って�
 	char	**piped_chunks;
 	size_t	chunks_num;
 
-	piped_chunks = ft_split(command, '|');
+	piped_chunks = ft_split_considering_quotes(command, '|');
 	// エラー処理
 	chunks_num = ft_count_strs((const char**)piped_chunks);
 	if (chunks_num == 1)
