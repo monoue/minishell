@@ -1,39 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_redirection.c                                   :+:      :+:    :+:   */
+/*   env_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/26 16:24:05 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/02 09:00:23 by monoue           ###   ########.fr       */
+/*   Created: 2021/01/26 17:41:01 by sperrin           #+#    #+#             */
+<<<<<<< HEAD:minishell/command/command/env_command.c
+/*   Updated: 2021/01/27 11:32:34 by monoue           ###   ########.fr       */
+=======
+/*   Updated: 2021/01/28 07:01:15 by monoue           ###   ########.fr       */
+>>>>>>> sabrina_tidy:minishell/command/env_command.c
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-bool	is_redirection_char(char c)
+void	env(t_list *envp)
 {
-	// return (ft_strchr("><|", c));
-	return (ft_strchr("><", c));
-}
-
-bool	is_redirection_str(char *str)
-{
-	const char	*redirections[] = {
-		">",
-		">>",
-		"<",
-		NULL
-	};
-	size_t		index;
-
-	index = 0;
-	while (redirections[index])
+	while (envp)
 	{
-		if (ft_strequal(str, redirections[index]))
-			return (true);
-		index++;
+		ft_putendl_fd(envp->content, STDOUT_FILENO);
+		envp = envp->next;
 	}
-	return (false);
 }

@@ -1,15 +1,10 @@
 #include "../minishell.h"
 
-bool		is_space_or_tab(char c)
-{
-	return (c == ' ' || c == '\t');
-}
-
 static void	skip_word(char const *str, size_t *index)
 {
 	char	quote;
 
-	while (str[*index] != '\0' && !is_space_or_tab(str[*index]) && !is_redirection_char(str[*index]))
+	while (str[*index] != '\0' && str[*index] != ' ' && !is_redirection_char(str[*index]))
 	{
 		if (is_quote(str[*index]))
 		{
@@ -21,19 +16,19 @@ static void	skip_word(char const *str, size_t *index)
 		}
 		else
 		{
-			while (str[*index] != '\0' && !is_quote(str[*index]) && !is_redirection_char(str[*index]) && !is_space_or_tab(str[*index]))
+			while (str[*index] != '\0' && !is_quote(str[*index]) && !is_redirection_char(str[*index]) && str[*index] != ' ')
 				(*index)++;
 		}
 	}
 }
 
-size_t		count_command_argv(char const *str)
+size_t		count_cmd_line_words(char const *str)
 {
 	size_t	index;
 	size_t	words_num;
 
 	index = 0;
-	while (str[index] != '\0' && is_space_or_tab(str[index]))
+	while (str[index] != '\0' && str[index] == ' ')
 		index++;
 	words_num = 0;
 	while (str[index] != '\0')
@@ -44,7 +39,7 @@ size_t		count_command_argv(char const *str)
 			index++;
 		else // 文字、もしくは quote 始まり
 			skip_word(str, &index);
-		while (str[index] != '\0' && is_space_or_tab(str[index])) // 空白スキップ
+		while (str[index] != '\0' && str[index] == ' ') // 空白スキップ
 			index++;
 		words_num++;
 	}
