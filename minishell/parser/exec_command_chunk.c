@@ -46,7 +46,6 @@ static char	**set_command_argv(char **chunk_words, size_t args_num)
 	return (argv);
 }
 
-// static void	exec_command_chunk(char *command_chunk)
 void	exec_command_chunk(char *command_chunk)
 {
 	t_fd	fds;
@@ -54,10 +53,9 @@ void	exec_command_chunk(char *command_chunk)
 	char	**argv;
 	char	**chunk_words;
 
-	chunk_words = space_and_tab_split(command_chunk);
+	chunk_words = split_to_command_argv(command_chunk);
 	set_fds(&fds);
 	args_num = set_redirections_if(chunk_words, &fds);
 	argv = set_command_argv(chunk_words, args_num);
 	exec_command_argv(argv);
 }
-

@@ -22,7 +22,7 @@ static void	skip_word(char const *str, size_t *index)
 	}
 }
 
-size_t		count_cmd_line_words(char const *str)
+size_t		count_command_argv(char const *str)
 {
 	size_t	index;
 	size_t	words_num;

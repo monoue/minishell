@@ -1,9 +1,9 @@
 #include "../minishell.h"
 
-// static bool		is_space_or_tab(char c)
-// {
-// 	return (c == ' ' || c == '\t');
-// }
+static bool		is_space_or_tab(char c)
+{
+	return (c == ' ' || c == '\t');
+}
 
 static size_t	get_ret_s_len(const char *str, size_t *index)
 {
@@ -90,7 +90,7 @@ static char		*cut_out_one_elem(const char *str, size_t *index)
 	return (cut_out_one_word(str, index));
 }
 
-char			**split_to_command_argv(char const *str)
+char			**split_command_line(char const *str)
 {
 	char	**words;
 	size_t	words_num;
@@ -123,7 +123,7 @@ char			**split_to_command_argv(char const *str)
 int main()
 {
 	char *str = "hoge >> hoge\t \" hoge\t \'  hoge \t\' hoge\"> hoge< hoge>hoge";
-	char **strs = split_to_command_argv(str);
+	char **strs = split_command_line(str);
 	size_t	index;
 	index = 0;
 	while (strs[index])

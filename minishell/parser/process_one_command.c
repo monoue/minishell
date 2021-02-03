@@ -67,7 +67,7 @@ static void	exec_no_pipe_chunk(char **chunks)
 {
 	char	**chunk_words;
 
-	chunk_words = space_and_tab_split(chunks[0]);
+	chunk_words = split_to_command_argv(chunks[0]);
 	if (is_reproduction(chunk_words[0])) // 自作コマンドであるなら
 		exec_command_chunk(chunks[0]);
 	else	

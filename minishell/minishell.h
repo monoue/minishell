@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ../minishell.h                                        :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/01/28 06:59:10 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/03 14:46:34 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,15 +134,17 @@ void			process_command_line(void);
 void			process_one_command(char *command);
 void			set_fds(t_fd *fds);
 size_t			set_redirections_if(char **chunk_words, t_fd *fds);
-char			**space_and_tab_split(char const *str);
+void			skip_quotes(char const *str, size_t *index);
+// char			**space_and_tab_split(char const *str);
+bool			is_space_or_tab(char c);
 // int				process_pipes(char **piped_chunks, size_t i, size_t chunks_num);
 void			exec_command_chunk(char *command_chunk);
 bool			is_quoted_wrongly(char *str);
 // char			**split_cmd_line(char const *str);
 bool			is_quote(char c);
 // bool			is_redirection(char c);
-size_t			count_cmd_line_words(char const *str);
-char			**split_command_line(char const *str);
+size_t			count_command_argv(char const *str);
+char			**split_to_command_argv(char const *str);
 
 /*
 ** utils command

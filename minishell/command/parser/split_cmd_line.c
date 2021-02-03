@@ -79,7 +79,7 @@ char			**split_cmd_line(char const *str)
 
 	if (!str)
 		return (NULL);
-	words_num = count_cmd_line_words(str);
+	words_num = count_command_argv(str);
 	words = malloc(sizeof(*words) * (words_num + 1));
 	if (!words)
 		return (NULL);
