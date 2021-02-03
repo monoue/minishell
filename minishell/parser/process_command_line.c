@@ -22,11 +22,11 @@ void		process_command_line(void)
 	ft_putstr(PROMPT);
 	if (get_next_line(STDIN_FILENO, &line) == ERROR)
 		exit_err_msg(MALLOC_ERR);
-	// if (is_invalid_syntax(line)) // 未完成
-	// {
-	// 	SAFE_FREE(line);
-	// 	exit(EXIT_FAILURE);
-	// }
+	if (is_quoted_wrongly(line)) // 未完成
+	{
+		SAFE_FREE(line);
+		exit(EXIT_FAILURE);
+	}
 	// 環境変数をここで整える
 	// コメントもここで削る
 	exec_one_line(line);

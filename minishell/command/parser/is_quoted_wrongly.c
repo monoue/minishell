@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-bool	is_syntax_wrong(char *str)
+bool	is_quoted_wrongly(char *str)
 {
 	const size_t	len = ft_strlen(str);
 	size_t			index;

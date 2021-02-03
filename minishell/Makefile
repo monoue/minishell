@@ -6,13 +6,15 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/03 09:30:34 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/03 10:48:06 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
+AR = ar
+ARFLAGS = rcs
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 # PATH
 LIBFT_PATH		= ../libft/
@@ -25,8 +27,6 @@ OBJ_DIR			= objs
 
 LIBFT =				$(LIBFT_PATH)libft.a
 
-SRCS_NAME =
-# CFLAGS = -Wall -Wextra -Werror
 
 SRCS  = main.c \
 		op_list.c \
@@ -72,10 +72,6 @@ SRCS  = main.c \
 # 		$(EXIT_PATH)exit.c
 
 OBJS = $(SRCS:%.c=%.o)
-
-$(OBJ_DIR)/%.o : $(SRCS)
-		mkdir -p $(OBJ_DIR)
-		$(CC) $(CFLAGS) -I include/*.h -c $< -o $@
 
 $(NAME): $(OBJS)
 	@$(MAKE) -C $(LIBFT_PATH);

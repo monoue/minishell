@@ -125,20 +125,19 @@ void		    env(t_list *envp);
 /*
 ** parser
 */
-void			process_command_line(void);
-char			**space_and_tab_split(char const *str);
+char			**ft_split_considering_quotes(char const *str, char sep_c);
 int				get_redirection_type(char *element);
 bool			is_reproduction(char *word);
-void			set_fds(t_fd *fds);
 bool			is_redirection_char(char c);
 bool			is_redirection_str(char *str);
-void					set_redirections(char **chunk_words, t_fd *fds);
-size_t			set_redirections_if(char **chunk_words, t_fd *fds);
+void			process_command_line(void);
 void			process_one_command(char *command);
+void			set_fds(t_fd *fds);
+size_t			set_redirections_if(char **chunk_words, t_fd *fds);
+char			**space_and_tab_split(char const *str);
 // int				process_pipes(char **piped_chunks, size_t i, size_t chunks_num);
-
-void	exec_command_chunk(char *command_chunk);
-// bool			is_syntax_wrong(char *str);
+void			exec_command_chunk(char *command_chunk);
+bool			is_quoted_wrongly(char *str);
 // char			**split_cmd_line(char const *str);
 bool			is_quote(char c);
 // bool			is_redirection(char c);
