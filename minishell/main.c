@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/04 14:12:32 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/04 16:42:13 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	handle_signal(int signo) //"ctrl-C"
 	}
 	else
 	{
-		ft_putstr_fd("\n", 2);
+		ft_putstr_fd("\b \b\b \n", 2);
 		ft_putstr_fd(PROMPT, 2);
 	}
 }
@@ -69,6 +69,8 @@ int 	main(void)
 			exit_err_msg(MALLOC_ERR);
 		if (rv == 0)
 			return (0 * write(1, "exit(ctrl-D)\n", 14));
+		if (is_str_empty(line) || put_message_if_syntax_error(line))
+			continue ;
 		// if (is_invalid_syntax(line)) // 未完成
 		// {
 		// 	SAFE_FREE(line);

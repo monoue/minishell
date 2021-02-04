@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/04 14:17:31 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/04 16:40:26 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,12 @@ void		    env(t_list *envp);
 void			export(char **argv, t_list *envp);
 void			unset(char **argv, t_list *envp);
 char     		*dollar(char *argv, t_list *envp);
+
+/*
+**  syntax_error_check
+*/
+bool			is_str_empty(char *str);
+bool			put_message_if_syntax_error(char *command_line);
 
 /*
 ** parser

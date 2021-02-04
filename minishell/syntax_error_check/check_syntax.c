@@ -73,3 +73,31 @@ int						check_syntax(char *command_line, char **command_line_words)
 		return (SYNTAX_QUOTED_WRONGLY);
 	return (get_problematic_element(command_line_words));
 }
+
+bool	put_message_if_syntax_error(char *command_line)
+{
+	char	**words;
+	int		ret;
+
+	words = split_command_line(command_line);
+	ret = check_syntax(command_line, words);
+	if (ret == SYNTAX_QUOTED_WRONGLY || ret == SYNTAX_VALID)
+		ft_free_split(words);
+	if (ret == SYNTAX_QUOTED_WRONGLY)
+	{
+		ft_putstr_err("-bash: quotes not closed\n");
+		return (true);
+	}
+	if (ret != SYNTAX_VALID)
+	{
+		ft_putstr_err("-bash: syntax error near unexpected token `");
+		if (words[ret])
+			ft_putstr_err(words[ret]);
+		else
+			ft_putstr_err("newline");
+		ft_free_split(words);
+		ft_putstr_err("`\n");
+		return (true);
+	}
+	return (false);
+}

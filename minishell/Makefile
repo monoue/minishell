@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+         #
+#    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/04 14:08:30 by sperrin          ###   ########.fr        #
+#    Updated: 2021/02/04 16:13:29 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,7 @@ SRCS  = main.c \
 		$(PARSER_PATH)set_fds.c \
 		$(PARSER_PATH)skip_quotes.c \
 		$(PARSER_PATH)count_command_line_words.c \
+		$(SYNTAX_ERROR_CHECK_PATH)is_str_empty.c \
 		$(SYNTAX_ERROR_CHECK_PATH)is_quoted_wrongly.c \
 		$(SYNTAX_ERROR_CHECK_PATH)check_syntax.c \
 		$(EXIT_PATH)exit.c
