@@ -1,13 +1,39 @@
 #include "minishell.h"
 
+#define SYNTAX_VALID			-1
+#define SYNTAX_QUOTED_WRONGLY	-2
+
 int main()
 {
-	char *str = "hoge \' \" hoge \"  \'  ||;;<<>>";
-	char **strs = split_command_line(str);
+	int		ret;
+	char	*strs[] = {
+		"; ls hoge",
+		"ls ; |",
+		"ls > |",
+		"ls > < hoge",
+		"ls >",
+		NULL
+	};
 	size_t	index = 0;
+	const char *newline = "NEWLINE";
+
+	char **words;
 	while (strs[index])
 	{
-		DS(strs[index]);
+		words = split_command_line(strs[index]);
+		if ((ret = get_syntax_type(strs[index])) != SYNTAX_VALID)
+		{
+			if (!words[ret])
+			{
+				DSZ(index);
+				DS(newline);
+			}
+			else
+			{
+				DSZ(index);
+				DS(words[ret]);
+			}
+		}
 		index++;
 	}
 }

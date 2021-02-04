@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/03 17:19:42 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/04 10:51:22 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,9 +37,9 @@ SRCS  = main.c \
 		$(PARSER_PATH)get_redirection_type.c \
 		$(PARSER_PATH)is_invalid_syntax.c \
 		$(PARSER_PATH)is_quoted_wrongly.c \
-		$(PARSER_PATH)is_redirection_str.c \
 		$(PARSER_PATH)is_reproduction.c \
-		$(PARSER_PATH)is_special_char.c \
+		$(PARSER_PATH)is_symbol_char.c \
+		$(PARSER_PATH)is_symbol_str.c \
 		$(PARSER_PATH)set_redirections_if.c \
 		$(PARSER_PATH)split_command_line.c \
 		$(PARSER_PATH)split_to_command_argv.c \
@@ -60,9 +60,9 @@ TEST  = test.c \
 		$(PARSER_PATH)get_redirection_type.c \
 		$(PARSER_PATH)is_invalid_syntax.c \
 		$(PARSER_PATH)is_quoted_wrongly.c \
-		$(PARSER_PATH)is_redirection_str.c \
 		$(PARSER_PATH)is_reproduction.c \
-		$(PARSER_PATH)is_special_char.c \
+		$(PARSER_PATH)is_symbol_char.c \
+		$(PARSER_PATH)is_symbol_str.c \
 		$(PARSER_PATH)set_redirections_if.c \
 		$(PARSER_PATH)split_command_line.c \
 		$(PARSER_PATH)split_to_command_argv.c \

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/03 17:19:05 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/04 10:33:25 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,6 @@
 # define OPEN_MODE		0666
 # define EXIT_INVALID	128
 
-__BEGIN_DECLS
-extern int * __error(void);
-#define errno (*__errosr())
-__END_DECLS
 
 // typedef			enum
 // {
@@ -128,14 +124,16 @@ void		    env(t_list *envp);
 size_t			count_command_line_words(char const *str);
 char			**ft_split_considering_quotes(char const *str, char sep_c);
 int				get_redirection_type(char *element);
-bool			is_invalid_syntax(char *command_line);
+int				get_syntax_type(char *command_line);
 bool			is_reproduction(char *word);
 bool			is_redirection_char(char c);
 bool			is_redirection_str(char *str);
 bool			is_quote(char c);
 bool			is_space_or_tab(char c);
-bool			is_pipe_or_break(char c);
+bool			is_pipe_or_break_char(char c);
+bool			is_pipe_or_break_str(char *str);
 bool			is_metachar(char c);
+bool			is_metachar_str(char *str);
 void			process_command_line(void);
 void			process_one_command(char *command);
 void			set_fds(t_fd *fds);

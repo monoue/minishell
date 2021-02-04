@@ -77,8 +77,9 @@ static char		*cut_out_one_elem(const char *str, size_t *index)
 	start = *index;
 	if (is_redirection_char(str[*index]))
 	{
-		(*index)++;
-		if (str[*index] == '>')	
+		if (ft_strnequal(&str[*index], ">>", 2))
+			*index += 2;
+		else
 			(*index)++;
 		return (ft_substr(str, start, *index - start));
 	}

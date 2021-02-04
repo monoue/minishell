@@ -33,7 +33,7 @@ size_t		count_command_argv(char const *str)
 	words_num = 0;
 	while (str[index] != '\0')
 	{
-		if (ft_strncmp(&str[index], ">>", 2) == 0)
+		if (ft_strnequal(&str[index], ">>", 2))
 			index += 2;
 		else if (is_redirection_char(str[index]))
 			index++;
