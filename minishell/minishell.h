@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/04 12:28:49 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/04 14:17:31 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,14 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <sys/wait.h>
+# include <sys/types.h>
+# include <signal.h>
+# include <errno.h>
 
 # define ERR_MSG		"error: "
 # define FATAL_ERR_MSG	ERR_MSG"fatal\n"
 # define MALLOC_ERR		"memory allocation error\n"
-# define PROMPT			"❯ "
+# define PROMPT			"\033[31m$❯\033[0m "
 # define OUTPUT			">"
 # define APPEND			">>"
 # define INPUT			"<"
@@ -33,17 +36,7 @@
 #define SYNTAX_VALID			-10
 #define SYNTAX_QUOTED_WRONGLY	-20
 
-// typedef			enum
-// {
-// 	TYPE_END,
-// 	TYPE_PIPE,
-// 	TYPE_BREAK,
-// 	TYPE_INPUT,
-// 	TYPE_OUTPUT,
-// 	TYPE_APPEND,
-
-// 	TYPES_NUM
-// }				t_type;
+pid_t	pid;
 
 typedef enum	e_element_type {
 	START,
@@ -63,16 +56,6 @@ typedef enum	e_type
 
 	TYPES_NUM
 }				t_type;
-// typedef struct	s_chunk
-// {
-// 	char			**argv;
-// 	size_t			size;
-// 	t_type			type;
-// 	// int				fds[2];
-
-// 	struct s_chunk	*prev;
-// 	struct s_chunk	*next;
-// }				t_chunk;
 
 typedef struct	s_redirection_set
 {
@@ -88,12 +71,6 @@ typedef struct	s_redirection_combination {
 	t_type	type;
 }				t_redirection_combination;
 
-
-// typedef struct	s_type_flag {
-// 	t_type	type;
-// 	int		flags;	
-// }				t_type_flag;
-
 typedef enum	e_redirection {
 	REDIRECT_INPUT,
 	REDIRECT_OVERRIDE,
@@ -105,6 +82,7 @@ typedef struct	s_fd {
 	int	input;
 	int	output;
 }				t_fd;
+
 /*
 ** list operation
 */
@@ -112,23 +90,24 @@ t_redirection_set	*lstlast(t_redirection_set *chunk);
 void				lstadd_back(t_redirection_set **chunks,
 											t_redirection_set *new);
 
-
-
+/*
+** prompt_cat
+*/
+void	prompt_cat(void);
+void	cat_exit(void);
 
 /*
 ** commands
 */
-// void			pwd(t_chunk *chunk);
+void			pwd(char **argv);
 int				help();
-int				minishell_exit();
-// int				cd(char **args);
-void			cd(char **argv);
-// void			echo(t_chunk *chunk);
+int				exit_minishell(char **argv);
+void    		cd(char **argv, t_list *envp);
 void			echo(char **argv);
 void		    env(t_list *envp);
-// void			export(t_chunk *chunk, t_list *envp);
-// void			unset(t_chunk *chunk, t_list *envp);
-// void			no_pipe(t_chunk *chunk, t_list *envp);
+void			export(char **argv, t_list *envp);
+void			unset(char **argv, t_list *envp);
+char     		*dollar(char *argv, t_list *envp);
 
 /*
 ** parser
@@ -146,19 +125,17 @@ bool			is_pipe_or_break_char(char c);
 bool			is_pipe_or_break_str(char *str);
 bool			is_metachar(char c);
 bool			is_metachar_str(char *str);
-void			process_command_line(void);
-void			process_one_command(char *command);
+void			process_command_line(char *line, t_list *envp);
+void			process_one_command(char *command, t_list *envp);
 void			set_fds(t_fd *fds);
 size_t			process_redirections(char **chunk_words, t_fd *fds);
 void			skip_quotes(char const *str, size_t *index);
 // char			**space_and_tab_split(char const *str);
 // int				process_pipes(char **piped_chunks, size_t i, size_t chunks_num);
-void			exec_command_chunk(char *command_chunk);
+void			exec_command_chunk(char *command_chunk, t_list *envp);
 bool			is_quoted_wrongly(char *str);
 // char			**split_cmd_line(char const *str);
 // bool			is_redirection(char c);
-size_t			count_command_argv(char const *str);
-char			**split_to_command_argv(char const *str);
 char			**split_command_line(char const *str);
 
 /*
@@ -173,13 +150,24 @@ bool			arg_is_str(char *argv);
 /*
 ** utils command 2
 */
-char			*check_key(char **argv);
-void			*delete_variable(void *ptr);
-bool			is_key_duplicated(char *key, t_list *envp);
-#endif
+char    *check_key(char *argv);
+void	*delete_variable(void *ptr);
+int		same_key(char *key, t_list *envp);
+int		get_content(char *key, t_list *envp);
+char    **struct_to_array(t_list *envp);
+
+/*
+** utils command 3
+*/
+char    *ft_strcat(char *dest, char *src);
+int		ft_strrchr_int(const char *s, int c);
+void	add_variable(char *argv, t_list *envp);
+void	put_cat(void);
+int     dollar_or_not(char *argv, int c);
 
 /*
 ** exit
 */
 void	exit_fatal(void);
 void	exit_err_msg(char *err_msg);
+#endif

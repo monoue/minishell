@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:01 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/01 06:33:44 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/04 14:04:24 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 
 void	env(t_list *envp)
 {
-	while (envp)
+	if (envp->content == NULL)
+		return ;
+	while (envp && envp->next != NULL)
 	{
-		ft_putendl_fd(envp->content, STDOUT_FILENO);
+		ft_putendl_fd(envp->content, 1);
 		envp = envp->next;
 	}
+	if (envp)
+		ft_putendl_fd(envp->content, 1);
 }

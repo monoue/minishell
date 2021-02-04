@@ -3,35 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   unset_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:34 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/01 06:34:02 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/04 14:05:29 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	unset(t_chunk *chunk, t_list *envp)
+void	unset(char **argv, t_list *envp)
 {
-	size_t	index;
+	int		i;
+	int		env;
+	int		tmp_env;
 	char	*key;
-	char	*new;
-	char	*tmp;
+	t_list	*tmp;
 
-	index = 1;
-	while (chunk->argv[index])
+
+	//やってることはリスト構造体の中に、例えば１０、２０、３０、４０、５０が入ってる
+	//３０を消したい場合は、
+	//２０までポインタを進んで、それまで30のデータが指していたデータ40を20が指すようにして、リストから30を外します。
+	//あとは、temp に取り置いていた３０をfreeします。
+	i = 1;
+	env = 0;
+	while (argv[i])
 	{
-		if (is_key_duplicated(chunk->argv[index], envp))
+		key = check_key(argv[i]);//”KEY=”までを取る
+		if (same_key(key, envp) == 1)
 		{
-			while (envp && envp->next)
+			tmp_env = get_content(key, envp);//どこで消したい環境変数があるを探してる
+			while (env < tmp_env)//２０までポインタを進んでる　
 			{
-				tmp = envp->content;
-				if (ft_strequal(tmp, chunk->argv[index]))
-					delete_variable(envp->content);
 				envp = envp->next;
+				env++;
 			}
+			tmp = envp->next;//tmpリスト構造体に３０を入れて
+    		envp->next = tmp->next;//20の次を40とする
+			free(tmp);//３０をFREEする
 		}
-		index++;
+		i++;
 	}
 }

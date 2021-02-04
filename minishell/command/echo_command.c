@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:55 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/03 10:15:31 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/04 14:04:14 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,33 @@
 
 void	echo(char **argv)
 {
-	size_t	index;
+	int i;
 
-	index = 1;
-	if (ft_strequal(argv[index], "-n"))
+	i = 1;
+	if (argv[i] == NULL)
 	{
-		index++;
-		while (argv[index] != '\0')
+		write(1, " ", 1);
+		write(1, "\n", 1);
+		return ;
+	}
+	if (!ft_strcmp(argv[i], "-n"))
+	{
+		i++;
+		while (argv[i] != 0)
 		{
-			ft_putstr(argv[index++]);
-			if (argv[index] != NULL)
-				ft_putchar(' ');
+			ft_putstr_fd(argv[i++], 1);
+			if (argv[i] != NULL)
+				write(1, " ", 1);
 		}
 	}
 	else
 	{
-		if (!argv[0])
-			ft_putchar('\0');
-		else
-			while (argv[index] != '\0')
-			{
-				ft_putstr(argv[index++]);
-				if (argv[index] != NULL)
-					ft_putchar(' ');
-			}
-		ft_putchar('\n');
+		while (argv[i] != 0)
+		{
+			ft_putstr_fd(argv[i++], 1);
+			if (argv[i] != NULL)
+				write(1, " ", 1);
+		}
+		write(1, "\n", 1);
 	}
 }

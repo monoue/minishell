@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/03 10:41:33 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/04 14:03:56 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,28 +33,41 @@ char    *get_var(char *argv)
     return (tmp);
 }
 
-char     *dollar(char **argv, t_list *envp)
+char     *dollar(char *argv, t_list *envp)
 {
     int     count;
-    char    *tmp;
+    char    **tmp;
     char    *variable;
+    char    *tmp_var;
     char    *value;
+    int     i;
+    t_list  *tmp_list;
 
     variable = NULL;
-    tmp = get_var(argv[1]);
-	while (envp && envp->next)
-	{
-		if (ft_strncmp((char*)envp->content, tmp, ft_strlen(tmp)) == 0)
-            variable = ft_strdup((char*)envp->content);
-		envp = envp->next;
-	}
-    if (variable)
-    {
-        count = ft_strrchr_int(variable, '=');
-        value = ft_substr(variable, count + 1, ft_strlen(variable) - count);
-        free(variable);
-        return (value);
+    tmp_var = ft_strdup("");
+    value = ft_strdup("");
+    i = 0;
+    tmp = ft_split(argv, '$');
+    while (tmp[i])
+    {   
+        tmp[i] = ft_strjoin(tmp[i], "=");
+        tmp_list = envp;
+        while (tmp_list && tmp_list->next)
+        {
+            if (ft_strncmp((char*)tmp_list->content, tmp[i], ft_strlen(tmp[i])) == 0)
+                variable = ft_strdup((char*)tmp_list->content);
+            tmp_list = tmp_list->next;
+        }
+        if (variable)
+        {
+            count = ft_strrchr_int(variable, '=');
+            tmp_var = ft_substr(variable, count + 1, ft_strlen(variable) - count);
+            free(variable);
+        }
+        value = ft_strjoin(value, tmp_var);
+        i++;
+        free(tmp_var);
     }
-    free(variable);
-    return (NULL);
+    free(tmp);
+    return (value);
 }
