@@ -55,7 +55,7 @@ void	exec_command_chunk(char *command_chunk)
 
 	chunk_words = split_to_command_argv(command_chunk);
 	set_fds(&fds);
-	args_num = set_redirections_if(chunk_words, &fds);
+	args_num = process_redirections(chunk_words, &fds);
 	argv = set_command_argv(chunk_words, args_num);
 	exec_command_argv(argv);
 }

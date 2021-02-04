@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/04 10:51:22 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/04 12:29:26 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ SRCS  = main.c \
 		$(PARSER_PATH)is_reproduction.c \
 		$(PARSER_PATH)is_symbol_char.c \
 		$(PARSER_PATH)is_symbol_str.c \
-		$(PARSER_PATH)set_redirections_if.c \
+		$(PARSER_PATH)process_redirections.c \
 		$(PARSER_PATH)split_command_line.c \
 		$(PARSER_PATH)split_to_command_argv.c \
 		$(PARSER_PATH)process_command_line.c \

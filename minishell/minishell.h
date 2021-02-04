@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/04 10:33:25 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/04 12:28:49 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # define OPEN_MODE		0666
 # define EXIT_INVALID	128
 
+#define SYNTAX_VALID			-10
+#define SYNTAX_QUOTED_WRONGLY	-20
 
 // typedef			enum
 // {
@@ -43,7 +45,17 @@
 // 	TYPES_NUM
 // }				t_type;
 
-typedef			enum
+typedef enum	e_element_type {
+	START,
+	PIPE_OR_BREAK,
+	REDIRECTION,
+	NEWLINE,
+	WORD,
+
+	ELEMENT_TYPES_NUM
+}				t_element_type;
+
+typedef enum	e_type
 {
 	TYPE_INPUT,
 	TYPE_OUTPUT,
@@ -121,10 +133,10 @@ void		    env(t_list *envp);
 /*
 ** parser
 */
+int				check_syntax(char *command_line, char **command_line_words);
 size_t			count_command_line_words(char const *str);
 char			**ft_split_considering_quotes(char const *str, char sep_c);
 int				get_redirection_type(char *element);
-int				get_syntax_type(char *command_line);
 bool			is_reproduction(char *word);
 bool			is_redirection_char(char c);
 bool			is_redirection_str(char *str);
@@ -137,7 +149,7 @@ bool			is_metachar_str(char *str);
 void			process_command_line(void);
 void			process_one_command(char *command);
 void			set_fds(t_fd *fds);
-size_t			set_redirections_if(char **chunk_words, t_fd *fds);
+size_t			process_redirections(char **chunk_words, t_fd *fds);
 void			skip_quotes(char const *str, size_t *index);
 // char			**space_and_tab_split(char const *str);
 // int				process_pipes(char **piped_chunks, size_t i, size_t chunks_num);

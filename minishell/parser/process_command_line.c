@@ -22,7 +22,7 @@ void		process_command_line(void)
 	ft_putstr(PROMPT);
 	if (get_next_line(STDIN_FILENO, &command_line) == ERROR)
 		exit_err_msg(MALLOC_ERR);
-	// if (get_syntax_type(command_line)) // 未完成
+	// if (check_syntax(command_line)) // 未完成
 	// {
 	// 	SAFE_FREE(command_line);
 	// 	exit(EXIT_FAILURE);

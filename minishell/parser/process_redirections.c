@@ -72,7 +72,7 @@ void					set_redirections(char **chunk_words, t_fd *fds)
 	}
 }
 
-size_t	set_redirections_if(char **chunk_words, t_fd *fds)
+size_t	process_redirections(char **chunk_words, t_fd *fds)
 {
 	size_t	index;
 

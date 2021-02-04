@@ -21,7 +21,7 @@ int main()
 	while (strs[index])
 	{
 		words = split_command_line(strs[index]);
-		if ((ret = get_syntax_type(strs[index])) != SYNTAX_VALID)
+		if ((ret = check_syntax(strs[index])) != SYNTAX_VALID)
 		{
 			if (!words[ret])
 			{
