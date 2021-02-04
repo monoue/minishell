@@ -53,7 +53,7 @@ void	exec_command_chunk(char *command_chunk)
 	char	**argv;
 	char	**chunk_words;
 
-	chunk_words = split_to_command_argv(command_chunk);
+	chunk_words = split_command_line(command_chunk);
 	set_fds(&fds);
 	args_num = process_redirections(chunk_words, &fds);
 	argv = set_command_argv(chunk_words, args_num);
