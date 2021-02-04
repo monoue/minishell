@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/04 16:13:29 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/05 07:02:15 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ SRCS  = main.c \
 		$(COMMAND_PATH)dollar.c \
 		$(PARSER_PATH)count_command_line_words.c \
 		$(PARSER_PATH)exec_command_chunk.c \
-		$(PARSER_PATH)ft_split_considering_quotes.c \
+		$(PARSER_PATH)ft_split_skipping_quotes.c \
 		$(PARSER_PATH)get_redirection_type.c \
 		$(PARSER_PATH)is_reproduction.c \
 		$(PARSER_PATH)is_symbol_char.c \

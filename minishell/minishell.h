@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/04 16:40:26 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/05 07:02:59 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ bool			put_message_if_syntax_error(char *command_line);
 */
 int				check_syntax(char *command_line, char **command_line_words);
 size_t			count_command_line_words(char const *str);
-char			**ft_split_considering_quotes(char const *str, char sep_c);
+char			**ft_split_skipping_quotes(char const *str, char sep_c);
 int				get_redirection_type(char *element);
 bool			is_reproduction(char *word);
 bool			is_redirection_char(char c);

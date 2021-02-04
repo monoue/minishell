@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_considering_quotes.c                      :+:      :+:    :+:   */
+/*   ft_split_skipping_quotes.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 17:04:52 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/03 12:22:15 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/05 07:02:59 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static char		*cut_out_one_word(const char *str, char sep_c, size_t *index)
 	return (ft_substr(str, start, *index - start));
 }
 
-char			**ft_split_considering_quotes(char const *str, char sep_c)
+char			**ft_split_skipping_quotes(char const *str, char sep_c)
 {
 	char	**words;
 	size_t	words_num;
