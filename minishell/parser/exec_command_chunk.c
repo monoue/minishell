@@ -33,7 +33,7 @@ static void	exec_command_argv(char **argv, t_list *envp)
 		exec_reproduction(argv, envp);
 	else
 	{	environ = struct_to_array(envp);
-		if (ft_strequal(argv[0], "wc"))
+		if (ft_strequal(argv[0], "wc") || ft_strequal(argv[0], "touch"))
 			fullpath_cmd = ft_strjoin("/usr/bin/", argv[0]);
 		// 後で綺麗に書き直す
 		else
@@ -79,7 +79,7 @@ void	exec_command_chunk(char *command_chunk, t_list *envp)
 	char	**argv;
 	char	**chunk_words;
 
-	chunk_words = split_command_line(command_chunk);
+	chunk_words = dollar_split(command_chunk);
 	set_fds(&fds);
 	args_num = process_redirections(chunk_words, &fds);
 	argv = set_command_argv(chunk_words, args_num, envp);

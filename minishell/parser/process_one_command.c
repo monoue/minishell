@@ -65,7 +65,7 @@ static void	exec_no_pipe_chunk(char **chunks, t_list *envp)
 {
 	char	**chunk_words;
 
-	chunk_words = split_command_line(chunks[0]);
+	chunk_words = dollar_split(chunks[0]);
 	if (is_reproduction(chunk_words[0])) // 自作コマンドであるなら
 		exec_command_chunk(chunks[0], envp);
 	else	
