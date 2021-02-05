@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-bool	is_str_empty(char *str)
+bool	str_is_of_spaces(char *str)
 {
 	const size_t	len = ft_strlen(str);
 	size_t			index;

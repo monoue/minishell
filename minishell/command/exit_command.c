@@ -3,55 +3,130 @@
 /*                                                        :::      ::::::::   */
 /*   exit_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/04 14:04:33 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/05 09:32:18 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		only_digit(char *str)
+unsigned long long	ft_atoull(const char *str)
 {
-	int i;
+	size_t				index;
+	unsigned long long	n;
 
-	i = 0;
-	while (str[i])
+	index = 0;
+	while (ft_isspace(str[index]))
+		index++;
+	if (str[index] == '+')
+		index++;
+	n = 0;
+	while (ft_isdigit(str[index]))
 	{
-		if (!ft_isdigit(str[i]) && str[i] != '-')
-			return (0);
-		i++;
+		n = n * 10 + (str[index] - '0');
+		index++;
 	}
-	return (1);
+	return (n);
+}
+
+long long ft_atoll(const char *str)
+{
+	bool		sign;
+	size_t		index;
+	long long	n;
+
+	index = 0;
+	sign = false;
+	if (str[index] == '+' || str[index] == '-')
+	{
+		if (str[index] == '-')
+			sign = true;
+		index++;
+	}
+	n = ft_atoull(&str[index]);
+	if (sign)	
+		return (-n);
+	return (n);
+}
+
+static bool	digits_num_is_over_llong_max(const char *str)
+{
+	size_t	index;
+
+	index = 0;
+	if (str[index] == '+' || str[index] == '-')
+		index++;
+	while (str[index] == '0')
+		index++;
+	return (ft_strlen(&str[index]) > LLONG_MAX_DIGITS);
+}
+
+static bool	str_is_within_llong(const char *str)
+{
+	bool				sign;
+	unsigned long long	n;
+	size_t				index;
+
+	index = 0;
+	if (digits_num_is_over_llong_max(str))
+		return (false);
+	sign = false;
+	if (str[index] == '-' || str[index] == '+')
+	{
+		if (str[index] == '-')
+			sign = true;
+		index++;
+	}
+	n = ft_atoull(&str[index]);
+	if (n == 0)
+		return (true);
+	if (sign)
+		n--;
+	return (n <= LLONG_MAX);
+}
+
+bool	str_is_valid_num(char *str)
+{
+	size_t	index;
+
+	index = 0;
+	if (str[index] == '-' || str[index] == '+')
+		index++;
+	if (!ft_str_is_numeric(&str[index]))
+		return (false);
+	return (str_is_within_llong(str));
 }
 
 int	exit_minishell(char **argv)
 {
-	int		nbr;
-	int		exit_nbr;
+	int				nbr;
+	int				exit_nbr;
+	const size_t	argv_num = ft_count_strs((const char**)argv);
 
-	if (argv[1] == NULL)
+	if (argv_num == 1)
 	{
-		cat_exit();
+		put_farewell_picture();
 		exit(0);
 	}
-	else if (only_digit(argv[1]) && argv[2] == NULL)
+	// -が先頭ではない時は？
+	if (!str_is_valid_num(argv[1]))
 	{
-		nbr = ft_atoi(argv[1]);
-		exit_nbr = ((nbr % 256) + 256) % 256;
-		cat_exit();
-		exit (exit_nbr);
+		ft_putstr_err("exit\nbash: exit: ");
+		ft_putstr_err(argv[1]);
+		ft_putstr_err(": numeric argument required\n");
+		exit (255);
 	}
-	else if (!only_digit(argv[1]))
+	if (argv_num > 2)
 	{
-		ft_putstr_fd("bash: exit: ", 2);
-		ft_putstr_fd(argv[1], 2);
-		ft_putstr_fd(": numeric argument required\n", 2);
+		ft_putstr("bash: exit: too many arguments\n");
+		return (1); // ?
+		// $? = 1
 	}
-	else if (ft_count_strs((const char**)argv) > 1)
-	{
-		ft_putstr_fd("bash: exit: too many arguments\n", 1);
-	}
+	put_farewell_picture();
+	nbr = ft_atoll(argv[1]);
+	exit_nbr = ((nbr % 256) + 256) % 256;
+	exit (exit_nbr);
 	return (0);
 }

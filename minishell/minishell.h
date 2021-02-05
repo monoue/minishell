@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/05 07:02:59 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/05 09:33:20 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/types.h>
 # include <signal.h>
 # include <errno.h>
+# include <limits.h>
 
 # define ERR_MSG		"error: "
 # define FATAL_ERR_MSG	ERR_MSG"fatal\n"
@@ -32,6 +33,7 @@
 # define INPUT			"<"
 # define OPEN_MODE		0666
 # define EXIT_INVALID	128
+# define LLONG_MAX_DIGITS	19
 
 #define SYNTAX_VALID			-10
 #define SYNTAX_QUOTED_WRONGLY	-20
@@ -91,10 +93,10 @@ void				lstadd_back(t_redirection_set **chunks,
 											t_redirection_set *new);
 
 /*
-** prompt_cat
+** put_welcome_picture
 */
-void	prompt_cat(void);
-void	cat_exit(void);
+void	put_welcome_picture(void);
+void	put_farewell_picture(void);
 
 /*
 ** commands
@@ -112,7 +114,7 @@ char     		*dollar(char *argv, t_list *envp);
 /*
 **  syntax_error_check
 */
-bool			is_str_empty(char *str);
+bool			str_is_of_spaces(char *str);
 bool			put_message_if_syntax_error(char *command_line);
 
 /*

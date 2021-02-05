@@ -1,24 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt_cat.c                                       :+:      :+:    :+:   */
+/*   put_welcome_picture.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 14:05:27 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/03 14:08:33 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/05 09:32:18 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	cat_exit(void)
+void	put_welcome_picture(void)
 {
-	write(1, "\n", 1);
+	ft_putendl("\n                                                     ");
+	ft_putendl("                              ,                        ");
+	ft_putendl("              ,-.       _,---._ __  / \\               ");
+	ft_putendl("             /  )    .-'       `./ /   \\              ");
+	ft_putendl("            (  (   ,'            `/    /|              ");
+	ft_putendl("             \\  `-\"             \\'\\   / |          ");
+	ft_putendl("              `.              ,  \\ \\ /  |            ");
+	ft_putendl("\t       /`.          ,'-`----Y   |              ");
+	ft_putendl("              (            ;        |   /              ");
+	ft_putendl("              |  ,-.    ,-'         |  /               ");
+	ft_putendl("              |  | (   |  minishell | /                ");
+	ft_putendl("              )  |  \\  `.___________|/                ");
+	ft_putendl("              `--'   `--'                              ");
+	ft_putendl("           \033[0m\033[34mBIENVENUE DANS NOTRE MINISHELL\033[0m \033[31m❤️\033[0m\n   ");
+}
+
+void	put_farewell_picture(void)
+{
+	write(2, "\n", 1);
 	ft_putendl_fd("            \033[5m*     \033[33m,MMM8&&&.            \033[0m*                            ", 2);
 	ft_putendl_fd("                  \033[33mMMMM88&&&&&    \033[0m.                                  ", 2);
 	ft_putendl_fd("                 \033[33mMMMM88&&&&&&&      \033[0m                                ", 2);
-	ft_putendl_fd("     *          \033[33mMMM88&&&&&&&&                                      ", 2);
+	ft_putendl_fd("     *          \033[33mMMM88&&&&&&&&&&                                      ", 2);
 	ft_putendl_fd("                 MMM88&&&&&&&&                                      ", 2);
 	ft_putendl_fd("                 'MMM88&&&&&&'                                      ", 2);
 	ft_putendl_fd("                   'MMM8&&&'       \033[0m*                                 ", 2);
@@ -36,23 +54,4 @@ void	cat_exit(void)
 	ft_putendl_fd("  |  |  |  |\033[30m(_(  \033[0m|  |  |  |  |  |  |  |  |  |  |  |                  ", 2);
 	ft_putendl_fd("  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |                  ", 2);
 	ft_putendl_fd("  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |                  ", 2);
-}
-
-
-void	prompt_cat(void)
-{
-	ft_putendl_fd("\n                                                     ", 1);
-	ft_putendl_fd("	                             ,                        ", 1);
-	ft_putendl_fd("              ,-.       _,---._ __  / \\               ", 1);
-	ft_putendl_fd("             /  )    .-'       `./ /   \\              ", 1);
-	ft_putendl_fd("            (  (   ,'            `/    /|              ", 1);
-	ft_putendl_fd("             \\  `-\"             \\'\\   / |          ", 1);
-	ft_putendl_fd("              `.              ,  \\ \\ /  |            ", 1);
-	ft_putendl_fd("              /`.          ,'-`----Y    |              ", 1);
-	ft_putendl_fd("              (            ;        |   '              ", 1);
-	ft_putendl_fd("              |  ,-.    ,-'         |  /               ", 1);
-	ft_putendl_fd("              |  | (   |  minishell | /                ", 1);
-	ft_putendl_fd("              )  |  \\  `.___________|/                ", 1);
-	ft_putendl_fd("              `--'   `--'                              ", 1);
-	ft_putendl_fd("           \033[0m\033[34mBIENVENUE DANS NOTRE MINISHELL\033[0m \033[31m❤️\033[0m\n   ", 1);
 }

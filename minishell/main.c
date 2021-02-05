@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/04 16:42:13 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/05 09:33:20 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int 	main(void)
 	t_list		*tmp;
 	int			rv;
 	
-	prompt_cat();
+	put_welcome_picture();
 	envp = ft_lstnew(*environ);
     environ++;
     while(*environ)
@@ -69,7 +69,7 @@ int 	main(void)
 			exit_err_msg(MALLOC_ERR);
 		if (rv == 0)
 			return (0 * write(1, "exit(ctrl-D)\n", 14));
-		if (is_str_empty(line) || put_message_if_syntax_error(line))
+		if (str_is_of_spaces(line) || put_message_if_syntax_error(line))
 			continue ;
 		// if (is_invalid_syntax(line)) // 未完成
 		// {
