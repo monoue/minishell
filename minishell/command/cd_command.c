@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:49 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/04 14:06:37 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/05 10:40:41 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void    old_pwd(t_list *envp)
     buf = NULL;
     pwd = getcwd(buf, PATH_MAX);
     oldpwd = ft_strjoin("OLDPWD=", pwd);
-    key = check_key(oldpwd);
+    key = get_key(oldpwd);
     count = ft_strlen(key);
     if (same_key(key, envp) == 1)
     {
@@ -54,7 +54,7 @@ void    new_pwd(t_list *envp)
     buf = NULL;
     pwd = getcwd(buf, PATH_MAX);
     new_pwd = ft_strjoin("PWD=", pwd);
-    key = check_key(new_pwd);
+    key = get_key(new_pwd);
     count = ft_strlen(key);
     if (same_key(key, envp) == 1)
     {

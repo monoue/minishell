@@ -3,68 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   utils_command2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 18:33:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/04 14:06:10 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/05 16:22:21 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		same_key(char *key, t_list *envp)
+bool	same_key(char *key, t_list *envp)
 {
 	int	    count;
     char    *tmp;
 
 	count = ft_strlen(key);
-	while (envp && envp->next)
+	while (envp)
 	{
         tmp = envp->content;
 		if (ft_strncmp(tmp, key, count) == 0)
-			return (1);
+			return (true);
 		envp = envp->next;
 	}
-	return (0);
+	return (false);
 }
 
-int		get_content(char *key, t_list *envp)
+int		get_target_prev_i(char *key, t_list *envp)
 {
-	int	    count;
-    int     i;
-    char    *tmp;
+	const size_t	len = ft_strlen(key);
+    size_t			index;
 
-    i = 0;
-	count = ft_strlen(key);
-	while (envp && envp->next)
+    index = 0;
+	while (envp)
 	{
-        tmp = envp->content;
-		if (ft_strncmp(tmp, key, count) == 0)
-			return (i - 1);
+		if (ft_strnequal((char*)envp->content, key, len))
+			return (index - 1);
 		envp = envp->next;
-        i++;
+        index++;
 	}
-	return (i);
+	return (index);
 }
 
-char        **struct_to_array(t_list *envp)
+char        **turn_envp_into_strs(t_list *envp)
 {
-    int     i;
-    char    **array;
-    char    *tmp;
+    size_t	index;
+    char    **strs;
+    // char    *tmp;
 
-    i = 0;
-   	if (!(array = malloc(sizeof(char *) * (ft_lstsize(envp) + 1))))
+    index = 0;
+   	if (!(strs = malloc(sizeof(char *) * (ft_lstsize(envp) + 1))))
 		return (NULL);
     while (envp)
     {
-        tmp = envp->content;
-        array[i] = ft_strdup(tmp);
-        i ++;
+        // tmp = envp->content;
+        // array[i] = ft_strdup(tmp);
+        strs[index] = ft_strdup((char*)envp->content);
+        index++;
         envp = envp->next;
     }
-    array[i] = NULL;
-    return (array);
+    strs[index] = NULL;
+    return (strs);
 }
 
 char		*if_same_key_char(char *key, t_list *envp)
@@ -87,29 +85,23 @@ char		*if_same_key_char(char *key, t_list *envp)
 	return (NULL);
 }
 
-char    *check_key(char *argv)
+char    *get_key(char *argv)
 {
-    int     i;
-    int     cnt;
+    size_t	len;
     char    *key;
-    char    *tmp;
 
-    cnt = 0;
-    while (argv[cnt] != '\0')
+    len = 0;
+    while (argv[len])
     {
-        if (argv[cnt] == '=')
-            break;
-        cnt++;
+        if (argv[len] == '=')
+		{
+			len++;
+            break ;
+		}
+        len++;
     }
-    key = malloc(cnt + 1);
-    i = 0;
-    while (i < cnt)
-    {
-        key[i] = argv[i];
-        i++;
-    }
-    key[i] = '\0';
-    tmp = ft_strjoin(key, "=");
-    free(key);
-    return (tmp);
+	key = ft_strndup(argv, len);
+	if (!key)
+		exit_err_msg(MALLOC_ERR);
+    return (key);
 }

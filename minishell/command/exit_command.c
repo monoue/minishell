@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/05 09:32:18 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/05 10:13:56 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ int	exit_minishell(char **argv)
 		put_farewell_picture();
 		exit(0);
 	}
-	// -が先頭ではない時は？
 	if (!str_is_valid_num(argv[1]))
 	{
 		ft_putstr_err("exit\nbash: exit: ");

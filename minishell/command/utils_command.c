@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:37:10 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/04 14:05:56 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/05 14:23:35 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ const char *g_commands[] = {
 	NULL
 };
 
-bool	arg_is_str(char *argv)
+bool	is_valid_arg(char *argv)
 {
-	int	i;
+	size_t	index;
 
-	i = 0;
-	if (ft_isdigit(argv[i]))
-		return (0);
+	index = 0;
+	if (ft_isdigit(argv[index]))
+		return (false);
 	if (argv[0] == '=')
-		return (0);
-	return (1);
+		return (false);
+	return (true);
 }
 
 bool	check_valid_arg(char *argv)
@@ -102,8 +102,8 @@ bool	pipe_or_not_pipe(char **argv)
 	while (argv[i])
 	{
 		if ((ft_strequal(argv[i], "|")) || (!is_command(argv[0])))
-			return (1);
+			return (true);
 		i++;
 	}
-	return (0);
+	return (false);
 }

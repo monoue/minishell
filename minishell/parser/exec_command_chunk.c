@@ -21,34 +21,93 @@ static void	exec_reproduction(char **argv, t_list *envp)
 }
 
 
+char	*get_path_str(t_list *envp)
+{
+	const char		*path_indicator = "PATH=";
+	const size_t	len = ft_strlen(path_indicator);
+	char			*env;
+
+	while (envp)
+	{
+		env = (char*)envp->content;
+		if (ft_strnequal(env, path_indicator, len))
+			return (ft_strdup(&env[len]));
+		envp = envp->next;
+	}
+	return (NULL);
+}
+
+size_t		exec_all_paths(char **paths, char **argv, t_list *envp)
+{
+	char	*full_command_path;
+	size_t	index;
+	char	**environ;
+	int		exec_ret;
+
+	index = 0;
+	environ = turn_envp_into_strs(envp);
+	while (paths[index])	
+	{
+		full_command_path = ft_strjoin(paths[index], argv[0]);
+		exec_ret = execve(full_command_path, argv, environ);
+		SAFE_FREE(full_command_path);
+		if (exec_ret != ERROR)
+			break ;
+		index++;
+	}
+	return (index);
+}
+
+char	**get_paths(char *path_str)
+{
+	char	**paths_without_slash;
+	char	**complete_paths;
+	size_t	paths_num;
+	size_t	index;
+
+	paths_without_slash = ft_split(path_str, ':');
+	if (!paths_without_slash)
+		return (NULL);
+	paths_num = ft_count_strs((const char**)paths_without_slash);
+	complete_paths = malloc((paths_num + 1) * sizeof(char *));
+	if (!complete_paths)
+		return (NULL);
+	index = 0;
+	while (index < paths_num)
+	{
+		complete_paths[index] = ft_strjoin(paths_without_slash[index], "/");
+		index++;
+	}
+	complete_paths[index] = NULL;
+	ft_free_split(paths_without_slash);
+	return (complete_paths);
+}
+
+void		exec_path_command(char **argv, t_list *envp)
+{
+	char	**paths;
+	char	*path_str;
+	size_t	try_count;
+
+	path_str = get_path_str(envp);
+	paths = get_paths(path_str);
+	SAFE_FREE(path_str);
+	try_count = exec_all_paths(paths, argv, envp);
+	if (try_count == ft_count_strs((const char**)paths))
+	{
+		ft_putstr_err("execve: ");
+		ft_putendl_fd(strerror(errno), 2);
+	}
+	ft_free_split(paths);
+	exit(EXIT_SUCCESS);
+}
+
 static void	exec_command_argv(char **argv, t_list *envp)
 {
-	char		*fullpath_cmd;
-	char		**environ;
-
-	// if (argv[1] != NULL)
-	// 	if (dollar_or_not(argv[1], '$'))
-	// 		argv[1] = dollar(argv, envp);
 	if (is_reproduction(argv[0]))
 		exec_reproduction(argv, envp);
 	else
-	{	environ = struct_to_array(envp);
-		if (ft_strequal(argv[0], "wc") || ft_strequal(argv[0], "touch"))
-			fullpath_cmd = ft_strjoin("/usr/bin/", argv[0]);
-		// 後で綺麗に書き直す
-		else
-			fullpath_cmd = ft_strjoin("/bin/", argv[0]);
-		if (!fullpath_cmd)
-			ft_putendl_fd(strerror(errno), 1);
-
-		else if (execve(fullpath_cmd, argv, environ) == ERROR) //ici changer
-		{
-			ft_putstr_fd("execve: ", 1);
-			ft_putendl_fd(strerror(errno), 1);
-		}
-		SAFE_FREE(fullpath_cmd);
-		exit(EXIT_SUCCESS);
-	}
+		exec_path_command(argv, envp);
 }
 
 static char	**set_command_argv(char **chunk_words, size_t args_num, t_list *envp)
@@ -79,7 +138,7 @@ void	exec_command_chunk(char *command_chunk, t_list *envp)
 	char	**argv;
 	char	**chunk_words;
 
-	chunk_words = dollar_split(command_chunk);
+	chunk_words = split_command_line(command_chunk);
 	set_fds(&fds);
 	args_num = process_redirections(chunk_words, &fds);
 	argv = set_command_argv(chunk_words, args_num, envp);

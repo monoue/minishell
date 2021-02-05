@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/04 14:04:54 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/05 16:22:21 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	show_export(t_list *envp)
 
 	if (envp->content == NULL)
 		return ;
-	array = struct_to_array(envp);
+	array = turn_envp_into_strs(envp);
 	ascii_sort(array);
 	index = 0;
 	dblQota = '"';
@@ -52,21 +52,38 @@ void	show_export(t_list *envp)
 	free(array);
 }
 
+static bool	is_valid_arg(char *arg)
+{
+	size_t	index;
+	const char	*ng_chars = "~*()/|<>[]{};?!";
+	
+	if (arg[0] == '=')
+		return (false); // 二文字目以降に出てきたら？？
+	index = 0;
+	while (arg[index])
+	{
+		if (ft_strchr(ng_chars, arg[index]))
+			return (false);
+		index++;
+	}
+	return (true);
+}
+
 void	export(char **argv, t_list *envp)
 {
-	int		i;
+	size_t	index;
 	int		count;
 	char	*key;
 	char	*tmp;
 
-	i = 1;
-	if (!argv[i])
+	if (!argv[1])
 		show_export(envp);//export コマンドに引数がなかったとき、環境変数を、一覧で表示する
-	while (argv[i])
+	index = 1;
+	while (argv[index])
 	{
-		key = check_key(argv[i]);
+		key = get_key(argv[index]);
 		count = ft_strlen(key);
-		if (!arg_is_str(argv[i]))//環境変数は数字じゃない、または”＝”じゃないを確認する関数。
+		if (!is_valid_arg(argv[index]))//環境変数は数字じゃない、または”＝”じゃないを確認する関数。
 			return (ft_putstr_fd("bash: export: not a valid identifier\n", 1));
 		if (same_key(key, envp) == 1)
 		{
@@ -75,14 +92,14 @@ void	export(char **argv, t_list *envp)
 				tmp = envp->content;
 				if (ft_strncmp(tmp, key, count) == 0)
 				{
-					envp->content = ft_strdup(argv[i]);
+					envp->content = ft_strdup(argv[index]);
 				}
 				envp = envp->next;
 			}
 		}
-		else if (check_valid_arg(argv[i]))//KEY=VALUEを確認してる関数。
-			add_variable(argv[i], envp);
-		i++;
+		else if (check_valid_arg(argv[index]))//KEY=VALUEを確認してる関数。
+			add_variable(argv[index], envp);
+		index++;
 	}
 }
 

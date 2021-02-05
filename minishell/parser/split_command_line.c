@@ -86,7 +86,7 @@ static char		*cut_out_one_elem(const char *str, size_t *index)
 	return (cut_out_one_word(str, index));
 }
 
-char		**dollar_split(char const *str)
+char		**split_command_line(char const *str)
 {
 	char	**words;
 	size_t	words_num;

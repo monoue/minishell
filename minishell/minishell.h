@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/05 09:33:20 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/05 16:22:21 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,16 +153,16 @@ bool			is_command(char *argv);
 // bool			pipe_or_not_pipe(t_chunk *chunk);
 void			ascii_sort(char **args);
 bool			check_valid_arg(char *argv);
-bool			arg_is_str(char *argv);
+// bool			is_valid_arg(char *argv);
 
 /*
 ** utils command 2
 */
-char    *check_key(char *argv);
+char    *get_key(char *argv);
 void	*delete_variable(void *ptr);
-int		same_key(char *key, t_list *envp);
-int		get_content(char *key, t_list *envp);
-char    **struct_to_array(t_list *envp);
+bool	same_key(char *key, t_list *envp);
+int		get_target_prev_i(char *key, t_list *envp);
+char    **turn_envp_into_strs(t_list *envp);
 
 /*
 ** utils command 3
@@ -170,7 +170,6 @@ char    **struct_to_array(t_list *envp);
 char    *ft_strcat(char *dest, char *src);
 int		ft_strrchr_int(const char *s, int c);
 void	add_variable(char *argv, t_list *envp);
-void	put_cat(void);
 int     dollar_or_not(char *argv, int c);
 
 /*
