@@ -44,6 +44,8 @@ size_t		exec_all_paths(char **paths, char **argv, t_list *envp)
 	char	**environ;
 	int		exec_ret;
 
+	if (!paths || !argv || !envp)
+		return (0);
 	index = 0;
 	environ = turn_envp_into_strs(envp);
 	while (paths[index])	
@@ -65,6 +67,8 @@ char	**get_paths(char *path_str)
 	size_t	paths_num;
 	size_t	index;
 
+	if (!path_str)
+		return (NULL);
 	paths_without_slash = ft_split(path_str, ':');
 	if (!paths_without_slash)
 		return (NULL);
@@ -83,6 +87,8 @@ char	**get_paths(char *path_str)
 	return (complete_paths);
 }
 
+
+
 void		exec_path_command(char **argv, t_list *envp)
 {
 	char	**paths;
@@ -90,8 +96,17 @@ void		exec_path_command(char **argv, t_list *envp)
 	size_t	try_count;
 
 	path_str = get_path_str(envp);
+	if (!path_str)
+	{
+		ft_putstr_err("bash: ");
+		ft_putstr_err(argv[0]);
+		ft_putstr_err(": ");
+		ft_putendl_fd(strerror(2), 2);
+		exit(EXIT_SUCCESS);
+	}
 	paths = get_paths(path_str);
-	SAFE_FREE(path_str);
+	if (path_str)
+		SAFE_FREE(path_str);
 	try_count = exec_all_paths(paths, argv, envp);
 	if (try_count == ft_count_strs((const char**)paths))
 	{
