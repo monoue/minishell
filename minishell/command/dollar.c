@@ -6,11 +6,32 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/04 14:03:56 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/05 17:40:19 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char     *skip_space_for_the_fucking_no_dblquo_dollar(char *value)
+{
+    int     i;
+    int     j;
+    char     *tmp;
+
+    i = 0;
+    j = 0;
+    tmp = ft_strdup("");
+    while (value[i])
+    {
+        if ((!is_space_or_tab(value[i])) || (is_space_or_tab(value[j + i - 1]) && !is_space_or_tab(value[j + i])))
+        {
+            tmp[j] = value[i];
+            j++;
+        }
+        i++;
+    }
+    return (tmp);
+}
 
 char    *get_var(char *argv)
 {
@@ -41,6 +62,7 @@ char     *dollar(char *argv, t_list *envp)
     char    *tmp_var;
     char    *value;
     int     i;
+    char    *value_tmp;
     t_list  *tmp_list;
 
     variable = NULL;
@@ -64,9 +86,17 @@ char     *dollar(char *argv, t_list *envp)
             tmp_var = ft_substr(variable, count + 1, ft_strlen(variable) - count);
             free(variable);
         }
-        value = ft_strjoin(value, tmp_var);
+        value_tmp = ft_strdup("");
+        if (flag != 2)
+        {
+            value_tmp = skip_space_for_the_fucking_no_dblquo_dollar(tmp_var);
+            value = ft_strjoin(value, value_tmp);
+        }
+        else
+            value = ft_strjoin(value, tmp_var);
         i++;
         free(tmp_var);
+        free(value_tmp);
     }
     free(tmp);
     return (value);

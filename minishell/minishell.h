@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/05 16:22:21 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/05 17:36:50 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 #define SYNTAX_QUOTED_WRONGLY	-20
 
 pid_t	pid;
+int		flag;
 
 typedef enum	e_element_type {
 	START,
@@ -127,7 +128,7 @@ int				get_redirection_type(char *element);
 bool			is_reproduction(char *word);
 bool			is_redirection_char(char c);
 bool			is_redirection_str(char *str);
-bool			is_quote(char c);
+int				is_quote(char c);
 bool			is_space_or_tab(char c);
 bool			is_pipe_or_break_char(char c);
 bool			is_pipe_or_break_str(char *str);

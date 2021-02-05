@@ -9,7 +9,8 @@ static size_t	get_ret_s_len(const char *str, size_t *index)
 	quotes_sets_num = 0;
 	while (str[*index] != '\0' && !is_space_or_tab(str[*index]) && !is_metachar(str[*index]))
 	{
-		if (is_quote(str[*index]))
+		flag = is_quote(str[*index]);
+		if (flag == 1 || flag == 2)
 		{
 			quote = str[*index];
 			(*index)++;
@@ -37,7 +38,8 @@ static void		set_word(const char *str, size_t index, char **container, size_t st
 	dst_i = 0;
 	while (src_i < index)
 	{
-		if (is_quote(str[src_i]))
+		flag = is_quote(str[src_i]);
+		if (flag == 1 || flag == 2)
 		{
 			quote = str[src_i];
 			src_i++;

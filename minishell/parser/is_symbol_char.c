@@ -20,7 +20,11 @@ bool	is_space_or_tab(char c)
 	return (c == ' ' || c == '\t');
 }
 
-bool	is_quote(char c)
-{
-	return (c == '\'' || c == '\"');
+int		is_quote(char c)
+{	
+	if (c == '\'')
+		return (1);
+	if (c == '\"')
+		return (2);
+	return (0);
 }
