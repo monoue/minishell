@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 11:56:31 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/05 10:33:27 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/08 16:56:04 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ void				*ft_memcpy(void *dst, const void *src, size_t n);
 void				*ft_memccpy(void *dst, const void *src, int c, size_t n);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t				ft_strlcat(char *dst, const char *src, size_t dstsize);
-char				*ft_strchr(const char *s, int c);
-char				*ft_strrchr(const char *s, int c);
+char				*ft_strchr(const char *s, const int c);
+char				*ft_strrchr(const char *s, const int c);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 char				*ft_strnstr(const char *haystack, const char *needle,
 																size_t len);
@@ -124,10 +124,11 @@ void				ft_putendl(const char *s);
 char				ft_itoc(int n);
 bool				ft_strequal(const char *s1, const char *s);
 void				ft_free_split(char **strs);
-void				ft_putstr_err(char *s);
+void				ft_putstr_err(const char *s);
 void				put_color_fd(const char *str, t_colors color, int fd);
 char				*ft_strncpy(char *dst, const char *src, size_t len);
 bool				ft_strnequal(const char *s1, const char *s2, size_t n);
 char				*ft_strndup(const char *str, size_t n);
+void				ft_putendl_err(const char *s);
 
 #endif

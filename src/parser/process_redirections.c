@@ -65,13 +65,13 @@ static void					set_redirection(t_redirection_set *set, t_fd *fds)
 
 static void				set_redirections(char **chunk_words, t_fd *fds)
 {
-	t_redirection_set	*redirection_set;
+	t_redirection_set	*set;
 
-	redirection_set = make_redirection_list(chunk_words);
-	while (redirection_set)	
+	set = make_redirection_list(chunk_words);
+	while (set)	
 	{
-		set_redirection(redirection_set, fds);
-		redirection_set = redirection_set->next;
+		set_redirection(set, fds);
+		set = set->next;
 	}
 }
 

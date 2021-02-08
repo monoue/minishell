@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/08 07:57:57 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/08 16:58:38 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,13 @@ typedef enum	e_element_type {
 
 	ELEMENT_TYPES_NUM
 }				t_element_type;
+
+typedef enum	e_quote
+{
+	NOT_QUOTE,
+	SINGLE_QUOTE,
+	DOUBLE_QUOTE
+}				t_quote;
 
 typedef enum	e_type
 {
@@ -125,11 +132,13 @@ int				check_syntax(char *command_line, char **command_line_words);
 size_t			count_command_line_words(char const *str);
 char			**ft_split_skipping_quotes(char const *str, char sep_c);
 int				get_redirection_type(char *element);
+bool			is_escaped(const char *str, size_t index);
 bool			is_reproduction(char *word);
 bool			is_redirection_char(char c);
 bool			is_redirection_str(char *str);
-int				is_quote(char c);
+t_quote			get_quote_type(char c);
 bool			is_space_or_tab(char c);
+bool			is_specific_char_not_escaped(const char *str, size_t index, bool(*func)(char));
 bool			is_pipe_or_break_char(char c);
 bool			is_pipe_or_break_str(char *str);
 bool			is_metachar(char c);
@@ -146,6 +155,7 @@ bool			is_quoted_wrongly(char *str);
 // char			**split_cmd_line(char const *str);
 // bool			is_redirection(char c);
 char			**split_command_line(char const *str);
+bool			is_quote_char(char c);
 
 /*
 ** utils command

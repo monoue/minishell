@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_command3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:14:27 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/04 14:06:32 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/08 11:21:21 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,20 @@ char    *ft_strcat(char *dest, char *src)
     return (dest);
 }
 
-int         dollar_or_not(char *argv, int c)
+int         dollar_or_not(char *arg, int c)
 {
-    int i;
-    int j;
+    size_t	i;
+    size_t	j;
 
     i = 0;
     j = 0;
-    while (argv[i])
+    while (arg[i])
     {
-        if (argv[i] == c)
+        if (arg[i] == c)
             j++;
         i++;
     }
-    if (j > 0 && j < i)
+    if (0 < j && j < i)
         return (1);
     return (0);
 }

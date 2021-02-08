@@ -2,9 +2,9 @@
 
 static void	exec_reproduction(char **argv, t_list *envp)
 {
-	if (ft_strequal(argv[0], "help"))
-		help();
-	else if (ft_strequal(argv[0], "exit"))
+	// const 
+
+	if (ft_strequal(argv[0], "exit"))
 		exit_minishell(argv);
 	else if (ft_strequal(argv[0], "cd"))
 		cd(argv, envp);
@@ -87,8 +87,6 @@ char	**get_paths(char *path_str)
 	return (complete_paths);
 }
 
-
-
 void		exec_path_command(char **argv, t_list *envp)
 {
 	char	**paths;
@@ -110,6 +108,8 @@ void		exec_path_command(char **argv, t_list *envp)
 	exit(EXIT_SUCCESS);
 }
 
+
+
 static void	exec_command_argv(char **argv, t_list *envp)
 {
 	if (is_reproduction(argv[0]))
@@ -118,21 +118,47 @@ static void	exec_command_argv(char **argv, t_list *envp)
 		exec_path_command(argv, envp);
 }
 
+// static char	**set_command_argv(char **chunk_words, size_t args_num, t_list *envp)
+// {
+// 	char	**argv;
+// 	size_t	index;
+
+// 	argv = ft_calloc(args_num + 1, sizeof(char*));
+// 	index = 0;
+// 	while (index < args_num)
+// 	{
+// 		if (chunk_words[1] != NULL)
+// 		{
+// 			if (dollar_or_not(chunk_words[index], '$'))
+// 			// これだと、元の chunk_words[index] がフリーできなくなる
+// 				chunk_words[index] = dollar(chunk_words[index], envp);
+// 		}
+// 		argv[index] = chunk_words[index];
+// 		index++;
+// 	}
+// 	return (argv);
+// }
+
 static char	**set_command_argv(char **chunk_words, size_t args_num, t_list *envp)
 {
 	char	**argv;
 	size_t	index;
 
 	argv = ft_calloc(args_num + 1, sizeof(char*));
+	if (!argv)
+		exit_err_msg(MALLOC_ERR);
+	if (args_num < 2)
+	{
+		argv[0] = ft_strdup(chunk_words[0]);
+		return (argv);
+	}
 	index = 0;
 	while (index < args_num)
 	{
-		if (chunk_words[1] != NULL)
-		{
-			if (dollar_or_not(chunk_words[index], '$'))
-				chunk_words[index] = dollar(chunk_words[index], envp);
-		}
-		argv[index] = chunk_words[index];
+		if (dollar_or_not(chunk_words[index], '$'))
+			argv[index] = dollar(chunk_words[index], envp);
+		else
+			argv[index] = ft_strdup(chunk_words[index]);
 		index++;
 	}
 	return (argv);

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 16:06:58 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/08 08:33:36 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/08 10:01:01 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,9 @@
 
 void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
-	if (!lst)
+	if (!lst || !del)
 		return ;
-	// if (lst)
-	// {
-		if (lst->content)
-			del(lst->content);
-		free(lst);
-	// }
+	del(lst->content);
+	free(lst);
+	lst = NULL;
 }

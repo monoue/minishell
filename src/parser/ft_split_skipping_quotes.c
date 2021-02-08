@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 17:04:52 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/05 07:02:59 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/08 13:57:21 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,20 @@ static size_t	count_words(char const *str, char sep_c)
 	size_t	words_num;
 
 	index = 0;
-	while (str[index] != '\0' && str[index] == sep_c && !is_quote(str[index]))
+	while (str[index] != '\0' && str[index] == sep_c && !get_quote_type(str[index]))
 		index++;
 	words_num = 0;
 	while (str[index] != '\0')
 	{
 		while (str[index] != '\0' && str[index] != sep_c)
 		{
-			if (is_quote(str[index]))
+			if (get_quote_type(str[index]))
 				skip_quotes(str, &index);
 			else
 				index++;
 		}
 		words_num++;
-		while (str[index] != '\0' && str[index] == sep_c && !is_quote(str[index]))
+		while (str[index] != '\0' && str[index] == sep_c && !get_quote_type(str[index]))
 			index++;
 	}
 	return (words_num);
@@ -56,12 +56,12 @@ static char		*cut_out_one_word(const char *str, char sep_c, size_t *index)
 	size_t			start;
 	const size_t	s_len = ft_strlen(str);
 
-	while (*index < s_len && str[*index] == sep_c && !is_quote(str[*index]))
+	while (*index < s_len && str[*index] == sep_c && !get_quote_type(str[*index]))
 		(*index)++;
 	start = *index;
 	while (*index < s_len && str[*index] != sep_c)
 	{
-		if (is_quote(str[*index]))
+		if (get_quote_type(str[*index]))
 			skip_quotes(str, index);
 		else
 			(*index)++;

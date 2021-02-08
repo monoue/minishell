@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/05 17:40:19 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/08 15:59:05 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char     *skip_space_for_the_fucking_no_dblquo_dollar(char *value)
 {
     int     i;
     int     j;
-    char     *tmp;
+    char    *tmp;
 
     i = 0;
     j = 0;
@@ -35,23 +35,7 @@ char     *skip_space_for_the_fucking_no_dblquo_dollar(char *value)
 
 char    *get_var(char *argv)
 {
-    int     i;
-    int     cnt;
-    char    *key;
-    char    *tmp;
-
-    cnt = ft_strlen(argv);
-    key = malloc(cnt);
-    i = 0;
-    while (i + 1 < cnt)
-    {
-        key[i] = argv[i + 1];
-        i++;
-    }
-    key[i] = '\0';
-    tmp = ft_strjoin(key, "=");
-    free(key);
-    return (tmp);
+	return (ft_strjoin(&argv[1], "="));
 }
 
 char     *dollar(char *argv, t_list *envp)

@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
 bool	is_quoted_wrongly(char *str)
 {
@@ -9,11 +9,11 @@ bool	is_quoted_wrongly(char *str)
 	index = 0;
 	while (index < len)
 	{
-		if (str[index] == '\'' || str[index] == '\"')
+		if (is_specific_char_not_escaped(str, index, is_quote_char))
 		{
 			quote = str[index];
 			index++;
-			while (index < len && str[index] != quote)
+			while (index < len && !(str[index] == quote && !is_escaped(str, index)))
 				index++;
 			if (index == len)
 				return (true);
