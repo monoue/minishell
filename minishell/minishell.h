@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/05 17:36:50 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/08 07:57:57 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,6 @@ bool			check_valid_arg(char *argv);
 char    *get_key(char *argv);
 void	*delete_variable(void *ptr);
 bool	same_key(char *key, t_list *envp);
-int		get_target_prev_i(char *key, t_list *envp);
 char    **turn_envp_into_strs(t_list *envp);
 
 /*
@@ -178,4 +177,5 @@ int     dollar_or_not(char *argv, int c);
 */
 void	exit_fatal(void);
 void	exit_err_msg(char *err_msg);
+void	exit_bash_err_msg(char *error_factor, char *error_reason);
 #endif

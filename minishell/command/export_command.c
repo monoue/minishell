@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/05 16:22:21 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/08 08:12:44 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	show_export(t_list *envp)
 		ft_putchar_fd('\n', 1);
 		index++;
 	}
-	free(array);
+	ft_free_split(array);
 }
 
 static bool	is_valid_arg(char *arg)
@@ -85,7 +85,7 @@ void	export(char **argv, t_list *envp)
 		count = ft_strlen(key);
 		if (!is_valid_arg(argv[index]))//環境変数は数字じゃない、または”＝”じゃないを確認する関数。
 			return (ft_putstr_fd("bash: export: not a valid identifier\n", 1));
-		if (same_key(key, envp) == 1)
+		if (same_key(key, envp))
 		{
 			while (envp && envp->next)
 			{

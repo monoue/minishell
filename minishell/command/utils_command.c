@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:37:10 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/05 14:23:35 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/08 08:05:50 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,20 @@ bool	is_valid_arg(char *argv)
 
 bool	check_valid_arg(char *argv)
 {
-	int	i;
+	size_t	index;
 
-	i = 0;
-	if (argv[i] == '=')
-		return (0);
-	while (argv[i])
+	if (argv[0] == '=')
+		return (false);
+	index = 1;
+	while (argv[index])
 	{
-		if (argv[i] == '=')
-			return (1);
-		i++;
+		if (argv[index] == '=')
+			return (true);
+		index++;
 	}
-	if (argv[i] == '\0')
-		return (0);
-	i++;
-	return (1);
+	if (argv[index] == '\0')
+		return (false);
+	return (true);
 }
 
 void	ascii_sort(char **args)

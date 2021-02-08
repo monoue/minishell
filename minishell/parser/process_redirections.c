@@ -39,6 +39,9 @@ static void					set_redirection(t_redirection_set *set, t_fd *fds)
 	int				std_fd;
 	const t_type	type = set->type;
 
+	// TODO:  ここに、filename が未定義の $ 始まりだった場合、 "ambiguous redirect" エラーを入れる？
+	if (set->filename[0] == '\0')
+		exit_bash_err_msg("", strerror(2));
 	file_fd = open(set->filename, get_open_flags(type), OPEN_MODE);
 	if (file_fd == ERROR)
 		exit_fatal();
@@ -60,7 +63,7 @@ static void					set_redirection(t_redirection_set *set, t_fd *fds)
 	*p_fd = std_fd;
 }
 
-void					set_redirections(char **chunk_words, t_fd *fds)
+static void				set_redirections(char **chunk_words, t_fd *fds)
 {
 	t_redirection_set	*redirection_set;
 

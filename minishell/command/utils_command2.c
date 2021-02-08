@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 18:33:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/05 16:22:21 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/08 07:59:07 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,18 @@
 
 bool	same_key(char *key, t_list *envp)
 {
-	int	    count;
+	size_t	count;
     char    *tmp;
 
 	count = ft_strlen(key);
 	while (envp)
 	{
         tmp = envp->content;
-		if (ft_strncmp(tmp, key, count) == 0)
+		if (ft_strnequal(tmp, key, count))
 			return (true);
 		envp = envp->next;
 	}
 	return (false);
-}
-
-int		get_target_prev_i(char *key, t_list *envp)
-{
-	const size_t	len = ft_strlen(key);
-    size_t			index;
-
-    index = 0;
-	while (envp)
-	{
-		if (ft_strnequal((char*)envp->content, key, len))
-			return (index - 1);
-		envp = envp->next;
-        index++;
-	}
-	return (index);
 }
 
 char        **turn_envp_into_strs(t_list *envp)
@@ -65,25 +49,25 @@ char        **turn_envp_into_strs(t_list *envp)
     return (strs);
 }
 
-char		*if_same_key_char(char *key, t_list *envp)
-{
-	int	    count;
-    char    *tmp;
-    char    *value;
+// char		*if_same_key_char(char *key, t_list *envp)
+// {
+// 	int	    count;
+//     char    *tmp;
+//     char    *value;
 
-	count = ft_strlen(key);
-	while (envp && envp->next)
-	{
-        tmp = envp->content;
-		if (ft_strncmp(tmp, key, count) == 0)
-        {
-            value = ft_strdup((char*)envp->content);
-			return (value);
-        }
-		envp = envp->next;
-	}
-	return (NULL);
-}
+// 	count = ft_strlen(key);
+// 	while (envp && envp->next)
+// 	{
+//         tmp = envp->content;
+// 		if (ft_strncmp(tmp, key, count) == 0)
+//         {
+//             value = ft_strdup((char*)envp->content);
+// 			return (value);
+//         }
+// 		envp = envp->next;
+// 	}
+// 	return (NULL);
+// }
 
 char    *get_key(char *argv)
 {

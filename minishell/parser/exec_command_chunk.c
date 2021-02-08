@@ -97,23 +97,16 @@ void		exec_path_command(char **argv, t_list *envp)
 
 	path_str = get_path_str(envp);
 	if (!path_str)
-	{
-		ft_putstr_err("bash: ");
-		ft_putstr_err(argv[0]);
-		ft_putstr_err(": ");
-		ft_putendl_fd(strerror(2), 2);
-		exit(EXIT_SUCCESS);
-	}
+		exit_bash_err_msg(argv[0], strerror(2));
 	paths = get_paths(path_str);
 	if (path_str)
 		SAFE_FREE(path_str);
 	try_count = exec_all_paths(paths, argv, envp);
 	if (try_count == ft_count_strs((const char**)paths))
 	{
-		ft_putstr_err("execve: ");
-		ft_putendl_fd(strerror(errno), 2);
+		ft_free_split(paths);
+		exit_bash_err_msg(argv[0], "command not found");
 	}
-	ft_free_split(paths);
 	exit(EXIT_SUCCESS);
 }
 

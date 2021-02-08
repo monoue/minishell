@@ -3,44 +3,73 @@
 /*                                                        :::      ::::::::   */
 /*   echo_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:55 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/04 14:04:14 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/08 07:45:03 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	echo(char **argv)
+static bool		is_option_n(char *str)
 {
-	int i;
+	size_t	index;
 
-	i = 1;
-	if (argv[i] == NULL)
+	if (!str || !ft_strnequal(str, "-n", 2))
+		return (false);
+	index = 2;
+	while (str[index])
 	{
-		write(1, " ", 1);
-		write(1, "\n", 1);
+		if (str[index] != 'n')
+			return (false);
+		index++;
+	}
+	return (true);
+}
+
+static size_t	skip_options(char **argv, bool *option_n)
+{
+	size_t	index;
+
+	if (!is_option_n(argv[1]))
+	{
+		*option_n = false;
+		return (1);
+	}
+	*option_n = true;
+	index = 2;
+	while (argv[index] && is_option_n(argv[index]))
+		index++;
+	return (index);
+}
+
+static void		put_echo_targets(char **targets)
+{
+	size_t	index;
+
+	index = 0;
+	while (targets[index])
+	{
+		if (index != 0)
+			ft_putchar(' ');
+		ft_putstr(targets[index]);
+		index++;
+	}
+}
+
+void			echo(char **argv)
+{
+	size_t	index;
+	bool	option_n;
+
+	if (!argv[1])
+	{
+		ft_putendl(" ");
 		return ;
 	}
-	if (!ft_strcmp(argv[i], "-n"))
-	{
-		i++;
-		while (argv[i] != 0)
-		{
-			ft_putstr_fd(argv[i++], 1);
-			if (argv[i] != NULL)
-				write(1, " ", 1);
-		}
-	}
-	else
-	{
-		while (argv[i] != 0)
-		{
-			ft_putstr_fd(argv[i++], 1);
-			if (argv[i] != NULL)
-				write(1, " ", 1);
-		}
-		write(1, "\n", 1);
-	}
+	index = skip_options(argv, &option_n);
+	put_echo_targets(&argv[index]);
+	if (!option_n)
+		ft_putchar('\n');
 }

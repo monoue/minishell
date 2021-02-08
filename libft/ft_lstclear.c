@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 17:36:51 by monoue            #+#    #+#             */
-/*   Updated: 2020/07/03 14:03:35 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/08 07:48:22 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 		free(*lst);
 		*lst = tmp;
 	}
-	lst = NULL;
 	free(lst);
+	lst = NULL;
 }

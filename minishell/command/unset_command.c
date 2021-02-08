@@ -6,13 +6,29 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:34 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/05 15:30:20 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/08 08:13:37 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	unset(char **argv, t_list *envp)
+static int		get_target_prev_i(char *key, t_list *envp)
+{
+	const size_t	len = ft_strlen(key);
+    size_t			index;
+
+    index = 0;
+	while (envp)
+	{
+		if (ft_strnequal((char*)envp->content, key, len))
+			return (index - 1);
+		envp = envp->next;
+        index++;
+	}
+	return (index);
+}
+
+void			unset(char **argv, t_list *envp)
 {
 	int		arg_i;
 	int		env_i;
@@ -30,7 +46,7 @@ void	unset(char **argv, t_list *envp)
 	while (argv[arg_i])
 	{
 		key = get_key(argv[arg_i]);//”KEY=”までを取る
-		if (same_key(key, envp) == 1)
+		if (same_key(key, envp))
 		{
 			target_prev_i = get_target_prev_i(key, envp);//どこで消したい環境変数があるを探してる
 			while (env_i < target_prev_i)//２０までポインタを進んでる　
@@ -40,7 +56,8 @@ void	unset(char **argv, t_list *envp)
 			}
 			target = envp->next;//tmpリスト構造体に３０を入れて
     		envp->next = target->next;//20の次を40とする
-			free(target);//３０をFREEする
+			// free(target);//３０をFREEする
+			ft_lstdelone(target, free);//３０をFREEする
 		}
 		free(key);
 		arg_i++;
