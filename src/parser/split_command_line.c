@@ -128,3 +128,6 @@ char		**split_command_line(char const *str)
 	trim_quotes_if_not_env(words);
 	return (words);
 }
+
+// クオーテーションでは区切らない
+

@@ -164,7 +164,6 @@ static char	**set_command_argv(char **chunk_words, size_t args_num, t_list *envp
 	return (argv);
 }
 
-
 void	exec_command_chunk(char *command_chunk, t_list *envp)
 {
 	t_fd	fds;

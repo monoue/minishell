@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/08 16:58:38 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/09 14:22:37 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ bool			is_metachar(char c);
 bool			is_metachar_str(char *str);
 void			process_command_line(char *line, t_list *envp);
 void			process_one_command(char *command, t_list *envp);
+char			*remove_quotes(const char *str);
 void			set_fds(t_fd *fds);
 size_t			process_redirections(char **chunk_words, t_fd *fds);
 void			skip_quotes(char const *str, size_t *index);

@@ -41,15 +41,15 @@ int main(int argc, char *argv[])
 	// char	*str2 = " \" hoge \" ";
 	// char	*str3 = "   \\\"   \"  \"        ";
 	// char	*str4 = "   \\\"   \"  \"  \"      ";
-	char	*str5 = " \'  \\\"   \" $yay  \"   \' hoge    ";
-	char	*str6 = " \'  \\\"   \" $  \"   \' hoge    ";
+	// char	*str5 = " \'  \\\"   \" $yay  \"   \' hoge    ";
+	// char	*str6 = " \'  \\\"   \" $  \"   \' hoge    ";
 
 	// char	**strs1 = split_command_line(str1);
 	// char	**strs2 = split_command_line(str2);
 	// char	**strs3 = split_command_line(str3);
 	// char	**strs4 = split_command_line(str4);
-	char	**strs5 = split_command_line(str5);
-	char	**strs6 = split_command_line(str6);
+	// char	**strs5 = split_command_line(str5);
+	// char	**strs6 = split_command_line(str6);
 
 	(void)argc;
 	(void)argv;
@@ -68,13 +68,14 @@ int main(int argc, char *argv[])
 	// print_strs(strs3);
 	// DS(str4);
 	// print_strs(strs4);
-
-	DS(str5);
-	print_strs(strs5);
-	DS(str6);
-	print_strs(strs6);
-
+	// DS(str5);
+	// print_strs(strs5);
+	// DS(str6);
+	// print_strs(strs6);
+	// DI(is_quote_char('\''));
+	// DI(is_quote_char('\"'));
 /*
 ** ft_atoi test
 */
+	DS(remove_quotes("hoge\"  hoge  \"hoge"));
 }

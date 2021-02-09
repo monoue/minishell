@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/09 07:45:27 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/09 14:23:45 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ BASE	  = prompt_cat.c \
 			$(PARSER_PATH)split_command_line.c \
 			$(PARSER_PATH)process_command_line.c \
 			$(PARSER_PATH)process_one_command.c \
+			$(PARSER_PATH)remove_quotes.c \
 			$(PARSER_PATH)set_fds.c \
 			$(PARSER_PATH)skip_quotes.c \
 			$(PARSER_PATH)count_command_line_words.c \
