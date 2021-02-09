@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/08 15:42:14 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/09 07:45:27 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 AR = ar
 ARFLAGS = rcs
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 
 # PATH
 SRCS_PATH		= src/
@@ -90,7 +90,7 @@ clean:
 
 fclean: clean
 	$(MAKE) -C $(LIBFT_PATH) fclean
-	$(RM) $(NAME)
+	$(RM) $(NAME) test
 
 re: fclean all
 

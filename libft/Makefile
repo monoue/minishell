@@ -6,7 +6,7 @@ BONUS =
 ADDED =
 FT_PRINTF =
 SRCS =		$(PART1) $(PART2) $(BONUS) $(ADDED) $(FT_PRINTF)
-CFLAGS =	-Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 INCLUDE = libft.h
 
 FT_PRINTF_PATH = ft_printf/

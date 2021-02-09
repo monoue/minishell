@@ -37,17 +37,23 @@ int main()
 /*
 ** split_command_line test
 */
-	char	*str1 = "\"\\\"\"";
-	// char	*str2 = " \" hoge \" ";
-	// char	*str3 = "   \\\"   \"  \"        ";
+	// char	*str1 = "\"\\\"\"";
+	char	*str2 = " \" hoge \" ";
+	char	*str3 = "   \\\"   \"  \"        ";
 	// char	*str4 = "   \\\"   \"  \"  \"      ";
 
-	char	**strs1 = split_command_line(str1);
-	// char	**strs2 = split_command_line(str2);
-	// char	**strs3 = split_command_line(str3);
+	// char	**strs1 = split_command_line(str1);
+	char	**strs2 = split_command_line(str2);
+	char	**strs3 = split_command_line(str3);
 	// char	**strs4 = split_command_line(str4);
-	DS(str1);
-	print_strs(strs1);
+	// DS(str1);
+	// print_strs(strs1);
+	DS(str2);
+	print_strs(strs2);
+	DS(str3);
+	print_strs(strs3);
+	// DS(str4);
+	// print_strs(strs4);
 
 
 /*
