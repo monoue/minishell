@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 17:04:52 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/08 13:57:21 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/09 16:37:55 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,25 @@
 
 static size_t	count_words(char const *str, char sep_c)
 {
-	size_t	index;
-	size_t	words_num;
+	size_t			index;
+	size_t			words_num;
+	const size_t	len = ft_strlen(str);
 
 	index = 0;
-	while (str[index] != '\0' && str[index] == sep_c && !get_quote_type(str[index]))
+	while (index < len && str[index] == sep_c)
 		index++;
 	words_num = 0;
-	while (str[index] != '\0')
+	while (index < len)
 	{
-		while (str[index] != '\0' && str[index] != sep_c)
+		while (index < len && !(str[index] == sep_c && !is_escaped(str, index)))
 		{
-			if (get_quote_type(str[index]))
+			if (is_specific_char_not_escaped(str, index, is_quote_char))
 				skip_quotes(str, &index);
 			else
 				index++;
 		}
 		words_num++;
-		while (str[index] != '\0' && str[index] == sep_c && !get_quote_type(str[index]))
+		while (index < len && str[index] == sep_c)
 			index++;
 	}
 	return (words_num);
@@ -56,17 +57,17 @@ static char		*cut_out_one_word(const char *str, char sep_c, size_t *index)
 	size_t			start;
 	const size_t	s_len = ft_strlen(str);
 
-	while (*index < s_len && str[*index] == sep_c && !get_quote_type(str[*index]))
+	while (*index < s_len && str[*index] == sep_c && !is_specific_char_not_escaped(str, *index, is_quote_char))
 		(*index)++;
 	start = *index;
-	while (*index < s_len && str[*index] != sep_c)
+	while (*index < s_len && !(str[*index] == sep_c && !is_escaped(str, *index)))
 	{
-		if (get_quote_type(str[*index]))
+		if (is_specific_char_not_escaped(str, *index, is_quote_char))
 			skip_quotes(str, index);
 		else
 			(*index)++;
 	}
-	return (ft_substr(str, start, *index - start));
+	return (ft_strndup(&str[start], *index - start));
 }
 
 char			**ft_split_skipping_quotes(char const *str, char sep_c)

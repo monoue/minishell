@@ -2,16 +2,17 @@
 
 static size_t	get_ret_s_len(const char *str, size_t *index)
 {
+	const size_t	len = ft_strlen(str);
 	const size_t	start = *index;
 	size_t			quotes_sets_num;
 	char			quote;
 
 	quotes_sets_num = 0;
-	while (str[*index] != '\0' && str[*index] != ' ' && !is_redirection_char(str[*index]))
+	while (*index < len && str[*index] != ' ' && !is_redirection_char(str[*index])) // TODO: escape 対応
 	{
 		if (get_quote_type(str[*index]))
 		{
-			quote = str[*index];
+			quote = str[*index]; // TODO: ここから。多分、skip_quotes に書き換えられる。
 			(*index)++;
 			while (str[*index] != quote)
 				(*index)++;
@@ -20,7 +21,7 @@ static size_t	get_ret_s_len(const char *str, size_t *index)
 		}
 		else
 		{
-			while (str[*index] != '\0' && !get_quote_type(str[*index]) && !is_redirection_char(str[*index]) && str[*index] != ' ')
+			while (*index < len && !get_quote_type(str[*index]) && !is_redirection_char(str[*index]) && str[*index] != ' ')
 				(*index)++;
 		}
 	}
