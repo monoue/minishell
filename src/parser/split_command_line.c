@@ -6,18 +6,21 @@ static size_t	get_ret_s_len(const char *str, size_t *index)
 	const size_t	len = ft_strlen(str);
 	char			quote;
 
-	if (is_specific_char_not_escaped(str, *index, is_quote_char))
+	while (*index < len && !((is_space_or_tab(str[*index]) || is_metachar(str[*index])) && !is_escaped(str, *index)))
 	{
-		quote = str[*index];
-		(*index)++;
-		while (!(str[*index] == quote && !is_escaped(str, *index)))
+		if (is_specific_char_not_escaped(str, *index, is_quote_char))
+		{
+			quote = str[*index];
 			(*index)++;
-		(*index)++;
-	}
-	else
-	{
-		while (*index < len && !((is_quote_char(str[*index]) || is_metachar(str[*index]) || is_space_or_tab(str[*index])) && !is_escaped(str, *index)))
+			while (!(str[*index] == quote && !is_escaped(str, *index)))
+				(*index)++;
 			(*index)++;
+		}
+		else
+		{
+			while (*index < len && !((is_quote_char(str[*index]) || is_metachar(str[*index]) || is_space_or_tab(str[*index])) && !is_escaped(str, *index)))
+				(*index)++;
+		}
 	}
 	return (*index - start);
 }

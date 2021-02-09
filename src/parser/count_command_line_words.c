@@ -5,18 +5,21 @@ static void	skip_word(char const *str, size_t *index)
 	char			quote;
 	const size_t	len = ft_strlen(str);
 
-	if (is_specific_char_not_escaped(str, *index, is_quote_char))
+	while (*index < len && !((is_space_or_tab(str[*index]) || is_metachar(str[*index])) && !is_escaped(str, *index)))
 	{
-		quote = str[*index];
-		(*index)++;
-		while (!(str[*index] == quote && !is_escaped(str, *index)))
+		if (is_specific_char_not_escaped(str, *index, is_quote_char))
+		{
+			quote = str[*index];
 			(*index)++;
-		(*index)++;
-	}
-	else
-	{
-		while (*index < len && !((get_quote_type(str[*index]) || is_metachar(str[*index]) || is_space_or_tab(str[*index])) && !is_escaped(str, *index)))
+			while (!(str[*index] == quote && !is_escaped(str, *index)))
+				(*index)++;
 			(*index)++;
+		}
+		else
+		{
+			while (*index < len && !((get_quote_type(str[*index]) || is_metachar(str[*index]) || is_space_or_tab(str[*index])) && !is_escaped(str, *index)))
+				(*index)++;
+		}
 	}
 }
 
