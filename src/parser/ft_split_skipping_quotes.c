@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 17:04:52 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/10 10:56:36 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/10 12:23:47 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,12 @@ static char		*cut_out_one_word(const char *str, char sep_c, size_t *index)
 	size_t			start;
 	const size_t	s_len = ft_strlen(str);
 
-	while (*index < s_len && str[*index] == sep_c && !is_specific_char_not_escaped(str, *index, is_quote_char))
+	while (*index < s_len && str[*index] == sep_c
+				&& !is_specific_char_not_escaped(str, *index, is_quote_char))
 		(*index)++;
 	start = *index;
-	while (*index < s_len && !(str[*index] == sep_c && !is_escaped(str, *index)))
+	while (*index < s_len
+			&& !(str[*index] == sep_c && !is_escaped(str, *index)))
 	{
 		if (is_specific_char_not_escaped(str, *index, is_quote_char))
 			skip_quotes(str, index);

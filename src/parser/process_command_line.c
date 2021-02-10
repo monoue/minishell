@@ -2,12 +2,12 @@
 
 static void	exec_one_line(char *line, t_list *envp)
 {
-	char	**commands;	
+	char	**commands;
 	size_t	index;
-	
+
 	commands = ft_split_skipping_quotes(line, ';');
 	index = 0;
-	while (commands[index])	
+	while (commands[index])
 	{
 		process_one_command(commands[index], envp);
 		index++;

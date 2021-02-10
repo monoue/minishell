@@ -6,9 +6,8 @@ char	*remove_quotes(const char *str)
 	size_t			index;
 	size_t			start;
 	char			*ret_s;
-	
-	ret_s = ft_strdup("");
-	if (!ret_s)
+
+	if (!(ret_s = ft_strdup("")))
 		exit_err_msg(MALLOC_ERR);
 	index = 0;
 	while (index < len)
@@ -21,7 +20,8 @@ char	*remove_quotes(const char *str)
 		}
 		else
 		{
-			while (index < len && !is_specific_char_not_escaped(str, index, is_quote_char))
+			while (index < len && !is_specific_char_not_escaped(str, index,
+																is_quote_char))
 				index++;
 			ret_s = ft_strnjoin_free(ret_s, &str[start], index - start);
 		}

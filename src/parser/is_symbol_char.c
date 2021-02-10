@@ -21,7 +21,7 @@ bool	is_space_or_tab(char c)
 }
 
 t_quote	get_quote_type(char c)
-{	
+{
 	if (c == '\'')
 		return (SINGLE_QUOTE);
 	if (c == '\"')

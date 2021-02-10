@@ -1,24 +1,23 @@
 #include "../minishell.h"
 
-void	skip_word(const char *str, size_t *index)
+static void	skip_word(const char *str, size_t *index)
 {
 	const size_t len = ft_strlen(str);
-	
-	while (*index < len && !((is_quote_char(str[*index]) || is_metachar(str[*index]) || is_space_or_tab(str[*index])) && !is_escaped(str, *index)))
+
+	while (*index < len && !((is_quote_char(str[*index])
+								|| is_metachar(str[*index])
+								|| is_space_or_tab(str[*index]))
+								&& !is_escaped(str, *index)))
 		(*index)++;
 }
 
-void	skip_chunk(char const *str, size_t *index)
+static void	skip_spaces(const char *str, size_t *index)
 {
 	const size_t	len = ft_strlen(str);
 
-	while (*index < len && !((is_space_or_tab(str[*index]) || is_metachar(str[*index])) && !is_escaped(str, *index)))
-	{
-		if (is_specific_char_not_escaped(str, *index, is_quote_char))
-			skip_quotes(str, index);
-		else
-			skip_word(str, index);
-	}
+	while (*index < len && is_specific_char_not_escaped(str, *index,
+															is_space_or_tab))
+		*index++;
 }
 
 size_t		count_command_line_words(char const *str)
@@ -28,8 +27,7 @@ size_t		count_command_line_words(char const *str)
 	const size_t	len = ft_strlen(str);
 
 	index = 0;
-	while (index < len && is_specific_char_not_escaped(str, index, is_space_or_tab))
-		index++;
+	skip_spaces(str, &index);
 	words_num = 0;
 	while (index < len)
 	{
@@ -39,8 +37,7 @@ size_t		count_command_line_words(char const *str)
 			index++;
 		else // 文字、もしくは quote 始まり
 			skip_chunk(str, &index);
-		while (index < len && is_specific_char_not_escaped(str, index, is_space_or_tab)) // 空白スキップ
-			index++;
+		skip_spaces(str, &index);
 		words_num++;
 	}
 	return (words_num);

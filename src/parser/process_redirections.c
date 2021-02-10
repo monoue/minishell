@@ -44,7 +44,7 @@ static void					set_redirection(t_redirection_set *set, t_fd *fds)
 		exit_bash_err_msg("", strerror(2));
 	file_fd = open(set->filename, get_open_flags(type), OPEN_MODE);
 	if (file_fd == ERROR)
-		exit_fatal();
+		exit_err_msg(strerror(errno));
 	if (type == TYPE_INPUT)
 	{
 		p_fd = &(fds->input);
@@ -63,26 +63,26 @@ static void					set_redirection(t_redirection_set *set, t_fd *fds)
 	*p_fd = std_fd;
 }
 
-static void				set_redirections(char **chunk_words, t_fd *fds)
+static void					set_redirections(char **chunk_words, t_fd *fds)
 {
 	t_redirection_set	*set;
 
 	set = make_redirection_list(chunk_words);
-	while (set)	
+	while (set)
 	{
 		set_redirection(set, fds);
 		set = set->next;
 	}
 }
 
-size_t	process_redirections(char **chunk_words, t_fd *fds)
+size_t						process_redirections(char **chunk_words, t_fd *fds)
 {
 	size_t	index;
 
 	index = 0;
 	while (chunk_words[index])
 	{
-		if (is_redirection_str(chunk_words[index]))	
+		if (is_redirection_str(chunk_words[index]))
 		{
 			set_redirections(&chunk_words[index], fds);
 			break ;

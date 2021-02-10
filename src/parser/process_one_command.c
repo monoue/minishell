@@ -77,8 +77,7 @@ void	process_one_command(char *command, t_list *envp) // ; 区切りで１つず
 	char	**piped_chunks;
 	size_t	chunks_num;
 
-	piped_chunks = ft_split(command, '|');
-	// エラー処理
+	piped_chunks = ft_split_skipping_quotes(command, '|');
 	chunks_num = ft_count_strs((const char**)piped_chunks);
 	if (chunks_num == 1)
 		exec_no_pipe_chunk(piped_chunks, envp);

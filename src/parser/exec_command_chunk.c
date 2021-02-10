@@ -20,7 +20,6 @@ static void	exec_reproduction(char **argv, t_list *envp)
 		unset(argv, envp);
 }
 
-
 char	*get_path_str(t_list *envp)
 {
 	const char		*path_indicator = "PATH=";
@@ -69,7 +68,7 @@ char	**get_paths(char *path_str)
 
 	if (!path_str)
 		return (NULL);
-	paths_without_slash = ft_split(path_str, ':');
+	paths_without_slash = ft_split_skipping_quotes(path_str, ':');
 	if (!paths_without_slash)
 		return (NULL);
 	paths_num = ft_count_strs((const char**)paths_without_slash);
