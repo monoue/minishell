@@ -51,9 +51,8 @@ size_t		exec_all_paths(char **paths, char **argv, t_list *envp)
 	{
 		full_command_path = ft_strjoin(paths[index], argv[0]);
 		exec_ret = execve(full_command_path, argv, environ);
+		// 成功したらここで exit される
 		SAFE_FREE(full_command_path);
-		if (exec_ret != ERROR)
-			break ;
 		index++;
 	}
 	return (index);
@@ -106,8 +105,6 @@ void		exec_path_command(char **argv, t_list *envp)
 	}
 	exit(EXIT_SUCCESS);
 }
-
-
 
 static void	exec_command_argv(char **argv, t_list *envp)
 {
@@ -163,6 +160,20 @@ static char	**set_command_argv(char **chunk_words, size_t args_num, t_list *envp
 	return (argv);
 }
 
+void	reset_redirection_fds(t_fd fds)
+{
+	if (fds.input != STDIN_FILENO)
+	{
+		dup2(fds.input, STDIN_FILENO);
+		close(fds.input);
+	}
+	if (fds.output > 2)
+	{
+		dup2(fds.output, STDOUT_FILENO);
+		close(fds.output);
+	}
+}
+
 void	exec_command_chunk(char *command_chunk, t_list *envp)
 {
 	t_fd	fds;
@@ -172,7 +183,8 @@ void	exec_command_chunk(char *command_chunk, t_list *envp)
 
 	chunk_words = split_command_line(command_chunk);
 	set_fds(&fds);
-	args_num = process_redirections(chunk_words, &fds);
+	args_num = process_redirections(chunk_words, &fds, envp);
 	argv = set_command_argv(chunk_words, args_num, envp);
 	exec_command_argv(argv, envp);
+	reset_redirection_fds(fds);
 }

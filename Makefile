@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/10 13:00:31 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/10 14:49:52 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ LIBFT =				$(LIBFT_PATH)libft.a
 
 BASE	  = prompt_cat.c \
 			op_list.c \
+			test_functions.c \
 			$(COMMAND_PATH)cd_command.c \
 			$(COMMAND_PATH)pwd_command.c \
 			$(COMMAND_PATH)echo_command.c \

@@ -1,17 +1,13 @@
 
 #include "../minishell.h"
 
-static int	get_child_process_result_from(int status) // 分析
+static int	get_child_process_result(int status)
 {
-	int	result;
-
 	if (WIFEXITED(status))
-		result = WEXITSTATUS(status);
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-		result = EXIT_INVALID + SIGINT;
-	else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
-		result = EXIT_INVALID + SIGQUIT;
-	return (result);
+		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+		return (EXIT_INVALID + WTERMSIG(status));
+	return (-1);
 }
 
 int			process_pipes(char **piped_chunks, size_t i, size_t chunks_num, t_list *envp)
@@ -28,6 +24,7 @@ int			process_pipes(char **piped_chunks, size_t i, size_t chunks_num, t_list *en
 	if (pid == 0)
 	{
 		close(fds[0]);
+		close(STDOUT_FILENO); // TODO: エラー処理
 		dup2(fds[1], STDOUT_FILENO);
 		close(fds[1]);
 		process_pipes(piped_chunks, i + 1, chunks_num, envp);
@@ -35,6 +32,7 @@ int			process_pipes(char **piped_chunks, size_t i, size_t chunks_num, t_list *en
 	else
 	{
 		close(fds[1]);
+		close(STDIN_FILENO); // 実験中
 		dup2(fds[0], STDIN_FILENO);
 		close(fds[0]);
 		exec_command_chunk(piped_chunks[(chunks_num - 1) - i], envp);
@@ -58,7 +56,7 @@ static int		fork_exec_commands(char **piped_chunks, t_list *envp) // ここに�
 		exit(ret);
 	}
 	wait(&status);
-	return (get_child_process_result_from(status)); // ??
+	return (get_child_process_result(status)); // ??
 }
 
 static void	exec_no_pipe_chunk(char **chunks, t_list *envp)

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/10 11:58:41 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/10 14:49:22 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define OPEN_MODE		0666
 # define EXIT_INVALID	128
 # define LLONG_MAX_DIGITS	19
+# define AMBIGUOUS_ERR	"ambiguous redirect"
 
 #define SYNTAX_VALID			-10
 #define SYNTAX_QUOTED_WRONGLY	-20
@@ -118,6 +119,7 @@ void		    env(t_list *envp);
 void			export(char **argv, t_list *envp);
 void			unset(char **argv, t_list *envp);
 char     		*dollar(char *argv, t_list *envp);
+char			*replace_dollar_value(char *argv, t_list *envp);
 
 /*
 **  syntax_error_check
@@ -150,7 +152,7 @@ void			set_fds(t_fd *fds);
 void			skip_chunk(char const *str, size_t *index);
 void			skip_word(const char *str, size_t *index);
 bool			str_is_quoted(const char *str);
-size_t			process_redirections(char **chunk_words, t_fd *fds);
+size_t			process_redirections(char **chunk_words, t_fd *fds, t_list *envp);
 void			skip_quotes(char const *str, size_t *index);
 // char			**space_and_tab_split(char const *str);
 // int				process_pipes(char **piped_chunks, size_t i, size_t chunks_num);
@@ -192,4 +194,7 @@ int     dollar_or_not(char *argv, int c);
 void	exit_fatal(void);
 void	exit_err_msg(char *err_msg);
 void	exit_bash_err_msg(char *error_factor, char *error_reason);
+
+// debug
+void	print_strs(char **strs);
 #endif
