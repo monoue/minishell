@@ -87,6 +87,7 @@ ADDED += ft_strndup.c
 ADDED += ft_strnjoin.c
 ADDED += ft_strjoin_free.c
 ADDED += ft_strnjoin_free.c
+ADDED += ft_substr_free.c
 
 FT_PRINTF += $(FT_PRINTF_PATH)apply_margin.c
 FT_PRINTF += $(FT_PRINTF_PATH)cut_out_format.c

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 11:56:31 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/10 09:55:33 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/10 11:51:43 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,4 +133,6 @@ void				ft_putendl_err(const char *s);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t n);
 char				*ft_strjoin_free(char *s1, const char *s2);
 char				*ft_strnjoin_free(char *s1, const char *s2, size_t n);
+char				*ft_substr_free(char *original_s, unsigned int start_index,
+																	size_t len);
 #endif

@@ -57,8 +57,8 @@ int main(int argc, char *argv[])
 	// (void)argv;
 	if (argc > 1)
 	{
-		// char	**strs_input = split_command_line(argv[1]);
-		char	**strs_input = ft_split_skipping_quotes(argv[1], '|');
+		char	**strs_input = split_command_line(argv[1]);
+		// char	**strs_input = ft_split_skipping_quotes(argv[1], '|');
 		DS(argv[1]);
 		print_strs(strs_input);
 	}

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/09 15:42:38 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/10 11:58:41 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,15 +149,16 @@ char			*remove_quotes(const char *str);
 void			set_fds(t_fd *fds);
 void			skip_chunk(char const *str, size_t *index);
 void			skip_word(const char *str, size_t *index);
+bool			str_is_quoted(const char *str);
 size_t			process_redirections(char **chunk_words, t_fd *fds);
 void			skip_quotes(char const *str, size_t *index);
 // char			**space_and_tab_split(char const *str);
 // int				process_pipes(char **piped_chunks, size_t i, size_t chunks_num);
 void			exec_command_chunk(char *command_chunk, t_list *envp);
 bool			is_quoted_wrongly(char *str);
-// char			**split_cmd_line(char const *str);
 // bool			is_redirection(char c);
 char			**split_command_line(char const *str);
+void			set_words(const char *str, char **words, size_t words_num);
 bool			is_quote_char(char c);
 
 /*
