@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/10 12:13:18 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/10 13:00:31 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ BASE	  = prompt_cat.c \
 			$(PARSER_PATH)set_words.c \
 			$(PARSER_PATH)skip_chunk.c \
 			$(PARSER_PATH)skip_quotes.c \
+			$(PARSER_PATH)skip_word.c \
 			$(PARSER_PATH)count_command_line_words.c \
 			$(SYNTAX_ERROR_CHECK_PATH)is_str_empty.c \
 			$(SYNTAX_ERROR_CHECK_PATH)is_quoted_wrongly.c \
