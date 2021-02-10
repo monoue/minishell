@@ -16,7 +16,7 @@ static char		*cut_out_one_word(const char *str, size_t *index)
 	return (ft_strndup(&str[start], len));
 }
 
-static char		*cut_out_meta_element(const char *str, size_t *index)
+char			*cut_out_meta_element(const char *str, size_t *index)
 {
 	const size_t start = *index;
 
@@ -27,7 +27,7 @@ static char		*cut_out_meta_element(const char *str, size_t *index)
 	return (ft_strndup(&str[start], *index - start));
 }
 
-static char		*cut_out_one_elem(const char *str, size_t *index)
+char		*cut_out_one_elem(const char *str, size_t *index)
 {
 	while (str[*index] && is_specific_char_not_escaped(str, *index, is_space_or_tab))
 		(*index)++;

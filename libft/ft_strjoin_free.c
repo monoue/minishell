@@ -1,35 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*   ft_strjoin_free.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/27 07:16:04 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/10 08:20:54 by monoue           ###   ########.fr       */
+/*   Created: 2021/02/10 09:21:27 by monoue            #+#    #+#             */
+/*   Updated: 2021/02/10 09:26:54 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strncpy(char *dst, const char *src, size_t len)
+char	*ft_strjoin_free(char *s1, const char *s2)
 {
-	size_t	index;
+	char *tmp;
 
-	if (!dst)
-		return (NULL);
-	if (!src)
-		return (dst);
-	index = 0;
-	while (index < len && src[index] != '\0')
-	{
-		dst[index] = src[index];
-		index++;
-	}
-	while (index < len)
-	{
-		dst[index] = '\0';
-		index++;
-	}
-	return (dst);
+	tmp = s1;
+	s1 = ft_strjoin(s1, s2);
+	free(tmp);
+	return (s1);
 }

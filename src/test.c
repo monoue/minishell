@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 	// char	*str4 = "   \\\"   \"  \"  \"      ";
 	// char	*str5 = " \'  \\\"   \" $yay  \"   \'hoge    ";
 	// char	*str6 = " \'  \\\"   \" $  \"   \' hoge    ";
-	char	*str7 = "echo \"hoge\"hoge\"hoge\">a>b";
+	// char	*str7 = "echo \"hoge\"hoge\"hoge\">a>b";
 
 	// char	**strs1 = split_command_line(str1);
 	// char	**strs2 = split_command_line(str2);
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 	// char	**strs4 = split_command_line(str4);
 	// char	**strs5 = split_command_line(str5);
 	// char	**strs6 = split_command_line(str6);
-	char	**strs7 = split_command_line(str7);
+	// char	**strs7 = split_command_line(str7);
 
 	(void)argc;
 	(void)argv;
@@ -74,12 +74,15 @@ int main(int argc, char *argv[])
 	// print_strs(strs5);
 	// DS(str6);
 	// print_strs(strs6);
-	DS(str7);
-	print_strs(strs7);
+	// DS(str7);
+	// print_strs(strs7);
 	// DI(is_quote_char('\''));
 	// DI(is_quote_char('\"'));
 /*
-** ft_atoi test
+** remove_quotes
 */
-	// DS(remove_quotes("hoge\"  hoge  \"hoge"));
+	// DS(remove_quotes("hoge \"hoge \'hoge hoge\' hoge\""));
+	printf("%s\n", remove_quotes("hoge \"hoge \'hoge hoge\' hoge\""));
+	// printf("%s\n", remove_quotes("hoge\"  hoge  \"hoge"));
+
 }

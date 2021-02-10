@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 17:04:52 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/09 16:37:55 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/10 08:43:30 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static size_t	count_words(char const *str, char sep_c)
 	words_num = 0;
 	while (index < len)
 	{
-		while (index < len && !(str[index] == sep_c && !is_escaped(str, index)))
+		while (index < len && !(is_space_or_tab(str[index]) && !is_escaped(str, index)))
 		{
 			if (is_specific_char_not_escaped(str, index, is_quote_char))
 				skip_quotes(str, &index);
@@ -32,21 +32,21 @@ static size_t	count_words(char const *str, char sep_c)
 				index++;
 		}
 		words_num++;
-		while (index < len && str[index] == sep_c)
+		while (index < len && str[index] == sep_c && !is_escaped(str, index))
 			index++;
 	}
 	return (words_num);
 }
 
-static char		**return_null_freeing_all(char **arr, int i)
+static char		**return_null_freeing_all(char **arr, size_t end)
 {
-	int	index;
+	size_t	index;
 
-	index = i;
-	while (index >= 0)
+	index = 0;
+	while (index < end)
 	{
 		SAFE_FREE(arr[index]);
-		index--;
+		index++;
 	}
 	SAFE_FREE(arr);
 	return (NULL);
@@ -75,7 +75,7 @@ char			**ft_split_skipping_quotes(char const *str, char sep_c)
 	char	**words;
 	size_t	words_num;
 	size_t	index;
-	int		w_i;
+	size_t	w_i;
 
 	if (str == NULL)
 		return (NULL);
@@ -87,11 +87,11 @@ char			**ft_split_skipping_quotes(char const *str, char sep_c)
 		return (words);
 	w_i = 0;
 	index = 0;
-	while (w_i < (int)words_num)
+	while (w_i < words_num)
 	{
 		words[w_i] = cut_out_one_word(str, sep_c, &index);
 		if (words[w_i] == NULL)
-			return (return_null_freeing_all(words, w_i - 1));
+			return (return_null_freeing_all(words, w_i));
 		w_i++;
 	}
 	return (words);
