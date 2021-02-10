@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 17:04:52 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/10 08:43:30 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/10 10:56:36 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static size_t	count_words(char const *str, char sep_c)
 	words_num = 0;
 	while (index < len)
 	{
-		while (index < len && !(is_space_or_tab(str[index]) && !is_escaped(str, index)))
+		while (index < len && !(str[index] == sep_c && !is_escaped(str, index)))
 		{
 			if (is_specific_char_not_escaped(str, index, is_quote_char))
 				skip_quotes(str, &index);
@@ -32,7 +32,7 @@ static size_t	count_words(char const *str, char sep_c)
 				index++;
 		}
 		words_num++;
-		while (index < len && str[index] == sep_c && !is_escaped(str, index))
+		while (index < len && (str[index] == sep_c && !is_escaped(str, index)))
 			index++;
 	}
 	return (words_num);

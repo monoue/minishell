@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/22 13:50:34 by monoue            #+#    #+#             */
-/*   Updated: 2020/10/20 09:28:52 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/10 10:48:21 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ size_t	ft_strlen(const char *str)
 {
 	size_t	len;
 
-	if (str == NULL)
+	if (!str)
 		return (0);
 	len = 0;
 	while (str[len] != '\0')

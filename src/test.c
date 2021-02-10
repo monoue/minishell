@@ -53,14 +53,15 @@ int main(int argc, char *argv[])
 	// char	**strs6 = split_command_line(str6);
 	// char	**strs7 = split_command_line(str7);
 
-	(void)argc;
-	(void)argv;
-	// if (argc > 1)
-	// {
-	// 	char	**strs_input = split_command_line(argv[1]);
-	// 	DS(argv[1]);
-	// 	print_strs(strs_input);
-	// }
+	// (void)argc;
+	// (void)argv;
+	if (argc > 1)
+	{
+		// char	**strs_input = split_command_line(argv[1]);
+		char	**strs_input = ft_split_skipping_quotes(argv[1], '|');
+		DS(argv[1]);
+		print_strs(strs_input);
+	}
 	// char	**strs4 = split_command_line(str4);
 	// DS(str1);
 	// print_strs(strs1);
@@ -82,7 +83,7 @@ int main(int argc, char *argv[])
 ** remove_quotes
 */
 	// DS(remove_quotes("hoge \"hoge \'hoge hoge\' hoge\""));
-	printf("%s\n", remove_quotes("hoge \"hoge \'hoge hoge\' hoge\""));
+	// printf("%s\n", remove_quotes("hoge \"hoge \'hoge hoge\' hoge\""));
 	// printf("%s\n", remove_quotes("hoge\"  hoge  \"hoge"));
 
 }
