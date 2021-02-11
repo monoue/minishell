@@ -1,23 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
+/*   get_env_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/30 17:08:07 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/11 08:36:09 by monoue           ###   ########.fr       */
+/*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
+/*   Updated: 2021/02/11 09:45:19 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+t_list	*get_env_list(void)
 {
-	if (!lst || !new)
-		return ;
-	if (!(*lst))
-		*lst = new;
-	else
-		ft_lstlast(*lst)->next = new;
+	extern char	**environ;
+	t_list		*envp;
+	t_list		*tmp;
+	size_t		index;
+
+	if (!environ)
+		return (NULL);
+	envp = ft_lstnew(environ[0]);
+	index = 1;
+	while (environ[index])
+	{
+		tmp = ft_lstnew(environ[index]);
+		ft_lstadd_back(&envp, tmp);
+		index++;
+	}
+	return (envp);
 }

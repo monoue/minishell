@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "minishell.h"
 
 void	skip_chunk(char const *str, size_t *index)
 {

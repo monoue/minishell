@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "minishell.h"
 
 static t_element_type	get_element_type(char *element)
 {

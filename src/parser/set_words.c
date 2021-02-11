@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "minishell.h"
 
 static size_t	get_ret_s_len(const char *str, size_t *index)
 {

@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "minishell.h"
 
 void	skip_word(const char *str, size_t *index)
 {

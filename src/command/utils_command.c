@@ -6,11 +6,11 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:37:10 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/08 08:05:50 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/11 10:29:48 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 // help は入れない？
 const char *g_commands[] = {

@@ -6,15 +6,15 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/10 14:49:22 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/11 11:30:04 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libft/libft.h"
-# include "../debug.h"
+# include "libft.h"
+# include "debug.h"
 
 # include <fcntl.h>
 # include <stdio.h>
@@ -35,11 +35,13 @@
 # define EXIT_INVALID	128
 # define LLONG_MAX_DIGITS	19
 # define AMBIGUOUS_ERR	"ambiguous redirect"
+# define QUIT_MSG	"Quit: 3"
+# define TRASH_REMOVER	"\b \b\b  \b\b"
 
 #define SYNTAX_VALID			-10
 #define SYNTAX_QUOTED_WRONGLY	-20
 
-pid_t	pid;
+pid_t	g_pid;
 int		flag;
 
 typedef enum	e_element_type {
@@ -102,10 +104,15 @@ void				lstadd_back(t_redirection_set **chunks,
 											t_redirection_set *new);
 
 /*
-** put_welcome_picture
+** main
 */
-void	put_welcome_picture(void);
-void	put_farewell_picture(void);
+t_list	*get_env_list(void);
+void		set_signal_handlers(void);
+/*
+** put_welcome_greeting
+*/
+void	put_welcome_greeting(void);
+void	put_farewell_greeting(void);
 
 /*
 ** commands
@@ -186,7 +193,8 @@ char    **turn_envp_into_strs(t_list *envp);
 char    *ft_strcat(char *dest, char *src);
 int		ft_strrchr_int(const char *s, int c);
 void	add_variable(char *argv, t_list *envp);
-int     dollar_or_not(char *argv, int c);
+int		dollar_or_not(char *argv, int c);
+// bool	is_env(char *arg);
 
 /*
 ** exit

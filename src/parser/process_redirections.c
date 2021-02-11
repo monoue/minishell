@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "minishell.h"
 
 static int					get_open_flags(t_type type)
 {
@@ -17,8 +17,11 @@ static t_redirection_set	*make_redirection_list(char **elements, t_list *envp)
 	t_redirection_set	*new;
 	size_t				index;
 	char				*filename;
+
 	index = 0;
 	set = NULL;
+	if (dollar_or_not(elements[1], '$') && replace_dollar_value(elements[1], envp)[0] == '\0')
+		exit_bash_err_msg(elements[1], AMBIGUOUS_ERR);
 	while (elements[index])
 	{
 		new = ft_calloc(1, sizeof(t_redirection_set));
@@ -26,8 +29,6 @@ static t_redirection_set	*make_redirection_list(char **elements, t_list *envp)
 			exit_err_msg(MALLOC_ERR);
 		new->type = get_redirection_type(elements[index]);
 		filename = elements[index + 1];
-		if (!replace_dollar_value(filename, envp))
-			exit_bash_err_msg(filename, AMBIGUOUS_ERR);
 		new->filename = ft_strdup(filename);
 		lstadd_back(&set, new);
 		index += 2;

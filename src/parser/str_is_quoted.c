@@ -6,11 +6,11 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 11:36:02 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/10 11:36:03 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/11 10:29:48 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 bool	str_is_quoted(const char *str)
 {

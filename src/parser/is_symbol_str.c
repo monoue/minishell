@@ -6,11 +6,11 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 16:24:05 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/04 10:50:45 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/11 10:29:48 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 bool	is_redirection_str(char *str)
 {

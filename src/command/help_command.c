@@ -6,11 +6,11 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/01/28 07:01:15 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/11 10:29:48 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 char	*builtin_str1[] = {
 	"cd",

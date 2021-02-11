@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "minishell.h"
 
 static char	**split_command_line_with_quotes(char const *str)
 {

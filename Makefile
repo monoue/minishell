@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/10 14:49:52 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/11 10:42:39 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,16 +18,19 @@ CFLAGS = -g -Wall -Wextra -Werror
 
 # PATH
 SRCS_PATH		= src/
-LIBFT_PATH		= libft/
+MAIN_UTILS_PATH	= main_utils/
 SORT_FILES_PATH	= sort_files/
 PARSER_PATH		= parser/
 COMMAND_PATH	= command/
 EXIT_PATH		= exit/
 SYNTAX_ERROR_CHECK_PATH	= syntax_error_check/
+LIBFT_PATH		= libft/
 
-LIBFT =				$(LIBFT_PATH)libft.a
+INCLUDE	= -I./libft -I./src/includes
 
-BASE	  = prompt_cat.c \
+BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
+			$(MAIN_UTILS_PATH)get_env_list.c \
+			$(MAIN_UTILS_PATH)set_signal_handlers.c \
 			op_list.c \
 			test_functions.c \
 			$(COMMAND_PATH)cd_command.c \
@@ -75,10 +78,16 @@ SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 TEST = $(addprefix $(SRCS_PATH), $(TEST_NAME))
 OBJS = $(SRCS:%.c=%.o)
 TOBJS = $(TEST:%.c=%.o)
+LIBFT	= libft/libft.a
 
-$(NAME): $(OBJS)
-	@$(MAKE) -C $(LIBFT_PATH);
-	@$(CC) $(CFLAGS) $^ -L$(LIBFT_PATH) -lft -o $@
+.c.o:
+		$(CC) $(CFLAGS) $(INCLUDE) -c -MMD -MP -MF $(<:.c=.d) $< -o $(<:.c=.o)
+
+$(NAME): $(OBJS) $(LIBFT)
+	@$(CC) -o $@ $^
+
+$(LIBFT):
+	make -C libft
 
 all: $(NAME)
 

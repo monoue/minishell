@@ -1,5 +1,5 @@
 
-#include "../minishell.h"
+#include "minishell.h"
 
 static int	get_child_process_result(int status)
 {
@@ -20,8 +20,8 @@ int			process_pipes(char **piped_chunks, size_t i, size_t chunks_num, t_list *en
 		return (0);
 	}
 	pipe(fds);
-	pid = fork();
-	if (pid == 0)
+	g_pid = fork();
+	if (g_pid == 0)
 	{
 		close(fds[0]);
 		close(STDOUT_FILENO); // TODO: エラー処理
@@ -46,11 +46,11 @@ static int		fork_exec_commands(char **piped_chunks, t_list *envp) // ここに�
 	int		ret;
 	int		status;
 
-	pid = fork(); // なぜ、このタイミングで fork が必要なのか。
-	if (pid == ERROR)
+	g_pid = fork(); // なぜ、このタイミングで fork が必要なのか。
+	if (g_pid == ERROR)
 		exit_fatal();
 	// シグナル処理？
-	if (pid == 0)
+	if (g_pid == 0)
 	{
 		ret = process_pipes(piped_chunks, 0, ft_count_strs((const char**)piped_chunks), envp);
 		exit(ret);

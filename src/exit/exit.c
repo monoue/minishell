@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "minishell.h"
 
 void	exit_fatal(void)
 {
@@ -17,6 +17,6 @@ void	exit_bash_err_msg(char *error_factor, char *error_reason)
 	ft_putstr_err("bash: ");
 	ft_putstr_err(error_factor);
 	ft_putstr_err(": ");
-	ft_putendl_fd(error_reason, 2);
+	ft_putendl_err(error_reason);
 	exit(EXIT_SUCCESS);
 }

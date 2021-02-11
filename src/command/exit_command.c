@@ -6,11 +6,11 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/05 10:13:56 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/11 10:29:48 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 unsigned long long	ft_atoull(const char *str)
 {
@@ -107,7 +107,7 @@ int	exit_minishell(char **argv)
 
 	if (argv_num == 1)
 	{
-		put_farewell_picture();
+		put_farewell_greeting();
 		exit(0);
 	}
 	if (!str_is_valid_num(argv[1]))
@@ -123,7 +123,7 @@ int	exit_minishell(char **argv)
 		return (1); // ?
 		// $? = 1
 	}
-	put_farewell_picture();
+	put_farewell_greeting();
 	nbr = ft_atoll(argv[1]);
 	exit_nbr = ((nbr % 256) + 256) % 256;
 	exit (exit_nbr);

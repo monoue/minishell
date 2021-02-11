@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "minishell.h"
 
 bool	str_is_of_spaces(char *str)
 {

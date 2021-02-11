@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   put_welcome_picture.c                                       :+:      :+:    :+:   */
+/*   put_greeting.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 14:05:27 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/05 09:32:18 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/11 10:46:16 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	put_welcome_picture(void)
+void	put_welcome_greeting(void)
 {
 	ft_putendl("\n                                                     ");
 	ft_putendl("                              ,                        ");
@@ -27,14 +27,14 @@ void	put_welcome_picture(void)
 	ft_putendl("              |  | (   |  minishell | /                ");
 	ft_putendl("              )  |  \\  `.___________|/                ");
 	ft_putendl("              `--'   `--'                              ");
-	ft_putendl("           \033[0m\033[34mBIENVENUE DANS NOTRE MINISHELL\033[0m \033[31m❤️\033[0m\n   ");
+	ft_putendl("           \033[0m\033[34mBIENVENUE DANS NOTRE MINISHELL\033\
+	[0m \033[31m❤️\033[0m\n   ");
 }
 
-void	put_farewell_picture(void)
+void	put_farewell_greeting(void)
 {
-	write(2, "\n", 1);
-	ft_putendl_fd("            \033[5m*     \033[33m,MMM8&&&.            \033[0m*                            ", 2);
-	ft_putendl_fd("                  \033[33mMMMM88&&&&&    \033[0m.                                  ", 2);
+	ft_putendl_fd("          \033[5m*     \033[33m,MMM8&&&.            \033[0m*\t\t\t    ", 2);
+	ft_putendl_fd(" \t\t \033[33mMMMM88&&&&&    \033[0m.\t     \t\t     ", 2);
 	ft_putendl_fd("                 \033[33mMMMM88&&&&&&&      \033[0m                                ", 2);
 	ft_putendl_fd("     *          \033[33mMMM88&&&&&&&&&&                                      ", 2);
 	ft_putendl_fd("                 MMM88&&&&&&&&                                      ", 2);

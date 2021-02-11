@@ -1,4 +1,5 @@
-#include "../minishell.h"
+#include "minishell.h"
+#include "libft.h"
 
 static void	exec_reproduction(char **argv, t_list *envp)
 {
@@ -125,7 +126,7 @@ static void	exec_command_argv(char **argv, t_list *envp)
 // 	{
 // 		if (chunk_words[1] != NULL)
 // 		{
-// 			if (dollar_or_not(chunk_words[index], '$'))
+// 			if (is_env(chunk_words[index], '$'))
 // 			// これだと、元の chunk_words[index] がフリーできなくなる
 // 				chunk_words[index] = dollar(chunk_words[index], envp);
 // 		}
@@ -184,7 +185,10 @@ void	exec_command_chunk(char *command_chunk, t_list *envp)
 	chunk_words = split_command_line(command_chunk);
 	set_fds(&fds);
 	args_num = process_redirections(chunk_words, &fds, envp);
-	argv = set_command_argv(chunk_words, args_num, envp);
-	exec_command_argv(argv, envp);
+	if (!is_redirection_str(chunk_words[0]))
+	{
+		argv = set_command_argv(chunk_words, args_num, envp);
+		exec_command_argv(argv, envp);
+	}
 	reset_redirection_fds(fds);
 }

@@ -6,11 +6,11 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:14:27 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/08 11:21:21 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/11 11:30:04 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 void	add_variable(char *argv, t_list *envp)
 {
@@ -80,3 +80,11 @@ int         dollar_or_not(char *arg, int c)
     return (0);
 }
 
+// これでもいいかな？ 違うかも
+// bool	is_env(char *arg)
+// {
+// 	const char	dollar = '$';
+// 	const char	*env = strchr(arg, dollar);
+
+// 	return (env && ft_strlen(env) > 1 && env[1] != dollar);
+// }
