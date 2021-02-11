@@ -52,7 +52,6 @@ size_t		exec_all_paths(char **paths, char **argv, t_list *envp)
 	{
 		full_command_path = ft_strjoin(paths[index], argv[0]);
 		exec_ret = execve(full_command_path, argv, environ);
-		// 成功したらここで exit される
 		SAFE_FREE(full_command_path);
 		index++;
 	}
@@ -88,13 +87,14 @@ char	**get_paths(char *path_str)
 
 void		exec_path_command(char **argv, t_list *envp)
 {
-	char	**paths;
-	char	*path_str;
-	size_t	try_count;
+	char		**paths;
+	char		*path_str;
+	size_t		try_count;
+	const char	*command = argv[0];
 
 	path_str = get_path_str(envp);
 	if (!path_str)
-		exit_bash_err_msg(argv[0], strerror(2));
+		exit_bash_err_msg(command, strerror(ENOENT), COMMAND_NOT_FOUND);
 	paths = get_paths(path_str);
 	if (path_str)
 		SAFE_FREE(path_str);
@@ -102,7 +102,7 @@ void		exec_path_command(char **argv, t_list *envp)
 	if (try_count == ft_count_strs((const char**)paths))
 	{
 		ft_free_split(paths);
-		exit_bash_err_msg(argv[0], "command not found");
+		exit_bash_err_msg(command, "command not found", COMMAND_NOT_FOUND);
 	}
 	exit(EXIT_SUCCESS);
 }
@@ -113,6 +113,7 @@ static void	exec_command_argv(char **argv, t_list *envp)
 		exec_reproduction(argv, envp);
 	else
 		exec_path_command(argv, envp);
+	g_last_exit_status = 0;
 }
 
 // static char	**set_command_argv(char **chunk_words, size_t args_num, t_list *envp)

@@ -20,8 +20,6 @@ static t_redirection_set	*make_redirection_list(char **elements, t_list *envp)
 
 	index = 0;
 	set = NULL;
-	if (dollar_or_not(elements[1], '$') && replace_dollar_value(elements[1], envp)[0] == '\0')
-		exit_bash_err_msg(elements[1], AMBIGUOUS_ERR);
 	while (elements[index])
 	{
 		new = ft_calloc(1, sizeof(t_redirection_set));
@@ -29,6 +27,8 @@ static t_redirection_set	*make_redirection_list(char **elements, t_list *envp)
 			exit_err_msg(MALLOC_ERR);
 		new->type = get_redirection_type(elements[index]);
 		filename = elements[index + 1];
+		if (dollar_or_not(filename, '$') && replace_dollar_value(filename, envp)[0] == '\0')
+			exit_bash_err_msg(filename, AMBIGUOUS_ERR, EXIT_FAILURE);
 		new->filename = ft_strdup(filename);
 		lstadd_back(&set, new);
 		index += 2;
@@ -43,9 +43,8 @@ static void					set_redirection(t_redirection_set *set, t_fd *fds)
 	int				std_fd;
 	const t_type	type = set->type;
 
-	// TODO:  ここに、filename が未定義の $ 始まりだった場合、 "ambiguous redirect" エラーを入れる？
 	if (set->filename[0] == '\0')
-		exit_bash_err_msg("", strerror(2));
+		exit_bash_err_msg("", strerror(ENOENT), EXIT_FAILURE);
 	file_fd = open(set->filename, get_open_flags(type), OPEN_MODE);
 	if (file_fd == ERROR)
 		exit_err_msg(strerror(errno));

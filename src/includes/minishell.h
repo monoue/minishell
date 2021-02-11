@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/11 11:30:04 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/11 14:59:09 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,20 @@
 # define INPUT			"<"
 # define OPEN_MODE		0666
 # define EXIT_INVALID	128
+# define SYNTAX_ERROR	258
 # define LLONG_MAX_DIGITS	19
 # define AMBIGUOUS_ERR	"ambiguous redirect"
 # define QUIT_MSG	"Quit: 3"
 # define TRASH_REMOVER	"\b \b\b  \b\b"
+# define DOLLAR_Q		"$?"
+# define COMMAND_NOT_FOUND	127
 
 #define SYNTAX_VALID			-10
 #define SYNTAX_QUOTED_WRONGLY	-20
 
 pid_t	g_pid;
 int		flag;
+extern int		g_last_exit_status;
 
 typedef enum	e_element_type {
 	START,
@@ -201,7 +205,7 @@ int		dollar_or_not(char *argv, int c);
 */
 void	exit_fatal(void);
 void	exit_err_msg(char *err_msg);
-void	exit_bash_err_msg(char *error_factor, char *error_reason);
+void	exit_bash_err_msg(const char *error_factor, const char *error_reason, int exit_status);
 
 // debug
 void	print_strs(char **strs);

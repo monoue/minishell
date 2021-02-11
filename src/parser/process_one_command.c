@@ -40,7 +40,8 @@ int			process_pipes(char **piped_chunks, size_t i, size_t chunks_num, t_list *en
 	return (0);
 }
 
-static int		fork_exec_commands(char **piped_chunks, t_list *envp) // ここに入るのは２パターン。1) パイプなし、not reproduction
+// static int		fork_exec_commands(char **piped_chunks, t_list *envp) // ここに入るのは２パターン。1) パイプなし、not reproduction
+static void	fork_exec_commands(char **piped_chunks, t_list *envp) // ここに入るのは２パターン。1) パイプなし、not reproduction
 													// 2) パイプありは必ず。つまり、パイプなしでreproduction の時は特別、入らない。
 {
 	int		ret;
@@ -48,7 +49,7 @@ static int		fork_exec_commands(char **piped_chunks, t_list *envp) // ここに�
 
 	g_pid = fork(); // なぜ、このタイミングで fork が必要なのか。
 	if (g_pid == ERROR)
-		exit_fatal();
+		exit_err_msg(strerror(errno));
 	// シグナル処理？
 	if (g_pid == 0)
 	{
@@ -56,7 +57,8 @@ static int		fork_exec_commands(char **piped_chunks, t_list *envp) // ここに�
 		exit(ret);
 	}
 	wait(&status);
-	return (get_child_process_result(status)); // ??
+	g_last_exit_status = get_child_process_result(status);
+	return ;
 }
 
 static void	exec_no_pipe_chunk(char **chunks, t_list *envp)

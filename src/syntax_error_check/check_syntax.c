@@ -85,11 +85,13 @@ bool	put_message_if_syntax_error(char *command_line)
 		ft_free_split(words);
 	if (ret == SYNTAX_QUOTED_WRONGLY)
 	{
+		g_last_exit_status = EXIT_FAILURE;
 		ft_putstr_err("-bash: quotes not closed\n");
 		return (true);
 	}
 	if (ret != SYNTAX_VALID)
 	{
+		g_last_exit_status = SYNTAX_ERROR;
 		ft_putstr_err("-bash: syntax error near unexpected token `");
 		if (words[ret])
 			ft_putstr_err(words[ret]);

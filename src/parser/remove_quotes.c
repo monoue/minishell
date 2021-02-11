@@ -28,3 +28,31 @@ char	*remove_quotes(const char *str)
 	}
 	return (ret_s);
 }
+
+char	*remove_escape(const char *str)
+{
+	const size_t	len = ft_strlen(str);
+	size_t			index;
+	size_t			start;
+	char			*ret_s;
+
+	if (!(ret_s = ft_strdup("")))
+		exit_err_msg(MALLOC_ERR);
+	index = 0;
+	while (index < len)
+	{
+		start = index;
+		if (str[index] == '\\')
+		{
+			index += 2;
+			ret_s = ft_strnjoin_free(ret_s, &str[start + 1], 1);
+		}
+		else
+		{
+			while (index < len && str[index] != '\\')
+				index++;
+			ret_s = ft_strnjoin_free(ret_s, &str[start], index - start);
+		}
+	}
+	return (ret_s);
+}

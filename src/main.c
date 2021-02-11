@@ -6,11 +6,12 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/11 09:49:46 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/11 14:32:27 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+int	g_last_exit_status = 0;
 
 static void	main_loop(t_list *envp)
 {
@@ -34,7 +35,6 @@ static void	main_loop(t_list *envp)
 int			main(void)
 {
 	t_list		*envp;
-
 	put_welcome_greeting();
 	set_signal_handlers();
 	envp = get_env_list();

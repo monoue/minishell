@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/11 09:49:35 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/11 14:24:45 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void	remove_display_trash(void)
 static void	handle_interruption_signal(int signo)
 {
 	(void)signo;
+	g_last_exit_status = 1;
 	if (g_pid != 0)
 	{
 		kill(g_pid, SIGINT);
