@@ -36,7 +36,7 @@ static void	trim_quotes_if_not_env(char **words)
 	index = 0;
 	while (words[index])
 	{
-		if (str_is_quoted_by_double(words[index]) && !str_has_env(words[index]))
+		if (str_is_quoted(words[index]) && !str_has_env(words[index]))
 			words[index] = ft_substr_free(words[index], 1,
 												ft_strlen(words[index]) - 2);
 		index++;
