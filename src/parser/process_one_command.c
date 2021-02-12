@@ -10,6 +10,12 @@ static int	get_child_process_result(int status)
 	return (-1);
 }
 
+// void	hoge(int fds[2])
+// {
+// 	close(fds[0]);
+// 	close(fds[1]);
+// }
+
 int			process_pipes(char **piped_chunks, size_t i, size_t chunks_num, t_list *envp)
 {
 	int		fds[2];
@@ -21,7 +27,7 @@ int			process_pipes(char **piped_chunks, size_t i, size_t chunks_num, t_list *en
 	}
 	pipe(fds);
 	g_pid = fork();
-	if (g_pid == 0)
+	if (g_pid == 0) // 子プロセスの場合。パイプを stdout に dup して、再帰し、次の fork で親になった側が右から i + 1 番目を実行。
 	{
 		close(fds[0]);
 		close(STDOUT_FILENO); // TODO: エラー処理
@@ -30,16 +36,18 @@ int			process_pipes(char **piped_chunks, size_t i, size_t chunks_num, t_list *en
 		process_pipes(piped_chunks, i + 1, chunks_num, envp);
 	}
 	else
-	{
+	{	// 親プロセスの場合。stdin に dup をし、右から i 番目のコマンドを実行。
 		close(fds[1]);
 		close(STDIN_FILENO); // 実験中
 		dup2(fds[0], STDIN_FILENO);
 		close(fds[0]);
 		exec_command_chunk(piped_chunks[(chunks_num - 1) - i], envp);
 	}
+	// hoge(fds);
 	return (0);
 }
 
+// コマンドを実行するたびに、このように親と子でプロセスが分かれる。
 // static int		fork_exec_commands(char **piped_chunks, t_list *envp) // ここに入るのは２パターン。1) パイプなし、not reproduction
 static void	fork_exec_commands(char **piped_chunks, t_list *envp) // ここに入るのは２パターン。1) パイプなし、not reproduction
 													// 2) パイプありは必ず。つまり、パイプなしでreproduction の時は特別、入らない。

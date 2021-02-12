@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/11 10:42:39 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/12 13:39:29 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,6 +77,7 @@ TEST_NAME = $(BASE) test.c
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 TEST = $(addprefix $(SRCS_PATH), $(TEST_NAME))
 OBJS = $(SRCS:%.c=%.o)
+DEPS	= $(SRCS:.c=.d)
 TOBJS = $(TEST:%.c=%.o)
 LIBFT	= libft/libft.a
 
@@ -86,14 +87,15 @@ LIBFT	= libft/libft.a
 $(NAME): $(OBJS) $(LIBFT)
 	@$(CC) -o $@ $^
 
+-include $(DEPS)
+
 $(LIBFT):
 	make -C libft
 
 all: $(NAME)
 
-test: $(TOBJS)
-	@$(MAKE) -C $(LIBFT_PATH);
-	@$(CC) $(CFLAGS) $^ -L$(LIBFT_PATH) -lft -o test
+test: $(TOBJS) $(LIBFT)
+	@$(CC) -o $@ $^
 
 bonus: $(BOBJS)
 	@$(MAKE) -C $(LIBFT_PATH);
@@ -101,7 +103,7 @@ bonus: $(BOBJS)
 
 clean:
 	$(MAKE) -C $(LIBFT_PATH) clean
-	$(RM) $(OBJS) $(BOBJS)
+	$(RM) $(OBJS) $(DEPS)
 
 fclean: clean
 	$(MAKE) -C $(LIBFT_PATH) fclean

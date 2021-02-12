@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/12 11:35:25 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/12 13:18:29 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ bool			is_quoted_wrongly(char *str);
 // bool			is_redirection(char c);
 char			**split_command_line(char const *str);
 void			set_words(const char *str, char **words, size_t words_num);
+bool			str_is_quoted_by_double(const char *str);
 bool			is_quote_char(char c);
 
 /*
@@ -209,5 +210,5 @@ void	exit_err_msg(char *err_msg);
 void	exit_bash_err_msg(const char *error_factor, const char *error_reason, int exit_status);
 
 // debug
-void	print_strs(char **strs);
+void	put_strs(char **strs);
 #endif

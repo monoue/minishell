@@ -1,4 +1,14 @@
 #include "minishell.h"
+int g_last_exit_status = 0;
+
+void	test_split_command_line(char *str)
+{
+	char	**strs;
+
+	strs = split_command_line(str);
+	put_strs(strs);
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -34,6 +44,10 @@ int main(int argc, char *argv[])
 	// char	*str5 = " \'  \\\"   \" $yay  \"   \'hoge    ";
 	// char	*str6 = " \'  \\\"   \" $  \"   \' hoge    ";
 	// char	*str7 = "echo \"hoge\"hoge\"hoge\">a>b";
+	(void)argc;
+	(void)argv;
+	char *str8 = "echo \'$hoge\'";
+	test_split_command_line(str8);
 
 	// char	**strs1 = split_command_line(str1);
 	// char	**strs2 = split_command_line(str2);
@@ -43,8 +57,6 @@ int main(int argc, char *argv[])
 	// char	**strs6 = split_command_line(str6);
 	// char	**strs7 = split_command_line(str7);
 
-	(void)argc;
-	(void)argv;
 	// if (argc > 1)
 	// {
 	// 	char	**strs_input = split_command_line(argv[1]);

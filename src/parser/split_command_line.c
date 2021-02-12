@@ -36,7 +36,7 @@ static void	trim_quotes_if_not_env(char **words)
 	index = 0;
 	while (words[index])
 	{
-		if (str_is_quoted(words[index]) && !str_has_env(words[index]))
+		if (str_is_quoted_by_double(words[index]) && !str_has_env(words[index]))
 			words[index] = ft_substr_free(words[index], 1,
 												ft_strlen(words[index]) - 2);
 		index++;
@@ -59,7 +59,8 @@ char		*turn_dollar_question_into_value(const char *str)
 		if (str[index] == '\'' && !is_escaped(str, index))
 		{
 			skip_quotes(str, &index);
-			ret_s = ft_strnjoin_free(ret_s, &str[start + 1], index - start - 2);
+			// ret_s = ft_strnjoin_free(ret_s, &str[start + 1], index - start - 2);
+			ret_s = ft_strnjoin_free(ret_s, &str[start], index - start);
 		}
 		else if (ft_strnequal(&str[index], DOLLAR_Q, 2) && !is_escaped(str, index))
 		{

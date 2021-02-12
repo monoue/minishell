@@ -1,7 +1,7 @@
 
 #include "minishell.h"
 
-void	print_strs(char **strs)
+void	put_strs(char **strs)
 {
 	size_t	index = 0;
 	while (strs[index])
