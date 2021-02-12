@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/11 14:59:09 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/12 11:35:25 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define SYNTAX_ERROR	258
 # define LLONG_MAX_DIGITS	19
 # define AMBIGUOUS_ERR	"ambiguous redirect"
+# define NO_COMMANDS_ERR	"command not found"
 # define QUIT_MSG	"Quit: 3"
 # define TRASH_REMOVER	"\b \b\b  \b\b"
 # define DOLLAR_Q		"$?"

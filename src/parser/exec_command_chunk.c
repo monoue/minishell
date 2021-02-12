@@ -37,25 +37,28 @@ char	*get_path_str(t_list *envp)
 	return (NULL);
 }
 
-size_t		exec_all_paths(char **paths, char **argv, t_list *envp)
+void	exec_all_paths(char **paths, char **argv, t_list *envp)
 {
-	char	*full_command_path;
-	size_t	index;
-	char	**environ;
-	int		exec_ret;
+	const char	*command = argv[0];
+	char		*full_command_path;
+	size_t		index;
+	char		**environ;
+	int			exec_ret;
 
-	if (!paths || !argv || !envp)
-		return (0);
-	index = 0;
-	environ = turn_envp_into_strs(envp);
-	while (paths[index])	
+	if (paths)
 	{
-		full_command_path = ft_strjoin(paths[index], argv[0]);
-		exec_ret = execve(full_command_path, argv, environ);
-		SAFE_FREE(full_command_path);
-		index++;
+		environ = turn_envp_into_strs(envp);
+		index = 0;
+		while (paths[index])	
+		{
+			full_command_path = ft_strjoin(paths[index], command);
+			exec_ret = execve(full_command_path, argv, environ);
+			SAFE_FREE(full_command_path);
+			index++;
+		}
 	}
-	return (index);
+	errno = 0;
+	execve(command, argv, environ);
 }
 
 char	**get_paths(char *path_str)
@@ -85,26 +88,28 @@ char	**get_paths(char *path_str)
 	return (complete_paths);
 }
 
+void		handle_exec_error(const char *command)
+{
+	if (errno == ENOENT)
+		exit_bash_err_msg(command, strerror(ENOENT), 127);
+	if (errno == EACCES)
+		exit_bash_err_msg(command, strerror(EISDIR), 127);
+	if (errno == ENOTDIR)
+		exit_bash_err_msg(command, strerror(ENOTDIR), 126);
+	exit_bash_err_msg(command, NO_COMMANDS_ERR, 127);
+}
+
 void		exec_path_command(char **argv, t_list *envp)
 {
 	char		**paths;
 	char		*path_str;
-	size_t		try_count;
-	const char	*command = argv[0];
 
 	path_str = get_path_str(envp);
-	if (!path_str)
-		exit_bash_err_msg(command, strerror(ENOENT), COMMAND_NOT_FOUND);
 	paths = get_paths(path_str);
 	if (path_str)
 		SAFE_FREE(path_str);
-	try_count = exec_all_paths(paths, argv, envp);
-	if (try_count == ft_count_strs((const char**)paths))
-	{
-		ft_free_split(paths);
-		exit_bash_err_msg(command, "command not found", COMMAND_NOT_FOUND);
-	}
-	exit(EXIT_SUCCESS);
+	exec_all_paths(paths, argv, envp);
+	handle_exec_error(argv[0]);
 }
 
 static void	exec_command_argv(char **argv, t_list *envp)

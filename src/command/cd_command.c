@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:49 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/11 10:29:48 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/12 11:37:36 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,7 @@ void    cd(char **argv, t_list *envp)
             ft_putstr_fd("\n", 1);
     }
     new_pwd(envp);
+	// TODO: とりあえず、重複しているけど付け足し
+    if (chdir(argv[1]) == ERROR)
+		exit(EXIT_FAILURE);
 }
