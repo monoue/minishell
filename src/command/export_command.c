@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   export_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/12 15:14:43 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/15 12:40:34 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 void	put_dbl_quotation_str(char *str)
 {
@@ -55,15 +56,14 @@ void	show_export(t_list *envp)
 static bool	is_valid_arg(char *arg)
 {
 	size_t	index;
-	// const char	*ng_chars = "\\\'\"~*()/|<>[]{};?!";
+	const char	*ng_chars = "~*()/|<>[]{};?!\'";
 	
 	if (arg[0] == '=')
 		return (false); // 二文字目以降に出てきたら？？
 	index = 0;
 	while (arg[index])
 	{
-		// if (ft_strchr(ng_chars, arg[index]))
-		if (ft_strchr(SYMBOL_CHARS, arg[index]))
+		if (ft_strchr(ng_chars, arg[index]))
 			return (false);
 		index++;
 	}
@@ -93,7 +93,7 @@ void	export(char **argv, t_list *envp)
 				tmp = envp->content;
 				if (ft_strncmp(tmp, key, count) == 0)
 				{
-					envp->content = ft_strdup(argv[index]);
+					envp->content = ft_strdup(remove_quotes(argv[index]));
 				}
 				envp = envp->next;
 			}

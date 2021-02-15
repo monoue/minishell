@@ -27,7 +27,7 @@ static t_redirection_set	*make_redirection_list(char **elements, t_list *envp)
 			exit_err_msg(MALLOC_ERR);
 		new->type = get_redirection_type(elements[index]);
 		filename = elements[index + 1];
-		if (dollar_or_not(filename, '$') && replace_dollar_value(filename, envp)[0] == '\0')
+		if (dollar_or_not(filename, '$') && replace_dollar_value(filename, envp, 0)[0] == '\0')
 			exit_bash_err_msg(filename, AMBIGUOUS_ERR, EXIT_FAILURE);
 		new->filename = ft_strdup(filename);
 		lstadd_back(&set, new);

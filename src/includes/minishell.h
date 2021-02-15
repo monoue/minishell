@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/12 15:44:28 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/15 12:39:05 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,15 @@
 # define TRASH_REMOVER	"\b \b\b  \b\b"
 # define DOLLAR_Q		"$?"
 # define COMMAND_NOT_FOUND	127
-# define SYMBOL_CHARS	"\\\'\"~*()/|<>[]{};?!"
+# define SYMBOL_CHARS	"\\\'~*()/|<>[]{};?!"
 
 #define SYNTAX_VALID			-10
 #define SYNTAX_QUOTED_WRONGLY	-20
 
 pid_t	g_pid;
-int		flag;
 extern int		g_last_exit_status;
+int     flag_single_in_dq;
+int		space;
 
 typedef enum	e_element_type {
 	START,
@@ -131,8 +132,37 @@ void			echo(char **argv);
 void		    env(t_list *envp);
 void			export(char **argv, t_list *envp);
 void			unset(char **argv, t_list *envp);
+
+char    		*remove_escape(const char *str);
+
+/*
+** dollar
+*/
 char     		*dollar(char *argv, t_list *envp);
-char			*replace_dollar_value(char *argv, t_list *envp);
+char			*replace_dollar_value(char *argv, t_list *envp, int flag);
+
+/*
+** dollar_utils
+*/
+char        	*go_parse_dq(char *argv, t_list *envp);
+int     		is_char_or_not(char *str, char c);
+char    		*replace_word(const char *head, char *cut_word,
+        			const char *word);
+char   			*put_single_quotes(char *str);
+bool			ft_isascii1(int n);
+
+/*
+** dollar_utils2
+*/
+char    		*skip_space_dollar(char *value);
+char    		*do_single_quotation(char *argv, t_list *envp);
+int     		single_quotation_or_not(char *argv);
+char    		*do_parse2(char *line, int *i);
+
+/*
+** dollar_utils3
+*/
+char    *find_key(char *arg, t_list *envp);
 
 /*
 **  syntax_error_check

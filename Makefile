@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/12 15:16:54 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/15 12:35:55 by sperrin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ MAIN_UTILS_PATH	= main_utils/
 SORT_FILES_PATH	= sort_files/
 PARSER_PATH		= parser/
 COMMAND_PATH	= command/
+DOLLAR_PATH		= dollar/
 EXIT_PATH		= exit/
 SYNTAX_ERROR_CHECK_PATH	= syntax_error_check/
 LIBFT_PATH		= libft/
@@ -33,6 +34,10 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(MAIN_UTILS_PATH)set_signal_handlers.c \
 			op_list.c \
 			test_functions.c \
+			$(DOLLAR_PATH)dollar.c \
+			$(DOLLAR_PATH)dollar_utils.c \
+			$(DOLLAR_PATH)dollar_utils2.c \
+			$(DOLLAR_PATH)dollar_utils3.c \
 			$(COMMAND_PATH)cd_command.c \
 			$(COMMAND_PATH)pwd_command.c \
 			$(COMMAND_PATH)echo_command.c \
@@ -44,7 +49,6 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(COMMAND_PATH)utils_command.c \
 			$(COMMAND_PATH)utils_command2.c \
 			$(COMMAND_PATH)utils_command3.c \
-			$(COMMAND_PATH)dollar.c \
 			$(PARSER_PATH)count_command_line_words.c \
 			$(PARSER_PATH)exec_command_chunk.c \
 			$(PARSER_PATH)ft_split_skipping_quotes.c \

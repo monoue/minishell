@@ -159,9 +159,28 @@ static char	**set_command_argv(char **chunk_words, size_t args_num, t_list *envp
 	while (index < args_num)
 	{
 		if (dollar_or_not(chunk_words[index], '$'))
+		{
 			argv[index] = dollar(chunk_words[index], envp);
+			if (space == 1)
+			{
+				char **tmp;
+				tmp = ft_split(argv[index], ' ');
+				int j = 0;
+				while (tmp[j])
+				{
+					free(argv[index]);
+					argv[index] = tmp[j];
+					index++;
+					j++;
+				}
+			}
+		}
 		else
-			argv[index] = ft_strdup(chunk_words[index]);
+		{
+			char *arg;
+			arg = ft_strdup(chunk_words[index]);
+			argv[index] = remove_escape(arg);
+		}
 		index++;
 	}
 	return (argv);

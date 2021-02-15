@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_command3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:14:27 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/11 11:30:04 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/15 12:41:10 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int         dollar_or_not(char *arg, int c)
     j = 0;
     while (arg[i])
     {
-        if (arg[i] == c)
+        if (arg[i] == c && arg[i - 1] != '\\')
             j++;
         i++;
     }

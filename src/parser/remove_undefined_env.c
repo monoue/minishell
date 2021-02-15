@@ -35,7 +35,7 @@ char		*remove_undefined_env(const char *str, t_list *envp)
 			skip_env(str, &index);
 			env = ft_strndup(&str[start], index - start);
 			// if (replace_dollar_value(env, envp)[0] == '\0' || ft_strequal(env, DOLLAR_Q))
-			if (replace_dollar_value(env, envp)[0] != '\0' || ft_strequal(env, DOLLAR_Q))
+			if (replace_dollar_value(env, envp, 0)[0] != '\0' || ft_strequal(env, DOLLAR_Q))
 				ret_s = ft_strjoin_free(ret_s, env);
 		}
 		else
