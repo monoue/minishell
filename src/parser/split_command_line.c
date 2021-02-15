@@ -130,6 +130,7 @@ char		**split_command_line(char const *str)
 	// TODO: search する関数も一応作ってあげるか...
 	tmp = turn_dollar_question_into_value(str);
 	words = split_command_line_with_quotes(tmp);
+	free(tmp);
 	if (!words)
 		return (NULL);
 	trim_quotes_if_not_env(words);

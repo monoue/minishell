@@ -377,6 +377,7 @@ static void	fork_exec_commands(char **piped_chunks, t_list *envp) // ここに�
 	if (pid == 0)
 	{
 		ret = process_pipes(piped_chunks, 0, ft_count_strs((const char**)piped_chunks), envp);
+		ft_free_split(piped_chunks);
 		exit(ret);
 	}
 	wait(&status);
@@ -472,12 +473,21 @@ static void has_pipe(char **piped_chunks, t_list *envp) // ここに入るのは
 static void	exec_no_pipe_chunk(char **chunks, t_list *envp)
 {
 	char	**chunk_words;
+	char	*tmp;
 
 	chunk_words = split_command_line(chunks[0]);
 	if (is_reproduction(chunk_words[0])) // 自作コマンドであるなら
-		exec_command_chunk(chunks[0], envp);
+	{
+		ft_free_split(chunk_words);
+		tmp = ft_strdup(chunks[0]);
+		ft_free_split(chunks);
+		exec_command_chunk(tmp, envp);
+	}
 	else	
+	{
+		ft_free_split(chunk_words);
 		fork_exec_commands(chunks, envp); // こいつがここでなんかやり方汚い。１つだけ受け取るようにできないか？
+	}
 }
 
 // void	process_one_command(char *command, t_list *envp) // ; 区切りで１つずつ渡ってくる

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:34 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/11 10:29:48 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/15 13:11:58 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void			unset(char **argv, t_list *envp)
 			}
 			target = envp->next;//tmpリスト構造体に３０を入れて
     		envp->next = target->next;//20の次を40とする
-			// free(target);//３０をFREEする
-			ft_lstdelone(target, free);//３０をFREEする
+			free(target);//３０をFREEする
+			// ft_lstdelone(target, free);//３０をFREEする
 		}
 		free(key);
 		arg_i++;

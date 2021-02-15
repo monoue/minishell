@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/15 10:33:01 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/15 14:59:54 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,17 @@ static void	main_loop(t_list *envp)
 		exit(EXIT_SUCCESS);
 	}
 	if (str_is_of_spaces(line) || put_message_if_syntax_error(line))
+	{
+		SAFE_FREE(line);
 		return ;
+	}
 	process_command_line(line, envp);
 }
 
 int			main(void)
 {
 	t_list		*envp;
+
 	put_welcome_greeting();
 	set_signal_handlers();
 	envp = get_env_list();

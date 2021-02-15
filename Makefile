@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+         #
+#    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/15 12:35:55 by sperrin          ###   ########.fr        #
+#    Updated: 2021/02/15 15:12:24 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 AR = ar
 ARFLAGS = rcs
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -g
 
 # PATH
 SRCS_PATH		= src/
