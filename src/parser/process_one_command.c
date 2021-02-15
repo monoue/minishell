@@ -327,7 +327,7 @@ int			process_pipes(char **piped_chunks, size_t i, size_t chunks_num, t_list *en
 		close(fds[0]);
 		exec_command_chunk(piped_chunks[(chunks_num - 1) - i], envp);
 	}
-	// hoge(fds);
+	ft_free_split(piped_chunks);
 	return (0);
 }
 
@@ -480,7 +480,7 @@ static void	exec_no_pipe_chunk(char **chunks, t_list *envp)
 	{
 		ft_free_split(chunk_words);
 		tmp = ft_strdup(chunks[0]);
-		ft_free_split(chunks);
+		// ft_free_split(chunks);
 		exec_command_chunk(tmp, envp);
 	}
 	else	
@@ -510,6 +510,7 @@ void	process_one_command(char *command, t_list *envp) // ; 区切りで１つず
 	size_t	chunks_num;
 
 	piped_chunks = ft_split_skipping_quotes(command, '|');
+	// SAFE_FREE(command); セグフォ。やばいの渡していない？
 	chunks_num = ft_count_strs((const char**)piped_chunks);
 
 	int	stdout_fd;

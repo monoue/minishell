@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/15 14:59:54 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/15 16:23:55 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	g_last_exit_status = 0;
 // 	process_command_line(line, envp);
 // }
 
+// TODO: redirection 時の
+
 static void	main_loop(t_list *envp)
 {
 	int			ret;
@@ -53,6 +55,7 @@ static void	main_loop(t_list *envp)
 		return ;
 	}
 	process_command_line(line, envp);
+	SAFE_FREE(line);
 }
 
 int			main(void)

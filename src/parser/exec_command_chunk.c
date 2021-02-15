@@ -208,14 +208,14 @@ void	exec_command_chunk(char *command_chunk, t_list *envp)
 	char	**chunk_words;
 
 	chunk_words = split_command_line(command_chunk);
-	SAFE_FREE(command_chunk);
+	// SAFE_FREE(command_chunk);
 	set_fds(&fds);
 	args_num = process_redirections(chunk_words, &fds, envp);
 	if (!is_redirection_str(chunk_words[0]))
 	{
 		argv = set_command_argv(chunk_words, args_num, envp);
-		ft_free_split(chunk_words);
 		exec_command_argv(argv, envp);
 	}
+	ft_free_split(chunk_words);
 	reset_redirection_fds(fds);
 }
