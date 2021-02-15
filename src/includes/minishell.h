@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/12 13:18:29 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/12 15:44:28 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 # define TRASH_REMOVER	"\b \b\b  \b\b"
 # define DOLLAR_Q		"$?"
 # define COMMAND_NOT_FOUND	127
+# define SYMBOL_CHARS	"\\\'\"~*()/|<>[]{};?!"
 
 #define SYNTAX_VALID			-10
 #define SYNTAX_QUOTED_WRONGLY	-20
@@ -160,6 +161,7 @@ bool			is_metachar_str(char *str);
 void			process_command_line(char *line, t_list *envp);
 void			process_one_command(char *command, t_list *envp);
 char			*remove_quotes(const char *str);
+char			*remove_undefined_env(const char *str, t_list *envp);
 void			set_fds(t_fd *fds);
 void			skip_chunk(char const *str, size_t *index);
 void			skip_word(const char *str, size_t *index);

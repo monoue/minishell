@@ -9,6 +9,13 @@ void	test_split_command_line(char *str)
 	put_strs(strs);
 }
 
+void	test_remove_undefined_env(char *str)
+{
+	t_list	*envp;
+
+	envp = get_env_list();
+	DS(remove_undefined_env(str, envp));
+}
 
 int main(int argc, char *argv[])
 {
@@ -37,7 +44,7 @@ int main(int argc, char *argv[])
 /*
 ** split_command_line test
 */
-	// char	*str1 = "\"\\\"\"";
+// char	*str1 = "\"\\\"\"";
 	// char	*str2 = " \" hoge \" ";
 	// char	*str3 = "   \\\"   \"  \"        ";
 	// char	*str4 = "   \\\"   \"  \"  \"      ";
@@ -46,8 +53,10 @@ int main(int argc, char *argv[])
 	// char	*str7 = "echo \"hoge\"hoge\"hoge\">a>b";
 	(void)argc;
 	(void)argv;
-	char *str8 = "echo \'$hoge\'";
-	test_split_command_line(str8);
+	// char *str8 = "echo \'$hoge\'";
+	// test_split_command_line(str8);
+	// test_remove_undefined_env("$US\ER");
+	test_remove_undefined_env("$US$ER hoge");
 
 	// char	**strs1 = split_command_line(str1);
 	// char	**strs2 = split_command_line(str2);
