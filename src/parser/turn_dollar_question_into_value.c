@@ -28,7 +28,7 @@ static void	turn_dollar_question_into_value_loop(const char *str, size_t *index,
 	}
 }
 
-char	*turn_dollar_question_into_value(const char *str)
+char		*turn_dollar_question_into_value(const char *str)
 {
 	const size_t	len = ft_strlen(str);
 	size_t			index;

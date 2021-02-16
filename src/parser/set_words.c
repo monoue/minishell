@@ -3,10 +3,8 @@
 static size_t	get_ret_s_len(const char *str, size_t *index)
 {
 	const size_t	start = *index;
-	// DSZ(start);
 
 	skip_chunk(str, index);
-	// DSZ(*index);
 	return (*index - start);
 }
 
@@ -14,7 +12,6 @@ static char		*cut_out_one_word(const char *str, size_t *index)
 {
 	const size_t	start = *index;
 	const size_t	len = get_ret_s_len(str, index);
-	// DSZ(len);
 
 	return (ft_strndup(&str[start], len));
 }

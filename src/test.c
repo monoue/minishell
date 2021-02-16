@@ -17,6 +17,37 @@ void	test_remove_undefined_env(char *str)
 	DS(remove_undefined_env(str, envp));
 }
 
+bool	is_continuous_quotes(char *str, size_t index)
+{
+	return ((ft_strnequal(&str[index], "\'\'", 2)
+				|| ft_strnequal(&str[index], "\"\"", 2))
+				&& !is_escaped(str, index));
+}
+
+char	*remove_continuous_quotes(char *str)
+{
+	const size_t	len = ft_strlen(str);
+	size_t			index;
+	size_t			start;
+	char			*ret_s;
+	
+	ret_s = ft_strdup("");
+	if (!ret_s)
+		return (NULL);
+	index = 0;
+	while (index < len)
+	{
+		while (index < len && is_continuous_quotes(str, index))
+			index += 2;
+		start = index;	
+		while (index < len && !is_continuous_quotes(str, index))
+			index++;
+		ret_s = ft_strnjoin_free(ret_s, &str[start], index - start);
+	}
+	// TODO: free とか
+	return (ret_s);
+}
+
 int main(int argc, char *argv[])
 {
 /*
