@@ -81,6 +81,7 @@ char		**split_command_line(char const *str)
 	char	**words;
 	char	*tmp;
 
+	tmp = turn_dollar_question_into_value(str);
 	words = split_command_line_with_quotes(tmp);
 	free(tmp);
 	if (!words)
