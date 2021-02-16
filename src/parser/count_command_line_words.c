@@ -24,7 +24,7 @@ size_t		count_command_line_words(char const *str)
 			index += 2;
 		else if (is_specific_char_not_escaped(str, index, is_metachar))
 			index++;
-		else // 文字、もしくは quote 始まり
+		else
 			skip_chunk(str, &index);
 		skip_spaces(str, &index);
 		words_num++;
