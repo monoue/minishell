@@ -319,7 +319,7 @@ int			process_pipes(char **piped_chunks, size_t i, size_t chunks_num, t_list *en
 
 	if (i == chunks_num - 1)
 	{
-		has_pipe_child(piped_chunks[0], envp);
+		exec_command_chunk(piped_chunks[0], envp, true);
 		return (0);
 	}
 	pipe(fds);
@@ -338,7 +338,8 @@ int			process_pipes(char **piped_chunks, size_t i, size_t chunks_num, t_list *en
 		close(STDIN_FILENO); // 実験中
 		dup2(fds[0], STDIN_FILENO);
 		close(fds[0]);
-		has_pipe_child(piped_chunks[(chunks_num - 1) - i], envp);
+		// exec_command_chunk(piped_chunks[(chunks_num - 1) - i], envp);
+		exec_command_chunk(piped_chunks[(chunks_num - 1) - i], envp, true);
 	}
 	ft_free_split(piped_chunks);
 	return (0);
@@ -472,7 +473,7 @@ static void has_pipe(char **piped_chunks, t_list *envp, size_t chunks_num) // �
 		if (pid == 0)
 		{
 			set_and_close_pipe(pipe_fd, index, chunks_num);
-			has_pipe_child(piped_chunks[index], envp);
+			exec_command_chunk(piped_chunks[index], envp, true);
 		}
 		if (index > 0)
 			close_pipes(pipe_fd[index - 1]);
@@ -495,7 +496,7 @@ static void	exec_no_pipe_chunk(char **chunks, t_list *envp)
 		ft_free_split(chunk_words);
 		tmp = ft_strdup(chunks[0]);
 		// ft_free_split(chunks);
-		has_pipe_child(tmp, envp);
+		exec_command_chunk(tmp, envp, false);
 	}
 	else	
 	{

@@ -201,7 +201,8 @@ void	reset_redirection_fds(t_fd fds)
 }
 
 // void	exec_command_chunk(char *command_chunk, t_list *envp)
-void	has_pipe_child(char *command_chunk, t_list *envp)
+// void	exec_command_chunk(char *command_chunk, t_list *envp)
+void	exec_command_chunk(char *command_chunk, t_list *envp, bool pipe_child)
 {
 	t_fd	fds;
 	size_t	args_num;
@@ -219,5 +220,6 @@ void	has_pipe_child(char *command_chunk, t_list *envp)
 	}
 	ft_free_split(chunk_words);
 	reset_redirection_fds(fds);
-	exit(0);
+	if (pipe_child)
+		exit(0);
 }
