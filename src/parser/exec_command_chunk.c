@@ -28,7 +28,8 @@ static void	exec_command_argv(char **argv, t_list *envp)
 	g_last_exit_status = 0;
 }
 
-static char	**set_command_argv(char **chunk_words, size_t args_num, t_list *envp)
+static char	**set_command_argv(char **chunk_words, size_t args_num,
+																t_list *envp)
 {
 	char	**argv;
 	size_t	index;
@@ -72,7 +73,7 @@ static char	**set_command_argv(char **chunk_words, size_t args_num, t_list *envp
 	return (argv);
 }
 
-void	reset_redirection_fds(t_fd fds)
+static void	reset_redirection_fds(t_fd fds)
 {
 	if (fds.input != STDIN_FILENO)
 	{
@@ -86,7 +87,8 @@ void	reset_redirection_fds(t_fd fds)
 	}
 }
 
-void	exec_command_chunk(char *command_chunk, t_list *envp, bool pipe_child)
+void		exec_command_chunk(char *command_chunk, t_list *envp,
+																bool pipe_child)
 {
 	t_fd	fds;
 	size_t	args_num;

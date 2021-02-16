@@ -13,7 +13,7 @@ static void	exec_all_paths(char **paths, char **argv, t_list *envp)
 	{
 		environ = turn_envp_into_strs(envp);
 		index = 0;
-		while (paths[index])	
+		while (paths[index])
 		{
 			full_command_path = ft_strjoin(paths[index], command);
 			exec_ret = execve(full_command_path, argv, environ);
