@@ -199,22 +199,14 @@
 // }
 
 
-#include "minishell.h"
-
-void		sig_ignore(int sig)
-{
-	(void)sig;
-	return ;
-}
-
-static int	get_child_process_result(int status)
-{
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	if (WIFSIGNALED(status))
-		return (EXIT_INVALID + WTERMSIG(status));
-	return (-1);
-}
+// static int	get_child_process_result(int status)
+// {
+// 	if (WIFEXITED(status))
+// 		return (WEXITSTATUS(status));
+// 	if (WIFSIGNALED(status))
+// 		return (EXIT_INVALID + WTERMSIG(status));
+// 	return (-1);
+// }
 
 // void	hoge(int fds[2])
 // {
@@ -275,28 +267,49 @@ static int	get_child_process_result(int status)
 // 	return ;
 // }
 
+
+#include "minishell.h"
+
+void		sig_ignore(int sig)
+{
+	(void)sig;
+	return ;
+}
+
+
+
+void	close_pipes(int pipe_fds[2])
+{
+	close(pipe_fds[0]);
+	close(pipe_fds[1]);
+}
+
+/*
+** First, connects stdout to the first command's input.
+** Since second time, connects stdin to last command's output and
+** stdout to the current command's input so that it can take last command's
+** output.
+** At the last time, connects stdin to last command's output so that the last
+** command can take last command's output from stdin.
+*/
 void	set_and_close_pipe(int pipe_fd[][2], size_t index, size_t chunks_num)
 {
 	if (index == 0)
 	{
-		dup2(pipe_fd[index][1], 1);
-		close(pipe_fd[index][0]);
-		close(pipe_fd[index][1]);
+		dup2(pipe_fd[index][1], STDOUT_FILENO);
+		close_pipes(pipe_fd[index]);
 	}
 	else if (index == chunks_num - 1)
 	{
-		dup2(pipe_fd[index - 1][0], 0);
-		close(pipe_fd[index - 1][0]);
-		close(pipe_fd[index - 1][1]);
+		dup2(pipe_fd[index - 1][0], STDIN_FILENO);
+		close_pipes(pipe_fd[index - 1]);
 	}
 	else
 	{
-		dup2(pipe_fd[index - 1][0], 0);
-		dup2(pipe_fd[index][1], 1);
-		close(pipe_fd[index - 1][0]);
-		close(pipe_fd[index - 1][1]);
-		close(pipe_fd[index][0]);
-		close(pipe_fd[index][1]);
+		dup2(pipe_fd[index - 1][0], STDIN_FILENO);
+		dup2(pipe_fd[index][1], STDOUT_FILENO);
+		close_pipes(pipe_fd[index - 1]);
+		close_pipes(pipe_fd[index]);
 	}
 }
 
@@ -306,7 +319,7 @@ int			process_pipes(char **piped_chunks, size_t i, size_t chunks_num, t_list *en
 
 	if (i == chunks_num - 1)
 	{
-		exec_command_chunk(piped_chunks[0], envp);
+		has_pipe_child(piped_chunks[0], envp);
 		return (0);
 	}
 	pipe(fds);
@@ -325,7 +338,7 @@ int			process_pipes(char **piped_chunks, size_t i, size_t chunks_num, t_list *en
 		close(STDIN_FILENO); // 実験中
 		dup2(fds[0], STDIN_FILENO);
 		close(fds[0]);
-		exec_command_chunk(piped_chunks[(chunks_num - 1) - i], envp);
+		has_pipe_child(piped_chunks[(chunks_num - 1) - i], envp);
 	}
 	ft_free_split(piped_chunks);
 	return (0);
@@ -361,6 +374,14 @@ int			process_pipes(char **piped_chunks, size_t i, size_t chunks_num, t_list *en
 // 	// hoge(fds);
 // 	return (0);
 // }
+int	get_child_process_result(int status)
+{
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+		return (EXIT_INVALID + WTERMSIG(status));
+	return (-1);
+}
 
 static void	fork_exec_commands(char **piped_chunks, t_list *envp) // ここに入るのは２パターン。1) パイプなし、not reproduction
 													// 2) パイプありは必ず。つまり、パイプなしでreproduction の時は特別、入らない。
@@ -385,59 +406,65 @@ static void	fork_exec_commands(char **piped_chunks, t_list *envp) // ここに�
 	return ;
 }
 
+
 void	wait_children(char **piped_chunks, size_t chunks_num, int last_pid)
 {
 	int		status;
-	int		flag;
-
+	bool	flag;
 	size_t	index;
-	index = 0;
 
-	flag = 1;
+	index = 0;
+	flag = true;
 	(void)piped_chunks;
 	while (index < chunks_num)
 	{
 		if (wait(&status) == last_pid)
 		{
-			if (status == 2)
-				status = 130 * 256;
-			if (status == 3)
-				status = 131 * 256;
-			g_last_exit_status = status;
+			if (WIFSIGNALED(status))
+				g_last_exit_status = (EXIT_INVALID + WTERMSIG(status));
+			// まだ消さない
+			// if (status == 2)
+			// 	status = 130 * 256;
+			// else if (status == 3)
+			// 	status = 131 * 256;
+			// g_last_exit_status = status;
 		}
-		if (flag && (status == 2 || status == 130 * 256))
+		if (flag && WIFSIGNALED(status))
 		{
-			write(2, "\n", 1);
-			flag = 0; // 改行を１回で済ませるため
+			flag = false;
+			if (WTERMSIG(status) == 2)
+				ft_putchar_err('\n');
+			else if (WTERMSIG(status) == 3)
+				ft_putendl_err("Quit: 3");
 		}
-		if (flag && (status == 3 || status == 131 * 256))
-		{
-			write(2, "Quit: 3\n", 8);
-			flag = 0;
-		}
+
+
+		// if (flag && (status == 2 || status == 130 * 256))
+		// {
+		// 	ft_putchar_err('\n');
+		// 	flag = false; // 改行を１回で済ませるため
+		// }
+		// else if (flag && (status == 3 || status == 131 * 256))
+		// {
+		// 	ft_putendl_err("Quit: 3");
+		// 	flag = false;
+		// }
 		index++;
 	}
 }
 
 
-static void has_pipe(char **piped_chunks, t_list *envp) // ここに入るのは２パターン。1) パイプなし、not reproduction
+static void has_pipe(char **piped_chunks, t_list *envp, size_t chunks_num) // ここに入るのは２パターン。1) パイプなし、not reproduction
 													// 2) パイプありは必ず。つまり、パイプなしでreproduction の時は特別、入らない。
 {
-	// int		ret;
-	// int		status;
 	pid_t	pid;
-	int		pipe_fd[100000][2];
-
-	// g_pid = fork(); // なぜ、このタイミングで fork が必要なのか。
-	// if (g_pid == ERROR)
-	// 	exit_err_msg(strerror(errno));
-	// シグナル処理？
+	int		pipe_fd[chunks_num][2];
 	size_t	index;
+
 	index = 0;
-	const size_t chunks_num = ft_count_strs((const char**)piped_chunks);
 	while (index < chunks_num)
 	{
-		if (index != chunks_num - 1)
+		if (index < chunks_num - 1)
 			pipe(pipe_fd[index]);
 		signal(SIGINT, sig_ignore);
 		signal(SIGQUIT, sig_ignore);	// signal(SITINT, )
@@ -445,27 +472,14 @@ static void has_pipe(char **piped_chunks, t_list *envp) // ここに入るのは
 		if (pid == 0)
 		{
 			set_and_close_pipe(pipe_fd, index, chunks_num);
-			exec_command_chunk(piped_chunks[index], envp);
-			// has_pipe_child(piped_chunks, index, chunks_num, envp);
+			has_pipe_child(piped_chunks[index], envp);
 		}
-		if (index != 0)
-		{
-			close(pipe_fd[index - 1][0]);
-			close(pipe_fd[index - 1][1]);
-		}
+		if (index > 0)
+			close_pipes(pipe_fd[index - 1]);
 		index++;
 	}
-	// if (g_pid == 0)
-	// {
-	// 	ret = process_pipes(piped_chunks, 0, ft_count_strs((const char**)piped_chunks), envp);
-	// 	exit(ret);
-	// }
 	wait_children(piped_chunks, chunks_num, pid);
-	// wait(&status);
-	// g_last_exit_status = get_child_process_result(status);
-	// return ;
 }
-
 
 // TODO: パイプがない時も、このパイプありの時と共通の処理になってしまっている。
 // -> 別の処理を用意する必要あり。
@@ -481,7 +495,7 @@ static void	exec_no_pipe_chunk(char **chunks, t_list *envp)
 		ft_free_split(chunk_words);
 		tmp = ft_strdup(chunks[0]);
 		// ft_free_split(chunks);
-		exec_command_chunk(tmp, envp);
+		has_pipe_child(tmp, envp);
 	}
 	else	
 	{
@@ -513,20 +527,20 @@ void	process_one_command(char *command, t_list *envp) // ; 区切りで１つず
 	// SAFE_FREE(command); セグフォ。やばいの渡していない？
 	chunks_num = ft_count_strs((const char**)piped_chunks);
 
-	int	stdout_fd;
-	int	stdin_fd;
-	stdin_fd = dup(STDIN_FILENO);	// 引数: oldfd
-	stdout_fd = dup(STDOUT_FILENO);	// 元の標準入力、標準出力に、未使用の若い番号を割り振っている
+	// int	stdout_fd;
+	// int	stdin_fd;
+	// stdin_fd = dup(STDIN_FILENO);	// 引数: oldfd
+	// stdout_fd = dup(STDOUT_FILENO);	// 元の標準入力、標準出力に、未使用の若い番号を割り振っている
 
 	if (chunks_num == 1)
 		exec_no_pipe_chunk(piped_chunks, envp);
 	else if (chunks_num >= 2)
-		has_pipe(piped_chunks, envp);
+		has_pipe(piped_chunks, envp, chunks_num);
 
-	dup2(stdout_fd, STDOUT_FILENO);	// 先ほど割り振った番号を、再度標準入力 / 出力に戻している。
-	dup2(stdin_fd, STDIN_FILENO);
-	close(stdout_fd);
-	close(stdin_fd);
+	// dup2(stdout_fd, STDOUT_FILENO);	// 先ほど割り振った番号を、再度標準入力 / 出力に戻している。
+	// dup2(stdin_fd, STDIN_FILENO);
+	// close(stdout_fd);
+	// close(stdin_fd);
 
 	ft_free_split(piped_chunks);
 }

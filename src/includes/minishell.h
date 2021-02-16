@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/15 12:39:05 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/16 13:28:00 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ size_t			process_redirections(char **chunk_words, t_fd *fds, t_list *envp);
 void			skip_quotes(char const *str, size_t *index);
 // char			**space_and_tab_split(char const *str);
 // int				process_pipes(char **piped_chunks, size_t i, size_t chunks_num);
-void			exec_command_chunk(char *command_chunk, t_list *envp);
+void			has_pipe_child(char *command_chunk, t_list *envp);
 bool			is_quoted_wrongly(char *str);
 // bool			is_redirection(char c);
 char			**split_command_line(char const *str);
