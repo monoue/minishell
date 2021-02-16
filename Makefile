@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/16 14:45:12 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/16 16:05:58 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(PARSER_PATH)exec_path_command.c \
 			$(PARSER_PATH)ft_split_skipping_quotes.c \
 			$(PARSER_PATH)get_redirection_type.c \
+			$(PARSER_PATH)has_pipe.c \
 			$(PARSER_PATH)is_escaped.c \
 			$(PARSER_PATH)is_reproduction.c \
 			$(PARSER_PATH)is_specific_char_not_escaped.c \
@@ -64,6 +65,7 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(PARSER_PATH)str_is_quoted.c \
 			$(PARSER_PATH)process_command_line.c \
 			$(PARSER_PATH)process_one_command.c \
+			$(PARSER_PATH)process_pipes.c \
 			$(PARSER_PATH)remove_quotes.c \
 			$(PARSER_PATH)remove_undefined_env.c \
 			$(PARSER_PATH)set_fds.c \
@@ -71,6 +73,7 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(PARSER_PATH)skip_chunk.c \
 			$(PARSER_PATH)skip_quotes.c \
 			$(PARSER_PATH)skip_word.c \
+			$(PARSER_PATH)turn_dollar_question_into_value.c \
 			$(PARSER_PATH)count_command_line_words.c \
 			$(SYNTAX_ERROR_CHECK_PATH)is_str_empty.c \
 			$(SYNTAX_ERROR_CHECK_PATH)is_quoted_wrongly.c \

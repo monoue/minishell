@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 11:36:02 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/12 13:17:20 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/16 15:26:54 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ bool	str_is_quoted(const char *str)
 
 	if (len < 2)
 		return (false);
-	return (is_quote_char(str[0]) && str[0] == str[len - 1] && !is_escaped(str, len - 1));
+	return (is_quote_char(str[0]) && str[0] == str[len - 1]
+												&& !is_escaped(str, len - 1));
 }
 
 bool	str_is_quoted_by_double(const char *str)
@@ -27,5 +28,6 @@ bool	str_is_quoted_by_double(const char *str)
 
 	if (len < 2)
 		return (false);
-	return (str[0] == '"' && str[0] == str[len - 1] && !is_escaped(str, len - 1));
+	return (str[0] == '"' && str[0] == str[len - 1]
+												&& !is_escaped(str, len - 1));
 }

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/16 14:44:54 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/16 16:05:30 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ size_t			count_command_line_words(char const *str);
 void			exec_path_command(char **argv, t_list *envp);
 char			**ft_split_skipping_quotes(char const *str, char sep_c);
 int				get_redirection_type(char *element);
+void			has_pipe(char **piped_chunks, t_list *envp, size_t chunks_num);
 bool			is_escaped(const char *str, size_t index);
 bool			is_reproduction(char *word);
 bool			is_redirection_char(char c);
@@ -197,6 +198,9 @@ void			set_fds(t_fd *fds);
 void			skip_chunk(char const *str, size_t *index);
 void			skip_word(const char *str, size_t *index);
 bool			str_is_quoted(const char *str);
+char			*turn_dollar_question_into_value(const char *str);
+void			process_pipes(char **piped_chunks, size_t i, size_t chunks_num,
+																t_list *envp);
 size_t			process_redirections(char **chunk_words, t_fd *fds, t_list *envp);
 void			skip_quotes(char const *str, size_t *index);
 // int				process_pipes(char **piped_chunks, size_t i, size_t chunks_num);
