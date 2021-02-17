@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   is_quoted_wrongly.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/17 15:57:45 by monoue            #+#    #+#             */
+/*   Updated: 2021/02/17 15:58:13 by monoue           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 bool	is_quoted_wrongly(char *str)
@@ -13,8 +25,11 @@ bool	is_quoted_wrongly(char *str)
 		{
 			quote = str[index];
 			index++;
-			while (index < len && !(str[index] == quote && !is_escaped(str, index)))
+			while (index < len
+					&& !(str[index] == quote && !is_escaped(str, index)))
+			{
 				index++;
+			}
 			if (index == len)
 				return (true);
 		}

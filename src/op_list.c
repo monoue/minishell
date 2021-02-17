@@ -1,29 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   op_list.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/17 15:48:44 by monoue            #+#    #+#             */
+/*   Updated: 2021/02/17 15:49:10 by monoue           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-
-// t_chunk	*lstlast(t_chunk *chunk)
-// {
-// 	if (!chunk)
-// 		return (NULL);
-// 	while (chunk->next)
-// 		chunk = chunk->next;
-// 	return (chunk);
-// }
-
-// void	lstadd_back(t_chunk **chunks, t_chunk *new)
-// {
-// 	t_chunk	*tmp;
-
-// 	if (!chunks || !new)
-// 		return ;
-// 	if (!(*chunks))
-// 	{
-// 		*chunks = new;
-// 		return ;
-// 	}
-// 	tmp = lstlast(*chunks);
-// 	tmp->next = new;
-// 	new->prev = tmp;
-// }
 
 t_redirection_set	*lstlast(t_redirection_set *set)
 {
@@ -34,7 +21,8 @@ t_redirection_set	*lstlast(t_redirection_set *set)
 	return (set);
 }
 
-void	lstadd_back(t_redirection_set **sets, t_redirection_set *new)
+void				lstadd_back(t_redirection_set **sets,
+														t_redirection_set *new)
 {
 	t_redirection_set	*set;
 
@@ -47,5 +35,4 @@ void	lstadd_back(t_redirection_set **sets, t_redirection_set *new)
 	}
 	set = lstlast(*sets);
 	set->next = new;
-	// new->prev = set;
 }

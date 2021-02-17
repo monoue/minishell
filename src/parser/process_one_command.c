@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   process_one_command.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/17 14:45:35 by monoue            #+#    #+#             */
+/*   Updated: 2021/02/17 16:22:45 by monoue           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	get_child_process_result(int status)
@@ -25,6 +37,7 @@ static void	fork_exec_commands(char **piped_chunks, t_list *envp)
 		ft_free_split(piped_chunks);
 		exit(0);
 	}
+	g_pid = pid;
 	wait(&status);
 	g_last_exit_status = get_child_process_result(status);
 	return ;

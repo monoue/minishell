@@ -6,11 +6,12 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/17 12:26:23 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/17 15:48:18 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 int	g_last_exit_status = 0;
 
 static void	main_loop(t_list *envp)

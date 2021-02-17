@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/17 13:05:20 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/17 15:18:12 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		space;
+bool	g_space;
 int		flag;
-int		flag_single_in_dq = 0;
+int		g_flag_single_in_dq = 0;
 
 char	*find_key_1(char *argv, t_list *envp)
 {
@@ -50,7 +50,7 @@ char	*find_variable(char *variable)
 	if (flag == 0)
 	{
 		value = skip_space_dollar(tmp_var);
-		space = 1;
+		g_space = true;
 	}
 	else
 		value = ft_strdup(tmp_var);
@@ -64,8 +64,8 @@ char	*replace_dollar_value(char *argv, t_list *envp, int flag)
 	char	*value;
 
 	value = NULL;
-	space = 0;
-	if (argv[0] == '\'' && flag_single_in_dq == 1)
+	g_space = false;
+	if (argv[0] == '\'' && g_flag_single_in_dq == 1)
 	{
 		return (do_single_quotation(argv, envp));
 		flag = 1;

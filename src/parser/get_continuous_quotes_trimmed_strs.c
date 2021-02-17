@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_continuous_quotes_trimmed_strs.c               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/17 14:24:32 by monoue            #+#    #+#             */
+/*   Updated: 2021/02/17 14:24:33 by monoue           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static bool	is_continuous_quotes(char *str, size_t index)
@@ -13,7 +25,7 @@ static char	*get_continuous_quotes_trimmed_str(char *str)
 	size_t			index;
 	size_t			start;
 	char			*ret_s;
-	
+
 	ret_s = ft_strdup("");
 	if (!ret_s)
 		return (NULL);
@@ -22,7 +34,7 @@ static char	*get_continuous_quotes_trimmed_str(char *str)
 	{
 		while (index < len && is_continuous_quotes(str, index))
 			index += 2;
-		start = index;	
+		start = index;
 		while (index < len && !is_continuous_quotes(str, index))
 			index++;
 		ret_s = ft_strnjoin_free(ret_s, &str[start], index - start);

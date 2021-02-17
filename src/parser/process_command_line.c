@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   process_command_line.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/17 14:25:47 by monoue            #+#    #+#             */
+/*   Updated: 2021/02/17 14:25:48 by monoue           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	process_command_line(char *line, t_list *envp)
@@ -13,11 +25,7 @@ void	process_command_line(char *line, t_list *envp)
 	while (commands[index])
 	{
 		process_one_command(commands[index], envp);
-		// SAFE_FREE(commands[index]);
 		index++;
 	}
-	// ls 等は、ここを通るので、こちらで処理される
-	// echo 等は、途中でも free されているので、ダブルフリーになってしまう。
 	ft_free_split(commands);
-	// free(commands);
 }

@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/17 11:22:18 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/17 16:03:48 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(COMMAND_PATH)utils_command3.c \
 			$(PARSER_PATH)count_command_line_words.c \
 			$(PARSER_PATH)exec_command_chunk.c \
+			$(PARSER_PATH)exec_reproduction.c \
 			$(PARSER_PATH)exec_path_command.c \
 			$(PARSER_PATH)ft_split_skipping_quotes.c \
 			$(PARSER_PATH)get_continuous_quotes_trimmed_strs.c \
@@ -70,6 +71,7 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(PARSER_PATH)remove_quotes.c \
 			$(PARSER_PATH)set_fds.c \
 			$(PARSER_PATH)set_words.c \
+			$(PARSER_PATH)set_redirection.c \
 			$(PARSER_PATH)skip_chunk.c \
 			$(PARSER_PATH)skip_quotes.c \
 			$(PARSER_PATH)skip_word.c \
@@ -78,6 +80,7 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(SYNTAX_ERROR_CHECK_PATH)is_str_empty.c \
 			$(SYNTAX_ERROR_CHECK_PATH)is_quoted_wrongly.c \
 			$(SYNTAX_ERROR_CHECK_PATH)check_syntax.c \
+			$(SYNTAX_ERROR_CHECK_PATH)put_message_if_syntax_error.c \
 			$(EXIT_PATH)exit.c
 
 SRCS_NAME = $(BASE) main.c
