@@ -3,221 +3,233 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/17 12:18:31 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/17 13:05:20 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int     g_space;
+int		space;
+int		flag;
+int		flag_single_in_dq = 0;
 
-char     *replace_dollar_value(char *argv, t_list *envp, int flag)
+char	*find_key_1(char *argv, t_list *envp)
 {
-    int     count;
-    char    *variable;
-    char    *tmp_var;
-    char    *value;
-    char    *arg;
-    t_list  *tmp_list;
-    int     flag_sq;
+	t_list	*tmp_list;
+	char	*variable;
+	char	*arg;
 
-    
-    flag_sq = 0;
-    g_flag_single_in_dq = 0;
-    g_space = 0;
-    if (!(variable = ft_strdup("")))
-        exit_err_msg(MALLOC_ERR);
-    if (!(arg = ft_strdup("")))
-        exit_err_msg(MALLOC_ERR);
-    if (!(tmp_var = ft_strdup("")))
-        exit_err_msg(MALLOC_ERR);
-    if (argv[0] == '\"')
-    {
-        arg = remove_quotes(argv);
-        if (single_quotation_or_not(arg))
-        {
-            g_flag_single_in_dq = 1;
-            free(arg);
-            return(do_single_quotation(argv, envp));
-        }
-        flag = 1;
-    }
-    arg = ft_strjoin(&argv[1], "=");
-    tmp_list = envp;
-    while (tmp_list && tmp_list->next)
-    {
-        if (ft_strncmp((char*)tmp_list->content, arg, ft_strlen(arg)) == 0)
-            variable = ft_strdup((char*)tmp_list->content);
-        tmp_list = tmp_list->next;
-    }
-    free(arg);
-    if (variable)
-    {
-        count = ft_strrchr_int(variable, '=');
-        tmp_var = ft_substr(variable, count + 1, ft_strlen(variable) - count);
-        free(variable);
-    }
-    if (flag == 0)
-    {
-        value = skip_space_dollar(tmp_var);
-        g_space = 1;
-    }
-    else
-        value = ft_strdup(tmp_var);
-    free(tmp_var);
-    flag = 0;
-    if (ft_strcmp(value, "") == 0)
-            return (NULL);
-    return (value);
+	arg = ft_strjoin(&argv[1], "=");
+	tmp_list = envp;
+	variable = NULL;
+	while (tmp_list && tmp_list->next)
+	{
+		if (ft_strncmp((char*)tmp_list->content, arg, ft_strlen(arg)) == 0)
+			variable = ft_strdup((char*)tmp_list->content);
+		tmp_list = tmp_list->next;
+	}
+	free(arg);
+	return (variable);
 }
 
-char    *do_parse(char *line, int *i)
+char	*find_variable(char *variable)
 {
-        char    *tmp;
-        int     count_dq_extern;
-        int     count_dq_intern;
+	int		count;
+	char	*value;
+	char	*tmp_var;
 
-        g_flag_single_in_dq = 0;
-        if (!(tmp = ft_strdup("")))
-            exit_err_msg(MALLOC_ERR);
-        count_dq_extern = 0;
-        count_dq_intern = 0;
-        while(line[*i])
-        {
-            if (line[*i] == '$')
-            {
-                tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-                (*i)++;
-                if (line[*i] == '$')
-                {
-                    tmp = ft_strdup("(process ID)");
-                    (*i)++;
-                    return (tmp);
-                }
-                tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-                (*i)++;
-                while (line[*i] != '\'' && line[*i] != '\"' &&
-                        line[*i] != '\0' && line[*i] != '$' && line[*i] != '/'
-                        && line[*i] != '\\' && line[*i] != '=' && !ft_isdigit(line[*i]))
-                {
-                    tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-                    (*i)++;
-                }
-                return (tmp);
-            }
-            if (line[*i] == '\'')
-            {
-                tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-                (*i)++;
-                while (line[*i] != '\'')
-                {
-                    tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-                    (*i)++;
-                }
-                tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-                (*i)++;
-                return (tmp);
-            }
-            if (line[*i] == '\"')
-            {
-                tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-                (*i)++;
-                while (line[*i] != '\"')
-                {
-                    tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-                    (*i)++;
-                }
-                tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-                (*i)++;
-                return (tmp);
-            }
-            if (ft_isascii1(line[*i]))
-            {
-                while (line[*i] != '\"' && line[*i] != '\'' 
-                        && line[*i] != '$' && line[*i] != '\0')
-                {
-                    tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-                    (*i)++;
-                }
-                return (tmp);
-            }
-            if (line[*i] == '/')
-            {
-                tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-                (*i)++;
-                return(tmp);
-            }
-            if (line[*i] == '\\')
-            {
-                while (line[*i] != '$' && line[*i] != '\0' && !ft_isascii1(line[*i]))
-                {
-                    tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-                    (*i)++;
-                }
-                return(tmp);
-            }
-        }
-        return (NULL);
+	tmp_var = NULL;
+	value = NULL;
+	if (!variable)
+		return (ft_strdup(""));
+	count = ft_strrchr_int(variable, '=');
+	tmp_var = ft_substr(variable, count + 1, ft_strlen(variable) - count);
+	if (flag == 0)
+	{
+		value = skip_space_dollar(tmp_var);
+		space = 1;
+	}
+	else
+		value = ft_strdup(tmp_var);
+	free(tmp_var);
+	free(variable);
+	return (value);
 }
 
-char    *dollar(char *argv, t_list *envp)
+char	*replace_dollar_value(char *argv, t_list *envp, int flag)
 {
-    char    **tmp;
-    char    *str;
-    int     i;
-    int     j;
-    int     tmp_num;
-    char    *variable;
-    char    *value;
-    char    *arg;
+	char	*value;
 
-    i = 0;
-    j = 0;
-    g_flag_single_in_dq = 0;
-    // tmp = (char**)malloc(1000);
-    // variable = (char**)malloc(1000);
-    // str = ft_strdup("");
-    // value = ft_strdup("");
-    // arg = ft_strdup(argv);
-    tmp_num = count_command_line_words(argv);
+	value = NULL;
+	space = 0;
+	if (argv[0] == '\'' && flag_single_in_dq == 1)
+	{
+		return (do_single_quotation(argv, envp));
+		flag = 1;
+	}
+	value = find_variable(find_key_1(argv, envp));
+	if (ft_strcmp(value, "") == 0)
+		return (NULL);
+	return (value);
+}
+
+char	*take_double_quote(char *line, int *i)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+	(*i)++;
+	while (line[*i] != '\"')
+	{
+		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+		(*i)++;
+	}
+	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+	(*i)++;
+	return (tmp);
+}
+
+char	*take_escape(char *line, int *i)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	while (line[*i] != '$' && line[*i] != '\0'
+		&& !ft_isascii1(line[*i]))
+	{
+		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+		(*i)++;
+	}
+	return (tmp);
+}
+
+char	*take_ascii(char *line, int *i)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	if (line[*i] == '/')
+	{
+		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+		(*i)++;
+		return (tmp);
+	}
+	while (line[*i] != '\"' && line[*i] != '\''
+		&& line[*i] != '$' && line[*i] != '\0')
+	{
+		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+		(*i)++;
+	}
+	return (tmp);
+}
+
+char	*take_single_quote(char *line, int *i)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+	(*i)++;
+	while (line[*i] != '\'')
+	{
+		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+		(*i)++;
+	}
+	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+	(*i)++;
+	return (tmp);
+}
+
+
+char	*take_dollar(char *line, int *i)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+	(*i)++;
+	if (line[*i] == '$')
+	{
+		free(tmp);
+		tmp = ft_strdup("(process ID)");
+		(*i)++;
+		return (tmp);
+	}
+	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+	(*i)++;
+	while (line[*i] != '\'' && line[*i] != '\"'
+			&& line[*i] != '\0' && line[*i] != '$' && line[*i] != '/'
+			&& line[*i] != '\\' && line[*i] != '='
+			&& !ft_isdigit(line[*i]))
+	{
+		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+		(*i)++;
+	}
+	return (tmp);
+}
+
+char	**do_parse(char *line)
+{
+	char	**tmp;
+	int		i;
+	int		j;
+	int		tmp_num;
+
+	j = 0;
+	i = 0;
+	tmp_num = count_command_line_words(line);
 	tmp = malloc(sizeof(*tmp) * (tmp_num + 10000));
-    variable = NULL;
-    if (!(str = ft_strdup("")))
-        exit_err_msg(MALLOC_ERR);
-    if (!(value = ft_strdup("")))
-        exit_err_msg(MALLOC_ERR);
-    arg = ft_strdup(argv);
-    while (arg[i])
-    {
-        variable = NULL;
-        arg = ft_substr(arg, i, ft_strlen(arg) - i);
-        i = 0;
-        variable = do_parse(arg, &i);
-        if (variable)
-            tmp[j] = ft_strdup(variable);
-        j++;
-        free(variable);
-    }
-    j = 0;
-    while (tmp[j])
-    {
-        if (dollar_or_not(tmp[j], '$') && tmp[j][0] == '\"')
-            str = go_parse_dq(tmp[j], envp);
-        else if (dollar_or_not(tmp[j], '$') && tmp[j][0] != '\'')
-			str = replace_dollar_value(tmp[j], envp, 0);
-        else
-            str = remove_quotes(ft_strdup(tmp[j]));
-        // value = ft_strjoin(value, str);
-        value = ft_strnjoin_free(value, str, ft_strlen(str));
-        free(str);
-        j++;
-    }
-    char *final;
-    final = remove_escape(value);
-    ft_free_split(tmp);
-    return(final);
+	while (line[i])
+	{
+		if (line[i] == '$')
+			tmp[j++] = take_dollar(line, &i);
+		if (line[i] == '\'')
+			tmp[j++] = take_single_quote(line, &i);
+		if (ft_isascii1(line[i]) || line[i] == '/')
+			tmp[j++] = take_ascii(line, &i);
+		if (line[i] == '\\')
+			tmp[j++] = take_escape(line, &i);
+		if (line[i] == '\"')
+			tmp[j++] = take_double_quote(line, &i);
+	}
+	return (tmp);
 }
-//めちゃくちゃ汚いので綺麗にするつもり、でももっとシンプルな書き方を見つければぜひ直して欲しい！
+
+char	*dollar(char *argv, t_list *envp, int j)
+{
+	char	**tmp;
+	char	*str;
+	int		tmp_num;
+	char	*value;
+	char	*final;
+
+	j = 0;
+	tmp_num = count_command_line_words(argv);
+	tmp = malloc(sizeof(*tmp) * (tmp_num + 10000));
+	str = NULL;
+	value = NULL;
+	final = NULL;
+	tmp = do_parse(argv);
+	j = 0;
+	while (tmp[j])
+	{
+		if (dollar_or_not(tmp[j], '$') && tmp[j][0] == '\"')
+			str = go_parse_dq(tmp[j], envp);
+		else if (dollar_or_not(tmp[j], '$') && tmp[j][0] != '\'')
+			str = replace_dollar_value(tmp[j], envp, 0);
+		else
+			str = remove_quotes(ft_strdup(tmp[j]));
+		value = ft_strnjoin_free(value, str, ft_strlen(str));
+		free(str);
+		str = NULL;
+		j++;
+	}
+	ft_free_split(tmp);
+	flag = 0;
+	final = remove_escape(value);
+	return (final);
+}

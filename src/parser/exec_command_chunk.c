@@ -94,8 +94,8 @@ static char    **set_command_argv(char **chunk_words, size_t args_num, t_list *e
     {
         if (dollar_or_not(chunk_words[index], '$'))
         {
-            argv[index] = dollar(chunk_words[index], envp);
-            if (g_space == 1)
+            argv[index] = dollar(chunk_words[index], envp, 0);
+            if (space == 1)
             {
                 
                 tmp = ft_split(argv[index], ' ');

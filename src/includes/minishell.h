@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/17 12:18:31 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/17 13:27:31 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@
 
 pid_t	g_pid;
 extern int		g_last_exit_status;
-int     g_flag_single_in_dq;
-int		g_space;
+int     flag_single_in_dq;
+int		space;
 
 typedef enum	e_element_type {
 	START,
@@ -138,7 +138,7 @@ char    		*remove_escape(const char *str);
 /*
 ** dollar
 */
-char     		*dollar(char *argv, t_list *envp);
+char     		*dollar(char *argv, t_list *envp, int j);
 char			*replace_dollar_value(char *argv, t_list *envp, int flag);
 
 /*
@@ -147,7 +147,7 @@ char			*replace_dollar_value(char *argv, t_list *envp, int flag);
 char        	*go_parse_dq(char *argv, t_list *envp);
 int     		is_char_or_not(char *str, char c);
 char    		*replace_word(const char *head, char *cut_word,
-        			const char *word);
+        			const char *word, int i);
 char   			*put_single_quotes(char *str);
 bool			ft_isascii1(int n);
 
@@ -157,7 +157,12 @@ bool			ft_isascii1(int n);
 char    		*skip_space_dollar(char *value);
 char    		*do_single_quotation(char *argv, t_list *envp);
 int     		single_quotation_or_not(char *argv);
-char    		*do_parse2(char *line, int *i);
+char    		**do_parse2(char *line);
+bool			ft_isascii1(int n);
+char			*take_single_quote(char *line, int *i);
+char			*take_escape(char *line, int *i);
+char			*take_ascii(char *line, int *i);
+
 
 /*
 ** dollar_utils3

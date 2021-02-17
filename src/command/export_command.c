@@ -6,12 +6,11 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/15 12:40:34 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/17 13:23:15 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	put_dbl_quotation_str(char *str)
 {
@@ -56,14 +55,19 @@ void	show_export(t_list *envp)
 static bool	is_valid_arg(char *arg)
 {
 	size_t	index;
-	const char	*ng_chars = "~*()/|<>[]{};?!\'";
+	// const char	*ng_chars = "$=~*()/|<[]{};?!\'";
 	
 	if (arg[0] == '=')
 		return (false); // 二文字目以降に出てきたら？？
 	index = 0;
+	if (arg[index] == 0)
+		return (false); 
 	while (arg[index])
 	{
-		if (ft_strchr(ng_chars, arg[index]))
+		if (arg[index] == '=')
+			return (true);
+		// if (ft_strchr(ng_chars, arg[index]))
+		if (!ft_isalnum(arg[index]) && arg[index] != '_')
 			return (false);
 		index++;
 	}
@@ -75,7 +79,6 @@ void	export(char **argv, t_list *envp)
 	size_t	index;
 	int		count;
 	char	*key;
-	char	*tmp;
 
 	if (!argv[1])
 		show_export(envp);//export コマンドに引数がなかったとき、環境変数を、一覧で表示する
@@ -90,8 +93,7 @@ void	export(char **argv, t_list *envp)
 		{
 			while (envp && envp->next)
 			{
-				tmp = envp->content;
-				if (ft_strncmp(tmp, key, count) == 0)
+				if (ft_strncmp((char*)(envp->content), key, count) == 0)
 				{
 					envp->content = ft_strdup(remove_quotes(argv[index]));
 				}
@@ -99,7 +101,8 @@ void	export(char **argv, t_list *envp)
 			}
 		}
 		else if (check_valid_arg(argv[index]))//KEY=VALUEを確認してる関数。
-			add_variable(argv[index], envp);
+			add_variable(remove_quotes(argv[index]), envp);
 		index++;
+		free(key);
 	}
 }
