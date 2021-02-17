@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:58:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/14 21:52:41 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/17 12:18:31 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char        *go_parse_dq(char *argv, t_list *envp)
 
     i = 0;
     j = 0;
-    flag_single_in_dq = 0;
+    g_flag_single_in_dq = 0;
     tmp_num = count_command_line_words(argv);
 	tmp = malloc(sizeof(*tmp) * (tmp_num + 1000));
     variable = NULL;

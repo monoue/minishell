@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/16 13:50:43 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/17 12:26:23 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static void	main_loop(t_list *envp)
 		return ;
 	}
 	process_command_line(line, envp);
-	SAFE_FREE(line);
 }
 
 int			main(void)

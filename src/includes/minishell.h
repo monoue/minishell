@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/16 16:14:58 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/17 12:18:31 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@
 
 pid_t	g_pid;
 extern int		g_last_exit_status;
-int     flag_single_in_dq;
-int		space;
+int     g_flag_single_in_dq;
+int		g_space;
 
 typedef enum	e_element_type {
 	START,
@@ -177,6 +177,7 @@ int				check_syntax(char *command_line, char **command_line_words);
 size_t			count_command_line_words(char const *str);
 void			exec_path_command(char **argv, t_list *envp);
 char			**ft_split_skipping_quotes(char const *str, char sep_c);
+char			**get_continuous_quotes_trimmed_strs(char **src_strs);
 int				get_redirection_type(char *element);
 void			has_pipe(char **piped_chunks, t_list *envp, size_t chunks_num);
 bool			is_escaped(const char *str, size_t index);

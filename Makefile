@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/16 16:05:58 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/17 11:22:18 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(PARSER_PATH)exec_command_chunk.c \
 			$(PARSER_PATH)exec_path_command.c \
 			$(PARSER_PATH)ft_split_skipping_quotes.c \
+			$(PARSER_PATH)get_continuous_quotes_trimmed_strs.c \
 			$(PARSER_PATH)get_redirection_type.c \
 			$(PARSER_PATH)has_pipe.c \
 			$(PARSER_PATH)is_escaped.c \
@@ -67,7 +68,6 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(PARSER_PATH)process_one_command.c \
 			$(PARSER_PATH)process_pipes.c \
 			$(PARSER_PATH)remove_quotes.c \
-			$(PARSER_PATH)remove_undefined_env.c \
 			$(PARSER_PATH)set_fds.c \
 			$(PARSER_PATH)set_words.c \
 			$(PARSER_PATH)skip_chunk.c \

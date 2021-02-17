@@ -33,20 +33,13 @@ static void	fork_exec_commands(char **piped_chunks, t_list *envp)
 static void	exec_no_pipe_chunk(char **chunks, t_list *envp)
 {
 	char	**chunk_words;
-	char	*tmp;
 
 	chunk_words = split_command_line(chunks[0]);
 	if (is_reproduction(chunk_words[0]))
-	{
-		ft_free_split(chunk_words);
-		tmp = ft_strdup(chunks[0]);
-		exec_command_chunk(tmp, envp, false);
-	}
+		exec_command_chunk(chunks[0], envp, false);
 	else
-	{
-		ft_free_split(chunk_words);
 		fork_exec_commands(chunks, envp);
-	}
+	ft_free_split(chunk_words);
 }
 
 void		process_one_command(char *command, t_list *envp)
@@ -55,6 +48,8 @@ void		process_one_command(char *command, t_list *envp)
 	size_t	chunks_num;
 
 	piped_chunks = ft_split_skipping_quotes(command, '|');
+	if (!piped_chunks)
+		exit_err_msg(MALLOC_ERR);
 	chunks_num = ft_count_strs((const char**)piped_chunks);
 	if (chunks_num == 1)
 		exec_no_pipe_chunk(piped_chunks, envp);

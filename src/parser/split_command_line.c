@@ -43,29 +43,19 @@ static void	trim_quotes_if_not_env(char **words)
 	}
 }
 
-static void	trim_quotes_if_not_env(char **words)
-{
-	size_t	index;
-
-	index = 0;
-	while (words[index])
-	{
-		if (str_is_quoted(words[index]) && !str_has_env(words[index]))
-			words[index] = ft_substr_free(words[index], 1, ft_strlen(words[index]) - 2);
-		index++;
-	}
-}
-
 char		**split_command_line(char const *str)
 {
 	char	**words;
 	char	*tmp;
+	char	**ret_words;
 
 	tmp = turn_dollar_question_into_value(str);
 	words = split_command_line_with_quotes(tmp);
 	free(tmp);
 	if (!words)
 		return (NULL);
-	trim_quotes_if_not_env(words);
-	return (words);
+	ret_words = get_continuous_quotes_trimmed_strs(words);
+	ft_free_split(words);
+	trim_quotes_if_not_env(ret_words);
+	return (ret_words);
 }

@@ -25,52 +25,96 @@ static void	exec_command_argv(char **argv, t_list *envp)
 		exec_reproduction(argv, envp);
 	else
 		exec_path_command(argv, envp);
+	ft_free_split(argv);
 	g_last_exit_status = 0;
 }
 
-static char	**set_command_argv(char **chunk_words, size_t args_num,
-																t_list *envp)
-{
-	char	**argv;
-	size_t	index;
+// static char	**set_command_argv(char **chunk_words, size_t args_num,
+// 																t_list *envp)
+// {
+// 	char	**argv;
+// 	size_t	index;
 
-	argv = ft_calloc(args_num + 1, sizeof(char*));
-	if (!argv)
-		exit_err_msg(MALLOC_ERR);
-	if (args_num < 2)
-	{
-		argv[0] = ft_strdup(chunk_words[0]);
-		return (argv);
-	}
-	index = 0;
-	while (index < args_num)
-	{
-		if (dollar_or_not(chunk_words[index], '$'))
-		{
-			argv[index] = dollar(chunk_words[index], envp);
-			if (space == 1)
-			{
-				char **tmp;
-				tmp = ft_split(argv[index], ' ');
-				int j = 0;
-				while (tmp[j])
-				{
-					free(argv[index]);
-					argv[index] = tmp[j];
-					index++;
-					j++;
-				}
-			}
-		}
-		else
-		{
-			char *arg;
-			arg = ft_strdup(chunk_words[index]);
-			argv[index] = remove_escape(arg);
-		}
-		index++;
-	}
-	return (argv);
+// 	argv = ft_calloc(args_num + 1, sizeof(char*));
+// 	if (!argv)
+// 		exit_err_msg(MALLOC_ERR);
+// 	if (args_num < 2)
+// 	{
+// 		argv[0] = ft_strdup(chunk_words[0]);
+// 		return (argv);
+// 	}
+// 	index = 0;
+// 	while (index < args_num)
+// 	{
+// 		if (dollar_or_not(chunk_words[index], '$'))
+// 		{
+// 			argv[index] = dollar(chunk_words[index], envp);
+// 			if (space == 1)
+// 			{
+// 				char **tmp;
+// 				tmp = ft_split(argv[index], ' ');
+// 				int j = 0;
+// 				while (tmp[j])
+// 				{
+// 					free(argv[index]);
+// 					argv[index] = tmp[j];
+// 					index++;
+// 					j++;
+// 				}
+// 			}
+// 		}
+// 		else
+// 		{
+// 			char *arg;
+// 			arg = ft_strdup(chunk_words[index]);
+// 			argv[index] = remove_escape(arg);
+// 		}
+// 		index++;
+// 	}
+// 	return (argv);
+// }
+
+static char    **set_command_argv(char **chunk_words, size_t args_num, t_list *envp)
+{
+    char    **argv;
+    char     **tmp;
+    size_t    index;
+    int     j;
+
+    argv = ft_calloc(args_num + 1, sizeof(char*));
+    if (!argv)
+        exit_err_msg(MALLOC_ERR);
+    if (args_num < 2)
+    {
+        argv[0] = ft_strdup(chunk_words[0]);
+        return (argv);
+    }
+    index = 0;
+    while (index < args_num)
+    {
+        if (dollar_or_not(chunk_words[index], '$'))
+        {
+            argv[index] = dollar(chunk_words[index], envp);
+            if (g_space == 1)
+            {
+                
+                tmp = ft_split(argv[index], ' ');
+                j = 0;
+                while (tmp[j])
+                {
+                    free(argv[index]);
+                    argv[index] = tmp[j];
+                    index++;
+                    j++;
+                }
+				ft_free_split(tmp);
+            }
+        }
+        else
+            argv[index] = remove_escape(chunk_words[index]);
+        index++;
+    }
+    return (argv);
 }
 
 static void	reset_redirection_fds(t_fd fds)

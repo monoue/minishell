@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/15 12:18:42 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/17 12:18:31 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int     space;
+int     g_space;
 
 char     *replace_dollar_value(char *argv, t_list *envp, int flag)
 {
@@ -26,8 +26,8 @@ char     *replace_dollar_value(char *argv, t_list *envp, int flag)
 
     
     flag_sq = 0;
-    flag_single_in_dq = 0;
-    space = 0;
+    g_flag_single_in_dq = 0;
+    g_space = 0;
     if (!(variable = ft_strdup("")))
         exit_err_msg(MALLOC_ERR);
     if (!(arg = ft_strdup("")))
@@ -39,7 +39,7 @@ char     *replace_dollar_value(char *argv, t_list *envp, int flag)
         arg = remove_quotes(argv);
         if (single_quotation_or_not(arg))
         {
-            flag_single_in_dq = 1;
+            g_flag_single_in_dq = 1;
             free(arg);
             return(do_single_quotation(argv, envp));
         }
@@ -63,7 +63,7 @@ char     *replace_dollar_value(char *argv, t_list *envp, int flag)
     if (flag == 0)
     {
         value = skip_space_dollar(tmp_var);
-        space = 1;
+        g_space = 1;
     }
     else
         value = ft_strdup(tmp_var);
@@ -80,7 +80,7 @@ char    *do_parse(char *line, int *i)
         int     count_dq_extern;
         int     count_dq_intern;
 
-        flag_single_in_dq = 0;
+        g_flag_single_in_dq = 0;
         if (!(tmp = ft_strdup("")))
             exit_err_msg(MALLOC_ERR);
         count_dq_extern = 0;
@@ -176,7 +176,7 @@ char    *dollar(char *argv, t_list *envp)
 
     i = 0;
     j = 0;
-    flag_single_in_dq = 0;
+    g_flag_single_in_dq = 0;
     // tmp = (char**)malloc(1000);
     // variable = (char**)malloc(1000);
     // str = ft_strdup("");
