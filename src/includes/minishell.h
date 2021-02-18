@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/17 15:54:05 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/18 13:52:25 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,7 @@ bool				is_quote_char(char c);
 */
 bool				is_command(char *argv);
 void				ascii_sort(char **args);
-bool				check_valid_arg(char *argv);
+// bool				check_valid_arg(char *argv);
 
 /*
 ** utils command 2

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/17 13:23:15 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/18 16:33:04 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,32 +52,17 @@ void	show_export(t_list *envp)
 	ft_free_split(array);
 }
 
-static bool	is_valid_arg(char *arg)
-{
-	size_t	index;
-	// const char	*ng_chars = "$=~*()/|<[]{};?!\'";
-	
-	if (arg[0] == '=')
-		return (false); // 二文字目以降に出てきたら？？
-	index = 0;
-	if (arg[index] == 0)
-		return (false); 
-	while (arg[index])
-	{
-		if (arg[index] == '=')
-			return (true);
-		// if (ft_strchr(ng_chars, arg[index]))
-		if (!ft_isalnum(arg[index]) && arg[index] != '_')
-			return (false);
-		index++;
-	}
-	return (true);
-}
+
+// static void	put_error_message(const char *arg)
+// {
+// 	ft_putstr("bash: export: `");
+// 	ft_putstr(arg);
+// 	ft_putendl("': not a valid identifier");
+// }
 
 void	export(char **argv, t_list *envp)
 {
 	size_t	index;
-	int		count;
 	char	*key;
 
 	if (!argv[1])
@@ -85,24 +70,24 @@ void	export(char **argv, t_list *envp)
 	index = 1;
 	while (argv[index])
 	{
+		if (!is_valid_arg(argv[index]))
+		{
+			put_error_message(argv[index]);
+			index++;
+			continue ;
+		}
 		key = get_key(argv[index]);
-		count = ft_strlen(key);
-		if (!is_valid_arg(argv[index]))//環境変数は数字じゃない、または”＝”じゃないを確認する関数。
-			return (ft_putstr_fd("bash: export: not a valid identifier\n", 1));
 		if (same_key(key, envp))
 		{
 			while (envp && envp->next)
 			{
-				if (ft_strncmp((char*)(envp->content), key, count) == 0)
-				{
+				if (ft_strnequal((char*)(envp->content), key, ft_strlen(key)))
 					envp->content = ft_strdup(remove_quotes(argv[index]));
-				}
 				envp = envp->next;
 			}
 		}
-		else if (check_valid_arg(argv[index]))//KEY=VALUEを確認してる関数。
-			add_variable(remove_quotes(argv[index]), envp);
+		add_variable(remove_quotes(argv[index]), envp);
+		SAFE_FREE(key);
 		index++;
-		free(key);
 	}
 }

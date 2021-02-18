@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 18:33:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/11 10:29:48 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/18 15:07:19 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ char        **turn_envp_into_strs(t_list *envp)
         // tmp = envp->content;
         // array[i] = ft_strdup(tmp);
         strs[index] = ft_strdup((char*)envp->content);
-        index++;
         envp = envp->next;
+        index++;
     }
     strs[index] = NULL;
     return (strs);
@@ -69,22 +69,22 @@ char        **turn_envp_into_strs(t_list *envp)
 // 	return (NULL);
 // }
 
-char    *get_key(char *argv)
+char    *get_key(char *arg)
 {
     size_t	len;
     char    *key;
 
     len = 0;
-    while (argv[len])
+    while (arg[len])
     {
-        if (argv[len] == '=')
+        if (arg[len] == '=')
 		{
 			len++;
             break ;
 		}
         len++;
     }
-	key = ft_strndup(argv, len);
+	key = ft_strndup(arg, len);
 	if (!key)
 		exit_err_msg(MALLOC_ERR);
     return (key);
