@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   utils_command2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 18:33:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 15:07:19 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/18 14:12:32 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	same_key(char *key, t_list *envp)
+bool				same_key(char *key, t_list *envp)
 {
 	size_t	count;
-    char    *tmp;
+	char	*tmp;
 
 	count = ft_strlen(key);
 	while (envp)
 	{
-        tmp = envp->content;
+		tmp = envp->content;
 		if (ft_strnequal(tmp, key, count))
 			return (true);
 		envp = envp->next;
@@ -28,64 +28,80 @@ bool	same_key(char *key, t_list *envp)
 	return (false);
 }
 
-char        **turn_envp_into_strs(t_list *envp)
+char				**turn_envp_into_strs(t_list *envp)
 {
-    size_t	index;
-    char    **strs;
-    // char    *tmp;
+	size_t	index;
+	char	**strs;
 
-    index = 0;
-   	if (!(strs = malloc(sizeof(char *) * (ft_lstsize(envp) + 1))))
+	index = 0;
+	if (!(strs = malloc(sizeof(char *) * (ft_lstsize(envp) + 1))))
 		return (NULL);
-    while (envp)
-    {
-        // tmp = envp->content;
-        // array[i] = ft_strdup(tmp);
-        strs[index] = ft_strdup((char*)envp->content);
-        envp = envp->next;
-        index++;
-    }
-    strs[index] = NULL;
-    return (strs);
+	while (envp)
+	{
+		strs[index] = ft_strdup((char*)envp->content);
+		index++;
+		envp = envp->next;
+	}
+	strs[index] = NULL;
+	return (strs);
 }
 
-// char		*if_same_key_char(char *key, t_list *envp)
-// {
-// 	int	    count;
-//     char    *tmp;
-//     char    *value;
-
-// 	count = ft_strlen(key);
-// 	while (envp && envp->next)
-// 	{
-//         tmp = envp->content;
-// 		if (ft_strncmp(tmp, key, count) == 0)
-//         {
-//             value = ft_strdup((char*)envp->content);
-// 			return (value);
-//         }
-// 		envp = envp->next;
-// 	}
-// 	return (NULL);
-// }
-
-char    *get_key(char *arg)
+char				*get_key(char *argv)
 {
-    size_t	len;
-    char    *key;
+	size_t	len;
+	char	*key;
 
-    len = 0;
-    while (arg[len])
-    {
-        if (arg[len] == '=')
+	len = 0;
+	while (argv[len])
+	{
+		if (argv[len] == '=')
 		{
 			len++;
-            break ;
+			break ;
 		}
-        len++;
-    }
-	key = ft_strndup(arg, len);
+		len++;
+	}
+	key = ft_strndup(argv, len);
 	if (!key)
 		exit_err_msg(MALLOC_ERR);
-    return (key);
+	return (key);
+}
+
+unsigned long long	ft_atoull(const char *str)
+{
+	size_t				index;
+	unsigned long long	n;
+
+	index = 0;
+	while (ft_isspace(str[index]))
+		index++;
+	if (str[index] == '+')
+		index++;
+	n = 0;
+	while (ft_isdigit(str[index]))
+	{
+		n = n * 10 + (str[index] - '0');
+		index++;
+	}
+	return (n);
+}
+
+long long			ft_atoll(const char *str)
+{
+	bool		sign;
+	size_t		index;
+	long long	n;
+
+	index = 0;
+	sign = false;
+	if (str[index] == '+' || str[index] == '-')
+	{
+		if (str[index] == '-')
+			sign = true;
+		index++;
+	}
+	n = ft_atoull(&str[index]);
+	if (sign)
+		return (-n);
+	return (n);
 }

@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:37:10 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 13:55:14 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/18 14:09:54 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// help は入れない？
 const char *g_commands[] = {
 	"cd",
 	"help"
@@ -25,35 +24,35 @@ const char *g_commands[] = {
 	NULL
 };
 
-// bool	is_valid_arg(char *argv)
-// {
-// 	size_t	index;
+bool	is_valid_arg(char *argv)
+{
+	size_t	index;
 
-// 	index = 0;
-// 	if (ft_isdigit(argv[index]))
-// 		return (false);
-// 	if (argv[0] == '=')
-// 		return (false);
-// 	return (true);
-// }
+	index = 0;
+	if (ft_isdigit(argv[index]))
+		return (false);
+	if (argv[0] == '=')
+		return (false);
+	return (true);
+}
 
-// bool	check_valid_arg(char *argv)
-// {
-// 	size_t	index;
+bool	check_valid_arg(char *argv)
+{
+	size_t	index;
 
-// 	if (argv[0] == '=')
-// 		return (false);
-// 	index = 1;
-// 	while (argv[index])
-// 	{
-// 		if (argv[index] == '=')
-// 			return (true);
-// 		index++;
-// 	}
-// 	if (argv[index] == '\0')
-// 		return (false);
-// 	return (true);
-// }
+	if (argv[0] == '=')
+		return (false);
+	index = 1;
+	while (argv[index])
+	{
+		if (argv[index] == '=')
+			return (true);
+		index++;
+	}
+	if (argv[index] == '\0')
+		return (false);
+	return (true);
+}
 
 void	ascii_sort(char **args)
 {

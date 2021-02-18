@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:59:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/17 09:32:02 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/18 13:19:55 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,29 +41,22 @@ char	*do_single_quotation(char *argv, t_list *envp)
 	char	*value;
 
 	i = 0;
-	if (!(str = ft_strdup("")))
-		exit_err_msg(MALLOC_ERR);
-	if (!(value = ft_strdup("")))
-		exit_err_msg(MALLOC_ERR);
-	if (!(buf = ft_strdup("")))
-		exit_err_msg(MALLOC_ERR);
+	str = NULL;
+	value = NULL;
+	buf = NULL;
 	while (argv[i])
 	{
 		if (argv[i] == '\'')
 		{
 			i++;
-			while (argv[i] != '\'')
-			{
-				buf = ft_strnjoin_free(buf, &argv[i], 1);
-				i++;
-			}
+			buf = into_single_quotes(argv, &i);
 		}
 		i++;
 	}
 	str = replace_dollar_value(buf, envp, 1);
 	value = replace_word(argv, buf, str, 0);
-	free(str);
-	free(buf);
+	SAFE_FREE(str);
+	SAFE_FREE(buf);
 	return (value);
 }
 
@@ -111,7 +104,7 @@ char	**do_parse2(char *line)
 	j = 0;
 	i = 0;
 	tmp_num = count_command_line_words(line);
-	tmp = malloc(sizeof(*tmp) * (tmp_num + 10000));
+	tmp = malloc(sizeof(*tmp) * (tmp_num));
 	while (line[i])
 	{
 		if (line[i] == '\"')

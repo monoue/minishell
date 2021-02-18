@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 15:21:58 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/16 19:21:01 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/18 12:35:01 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,84 @@ char	*find_key(char *arg, t_list *envp)
 	if (!variable)
 		return (NULL);
 	return (variable);
+}
+
+char	*take_dollar(char *line, int *i)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+	(*i)++;
+	if (line[*i] == '$')
+	{
+		free(tmp);
+		tmp = ft_strdup("(process ID)");
+		(*i)++;
+		return (tmp);
+	}
+	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+	(*i)++;
+	while (line[*i] != '\'' && line[*i] != '\"'
+			&& line[*i] != '\0' && line[*i] != '$' && line[*i] != '/'
+			&& line[*i] != '\\' && line[*i] != '=')
+	{
+		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+		(*i)++;
+	}
+	return (tmp);
+}
+
+char	*take_single_quote(char *line, int *i)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+	(*i)++;
+	while (line[*i] != '\'')
+	{
+		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+		(*i)++;
+	}
+	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+	(*i)++;
+	return (tmp);
+}
+
+char	*take_ascii(char *line, int *i)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	if (line[*i] == '/')
+	{
+		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+		(*i)++;
+		return (tmp);
+	}
+	while (line[*i] != '\"' && line[*i] != '\''
+		&& line[*i] != '$' && line[*i] != '\0')
+	{
+		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+		(*i)++;
+	}
+	return (tmp);
+}
+
+char	*take_double_quote(char *line, int *i)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+	(*i)++;
+	while (line[*i] != '\"')
+	{
+		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+		(*i)++;
+	}
+	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+	(*i)++;
+	return (tmp);
 }

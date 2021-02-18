@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd_command.c                                      :+:      :+:    :+:   */
+/*   put_error_invalid_identifier.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/26 17:41:21 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 14:03:28 by sperrin          ###   ########.fr       */
+/*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
+/*   Updated: 2021/02/18 16:03:06 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		pwd(char **argv)
+void	put_error_invalid_identifier(const char *command, const char *arg)
 {
-	if (argv[1])
-	{
-		ft_putstr("pwd: too many arguments\n");
-		exit(EXIT_FAILURE);
-	}
-	ft_putstr(getcwd(NULL, 0));
-	ft_putchar('\n');
+	ft_putstr("bash: ");
+	ft_putstr(command);
+	ft_putstr(": `");
+	ft_putstr(arg);
+	ft_putendl("': not a valid identifier");
 }

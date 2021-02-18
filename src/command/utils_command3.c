@@ -6,20 +6,14 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:14:27 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/15 12:41:10 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/18 14:14:01 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	add_variable(char *argv, t_list *envp)
+void		add_variable(char *argv, t_list *envp)
 {
-	//t_list *new;
-	//char *tmp;
-
-	//tmp  = ft_strdup(argv);
-	//new = ft_lstnew(tmp);
-	//ft_lstadd_back(&envp, new);
 	t_list	*new;
 	t_list	*tmp;
 
@@ -32,7 +26,7 @@ void	add_variable(char *argv, t_list *envp)
 	new->next = tmp;
 }
 
-int		ft_strrchr_int(const char *s, int c)
+int			ft_strrchr_int(const char *s, int c)
 {
 	size_t	len;
 
@@ -43,48 +37,39 @@ int		ft_strrchr_int(const char *s, int c)
 	return (0);
 }
 
-char    *ft_strcat(char *dest, char *src)
+char		*ft_strcat(char *dest, char *src)
 {
-    int d_length;
-    int i;
+	int	d_length;
+	int	i;
 
-    d_length = 0;
-    while (dest[d_length])
-        d_length++;
-    i = 0;
-    while (src[i])
-    {
-        dest[d_length] = src[i];
-        i++;
-        d_length++;
-    }
-    dest[d_length] = '\0';
-    return (dest);
+	d_length = 0;
+	while (dest[d_length])
+		d_length++;
+	i = 0;
+	while (src[i])
+	{
+		dest[d_length] = src[i];
+		i++;
+		d_length++;
+	}
+	dest[d_length] = '\0';
+	return (dest);
 }
 
-int         dollar_or_not(char *arg, int c)
+int			dollar_or_not(char *arg, int c)
 {
-    size_t	i;
-    size_t	j;
+	size_t	i;
+	size_t	j;
 
-    i = 0;
-    j = 0;
-    while (arg[i])
-    {
-        if (arg[i] == c && arg[i - 1] != '\\')
-            j++;
-        i++;
-    }
-    if (0 < j && j < i)
-        return (1);
-    return (0);
+	i = 0;
+	j = 0;
+	while (arg[i])
+	{
+		if (arg[i] == c && arg[i - 1] != '\\')
+			j++;
+		i++;
+	}
+	if (0 < j && j < i)
+		return (1);
+	return (0);
 }
-
-// これでもいいかな？ 違うかも
-// bool	is_env(char *arg)
-// {
-// 	const char	dollar = '$';
-// 	const char	*env = strchr(arg, dollar);
-
-// 	return (env && ft_strlen(env) > 1 && env[1] != dollar);
-// }

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/17 15:46:32 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/18 16:29:41 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static void	exec_command_argv(char **argv, t_list *envp)
 	else
 		exec_path_command(argv, envp);
 	ft_free_split(argv);
-	g_last_exit_status = 0;
 }
 
 static void	shape_arg(char **chunk_words, char ***argv, size_t *index,
@@ -31,7 +30,7 @@ static void	shape_arg(char **chunk_words, char ***argv, size_t *index,
 
 	if (dollar_or_not(chunk_words[*index], '$'))
 	{
-		(*argv)[*index] = dollar(chunk_words[*index], envp, 0);
+		(*argv)[*index] = dollar(chunk_words[*index], envp);
 		if (g_space == true)
 		{
 			tmp = ft_split((*argv)[*index], ' ');

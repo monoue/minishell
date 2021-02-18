@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 15:49:32 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/18 13:35:43 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/17 15:53:15 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static void	put_syntax_error_message(char **words, int ret)
 {
-	ft_putstr_err("bash: syntax error near unexpected token `");
+	ft_putstr_err("-bash: syntax error near unexpected token `");
 	if (words[ret])
 		ft_putstr_err(words[ret]);
 	else
 		ft_putstr_err("newline");
-	ft_putstr_err("'\n");
+	ft_putstr_err("`\n");
 }
 
 bool		put_message_if_syntax_error(char *command_line)

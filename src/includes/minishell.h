@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/18 13:52:25 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/18 16:37:09 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@
 
 pid_t	g_pid;
 int		g_last_exit_status;
-int		g_flag_single_in_dq;
 bool	g_space;
+int		flag;
+int		space;
 
 typedef enum		e_element_type {
 	START,
@@ -124,40 +125,47 @@ void				env(t_list *envp);
 void				export(char **argv, t_list *envp);
 void				unset(char **argv, t_list *envp);
 
-char				*remove_escape(const char *str);
-
+void				put_error_invalid_identifier(const char *command,
+															const char *arg);
 /*
 ** dollar
 */
-char				*dollar(char *argv, t_list *envp, int j);
+char				*dollar(char *argv, t_list *envp);
 char				*replace_dollar_value(char *argv, t_list *envp, int flag);
 
 /*
 ** dollar_utils
 */
-char				*go_parse_dq(char *argv, t_list *envp);
-int					is_char_or_not(char *str, char c);
+char				*go_parse_dq(char *argv, t_list *envp, int j);
+char				*find_key_1(char *argv, t_list *envp);
 char				*replace_word(const char *head, char *cut_word,
-													const char *word, int i);
-char				*put_single_quotes(char *str);
+						const char *word, int i);
+char					*put_single_quotes(char *str);
 bool				ft_isascii1(int n);
 
 /*
 ** dollar_utils2
 */
-char				*skip_space_dollar(char *value);
-char				*do_single_quotation(char *argv, t_list *envp);
-int					single_quotation_or_not(char *argv);
-char				**do_parse2(char *line);
-bool				ft_isascii1(int n);
-char				*take_single_quote(char *line, int *i);
-char				*take_escape(char *line, int *i);
-char				*take_ascii(char *line, int *i);
+char			*skip_space_dollar(char *value);
+char			*do_single_quotation(char *argv, t_list *envp);
+int				single_quotation_or_not(char *argv);
+char			*take_dollar_dq(char *line, int *i);
+char			**do_parse2(char *line);
 
 /*
 ** dollar_utils3
 */
-char				*find_key(char *arg, t_list *envp);
+char			*find_key(char *arg, t_list *envp);
+char			*take_dollar(char *line, int *i);
+char			*take_single_quote(char *line, int *i);
+char			*take_ascii(char *line, int *i);
+char			*take_double_quote(char *line, int *i);
+
+/*
+** dollar_utils4
+*/
+char			*take_escape(char *line, int *i);
+char			*into_single_quotes(char *argv, int *i);
 
 /*
 **  syntax_error_check
@@ -210,13 +218,14 @@ char				**split_command_line(char const *str);
 void				set_words(const char *str, char **words, size_t words_num);
 bool				str_is_quoted_by_double(const char *str);
 bool				is_quote_char(char c);
+char				*remove_escape(const char *str);
 
 /*
 ** utils command
 */
 bool				is_command(char *argv);
 void				ascii_sort(char **args);
-// bool				check_valid_arg(char *argv);
+bool				check_valid_arg(char *argv);
 
 /*
 ** utils command 2
@@ -233,6 +242,8 @@ char				*ft_strcat(char *dest, char *src);
 int					ft_strrchr_int(const char *s, int c);
 void				add_variable(char *argv, t_list *envp);
 int					dollar_or_not(char *argv, int c);
+long long			ft_atoll(const char *str);
+unsigned long long	ft_atoull(const char *str);
 
 /*
 ** exit

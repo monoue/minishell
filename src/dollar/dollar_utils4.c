@@ -1,24 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd_command.c                                      :+:      :+:    :+:   */
+/*   dollar_utils4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/26 17:41:21 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 14:03:28 by sperrin          ###   ########.fr       */
+/*   Created: 2021/02/18 12:48:24 by sperrin           #+#    #+#             */
+/*   Updated: 2021/02/18 13:22:03 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		pwd(char **argv)
+char	*take_escape(char *line, int *i)
 {
-	if (argv[1])
+	char	*tmp;
+
+	tmp = NULL;
+	while (line[*i] != '$' && line[*i] != '\0'
+		&& !ft_isascii1(line[*i]))
 	{
-		ft_putstr("pwd: too many arguments\n");
-		exit(EXIT_FAILURE);
+		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+		(*i)++;
 	}
-	ft_putstr(getcwd(NULL, 0));
-	ft_putchar('\n');
+	return (tmp);
+}
+
+char	*into_single_quotes(char *argv, int *i)
+{
+	char	*tmp;
+
+	if (!(tmp = ft_strdup("")))
+		exit_err_msg(MALLOC_ERR);
+	while (argv[*i] != '\'')
+	{
+		tmp = ft_strnjoin_free(tmp, &argv[*i], 1);
+		(*i)++;
+	}
+	return (tmp);
 }

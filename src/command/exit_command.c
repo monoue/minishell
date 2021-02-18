@@ -3,55 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/11 10:29:48 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/18 13:49:32 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-unsigned long long	ft_atoull(const char *str)
-{
-	size_t				index;
-	unsigned long long	n;
-
-	index = 0;
-	while (ft_isspace(str[index]))
-		index++;
-	if (str[index] == '+')
-		index++;
-	n = 0;
-	while (ft_isdigit(str[index]))
-	{
-		n = n * 10 + (str[index] - '0');
-		index++;
-	}
-	return (n);
-}
-
-long long ft_atoll(const char *str)
-{
-	bool		sign;
-	size_t		index;
-	long long	n;
-
-	index = 0;
-	sign = false;
-	if (str[index] == '+' || str[index] == '-')
-	{
-		if (str[index] == '-')
-			sign = true;
-		index++;
-	}
-	n = ft_atoull(&str[index]);
-	if (sign)	
-		return (-n);
-	return (n);
-}
-
-static bool	digits_num_is_over_llong_max(const char *str)
+static bool			digits_num_is_over_llong_max(const char *str)
 {
 	size_t	index;
 
@@ -63,7 +24,7 @@ static bool	digits_num_is_over_llong_max(const char *str)
 	return (ft_strlen(&str[index]) > LLONG_MAX_DIGITS);
 }
 
-static bool	str_is_within_llong(const char *str)
+static bool			str_is_within_llong(const char *str)
 {
 	bool				sign;
 	unsigned long long	n;
@@ -87,7 +48,7 @@ static bool	str_is_within_llong(const char *str)
 	return (n <= LLONG_MAX);
 }
 
-bool	str_is_valid_num(char *str)
+bool				str_is_valid_num(char *str)
 {
 	size_t	index;
 
@@ -99,7 +60,7 @@ bool	str_is_valid_num(char *str)
 	return (str_is_within_llong(str));
 }
 
-int	exit_minishell(char **argv)
+int					exit_minishell(char **argv)
 {
 	int				nbr;
 	int				exit_nbr;
@@ -115,17 +76,15 @@ int	exit_minishell(char **argv)
 		ft_putstr_err("exit\nbash: exit: ");
 		ft_putstr_err(argv[1]);
 		ft_putstr_err(": numeric argument required\n");
-		exit (255);
+		exit(255);
 	}
 	if (argv_num > 2)
 	{
 		ft_putstr("bash: exit: too many arguments\n");
-		return (1); // ?
-		// $? = 1
+		return (1);
 	}
-	put_farewell_greeting();
 	nbr = ft_atoll(argv[1]);
 	exit_nbr = ((nbr % 256) + 256) % 256;
-	exit (exit_nbr);
+	exit(exit_nbr);
 	return (0);
 }

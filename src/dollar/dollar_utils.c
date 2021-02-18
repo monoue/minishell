@@ -3,28 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:58:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/17 14:33:56 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/18 13:02:22 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*go_parse_dq(char *argv, t_list *envp)
+char	*go_parse_dq(char *argv, t_list *envp, int j)
 {
 	char	**tmp;
 	char	*str;
-	int		j;
-	int		tmp_num;
 	char	*value;
 	char	*final;
 
-	j = 0;
-	g_flag_single_in_dq = 1;
-	tmp_num = count_command_line_words(argv);
-	tmp = malloc(sizeof(*tmp) * (tmp_num + 1000));
+	flag = 1;
 	str = NULL;
 	value = NULL;
 	final = NULL;
@@ -37,27 +32,32 @@ char	*go_parse_dq(char *argv, t_list *envp)
 		else
 			str = ft_strdup(tmp[j]);
 		value = ft_strnjoin_free(value, str, ft_strlen(str));
-		free(str);
+		SAFE_FREE(str);
 		j++;
 	}
 	final = remove_escape(value);
-	free(value);
+	SAFE_FREE(value);
 	ft_free_split(tmp);
 	return (final);
 }
 
-int		is_char_or_not(char *str, char c)
+char	*find_key_1(char *argv, t_list *envp)
 {
-	int	i;
+	t_list	*tmp_list;
+	char	*variable;
+	char	*arg;
 
-	i = 0;
-	while (str[i])
+	arg = ft_strnjoin(&argv[1], "=", 1);
+	tmp_list = envp;
+	variable = NULL;
+	while (tmp_list && tmp_list->next)
 	{
-		if (str[i] == c)
-			return (1);
-		i++;
+		if (ft_strncmp((char*)tmp_list->content, arg, ft_strlen(arg)) == 0)
+			variable = ft_strdup((char*)tmp_list->content);
+		tmp_list = tmp_list->next;
 	}
-	return (0);
+	SAFE_FREE(arg);
+	return (variable);
 }
 
 char	*replace_word(const char *head, char *cut_word,
