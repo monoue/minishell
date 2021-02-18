@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 13:13:03 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/18 18:42:27 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ char	*find_variable(char *variable)
 	char	*value;
 	char	*tmp_var;
 
+	if (!variable)
+		return (NULL);
 	tmp_var = NULL;
 	value = NULL;
-	if (!variable)
-		return (ft_strdup(""));
 	count = ft_strrchr_int(variable, '=');
 	tmp_var = ft_substr(variable, count + 1, ft_strlen(variable) - count);
-	if (flag == 0)
+	if (g_flag == 0)
 	{
 		value = skip_space_dollar(tmp_var);
-		space = 1;
+		g_space = true;
 	}
 	else
 		value = ft_strdup(tmp_var);
@@ -36,17 +36,15 @@ char	*find_variable(char *variable)
 	return (value);
 }
 
-char	*replace_dollar_value(char *argv, t_list *envp, int flag)
+char	*replace_dollar_value(char *argv, t_list *envp, int g_flag)
 {
 	char	*value;
 
 	value = NULL;
-	space = 0;
+	g_space = false;
 	if (argv[0] == '\'')
 		return (do_single_quotation(argv, envp));
 	value = find_variable(find_key_1(argv, envp));
-	if (ft_strcmp(value, "") == 0)
-		return (NULL);
 	return (value);
 }
 
@@ -108,7 +106,7 @@ char	*dollar(char *argv, t_list *envp)
 	char	*final;
 	char	*value;
 
-	flag = 0;
+	g_flag = 0;
 	final = NULL;
 	tmp = do_parse(argv);
 	value = exec_dollar(tmp, envp);

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:24:43 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/17 14:24:44 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/18 18:08:15 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static void	sig_ignore(int sig)
 
 static void	close_pipes(int pipe_fds[2])
 {
-	close(pipe_fds[0]);
-	close(pipe_fds[1]);
+	exit_if_closing_fd_error(pipe_fds[0]);
+	exit_if_closing_fd_error(pipe_fds[1]);
 }
 
 /*

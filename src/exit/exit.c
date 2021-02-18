@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 15:59:29 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/17 15:59:43 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/18 18:05:57 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,12 @@ void	exit_bash_err_msg(const char *error_factor, const char *error_reason,
 	ft_putstr_err(": ");
 	ft_putendl_err(error_reason);
 	exit(exit_status);
+}
+
+void	exit_if_closing_fd_error(int fd)
+{
+	if (close(fd) != ERROR)
+		return ;
+	ft_putendl_err(strerror(errno));
+	exit(EXIT_FAILURE);
 }

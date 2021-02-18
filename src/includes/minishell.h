@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/18 16:37:09 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/18 18:36:03 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@
 pid_t	g_pid;
 int		g_last_exit_status;
 bool	g_space;
-int		flag;
-int		space;
+int		g_flag;
+// int		g_space;
 
 typedef enum		e_element_type {
 	START,
@@ -131,7 +131,7 @@ void				put_error_invalid_identifier(const char *command,
 ** dollar
 */
 char				*dollar(char *argv, t_list *envp);
-char				*replace_dollar_value(char *argv, t_list *envp, int flag);
+char				*replace_dollar_value(char *argv, t_list *envp, int g_flag);
 
 /*
 ** dollar_utils
@@ -252,5 +252,6 @@ void				exit_fatal(void);
 void				exit_err_msg(char *err_msg);
 void				exit_bash_err_msg(const char *error_factor,
 								const char *error_reason, int exit_status);
+void				exit_if_closing_fd_error(int fd);
 
 #endif
