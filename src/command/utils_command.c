@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:37:10 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 14:09:54 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/18 17:08:43 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,6 @@ const char *g_commands[] = {
 	"unset",
 	NULL
 };
-
-bool	is_valid_arg(char *argv)
-{
-	size_t	index;
-
-	index = 0;
-	if (ft_isdigit(argv[index]))
-		return (false);
-	if (argv[0] == '=')
-		return (false);
-	return (true);
-}
 
 bool	check_valid_arg(char *argv)
 {

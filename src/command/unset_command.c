@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:34 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 16:39:29 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/18 17:14:22 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ static int			get_target_prev_i(char *key, t_list *envp)
 static bool			is_valid_arg1(char *arg)
 {
 	size_t		index;
-	const char	*ng_chars = "$~-#*%()/|<+[]{}:;@?^!\'\"";
+	const char	*ng_chars = "~-#*%()/|<+[]{}:;@?^!\'\"";
 
 	if (arg[0] == '=')
 		return (false);
 	index = 0;
 	if (arg[index] == 0)
-		return (false);
+		return (true);
 	while (arg[index])
 	{
 		if (arg[index] == '=')

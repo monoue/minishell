@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 16:39:56 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/18 17:12:24 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static bool	is_valid_arg(char *arg)
 {
 	const size_t	len = ft_strlen(arg);
 	size_t			index;
-	const char		*ng_chars = "$~-#*%()/|<+[]{}:;@?^!\'\"";
+	const char		*ng_chars = "~-#*%()/|<+[]{}:;@?^!\'\"";
 
 	if (len == 0 || arg[0] == '=' || ft_strchr(arg, '\\') || ft_isdigit(arg[0]))
 		return (false);
