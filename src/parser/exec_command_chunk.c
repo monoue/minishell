@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/18 18:21:35 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/18 16:29:41 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,8 @@ static void	shape_arg(char **chunk_words, char ***argv, size_t *index,
 	if (dollar_or_not(chunk_words[*index], '$'))
 	{
 		(*argv)[*index] = dollar(chunk_words[*index], envp);
-		// DS((*argv)[*index]);
 		if (g_space == true)
 		{
-			// $unde: ここは通らない
 			tmp = ft_split((*argv)[*index], ' ');
 			j = 0;
 			while (tmp[j])
@@ -59,7 +57,7 @@ static char	**set_command_argv(char **chunk_words, size_t args_num,
 	size_t	index;
 	int		j;
 
-	argv = ft_calloc(args_num + 1, sizeof(char *));
+	argv = ft_calloc(args_num + 1, sizeof(char*));
 	if (!argv)
 		exit_err_msg(MALLOC_ERR);
 	if (args_num < 2)
@@ -81,12 +79,12 @@ static void	reset_redirection_fds(t_fd fds)
 	if (fds.input != STDIN_FILENO)
 	{
 		dup2(fds.input, STDIN_FILENO);
-		exit_if_closing_fd_error(fds.input);
+		close(fds.input);
 	}
 	if (fds.output > 2)
 	{
 		dup2(fds.output, STDOUT_FILENO);
-		exit_if_closing_fd_error(fds.output);
+		close(fds.output);
 	}
 }
 

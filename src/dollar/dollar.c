@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 18:42:27 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/18 18:55:17 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ char	*find_variable(char *variable)
 	char	*value;
 	char	*tmp_var;
 
-	if (!variable)
-		return (NULL);
 	tmp_var = NULL;
 	value = NULL;
+	if (!variable)
+		return (ft_strdup(""));
 	count = ft_strrchr_int(variable, '=');
 	tmp_var = ft_substr(variable, count + 1, ft_strlen(variable) - count);
-	if (g_flag == 0)
+	if (flag == 0)
 	{
 		value = skip_space_dollar(tmp_var);
-		g_space = true;
+		space = 1;
 	}
 	else
 		value = ft_strdup(tmp_var);
@@ -36,15 +36,20 @@ char	*find_variable(char *variable)
 	return (value);
 }
 
-char	*replace_dollar_value(char *argv, t_list *envp, int g_flag)
+char	*replace_dollar_value(char *argv, t_list *envp, int flag)
 {
 	char	*value;
 
 	value = NULL;
-	g_space = false;
+	space = 0;
 	if (argv[0] == '\'')
 		return (do_single_quotation(argv, envp));
 	value = find_variable(find_key_1(argv, envp));
+	if (ft_strcmp(value, "") == 0)
+	{
+		SAFE_FREE(value);
+		return (NULL);
+	}
 	return (value);
 }
 
@@ -106,7 +111,7 @@ char	*dollar(char *argv, t_list *envp)
 	char	*final;
 	char	*value;
 
-	g_flag = 0;
+	flag = 0;
 	final = NULL;
 	tmp = do_parse(argv);
 	value = exec_dollar(tmp, envp);
