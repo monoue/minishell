@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 12:48:24 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 13:22:03 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/20 15:38:47 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ char	*take_escape(char *line, int *i)
 	char	*tmp;
 
 	tmp = NULL;
-	while (line[*i] != '$' && line[*i] != '\0'
-		&& !ft_isascii1(line[*i]))
+	while (line[*i] != '\0' && !ft_isascii1(line[*i]) && !ft_isalnum(line[*i]))
 	{
 		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 		(*i)++;

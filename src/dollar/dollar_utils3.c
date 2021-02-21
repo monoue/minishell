@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 15:21:58 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 12:35:01 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/20 22:08:12 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*find_key(char *arg, t_list *envp)
 			(char*)tmp_list->content, ft_strlen((char*)tmp_list->content));
 		tmp_list = tmp_list->next;
 	}
-	if (!variable)
+	if (ft_strcmp(variable, "") == 0)
 		return (NULL);
 	return (variable);
 }
@@ -46,11 +46,16 @@ char	*take_dollar(char *line, int *i)
 		(*i)++;
 		return (tmp);
 	}
-	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-	(*i)++;
+	if (ft_isdigit(line[*i]))
+	{
+		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+		(*i)++;
+		return (tmp);
+	}
 	while (line[*i] != '\'' && line[*i] != '\"'
 			&& line[*i] != '\0' && line[*i] != '$' && line[*i] != '/'
-			&& line[*i] != '\\' && line[*i] != '=')
+			&& line[*i] != '\\' && line[*i] != '=' 
+			&& ft_isalnum(line[*i]))
 	{
 		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 		(*i)++;
@@ -87,7 +92,8 @@ char	*take_ascii(char *line, int *i)
 		return (tmp);
 	}
 	while (line[*i] != '\"' && line[*i] != '\''
-		&& line[*i] != '$' && line[*i] != '\0')
+		&& line[*i] != '$' && line[*i] != '\0'
+		&& line[*i] != '\\')
 	{
 		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 		(*i)++;

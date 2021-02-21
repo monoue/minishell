@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 18:55:17 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/21 21:32:00 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,24 @@ char	*find_variable(char *variable)
 	int		count;
 	char	*value;
 	char	*tmp_var;
+	char	*tmp;
 
 	tmp_var = NULL;
 	value = NULL;
 	if (!variable)
 		return (ft_strdup(""));
-	count = ft_strrchr_int(variable, '=');
+	tmp = variable;
+	count = 0;
+	while (*tmp && *tmp != '=')
+	{
+		count++;
+		tmp++;
+	}
 	tmp_var = ft_substr(variable, count + 1, ft_strlen(variable) - count);
-	if (flag == 0)
+	if (g_flag == 0)
 	{
 		value = skip_space_dollar(tmp_var);
-		space = 1;
+		g_space = 1;
 	}
 	else
 		value = ft_strdup(tmp_var);
@@ -36,20 +43,15 @@ char	*find_variable(char *variable)
 	return (value);
 }
 
-char	*replace_dollar_value(char *argv, t_list *envp, int flag)
+char	*replace_dollar_value(char *argv, t_list *envp)
 {
 	char	*value;
 
 	value = NULL;
-	space = 0;
+	g_space = 0;
 	if (argv[0] == '\'')
 		return (do_single_quotation(argv, envp));
 	value = find_variable(find_key_1(argv, envp));
-	if (ft_strcmp(value, "") == 0)
-	{
-		SAFE_FREE(value);
-		return (NULL);
-	}
 	return (value);
 }
 
@@ -58,12 +60,11 @@ char	**do_parse(char *line)
 	char	**tmp;
 	int		i;
 	int		j;
-	int		tmp_num;
 
 	j = 0;
 	i = 0;
-	tmp_num = ft_strlen(line);
-	tmp = malloc(sizeof(*tmp) * (tmp_num));
+	if (!(tmp = malloc(sizeof(*tmp) * (MAX_INPUT * MAX_INPUT))))
+		exit_err_msg(MALLOC_ERR);
 	while (line[i])
 	{
 		if (line[i] == '$')
@@ -85,21 +86,27 @@ char	*exec_dollar(char **tmp, t_list *envp)
 	int		j;
 	char	*value;
 	char	*str;
+	char	*quote;
 
 	j = 0;
 	str = NULL;
 	value = NULL;
 	while (tmp[j])
 	{
+		g_flag = 0;
 		if (dollar_or_not(tmp[j], '$') && tmp[j][0] == '\"')
 			str = go_parse_dq(tmp[j], envp, 0);
 		else if (dollar_or_not(tmp[j], '$') && tmp[j][0] != '\'')
-			str = replace_dollar_value(tmp[j], envp, 0);
+			str = replace_dollar_value(tmp[j], envp);
 		else
-			str = remove_quotes(ft_strdup(tmp[j]));
-		value = ft_strjoin_free(value, str);
+			str = ft_strdup(tmp[j]);
+		if (g_flag == 0)
+			quote = remove_quotes(str);
+		else
+			quote = ft_strdup(str);
+		value = ft_strjoin_free(value, quote);
 		SAFE_FREE(str);
-		str = NULL;
+		SAFE_FREE(quote);
 		j++;
 	}
 	return (value);
@@ -111,12 +118,18 @@ char	*dollar(char *argv, t_list *envp)
 	char	*final;
 	char	*value;
 
-	flag = 0;
+	g_flag = 0;
+	g_flag_escape_db = 0;
 	final = NULL;
 	tmp = do_parse(argv);
 	value = exec_dollar(tmp, envp);
-	final = remove_escape(value);
+	if (g_flag == 0 && value[1] != '\'')
+		final = remove_escape(value);//ici dire a makoto pour remove_quote $\'
+	else
+		final = ft_strdup(value);
 	SAFE_FREE(value);
 	ft_free_split(tmp);
+	if (ft_strcmp(final, "") == 0 && g_flag_escape_db == 0)
+		return (NULL);
 	return (final);
 }

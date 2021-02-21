@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:59:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 13:19:55 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/21 21:02:41 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*do_single_quotation(char *argv, t_list *envp)
 		}
 		i++;
 	}
-	str = replace_dollar_value(buf, envp, 1);
+	str = replace_dollar_value(buf, envp);
 	value = replace_word(argv, buf, str, 0);
 	SAFE_FREE(str);
 	SAFE_FREE(buf);
@@ -82,11 +82,16 @@ char	*take_dollar_dq(char *line, int *i)
 		exit_err_msg(MALLOC_ERR);
 	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 	(*i)++;
-	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-	(*i)++;
-	while (line[*i] != '\'' && line[*i] != '\"' &&
-			line[*i] != '\0' && line[*i] != '$' && line[*i] != '/'
-			&& line[*i] != '=' && !ft_isdigit(line[*i]))
+	if (ft_isdigit(line[*i]))
+	{
+		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+		(*i)++;
+		return (tmp);
+	}
+	while (line[*i] != '\'' && line[*i] != '\"'
+			&& line[*i] != '\0' && line[*i] != '$' && line[*i] != '/'
+			&& line[*i] != '\\' && line[*i] != '=' 
+			&& ft_isalnum(line[*i]))
 	{
 		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 		(*i)++;
@@ -99,18 +104,17 @@ char	**do_parse2(char *line)
 	char	**tmp;
 	int		i;
 	int		j;
-	int		tmp_num;
 
 	j = 0;
 	i = 0;
-	tmp_num = count_command_line_words(line);
-	tmp = malloc(sizeof(*tmp) * (tmp_num));
+	if (!(tmp = malloc(sizeof(*tmp) * (MAX_INPUT))))
+		exit_err_msg(MALLOC_ERR);
 	while (line[i])
 	{
 		if (line[i] == '\"')
 			i++;
 		if (line[i] == '$')
-			tmp[j++] = take_dollar_dq(line, &i);
+			tmp[j++] = take_dollar(line, &i);
 		if (line[i] == '\'')
 			tmp[j++] = take_single_quote(line, &i);
 		if (ft_isascii1(line[i]) || line[i] == '/')

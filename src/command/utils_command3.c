@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_command3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:14:27 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 14:14:01 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/21 20:53:53 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,12 @@ int			dollar_or_not(char *arg, int c)
 
 	i = 0;
 	j = 0;
-	while (arg[i])
+	// DS(arg);
+	while (arg && arg[i])
 	{
-		if (arg[i] == c && arg[i - 1] != '\\')
-			j++;
+		if (arg[i] == c && arg[i - 1] != '\\' && arg[i + 1] != '\0')
+			return (1);
 		i++;
 	}
-	if (0 < j && j < i)
-		return (1);
 	return (0);
 }

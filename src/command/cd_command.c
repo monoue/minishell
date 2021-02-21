@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:49 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 16:50:29 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/21 20:08:34 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ void		old_pwd(t_list *envp)
 		while (envp && envp->next)
 		{
 			if (ft_strncmp((char*)envp->content, key, count) == 0)
+			{
+				SAFE_FREE(envp->content);
 				envp->content = ft_strdup(oldpwd);
+			}
 			envp = envp->next;
 		}
 	}
@@ -47,24 +50,22 @@ void		new_pwd(t_list *envp)
 	char	*new_pwd;
 	char	*buf;
 	char	*key;
+	char	*arg;
 	int		count;
 
 	buf = NULL;
 	pwd = getcwd(buf, PATH_MAX);
 	new_pwd = ft_strjoin("PWD=", pwd);
-	key = get_key(new_pwd);
-	count = ft_strlen(key);
-	if (same_key(key, envp) == 1)
+	while (envp && envp->next)
 	{
-		while (envp && envp->next)
+		if (ft_strncmp((char*)envp->content, "PWD=", 4) == 0)
 		{
-			if (ft_strncmp((char*)envp->content, key, count) == 0)
-				envp->content = ft_strdup(new_pwd);
-			envp = envp->next;
+			SAFE_FREE(envp->content);
+			envp->content = ft_strdup(new_pwd);
 		}
+		envp = envp->next;
 	}
 	SAFE_FREE(new_pwd);
-	SAFE_FREE(key);
 	SAFE_FREE(pwd);
 }
 
@@ -82,6 +83,9 @@ void		cd(char **argv, t_list *envp)
 	char	*variable;
 	int		count;
 
+	variable = NULL;
+	if (find_key("HOME=", envp) == NULL)
+		return(ft_putstr_fd("bash: cd: HOME not set\n", 1));
 	old_pwd(envp);
 	if ((argv[1] == NULL) || (ft_strcmp(argv[1], "~") == 0))
 	{
@@ -91,7 +95,7 @@ void		cd(char **argv, t_list *envp)
 				variable = ft_strdup((char*)envp->content);
 			envp = envp->next;
 		}
-		if (variable)
+		if (variable != NULL)
 		{
 			count = ft_strrchr_int(variable, '=');
 			argv[1] = ft_substr(variable, count + 1,

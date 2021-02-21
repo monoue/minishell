@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/18 16:37:09 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/21 21:01:06 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@
 pid_t	g_pid;
 int		g_last_exit_status;
 bool	g_space;
-int		flag;
-int		space;
+int		g_flag;
+int		g_flag_escape_db;
 
 typedef enum		e_element_type {
 	START,
@@ -131,7 +131,7 @@ void				put_error_invalid_identifier(const char *command,
 ** dollar
 */
 char				*dollar(char *argv, t_list *envp);
-char				*replace_dollar_value(char *argv, t_list *envp, int flag);
+char				*replace_dollar_value(char *argv, t_list *envp);
 
 /*
 ** dollar_utils
@@ -219,6 +219,7 @@ void				set_words(const char *str, char **words, size_t words_num);
 bool				str_is_quoted_by_double(const char *str);
 bool				is_quote_char(char c);
 char				*remove_escape(const char *str);
+char				*remove_escape_dq(const char *str);
 
 /*
 ** utils command

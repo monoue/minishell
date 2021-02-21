@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 17:12:24 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/21 20:09:54 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static bool	is_valid_arg(char *arg)
 {
 	const size_t	len = ft_strlen(arg);
 	size_t			index;
-	const char		*ng_chars = "~-#*%()/|<+[]{}:;@?^!\'\"";
+	const char		*ng_chars = ".~-#*%()/|<+[]{}:;@?^!\'\"";
 
 	if (len == 0 || arg[0] == '=' || ft_strchr(arg, '\\') || ft_isdigit(arg[0]))
 		return (false);
@@ -81,20 +81,22 @@ void			check_same_key_or_not(char *key, t_list *envp, char **argv,
 	{
 		while (envp && envp->next)
 		{
-			if (ft_strncmp((char*)(envp->content), key, count) == 0)
+			if (ft_strncmp((char*)(envp->content), key, count) == 0
+				&& ft_strcmp((char*)(envp->content), argv[index]) != 0)
 			{
-				arg = remove_quotes(argv[index]);
-				envp->content = ft_strdup(remove_quotes(arg));
+				SAFE_FREE(envp->content);
+				// arg = remove_quotes(argv[index]);
+				envp->content = ft_strdup(argv[index]);
 			}
 			envp = envp->next;
 		}
 	}
 	else if (check_valid_arg(argv[index]))
 	{
-		arg = remove_quotes(argv[index]);
-		add_variable(arg, envp);
+		// arg = remove_quotes(argv[index]);
+		add_variable(argv[index], envp);
 	}
-	SAFE_FREE(arg);
+	// SAFE_FREE(arg);
 }
 
 void			export(char **argv, t_list *envp)

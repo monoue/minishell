@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:58:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 13:02:22 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/21 21:01:56 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ char	*go_parse_dq(char *argv, t_list *envp, int j)
 	char	*value;
 	char	*final;
 
-	flag = 1;
+	g_flag = 1;
+	g_flag_escape_db = 1;
 	str = NULL;
 	value = NULL;
 	final = NULL;
@@ -28,14 +29,14 @@ char	*go_parse_dq(char *argv, t_list *envp, int j)
 	while (tmp[j])
 	{
 		if (dollar_or_not(tmp[j], '$'))
-			str = replace_dollar_value(tmp[j], envp, 1);
+			str = replace_dollar_value(tmp[j], envp);
 		else
 			str = ft_strdup(tmp[j]);
 		value = ft_strnjoin_free(value, str, ft_strlen(str));
 		SAFE_FREE(str);
 		j++;
 	}
-	final = remove_escape(value);
+	final = remove_escape_dq(value);
 	SAFE_FREE(value);
 	ft_free_split(tmp);
 	return (final);

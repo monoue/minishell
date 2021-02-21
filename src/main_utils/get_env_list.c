@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/11 09:45:19 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/21 19:53:31 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_list	*new_env(char *cont)
+{
+	t_list	*new;
+
+	new = malloc(sizeof(t_list));
+	if (new == NULL)
+		return (NULL);
+	new->content = ft_strdup(cont);
+	new->next = NULL;
+	return (new);
+}
 
 t_list	*get_env_list(void)
 {
@@ -25,7 +37,7 @@ t_list	*get_env_list(void)
 	index = 1;
 	while (environ[index])
 	{
-		tmp = ft_lstnew(environ[index]);
+		tmp = new_env(environ[index]);
 		ft_lstadd_back(&envp, tmp);
 		index++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/17 15:48:18 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/21 20:09:12 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ static void	main_loop(t_list *envp)
 	ret = get_next_line(STDIN_FILENO, &line);
 	if (ret == ERROR)
 		exit_err_msg(MALLOC_ERR);
-	if (ret == FILE_END)
+	if (ret == FILE_END && *line)
+		;
+	else if (ret == FILE_END)
 	{
 		put_farewell_greeting();
 		exit(EXIT_SUCCESS);

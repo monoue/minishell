@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:55 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/15 16:14:26 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/21 12:37:33 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,11 @@ static void		put_echo_targets(char **targets)
 	size_t	index;
 
 	index = 0;
+	if (targets[index] == NULL && targets[index + 1] != NULL)
+		index++;
 	while (targets[index])
 	{
-		if (index != 0)
+		if (index != 0 && targets[index - 1] != NULL)
 			ft_putchar(' ');
 		ft_putstr(targets[index]);
 		index++;
@@ -63,9 +65,9 @@ void			echo(char **argv)
 	size_t	index;
 	bool	option_n;
 
-	if (!argv[1])
+	if (!argv[1] && !argv[2])
 	{
-		ft_putendl(" ");
+		ft_putendl("");
 		return ;
 	}
 	index = skip_options(argv, &option_n);

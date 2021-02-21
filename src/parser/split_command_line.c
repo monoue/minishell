@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command_line.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:18 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/17 14:25:19 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/21 12:02:06 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,17 @@ static void	trim_quotes_if_not_env(char **words)
 	}
 }
 
-char		**split_command_line(char const *str)
+char        **split_command_line(char const *str)
 {
-	char	**words;
-	char	*tmp;
-	char	**ret_words;
+    char    **words;
+    char    *tmp;
+    char    **ret_words;
 
-	tmp = turn_dollar_question_into_value(str);
-	words = split_command_line_with_quotes(tmp);
-	free(tmp);
-	if (!words)
-		return (NULL);
-	ret_words = get_continuous_quotes_trimmed_strs(words);
-	ft_free_split(words);
-	trim_quotes_if_not_env(ret_words);
-	return (ret_words);
+    tmp = turn_dollar_question_into_value(str);
+    words = split_command_line_with_quotes(tmp);
+    free(tmp);
+    if (!words)
+        return (NULL);
+    trim_quotes_if_not_env(words);
+    return (words);
 }
