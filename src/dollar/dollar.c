@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/21 21:32:00 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/22 12:24:58 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*exec_dollar(char **tmp, t_list *envp)
 	int		j;
 	char	*value;
 	char	*str;
-	char	*quote;
+	// char	*quote;
 
 	j = 0;
 	str = NULL;
@@ -100,13 +100,13 @@ char	*exec_dollar(char **tmp, t_list *envp)
 			str = replace_dollar_value(tmp[j], envp);
 		else
 			str = ft_strdup(tmp[j]);
-		if (g_flag == 0)
-			quote = remove_quotes(str);
-		else
-			quote = ft_strdup(str);
-		value = ft_strjoin_free(value, quote);
+		// if (g_flag == 0)
+		// 	quote = remove_quotes(str);
+		// else
+		// 	quote = ft_strdup(str);
+		value = ft_strjoin_free(value, str);
 		SAFE_FREE(str);
-		SAFE_FREE(quote);
+		// SAFE_FREE(quote);
 		j++;
 	}
 	return (value);
@@ -123,13 +123,16 @@ char	*dollar(char *argv, t_list *envp)
 	final = NULL;
 	tmp = do_parse(argv);
 	value = exec_dollar(tmp, envp);
-	if (g_flag == 0 && value[1] != '\'')
-		final = remove_escape(value);//ici dire a makoto pour remove_quote $\'
-	else
-		final = ft_strdup(value);
+	// if (g_flag == 0 && value[1] != '\'')
+	// 	final = remove_escape(value);//ici dire a makoto pour remove_quote $\'
+	// else
+	final = ft_strdup(value);
 	SAFE_FREE(value);
 	ft_free_split(tmp);
 	if (ft_strcmp(final, "") == 0 && g_flag_escape_db == 0)
+	{
+		free(final);
 		return (NULL);
+	}
 	return (final);
 }

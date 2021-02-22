@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:58:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/21 21:01:56 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/22 12:24:59 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ char	*go_parse_dq(char *argv, t_list *envp, int j)
 	char	**tmp;
 	char	*str;
 	char	*value;
-	char	*final;
+	// char	*final;
 
 	g_flag = 1;
 	g_flag_escape_db = 1;
 	str = NULL;
 	value = NULL;
-	final = NULL;
+	// final = NULL;
 	tmp = do_parse2(argv);
 	j = 0;
 	while (tmp[j])
@@ -36,10 +36,10 @@ char	*go_parse_dq(char *argv, t_list *envp, int j)
 		SAFE_FREE(str);
 		j++;
 	}
-	final = remove_escape_dq(value);
-	SAFE_FREE(value);
+	// final = remove_escape_dq(value);
+	// SAFE_FREE(value);
 	ft_free_split(tmp);
-	return (final);
+	return (value);
 }
 
 char	*find_key_1(char *argv, t_list *envp)
