@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/21 21:01:06 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/22 12:48:45 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,8 @@ char			*into_single_quotes(char *argv, int *i);
 **  syntax_error_check
 */
 bool				str_is_of_spaces(char *str);
-bool				put_message_if_syntax_error(char *command_line);
+// bool				put_message_if_syntax_error(char *command_line);
+bool				put_message_if_syntax_error(char *command_line, t_list *envp);
 int					check_syntax(char *command_line, char **command_line_words);
 
 /*
@@ -214,7 +215,8 @@ void				skip_quotes(char const *str, size_t *index);
 void				exec_command_chunk(char *command_chunk, t_list *envp,
 															bool pipe_child);
 bool				is_quoted_wrongly(char *str);
-char				**split_command_line(char const *str);
+// char				**split_command_line(char const *str);
+char				**split_command_line(char const *str, t_list *envp);
 void				set_words(const char *str, char **words, size_t words_num);
 bool				str_is_quoted_by_double(const char *str);
 bool				is_quote_char(char c);

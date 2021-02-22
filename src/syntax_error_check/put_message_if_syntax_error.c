@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 15:49:32 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/17 15:53:15 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/22 12:54:52 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ static void	put_syntax_error_message(char **words, int ret)
 	ft_putstr_err("`\n");
 }
 
-bool		put_message_if_syntax_error(char *command_line)
+bool		put_message_if_syntax_error(char *command_line, t_list *envp)
 {
 	char	**words;
 	int		ret;
 
-	words = split_command_line(command_line);
+	words = split_command_line(command_line, envp);
 	ret = check_syntax(command_line, words);
 	if (ret == SYNTAX_QUOTED_WRONGLY || ret == SYNTAX_VALID)
 		ft_free_split(words);

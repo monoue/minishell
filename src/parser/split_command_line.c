@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:18 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/22 09:35:10 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/22 13:36:48 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,7 @@ static void	trim_quotes_if_not_env(char **words)
 			else
 			{
 				skip_quotes(word, &index);
-				quoted_str = ft_strndup(&word[start], index - start);
-				if (str_has_env(quoted_str))
-					ret_s = ft_strjoin_free_both(ret_s, quoted_str);
-				else
-				{
-					ret_s = ft_strnjoin_free(ret_s, &quoted_str[1], ft_strlen(quoted_str) - 2);
-					SAFE_FREE(quoted_str);
-				}
+				ret_s = ft_strnjoin_free(ret_s, &word[start + 1], index - start - 2);
 			}
 		}
 		SAFE_FREE(words[w_i]);
@@ -107,15 +100,18 @@ static void	trim_quotes_if_not_env(char **words)
 	}
 }
 
-char        **split_command_line(char const *str)
+char        **split_command_line(char const *str, t_list *envp)
 {
     char    **words;
-    char    *tmp;
+    char    *tmp1;
+    char    *tmp2;
     char    **ret_words;
 
-    tmp = turn_dollar_question_into_value(str);
-    words = split_command_line_with_quotes(tmp);
-    free(tmp);
+    tmp1 = turn_dollar_question_into_value(str);
+    tmp2 = dollar(tmp1, envp);
+    SAFE_FREE(tmp1);
+    words = split_command_line_with_quotes(tmp2);
+    SAFE_FREE(tmp2);
     if (!words)
         return (NULL);
     trim_quotes_if_not_env(words);

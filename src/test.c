@@ -80,10 +80,9 @@ int main(int argc, char *argv[])
 
 	t_list		*envp;
 
-	put_welcome_greeting();
 	envp = get_env_list();
 
-	DS(dollar("hoge", envp));
+	DS(dollar("     \"   $USER   \" ", envp));
 
 
 /*

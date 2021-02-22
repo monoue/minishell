@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/22 08:13:39 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/22 12:48:04 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ void		exec_command_chunk(char *command_chunk, t_list *envp,
 	char	**argv;
 	char	**chunk_words;
 
-	chunk_words = split_command_line(command_chunk);
+	// chunk_words = split_command_line(command_chunk);
+	chunk_words = split_command_line(command_chunk, envp);
 	set_fds(&fds);
 	args_num = process_redirections(chunk_words, &fds, envp);
 	if (!is_redirection_str(chunk_words[0]))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/21 20:09:12 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/22 12:49:24 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	main_loop(t_list *envp)
 		put_farewell_greeting();
 		exit(EXIT_SUCCESS);
 	}
-	if (str_is_of_spaces(line) || put_message_if_syntax_error(line))
+	if (str_is_of_spaces(line) || put_message_if_syntax_error(line, envp))
 	{
 		SAFE_FREE(line);
 		return ;
