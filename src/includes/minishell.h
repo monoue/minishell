@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/22 12:48:45 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/22 17:57:35 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int		g_last_exit_status;
 bool	g_space;
 int		g_flag;
 int		g_flag_escape_db;
+int		g_flag_dont;
+int		g_global;
 
 typedef enum		e_element_type {
 	START,

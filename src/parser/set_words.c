@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_words.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:09 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/22 13:15:16 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/22 16:59:41 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void			set_words(const char *str, char **words, size_t words_num)
 
 	w_i = 0;
 	index = 0;
-	DS(str);
+	// DS(str);
 	while (w_i < words_num)
 	{
 		words[w_i] = cut_out_one_elem(str, &index);

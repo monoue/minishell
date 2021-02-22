@@ -6,11 +6,13 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/22 12:24:58 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/22 18:16:24 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		g_flag_dont;
 
 char	*find_variable(char *variable)
 {
@@ -49,6 +51,7 @@ char	*replace_dollar_value(char *argv, t_list *envp)
 
 	value = NULL;
 	g_space = 0;
+	g_flag_dont = 1;
 	if (argv[0] == '\'')
 		return (do_single_quotation(argv, envp));
 	value = find_variable(find_key_1(argv, envp));
@@ -86,7 +89,7 @@ char	*exec_dollar(char **tmp, t_list *envp)
 	int		j;
 	char	*value;
 	char	*str;
-	// char	*quote;
+	char	*quote;
 
 	j = 0;
 	str = NULL;
@@ -94,20 +97,26 @@ char	*exec_dollar(char **tmp, t_list *envp)
 	while (tmp[j])
 	{
 		g_flag = 0;
+		g_flag_dont = 0;
 		if (dollar_or_not(tmp[j], '$') && tmp[j][0] == '\"')
 			str = go_parse_dq(tmp[j], envp, 0);
 		else if (dollar_or_not(tmp[j], '$') && tmp[j][0] != '\'')
 			str = replace_dollar_value(tmp[j], envp);
 		else
 			str = ft_strdup(tmp[j]);
-		// if (g_flag == 0)
-		// 	quote = remove_quotes(str);
-		// else
-		// 	quote = ft_strdup(str);
-		value = ft_strjoin_free(value, str);
+		if (g_flag_dont == 0 && tmp[j][0] != '\''
+			&& tmp[j][0] != '\"')
+			quote = remove_escape(str);
+		else if (g_flag_dont == 0 && tmp[j][0] == '\"')
+			quote = remove_escape_dq(str);
+		else
+			quote = ft_strdup(str);
+		value = ft_strjoin_free(value, quote);
 		SAFE_FREE(str);
-		// SAFE_FREE(quote);
+		SAFE_FREE(quote);
 		j++;
+		if (g_flag_dont == 1)
+			g_global = 1;
 	}
 	return (value);
 }
@@ -120,6 +129,7 @@ char	*dollar(char *argv, t_list *envp)
 
 	g_flag = 0;
 	g_flag_escape_db = 0;
+	g_flag_dont = 0;
 	final = NULL;
 	tmp = do_parse(argv);
 	value = exec_dollar(tmp, envp);

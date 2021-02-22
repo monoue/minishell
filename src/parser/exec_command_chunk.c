@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/22 12:48:04 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/23 07:00:16 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,17 @@ static void	exec_command_argv(char **argv, t_list *envp)
 	// ft_free_split(argv);
 }
 
-static void	shape_arg(char *chunk_words, char ***argv, size_t *index,
-																t_list *envp)
-{
-	if (dollar_or_not(chunk_words, '$'))
-		(*argv)[*index] = dollar(chunk_words, envp);
-	else if (chunk_words[0] != '\'')
-		(*argv)[*index] = remove_escape(chunk_words);
-	else
-		(*argv)[*index] = ft_strdup(chunk_words);
-}
+// static void	shape_arg(char *chunk_words, char ***argv, size_t *index,
+// 																t_list *envp)
+// {
+// 	// if (dollar_or_not(chunk_words, '$'))
+// 	// 	(*argv)[*index] = dollar(chunk_words, envp);
+// 	// else if (chunk_words[0] != '\'')
+// 	// 	(*argv)[*index] = remove_escape(chunk_words);
+// 	else
+// 		(*argv)[*index] = ft_strdup(chunk_words);
+// 	DS((*argv)[*index]);
+// }
 
 static char	**set_command_argv(char **chunk_words, size_t args_num,
 																t_list *envp)
@@ -53,28 +54,72 @@ static char	**set_command_argv(char **chunk_words, size_t args_num,
 	index = 0;
 	while (index < args_num)
 	{
-		g_space = 0;
-		shape_arg(chunk_words[index], &argv, &index, envp);
-		if (argv[index])
+		argv[index] = ft_strdup(chunk_words[index]);
+		if (argv[index][0] == '\"' && argv[index][1] == ' ' && argv[index][2] != '\'')
 		{
-			if (g_space == 1 && argv[index][1] == ' ' && argv[index][2] != '\'')
+			tmp = ft_split(argv[index], ' ');
+			j = 0;
+			while (tmp[j])
 			{
-				tmp = ft_split(argv[index], ' ');
-				j = 0;
-				while (tmp[j])
-				{
-					free(argv[index]);
-					argv[index] = tmp[j];
-					index++;
-					j++;
-				}
-				// ft_free_split(tmp);
+				free(argv[index]);
+				argv[index] = tmp[j];
+				index++;
+				j++;
 			}
+			// ft_free_split(tmp);
 		}
+		if (ft_strcmp(argv[index], "\"\\\"") != 0)
+			argv[index] = remove_quotes(argv[index]);
 		index++;
 	}
 	return (argv);
 }
+
+// static char	**set_command_argv(char **chunk_words, size_t args_num,
+// 																t_list *envp)
+// {
+// 	char	**argv;
+// 	char	**tmp;
+// 	char	*str;
+// 	char	*arg_tmp;
+// 	size_t	index;
+// 	int		j;
+
+// 	g_space = 0;
+// 	argv = malloc(sizeof(*argv) * MAX_INPUT);
+// 	if (!argv)
+// 		exit_err_msg(MALLOC_ERR);
+// 	if (args_num < 2)
+// 	{
+// 		argv[0] = ft_strdup(chunk_words[0]);
+// 		return (argv);
+// 	}
+// 	index = 0;
+// 	while (index < args_num)
+// 	{
+// 		arg_tmp = ft_strdup(chunk_words[index]);
+// 		// if (arg_tmp[0] == '\"' && arg_tmp[1] == ' ' && arg_tmp[2] != '\'')
+// 		// {
+// 		// 	tmp = ft_split(arg_tmp, ' ');
+// 		// 	j = 0;
+// 		// 	while (tmp[j])
+// 		// 	{
+// 		// 		SAFE_FREE(arg_tmp);
+// 		// 		argv[index] = tmp[j];
+// 		// 		index++;
+// 		// 		j++;
+// 		// 	}
+// 		// 	// ft_free_split(tmp);
+// 		// }
+// 		if (g_flag_dont == 0)
+// 			str = remove_quotes(arg_tmp);
+// 		argv[index] = strdup(str);
+// 		index++;
+// 		SAFE_FREE(arg_tmp);
+// 		SAFE_FREE(str);
+// 	}
+// 	return (argv);
+// }
 
 static void	reset_redirection_fds(t_fd fds)
 {
@@ -101,6 +146,7 @@ void		exec_command_chunk(char *command_chunk, t_list *envp,
 	// chunk_words = split_command_line(command_chunk);
 	chunk_words = split_command_line(command_chunk, envp);
 	set_fds(&fds);
+	// TODO: リダイレクション部分以降も execve の引数としてとれるようにする
 	args_num = process_redirections(chunk_words, &fds, envp);
 	if (!is_redirection_str(chunk_words[0]))
 	{

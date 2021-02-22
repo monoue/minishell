@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:59:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/22 13:26:48 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/22 14:26:34 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,32 +98,6 @@ char	*take_dollar_dq(char *line, int *i)
 	}
 	return (tmp);
 }
-
-// char	**do_parse2(char *line)
-// {
-// 	char	**tmp;
-// 	int		i;
-// 	int		j;
-
-// 	j = 0;
-// 	i = 0;
-// 	if (!(tmp = malloc(sizeof(*tmp) * (MAX_INPUT))))
-// 		exit_err_msg(MALLOC_ERR);
-// 	while (line[i])
-// 	{
-// 		if (line[i] == '\"')
-// 			i++;
-// 		if (line[i] == '$')
-// 			tmp[j++] = take_dollar(line, &i);
-// 		if (line[i] == '\'')
-// 			tmp[j++] = take_single_quote(line, &i);
-// 		if (ft_isascii1(line[i]) || line[i] == '/')
-// 			tmp[j++] = take_ascii(line, &i);
-// 		if (line[i] == '\\')
-// 			tmp[j++] = take_escape(line, &i);
-// 	}
-// 	return (tmp);
-// }
 
 char    **do_parse2(char *line)
 {

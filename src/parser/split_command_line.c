@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command_line.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:18 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/22 13:36:48 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/22 16:59:25 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,6 @@ char        **split_command_line(char const *str, t_list *envp)
     SAFE_FREE(tmp2);
     if (!words)
         return (NULL);
-    trim_quotes_if_not_env(words);
+    // trim_quotes_if_not_env(words);
     return (words);
 }

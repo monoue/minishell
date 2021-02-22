@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:24:38 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/17 14:24:39 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/23 07:07:51 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,19 @@ int	get_redirection_type(char *element)
 		{"<", TYPE_INPUT},
 	};
 	t_redirection_combination		comb;
-	size_t							index;
+	size_t							r_i;
+	size_t							e_i;
 
-	index = 0;
-	while (index < TYPES_NUM)
+	e_i = 0;
+	while (ft_isdigit(element[e_i]))
+		e_i++;
+	r_i = 0;
+	while (r_i < TYPES_NUM)
 	{
-		comb = combs[index];
-		if (ft_strequal(element, comb.symbol))
+		comb = combs[r_i];
+		if (ft_strequal(&element[e_i], comb.symbol))
 			return (comb.type);
-		index++;
+		r_i++;
 	}
 	return (ERROR);
 }

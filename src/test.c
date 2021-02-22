@@ -164,4 +164,13 @@ int main(int argc, char *argv[])
 	// printf("%s\n", remove_quotes("hoge \"hoge \'hoge hoge\' hoge\""));
 	// printf("%s\n", remove_quotes("hoge\"  hoge  \"hoge"));
 
+/*
+** get_redirection_type
+*/
+	DI(get_redirection_type(">"));
+	DI(get_redirection_type(">>"));
+	DI(get_redirection_type("<"));
+	DI(get_redirection_type("123>"));
+	DI(get_redirection_type("123>>"));
+	DI(get_redirection_type("123<"));
 }

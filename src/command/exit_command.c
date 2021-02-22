@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 13:49:32 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/22 14:23:09 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,12 @@ bool				str_is_valid_num(char *str)
 	size_t	index;
 
 	index = 0;
-	if (str[index] == '-' || str[index] == '+')
+	while (str[index] == ' ')
 		index++;
-	if (!ft_str_is_numeric(&str[index]))
+	if ((str[index] == '-' && str[index + 1] != '\0')
+	|| (str[index] == '+' && str[index + 1] != '\0'))
+		index++;
+	if (!ft_str_is_numeric(&str[index]) || (ft_strcmp(str, "") == 0) || (ft_strcmp(str, "") == 0))
 		return (false);
 	return (str_is_within_llong(str));
 }
@@ -69,6 +72,7 @@ int					exit_minishell(char **argv)
 	if (argv_num == 1)
 	{
 		put_farewell_greeting();
+		ft_putstr_fd("exit\n", 1);
 		exit(0);
 	}
 	if (!str_is_valid_num(argv[1]))
@@ -85,6 +89,8 @@ int					exit_minishell(char **argv)
 	}
 	nbr = ft_atoll(argv[1]);
 	exit_nbr = ((nbr % 256) + 256) % 256;
+	ft_putstr_fd("exit\n", 1);
 	exit(exit_nbr);
 	return (0);
 }
+
