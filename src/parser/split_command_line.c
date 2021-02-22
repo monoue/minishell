@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command_line.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:18 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/21 12:02:06 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/22 09:35:10 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,69 @@ static bool	str_has_env(const char *str)
 	return (true);
 }
 
+// TODO: こいつを改良する。クオーテーション単位で実行されるようにする。
+// static void	trim_quotes_if_not_env(char **words)
+// {
+// 	size_t	index;
+
+// 	index = 0;
+// 	while (words[index])
+// 	{
+// 		if (str_is_quoted(words[index]) && !str_has_env(words[index]))
+// 			words[index] = ft_substr_free(words[index], 1,
+// 												ft_strlen(words[index]) - 2);
+// 		index++;
+// 	}
+// }
+
 static void	trim_quotes_if_not_env(char **words)
 {
-	size_t	index;
+	size_t	w_i;
 
-	index = 0;
-	while (words[index])
+
+	char	*word;
+	size_t	w_len;
+	size_t	index;
+	char	*ret_s;
+	size_t	start;
+	char	*quoted_str;
+	char	*tmp;
+
+
+	w_i = 0;
+	while (words[w_i])
 	{
-		if (str_is_quoted(words[index]) && !str_has_env(words[index]))
-			words[index] = ft_substr_free(words[index], 1,
-												ft_strlen(words[index]) - 2);
-		index++;
+		word = words[w_i];
+		w_len = ft_strlen(word);
+		index = 0;
+		ret_s = ft_strdup("");
+		if (!ret_s)
+			exit_err_msg(MALLOC_ERR);
+		while (index < w_len)
+		{
+			start = index;
+			if (!is_specific_char_not_escaped(word, index, is_quote_char))
+			{
+				while (index < w_len && !is_specific_char_not_escaped(word, index, is_quote_char))
+					index++;
+				ret_s = ft_strnjoin_free(ret_s, &word[start], index - start);
+			}
+			else
+			{
+				skip_quotes(word, &index);
+				quoted_str = ft_strndup(&word[start], index - start);
+				if (str_has_env(quoted_str))
+					ret_s = ft_strjoin_free_both(ret_s, quoted_str);
+				else
+				{
+					ret_s = ft_strnjoin_free(ret_s, &quoted_str[1], ft_strlen(quoted_str) - 2);
+					SAFE_FREE(quoted_str);
+				}
+			}
+		}
+		SAFE_FREE(words[w_i]);
+		words[w_i] = ft_strdup_free(ret_s);
+		w_i++;
 	}
 }
 
