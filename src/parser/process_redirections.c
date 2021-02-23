@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:03 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/23 10:46:19 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/23 11:06:42 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,11 +133,11 @@ static void					set_redirections(char **chunk_words, t_fd *fds,
 size_t						process_redirections(char **chunk_words, t_fd *fds,
 																t_list *envp)
 {
-	const size_t	len = ft_count_strs((const char **)chunk_words);
+	const size_t	words_num = ft_count_strs((const char **)chunk_words);
 	size_t			index;
 
 	index = 0;
-	while (index < len)
+	while (index < words_num)
 	{
 		if (is_redirection_str(chunk_words[index]))
 		{

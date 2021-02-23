@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/23 10:53:54 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/23 11:14:07 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,46 +34,6 @@ static void	exec_command_argv(char **argv, t_list *envp)
 // 	DS((*argv)[*index]);
 // }
 
-static char	**set_command_argv(char **chunk_words, size_t args_num,
-																t_list *envp)
-{
-	char	**argv;
-	char	**tmp;
-	size_t	index;
-	int		j;
-
-	g_space = 0;
-	argv = ft_calloc(args_num + 1, sizeof(char*));
-	if (!argv)
-		exit_err_msg(MALLOC_ERR);
-	if (args_num < 2)
-	{
-		argv[0] = ft_strdup(chunk_words[0]);
-		return (argv);
-	}
-	index = 0;
-	while (index < args_num)
-	{
-		argv[index] = ft_strdup(chunk_words[index]);
-		if (argv[index][0] == '\"' && argv[index][1] == ' ' && argv[index][2] != '\'')
-		{
-			tmp = ft_split(argv[index], ' ');
-			j = 0;
-			while (tmp[j])
-			{
-				free(argv[index]);
-				argv[index] = tmp[j];
-				index++;
-				j++;
-			}
-			// ft_free_split(tmp);
-		}
-		if (ft_strcmp(argv[index], "\"\\\"") != 0)
-			argv[index] = remove_quotes(argv[index]);
-		index++;
-	}
-	return (argv);
-}
 
 // static char	**set_command_argv(char **chunk_words, size_t args_num,
 // 																t_list *envp)
@@ -135,6 +95,49 @@ static void	reset_redirection_fds(t_fd fds)
 	}
 }
 
+// static char	**set_command_argv(char **chunk_words, size_t args_num,
+// 																t_list *envp)
+static char	**set_command_argv(char **argv1, t_list *envp)
+{
+	const size_t	args_num = ft_count_strs((const char **)argv1);
+	char	**argv2;
+	char	**tmp;
+	size_t	index;
+	int		j;
+
+	g_space = 0;
+	argv2 = ft_calloc(args_num + 1, sizeof(char *));
+	if (!argv2)
+		exit_err_msg(MALLOC_ERR);
+	if (args_num < 2)
+	{
+		argv2[0] = ft_strdup(argv1[0]);
+		return (argv2);
+	}
+	index = 0;
+	while (index < args_num)
+	{
+		argv2[index] = ft_strdup(argv1[index]);
+		if (argv2[index][0] == '\"' && argv2[index][1] == ' ' && argv2[index][2] != '\'')
+		{
+			tmp = ft_split(argv2[index], ' ');
+			j = 0;
+			while (tmp[j])
+			{
+				free(argv2[index]);
+				argv2[index] = tmp[j];
+				index++;
+				j++;
+			}
+			// ft_free_split(tmp);
+		}
+		if (ft_strcmp(argv2[index], "\"\\\"") != 0)
+			argv2[index] = remove_quotes(argv2[index]);
+		index++;
+	}
+	return (argv2);
+}
+
 void		exec_command_chunk(char *command_chunk, t_list *envp,
 																bool pipe_child)
 {
@@ -157,7 +160,8 @@ void		exec_command_chunk(char *command_chunk, t_list *envp,
 	if (!is_redirection_str(argv1[0]))
 	{
 		// argv2 = set_command_argv(chunk_words, args_num, envp);
-		argv2 = set_command_argv(argv1, args_num, envp);
+		// argv2 = set_command_argv(argv1, args_num, envp);
+		argv2 = set_command_argv(argv1, envp);
 		exec_command_argv(argv2, envp);
 	}
 	ft_free_split(argv1);
