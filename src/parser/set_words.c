@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_words.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:09 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/23 11:19:25 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/23 14:32:50 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,27 +28,30 @@ static char		*cut_out_one_word(const char *str, size_t *index)
 	return (ft_strndup(&str[start], len));
 }
 
-static char		*cut_out_meta_element(const char *str, size_t *index)
+static char		*cut_out_redirection(const char *str, size_t *index)
 {
 	const size_t start = *index;
 
-	if (ft_strnequal(&str[*index], ">>", 2))
-		*index += 2;
-	else
-		(*index)++;
+	skip_redirection(str, index);
 	return (ft_strndup(&str[start], *index - start));
+}
+
+static char		*cut_out_meta_char(const char *str, size_t *index)
+{
+	const size_t start = *index;
+
+	(*index)++;
+	return (ft_strndup(&str[start], 1));
 }
 
 static char		*cut_out_one_elem(const char *str, size_t *index)
 {
-	while (str[*index] && is_specific_char_not_escaped(str, *index,
-															is_space_or_tab))
-		(*index)++;
-	if (is_specific_char_not_escaped(str, *index, is_metachar))
-		return (cut_out_meta_element(str, index));
-	// else if ()
+	skip_spaces(str, index);
+	if (is_redirection_str_partial(&str[*index]))
+		return (cut_out_redirection(str, index));
+	else if (is_specific_char_not_escaped(str, *index, is_metachar))
+		return (cut_out_meta_char(str, index));
 	return (cut_out_one_word(str, index));
-	// TODO: ここらへんからデバッグで調べる
 }
 
 void			set_words(const char *str, char **words, size_t words_num)

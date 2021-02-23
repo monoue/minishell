@@ -6,13 +6,13 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 16:24:05 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/23 13:21:11 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/23 14:22:46 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_redirection_str(char *str)
+bool	is_redirection_str(const char *str)
 {
 	const char	*redirections[] = {
 		">",
@@ -32,6 +32,32 @@ bool	is_redirection_str(char *str)
 	while (redirections[r_i])
 	{
 		if (ft_strequal(&str[s_i], redirections[r_i]))
+			return (true);
+		r_i++;
+	}
+	return (false);
+}
+
+bool	is_redirection_str_partial(const char *str)
+{
+	const char	*redirections[] = {
+		">>",
+		">",
+		"<",
+		NULL
+	};
+	size_t		r_i;
+	size_t		s_i;
+
+	if (ft_str_is_numeric(str))
+		return (false);
+	s_i = 0;
+	while (ft_isdigit(str[s_i]))
+		s_i++;
+	r_i = 0;
+	while (redirections[r_i])
+	{
+		if (ft_strnequal(&str[s_i], redirections[r_i], ft_strlen(redirections[r_i])))
 			return (true);
 		r_i++;
 	}

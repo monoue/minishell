@@ -1,13 +1,16 @@
 #include "minishell.h"
 int g_last_exit_status = 0;
 
-// void	test_split_command_line(char *str)
-// {
-// 	char	**strs;
+void	test_split_command_line(char *str)
+{
+	char	**strs;
 
-// 	strs = split_command_line(str);
-// 	put_strs(strs);
-// }
+	t_list	*envp;
+
+	envp = get_env_list();
+	strs = split_command_line(str, envp);
+	put_strs(strs);
+}
 
 // void	test_remove_undefined_env(char *str)
 // {
@@ -30,7 +33,7 @@ int g_last_exit_status = 0;
 // 	size_t			index;
 // 	size_t			start;
 // 	char			*ret_s;
-	
+
 // 	ret_s = ft_strdup("");
 // 	if (!ret_s)
 // 		return (NULL);
@@ -39,7 +42,7 @@ int g_last_exit_status = 0;
 // 	{
 // 		while (index < len && is_continuous_quotes(str, index))
 // 			index += 2;
-// 		start = index;	
+// 		start = index;
 // 		while (index < len && !is_continuous_quotes(str, index))
 // 			index++;
 // 		ret_s = ft_strnjoin_free(ret_s, &str[start], index - start);
@@ -114,13 +117,13 @@ int main(int argc, char *argv[])
 	// char	*str2 = " \" hoge \" ";
 	// char	*str3 = "   \\\"   \"  \"        ";
 	// char	*str4 = "   \\\"   \"  \"  \"      ";
-	// char	*str5 = " \'  \\\"   \" $yay  \"   \'hoge    ";
+	char	*str5 = "ls hoge 2> file1";
 	// char	*str6 = " \'  \\\"   \" $  \"   \' hoge    ";
 	// char	*str7 = "echo \"hoge\"hoge\"hoge\">a>b";
 	(void)argc;
 	(void)argv;
 	// char *str8 = "echo \'$hoge\'";
-	// test_split_command_line(str8);
+	test_split_command_line(str5);
 	// test_remove_undefined_env("$US\ER");
 	// test_remove_undefined_env("$US$ER hoge");
 
