@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/23 13:08:23 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/23 21:25:44 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ char	*find_variable(char *variable)
 	}
 	else
 		value = ft_strdup(tmp_var);
-	// SAFE_FREE(tmp_var);
-	// SAFE_FREE(variable);
+	SAFE_FREE(tmp_var);
+	SAFE_FREE(variable);
 	return (value);
 }
 
@@ -99,7 +99,7 @@ char	*exec_dollar(char **tmp, t_list *envp)
 			str = ft_strdup(tmp[j]);
 		final = return_final(str, tmp, j);
 		value = ft_strjoin_free(value, final);
-		// SAFE_FREE(str);
+		SAFE_FREE(str);
 		j++;
 	}
 	return (value);
@@ -119,12 +119,12 @@ char	*dollar(char *argv, t_list *envp)
 	tmp = do_parse(argv);
 	value = exec_dollar(tmp, envp);
 	final = ft_strdup(value);
-	// SAFE_FREE(value);
+	SAFE_FREE(value);
 	ft_free_split(tmp);
-	if (ft_strcmp(final, "") == 0 && g_flag_escape_db == 0)
-	{
-		free(final);
-		return (NULL);
-	}
+	// if (ft_strcmp(final, "") == 0 && g_flag_escape_db == 0)
+	// {
+	// 	free(final);
+	// 	return (NULL);
+	// }
 	return (final);
 }

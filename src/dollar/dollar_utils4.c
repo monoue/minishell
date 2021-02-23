@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 12:48:24 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/23 13:07:43 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/23 21:46:30 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,11 @@ char	*return_final(char *str, char **tmp, int j)
 		quote = remove_escape_dq(str);
 	else
 		quote = ft_strdup(str);
-	if (g_flag == 0)
+	if (g_flag_dont == 0 && tmp[j][0] != '\''
+			&& tmp[j][0] != '\"')
 		final = remove_quotes(quote);
 	else
 		final = strdup(quote);
-	// SAFE_FREE(quote);
+	SAFE_FREE(quote);
 	return (final);
 }
