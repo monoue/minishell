@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command_line.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:18 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/23 14:14:57 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 07:23:07 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,9 @@ char        **split_command_line(char const *str, t_list *envp)
 
 	g_global = 0;
     tmp1 = turn_dollar_question_into_value(str);
-    // tmp2 = dollar(tmp1, envp);
-    // SAFE_FREE(tmp1);
     words = split_command_line_with_quotes(tmp1);
     SAFE_FREE(tmp1);
     if (!words)
         return (NULL);
-    // trim_quotes_if_not_env(words);
     return (words);
 }

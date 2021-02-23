@@ -6,40 +6,42 @@
 /*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/21 19:53:31 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/24 07:20:39 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_list	*new_env(char *cont)
+t_list    *new_env(char *cont)
 {
-	t_list	*new;
+    t_list    *new;
 
-	new = malloc(sizeof(t_list));
-	if (new == NULL)
-		return (NULL);
-	new->content = ft_strdup(cont);
-	new->next = NULL;
-	return (new);
+    new = malloc(sizeof(t_list));
+    if (!new)
+        exit_err_msg(MALLOC_ERR);
+    new->content = ft_strdup(cont);
+    new->next = NULL;
+    return (new);
 }
 
-t_list	*get_env_list(void)
+t_list    *get_env_list(void)
 {
-	extern char	**environ;
-	t_list		*envp;
-	t_list		*tmp;
-	size_t		index;
+    extern char    **environ;
+    t_list        *envp;
+    t_list        *tmp;
+    size_t        index;
 
-	if (!environ)
-		return (NULL);
-	envp = ft_lstnew(environ[0]);
-	index = 1;
-	while (environ[index])
-	{
-		tmp = new_env(environ[index]);
-		ft_lstadd_back(&envp, tmp);
-		index++;
-	}
-	return (envp);
+    if (!environ)
+        return (NULL);
+    envp = malloc(sizeof(t_list));
+    if (!envp)
+        exit_err_msg(MALLOC_ERR);
+    index = 0;
+    while (environ[index])
+    {
+        tmp = new_env(environ[index]);
+        ft_lstadd_back(&envp, tmp);
+        index++;
+    }
+    return (envp);
 }
