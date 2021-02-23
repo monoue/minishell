@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:44:55 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/23 15:08:11 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/23 16:51:00 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void		set_redirection(t_redirection_set *set, t_fd *fds)
 	exit_if_filename_not_set(set->filename[0]);
 	file_fd = open(set->filename, get_open_flags(type), OPEN_MODE);
 	if (file_fd == ERROR)
-		exit_err_msg(strerror(errno));
+		exit_bash_err_msg(set->filename, strerror(errno), EXIT_FAILURE);
 	if (type == TYPE_INPUT)
 	{
 		p_fd = &(fds->input);
