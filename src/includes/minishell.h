@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 07:28:55 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/24 08:42:25 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,5 +269,7 @@ void				exit_fatal(void);
 void				exit_err_msg(char *err_msg);
 void				exit_bash_err_msg(const char *error_factor,
 								const char *error_reason, int exit_status);
+
+void				put_bash_err_msg(const char *error_factor, const char *error_reason);
 
 #endif

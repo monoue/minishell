@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 07:38:44 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/24 08:13:07 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,13 @@ char	*dollar(char *argv, t_list *envp)
 	g_global = 1;
 	final = NULL;
 	tmp = do_parse(argv);
+	DS("hoge");
 	value = exec_dollar(tmp, envp);
+	DS("hoge");
 	final = ft_strdup(value);
+	DS("hoge");
 	SAFE_FREE(value);
+	DS("hoge");
 	ft_free_split(tmp);
 	// if (ft_strcmp(final, "") == 0 && g_flag_escape_db == 0)
 	// {

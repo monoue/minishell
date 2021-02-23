@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 07:20:39 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/24 08:01:59 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,12 @@ t_list    *get_env_list(void)
 
     if (!environ)
         return (NULL);
-    envp = malloc(sizeof(t_list));
+    // envp = malloc(sizeof(t_list));
+	if (environ[0])
+		envp = new_env(environ[0]);
     if (!envp)
         exit_err_msg(MALLOC_ERR);
-    index = 0;
+    index = 1;
     while (environ[index])
     {
         tmp = new_env(environ[index]);
