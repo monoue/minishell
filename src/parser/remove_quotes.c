@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:44:49 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/23 06:37:35 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/22 16:32:42 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*remove_both_ends_quotes(char *str)
-{
-	const size_t	len = ft_strlen(str);
-	char			*ret_s;
-
-	if (is_specific_char_not_escaped(str, len - 1, is_quote_char) && str[0] == str[len - 1])
-		ret_s = ft_strndup(&str[1], ft_strlen(str) - 2);
-	else
-		ret_s = ft_strdup(str);
-	SAFE_FREE(str);
-	return (ret_s);
-}
 
 char	*remove_quotes(const char *str)
 {

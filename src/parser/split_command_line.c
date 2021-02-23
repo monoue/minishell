@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:18 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/22 16:59:25 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/23 11:32:21 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,6 @@ static bool	str_has_env(const char *str)
 		return (false);
 	return (true);
 }
-
-// TODO: こいつを改良する。クオーテーション単位で実行されるようにする。
-// static void	trim_quotes_if_not_env(char **words)
-// {
-// 	size_t	index;
-
-// 	index = 0;
-// 	while (words[index])
-// 	{
-// 		if (str_is_quoted(words[index]) && !str_has_env(words[index]))
-// 			words[index] = ft_substr_free(words[index], 1,
-// 												ft_strlen(words[index]) - 2);
-// 		index++;
-// 	}
-// }
 
 static void	trim_quotes_if_not_env(char **words)
 {
@@ -107,11 +92,12 @@ char        **split_command_line(char const *str, t_list *envp)
     char    *tmp2;
     char    **ret_words;
 
+	g_global = 0;
     tmp1 = turn_dollar_question_into_value(str);
-    tmp2 = dollar(tmp1, envp);
+    // tmp2 = dollar(tmp1, envp);
+    // SAFE_FREE(tmp1);
+    words = split_command_line_with_quotes(tmp1);
     SAFE_FREE(tmp1);
-    words = split_command_line_with_quotes(tmp2);
-    SAFE_FREE(tmp2);
     if (!words)
         return (NULL);
     // trim_quotes_if_not_env(words);

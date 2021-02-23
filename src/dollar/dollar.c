@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/22 18:16:24 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/23 13:08:23 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,12 @@ char	*find_variable(char *variable)
 	int		count;
 	char	*value;
 	char	*tmp_var;
-	char	*tmp;
 
 	tmp_var = NULL;
 	value = NULL;
 	if (!variable)
 		return (ft_strdup(""));
-	tmp = variable;
-	count = 0;
-	while (*tmp && *tmp != '=')
-	{
-		count++;
-		tmp++;
-	}
+	count = count_variable(variable);
 	tmp_var = ft_substr(variable, count + 1, ft_strlen(variable) - count);
 	if (g_flag == 0)
 	{
@@ -40,8 +33,8 @@ char	*find_variable(char *variable)
 	}
 	else
 		value = ft_strdup(tmp_var);
-	SAFE_FREE(tmp_var);
-	SAFE_FREE(variable);
+	// SAFE_FREE(tmp_var);
+	// SAFE_FREE(variable);
 	return (value);
 }
 
@@ -89,7 +82,7 @@ char	*exec_dollar(char **tmp, t_list *envp)
 	int		j;
 	char	*value;
 	char	*str;
-	char	*quote;
+	char	*final;
 
 	j = 0;
 	str = NULL;
@@ -104,19 +97,10 @@ char	*exec_dollar(char **tmp, t_list *envp)
 			str = replace_dollar_value(tmp[j], envp);
 		else
 			str = ft_strdup(tmp[j]);
-		if (g_flag_dont == 0 && tmp[j][0] != '\''
-			&& tmp[j][0] != '\"')
-			quote = remove_escape(str);
-		else if (g_flag_dont == 0 && tmp[j][0] == '\"')
-			quote = remove_escape_dq(str);
-		else
-			quote = ft_strdup(str);
-		value = ft_strjoin_free(value, quote);
-		SAFE_FREE(str);
-		SAFE_FREE(quote);
+		final = return_final(str, tmp, j);
+		value = ft_strjoin_free(value, final);
+		// SAFE_FREE(str);
 		j++;
-		if (g_flag_dont == 1)
-			g_global = 1;
 	}
 	return (value);
 }
@@ -130,14 +114,12 @@ char	*dollar(char *argv, t_list *envp)
 	g_flag = 0;
 	g_flag_escape_db = 0;
 	g_flag_dont = 0;
+	g_global = 1;
 	final = NULL;
 	tmp = do_parse(argv);
 	value = exec_dollar(tmp, envp);
-	// if (g_flag == 0 && value[1] != '\'')
-	// 	final = remove_escape(value);//ici dire a makoto pour remove_quote $\'
-	// else
 	final = ft_strdup(value);
-	SAFE_FREE(value);
+	// SAFE_FREE(value);
 	ft_free_split(tmp);
 	if (ft_strcmp(final, "") == 0 && g_flag_escape_db == 0)
 	{

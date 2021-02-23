@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/23 10:54:32 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/23 13:23:38 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@
 
 # define SYNTAX_VALID			-10
 # define SYNTAX_QUOTED_WRONGLY	-20
+
+# define OVER_UCHAR_MAX			-1
+# define OVER_INT_MAX			-2
 
 pid_t	g_pid;
 int		g_last_exit_status;
@@ -130,6 +133,8 @@ void				unset(char **argv, t_list *envp);
 
 void				put_error_invalid_identifier(const char *command,
 															const char *arg);
+bool				str_is_within_int(const char *str);
+
 /*
 ** dollar
 */
@@ -169,6 +174,8 @@ char			*take_double_quote(char *line, int *i);
 */
 char			*take_escape(char *line, int *i);
 char			*into_single_quotes(char *argv, int *i);
+int				count_variable(char *variable);
+char			*return_final(char *str, char **tmp, int j);
 
 /*
 **  syntax_error_check

@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:58:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/22 12:24:59 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/23 13:07:48 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,11 @@ char	*go_parse_dq(char *argv, t_list *envp, int j)
 	char	**tmp;
 	char	*str;
 	char	*value;
-	// char	*final;
 
 	g_flag = 1;
 	g_flag_escape_db = 1;
 	str = NULL;
 	value = NULL;
-	// final = NULL;
 	tmp = do_parse2(argv);
 	j = 0;
 	while (tmp[j])
@@ -33,11 +31,9 @@ char	*go_parse_dq(char *argv, t_list *envp, int j)
 		else
 			str = ft_strdup(tmp[j]);
 		value = ft_strnjoin_free(value, str, ft_strlen(str));
-		SAFE_FREE(str);
+		// SAFE_FREE(str);
 		j++;
 	}
-	// final = remove_escape_dq(value);
-	// SAFE_FREE(value);
 	ft_free_split(tmp);
 	return (value);
 }
@@ -57,7 +53,7 @@ char	*find_key_1(char *argv, t_list *envp)
 			variable = ft_strdup((char*)tmp_list->content);
 		tmp_list = tmp_list->next;
 	}
-	SAFE_FREE(arg);
+	// SAFE_FREE(arg);
 	return (variable);
 }
 

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:03 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/23 11:06:42 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/23 13:22:07 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,29 @@ static void					free_redirections(t_redirection_set *set)
 
 // static t_redirection_set	*make_redirection_list(char **elements,
 // 																t_list *envp)
+
+int							get_default_fd_num(t_type redirection_type)
+{
+	if (redirection_type == TYPE_INPUT)
+		return (STDIN_FILENO);
+	return (STDOUT_FILENO);
+}
+
+int							get_fd_num(char *redirection_str, t_type redirection_type)
+{
+	size_t	index;
+	int		num;
+
+	if (!ft_isdigit(redirection_str[0]))
+		return (get_default_fd_num(redirection_type));
+	if (!str_is_within_int(redirection_str))
+		return (OVER_INT_MAX);
+	num = ft_atoi(redirection_str);
+	if (num > UCHAR_MAX)
+		return (OVER_UCHAR_MAX);
+	return (num);
+}
+
 static t_redirection_set	*make_redirection_set(char **elements,
 																t_list *envp)
 {
@@ -100,7 +123,11 @@ static t_redirection_set	*make_redirection_set(char **elements,
 		new = ft_calloc(1, sizeof(t_redirection_set));
 		if (!new)
 			exit_err_msg(MALLOC_ERR);
+
 		new->type = get_redirection_type(elements[0]);
+		// over 調べる関数
+		new->fd = get_fd_num(elements[0], new->type);
+
 		filename = elements[1];
 		if (dollar_or_not(filename, '$')
 			&& dollar(filename, envp)[0] == '\0')

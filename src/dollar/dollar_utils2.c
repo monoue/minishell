@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:59:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/22 14:26:34 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/23 13:07:16 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,14 @@ char	*do_single_quotation(char *argv, t_list *envp)
 		{
 			i++;
 			buf = into_single_quotes(argv, &i);
+			g_flag = 1;
 		}
 		i++;
 	}
 	str = replace_dollar_value(buf, envp);
 	value = replace_word(argv, buf, str, 0);
-	SAFE_FREE(str);
-	SAFE_FREE(buf);
+	// SAFE_FREE(str);
+	// SAFE_FREE(buf);
 	return (value);
 }
 
@@ -90,7 +91,7 @@ char	*take_dollar_dq(char *line, int *i)
 	}
 	while (line[*i] != '\'' && line[*i] != '\"'
 			&& line[*i] != '\0' && line[*i] != '$' && line[*i] != '/'
-			&& line[*i] != '\\' && line[*i] != '=' 
+			&& line[*i] != '\\' && line[*i] != '='
 			&& ft_isalnum(line[*i]))
 	{
 		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
@@ -99,31 +100,28 @@ char	*take_dollar_dq(char *line, int *i)
 	return (tmp);
 }
 
-char    **do_parse2(char *line)
+char	**do_parse2(char *line)
 {
-    char    **tmp;
-    int        i;
-    int        j;
+	char	**tmp;
+	int		i;
+	int		j;
 
-    j = 0;
-    i = 0;
-    if (!(tmp = malloc(sizeof(*tmp) * (MAX_INPUT))))
-        exit_err_msg(MALLOC_ERR);
-    while (line[i])
-    {
-        if (line[i] == '\"')
-        {
-            tmp[j++] = ft_strdup("\"");
-            i++;
-        }
-        if (line[i] == '$')
-            tmp[j++] = take_dollar(line, &i);
-        if (line[i] == '\'')
-            tmp[j++] = take_single_quote(line, &i);
-        if (ft_isascii1(line[i]) || line[i] == '/')
-            tmp[j++] = take_ascii(line, &i);
-        if (line[i] == '\\')
-            tmp[j++] = take_escape(line, &i);
-    }
-    return (tmp);
+	j = 0;
+	i = 0;
+	if (!(tmp = malloc(sizeof(*tmp) * (MAX_INPUT))))
+		exit_err_msg(MALLOC_ERR);
+	while (line[i])
+	{
+		if (line[i] == '\"')
+			i++;
+		if (line[i] == '$')
+			tmp[j++] = take_dollar(line, &i);
+		if (line[i] == '\'')
+			tmp[j++] = take_single_quote(line, &i);
+		if (ft_isascii1(line[i]) || line[i] == '/')
+			tmp[j++] = take_ascii(line, &i);
+		if (line[i] == '\\')
+			tmp[j++] = take_escape(line, &i);
+	}
+	return (tmp);
 }
