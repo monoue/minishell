@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 15:21:58 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/23 21:26:33 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/23 12:05:04 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,9 @@ char	*take_dollar(char *line, int *i)
 		(*i)++;
 		return (tmp);
 	}
-	while (line[*i] != '\'' && line[*i] != '\"'
-		&& line[*i] != '\0' && line[*i] != '$' && line[*i] != '/'
-		&& line[*i] != '\\' && line[*i] != '=' 
-		&& ft_isalnum(line[*i]))
+	while (line[*i] != '\'' && line[*i] != '\"' && line[*i] != '\0'
+			&& line[*i] != '$' && line[*i] != '/' && line[*i] != '\\'
+			&& line[*i] != '=' && ft_isalnum(line[*i]))
 	{
 		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 		(*i)++;

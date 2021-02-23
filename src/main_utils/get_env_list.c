@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/23 22:05:38 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/21 19:53:31 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,8 @@ t_list	*get_env_list(void)
 
 	if (!environ)
 		return (NULL);
-	envp = malloc(sizeof(t_list));
-	if (envp == NULL)
-		return (NULL);
-	index = 0;
+	envp = ft_lstnew(environ[0]);
+	index = 1;
 	while (environ[index])
 	{
 		tmp = new_env(environ[index]);

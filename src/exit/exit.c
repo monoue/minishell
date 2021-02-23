@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 15:59:29 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/23 21:32:29 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/17 15:59:43 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@ void	exit_bash_err_msg(const char *error_factor, const char *error_reason,
 	ft_putstr_err(error_factor);
 	ft_putstr_err(": ");
 	ft_putendl_err(error_reason);
-	// exit(exit_status);//EXITしてるからecho > $swsqの時出る
+	exit(exit_status);
 }

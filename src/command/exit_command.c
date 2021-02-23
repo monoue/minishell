@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/22 14:23:09 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/23 13:24:56 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,30 @@ static bool			str_is_within_llong(const char *str)
 	if (sign)
 		n--;
 	return (n <= LLONG_MAX);
+}
+
+bool			str_is_within_int(const char *str)
+{
+	bool				sign;
+	unsigned long long	n;
+	size_t				index;
+
+	index = 0;
+	if (digits_num_is_over_llong_max(str))
+		return (false);
+	sign = false;
+	if (str[index] == '-' || str[index] == '+')
+	{
+		if (str[index] == '-')
+			sign = true;
+		index++;
+	}
+	n = ft_atoull(&str[index]);
+	if (n == 0)
+		return (true);
+	if (sign)
+		n--;
+	return (n <= INT_MAX);
 }
 
 bool				str_is_valid_num(char *str)
@@ -93,4 +117,3 @@ int					exit_minishell(char **argv)
 	exit(exit_nbr);
 	return (0);
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/23 21:29:28 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/23 14:33:58 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@
 # define SYNTAX_VALID			-10
 # define SYNTAX_QUOTED_WRONGLY	-20
 
+# define OVER_UCHAR_MAX			-1
+# define OVER_INT_MAX			-2
+
 pid_t	g_pid;
 int		g_last_exit_status;
 bool	g_space;
@@ -76,6 +79,7 @@ typedef enum		e_type
 typedef struct		s_redirection_set
 {
 	t_type						type;
+	int							fd;
 	char						*filename;
 	struct s_redirection_set	*next;
 }					t_redirection_set;
@@ -129,6 +133,8 @@ void				unset(char **argv, t_list *envp);
 
 void				put_error_invalid_identifier(const char *command,
 															const char *arg);
+bool				str_is_within_int(const char *str);
+
 /*
 ** dollar
 */
@@ -186,6 +192,7 @@ int					check_syntax(char *command_line, char **command_line_words);
 size_t				count_command_line_words(char const *str);
 void				exec_path_command(char **argv, t_list *envp);
 void				exec_reproduction(char **argv, t_list *envp);
+char				**extract_argv(char **chunk_words);
 char				**ft_split_skipping_quotes(char const *str, char sep_c);
 char				**get_continuous_quotes_trimmed_strs(char **src_strs);
 int					get_redirection_type(char *element);
@@ -194,7 +201,8 @@ void				has_pipe(char **piped_chunks, t_list *envp,
 bool				is_escaped(const char *str, size_t index);
 bool				is_reproduction(char *word);
 bool				is_redirection_char(char c);
-bool				is_redirection_str(char *str);
+bool				is_redirection_str(const char *str);
+bool				is_redirection_str_partial(const char *str);
 bool				is_space_or_tab(char c);
 bool				is_specific_char_not_escaped(const char *str, size_t index,
 															bool(*func)(char));
@@ -208,6 +216,7 @@ char				*remove_quotes(const char *str);
 void				set_fds(t_fd *fds);
 void				set_redirection(t_redirection_set *set, t_fd *fds);
 void				skip_chunk(char const *str, size_t *index);
+void				skip_redirection(const char *str, size_t *index);
 void				skip_word(const char *str, size_t *index);
 bool				str_is_quoted(const char *str);
 char				*turn_dollar_question_into_value(const char *str);
@@ -216,6 +225,7 @@ void				process_pipes(char **piped_chunks, size_t i,
 size_t				process_redirections(char **chunk_words, t_fd *fds,
 																t_list *envp);
 void				skip_quotes(char const *str, size_t *index);
+void				skip_spaces(const char *str, size_t *index);
 void				exec_command_chunk(char *command_chunk, t_list *envp,
 															bool pipe_child);
 bool				is_quoted_wrongly(char *str);

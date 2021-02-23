@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:24:05 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/17 14:24:06 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/23 16:45:08 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ static void	exec_all_paths(char **paths, char **argv, t_list *envp)
 			index++;
 		}
 	}
-	errno = 0;
-	execve(command, argv, environ);
 }
 
 static void	handle_exec_error(const char *command)
@@ -42,7 +40,7 @@ static void	handle_exec_error(const char *command)
 	if (errno == ENOENT)
 		exit_bash_err_msg(command, strerror(ENOENT), 127);
 	if (errno == EACCES)
-		exit_bash_err_msg(command, strerror(EISDIR), 127);
+		exit_bash_err_msg(command, strerror(EISDIR), 126);
 	if (errno == ENOTDIR)
 		exit_bash_err_msg(command, strerror(ENOTDIR), 126);
 	exit_bash_err_msg(command, NO_COMMANDS_ERR, 127);
@@ -91,15 +89,33 @@ static char	**get_paths(char *path_str)
 	return (complete_paths);
 }
 
+static void	exec_absolute_path(char **argv, t_list *envp)
+{
+	const char	*command = argv[0];
+	char		**environ;
+
+	environ = turn_envp_into_strs(envp);
+	errno = 0;
+	execve(command, argv, environ);
+}
+
 void		exec_path_command(char **argv, t_list *envp)
 {
 	char		**paths;
 	char		*path_str;
 
-	path_str = get_path_str(envp);
-	paths = get_paths(path_str);
-	if (path_str)
-		SAFE_FREE(path_str);
-	exec_all_paths(paths, argv, envp);
-	handle_exec_error(argv[0]);
+	if (ft_strchr(argv[0], '/'))
+	{
+		exec_absolute_path(argv, envp);
+		handle_exec_error(argv[0]);
+	}
+	else
+	{
+		path_str = get_path_str(envp);
+		paths = get_paths(path_str);
+		if (path_str)
+			SAFE_FREE(path_str);
+		exec_all_paths(paths, argv, envp);
+		exit_bash_err_msg(argv[0], NO_COMMANDS_ERR, 127);
+	}
 }

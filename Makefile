@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/18 16:41:49 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/23 13:20:22 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(PARSER_PATH)exec_command_chunk.c \
 			$(PARSER_PATH)exec_reproduction.c \
 			$(PARSER_PATH)exec_path_command.c \
+			$(PARSER_PATH)extract_argv.c \
 			$(PARSER_PATH)ft_split_skipping_quotes.c \
 			$(PARSER_PATH)get_continuous_quotes_trimmed_strs.c \
 			$(PARSER_PATH)get_redirection_type.c \
