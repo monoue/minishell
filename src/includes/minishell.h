@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/22 17:57:35 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/23 10:54:32 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef enum		e_type
 typedef struct		s_redirection_set
 {
 	t_type						type;
+	int							fd;
 	char						*filename;
 	struct s_redirection_set	*next;
 }					t_redirection_set;
@@ -184,6 +185,7 @@ int					check_syntax(char *command_line, char **command_line_words);
 size_t				count_command_line_words(char const *str);
 void				exec_path_command(char **argv, t_list *envp);
 void				exec_reproduction(char **argv, t_list *envp);
+char				**extract_argv(char **chunk_words);
 char				**ft_split_skipping_quotes(char const *str, char sep_c);
 char				**get_continuous_quotes_trimmed_strs(char **src_strs);
 int					get_redirection_type(char *element);

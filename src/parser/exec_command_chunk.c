@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/23 07:00:16 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/23 10:53:54 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,20 +140,28 @@ void		exec_command_chunk(char *command_chunk, t_list *envp,
 {
 	t_fd	fds;
 	size_t	args_num;
-	char	**argv;
+	char	**argv1;
+	char	**argv2;
 	char	**chunk_words;
 
 	// chunk_words = split_command_line(command_chunk);
 	chunk_words = split_command_line(command_chunk, envp);
 	set_fds(&fds);
 	// TODO: リダイレクション部分以降も execve の引数としてとれるようにする
-	args_num = process_redirections(chunk_words, &fds, envp);
-	if (!is_redirection_str(chunk_words[0]))
-	{
-		argv = set_command_argv(chunk_words, args_num, envp);
-		exec_command_argv(argv, envp);
-	}
+	// args_num = process_redirections(chunk_words, &fds, envp);
+	// process は process で１つ、他に extract argv みたいな関数を作るのが良い。
+	process_redirections(chunk_words, &fds, envp);
+	argv1 = extract_argv(chunk_words);
 	ft_free_split(chunk_words);
+
+	if (!is_redirection_str(argv1[0]))
+	{
+		// argv2 = set_command_argv(chunk_words, args_num, envp);
+		argv2 = set_command_argv(argv1, args_num, envp);
+		exec_command_argv(argv2, envp);
+	}
+	ft_free_split(argv1);
+	ft_free_split(argv2);
 	reset_redirection_fds(fds);
 	if (pipe_child)
 		exit(0);
