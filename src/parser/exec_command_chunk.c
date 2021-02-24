@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 08:04:32 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 10:49:07 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,26 @@ static void	exec_command_argv(char **argv, t_list *envp)
 	// ft_free_split(argv);
 }
 
-char		*remove_all(char *argv)
+char        *remove_all(char *argv)
 {
-	int		index;
-	char	*tmp;
-	char	*str;
+    int        index;
+    char    *tmp;
+    char    *str;
+    char     *arg;
 
-	index = 0;
-	str = ft_strdup(argv);
-	if (g_global == 0)
-			tmp = remove_quotes(str);
-	if (g_global == 0 && argv[0] != '\"')
-		tmp = remove_escape(str);
-	else if (g_global == 0 && argv[0] != '\"'
-			&& argv[0] != '\'')
-		tmp = remove_escape_dq(str);
-	SAFE_FREE(str);
-	return (tmp);
+    index = 0;
+    str = ft_strdup(argv);
+    if (g_global == 0)
+        tmp = remove_quotes(str);
+    if (g_global == 0 && ((argv[0] != '\"' && argv[0] != '\'')
+        || ((argv[0] == '\"' && argv[1] == '\"')
+        || (argv[0] == '\'' && argv[1] == '\''))))
+        arg = remove_escape(tmp);
+    else if (g_global == 0 && argv[0] != '\'')
+        arg = remove_escape_dq(tmp);
+    SAFE_FREE(str);
+    SAFE_FREE(tmp);
+    return (arg);
 }
 
 static char	**set_command_argv(char **argv1, t_list *envp)
@@ -112,22 +115,25 @@ void		exec_command_chunk(char *command_chunk, t_list *envp,
 	chunk_words = split_command_line(command_chunk, envp);
 	set_fds(&fds);
 	// TODO: リダイレクション部分以降も execve の引数としてとれるようにする
-	// args_num = process_redirections(chunk_words, &fds, envp);
 	// process は process で１つ、他に extract argv みたいな関数を作るのが良い。
-	process_redirections(chunk_words, &fds, envp);
-	argv1 = extract_argv(chunk_words);
-	ft_free_split(chunk_words);
-
-	if (!is_redirection_str(argv1[0]))
+	// TODO: エラー処理
+	// process_redirections(chunk_words, &fds, envp);
+	if (process_redirections(chunk_words, &fds, envp) != ERROR)
 	{
-		// argv2 = set_command_argv(chunk_words, args_num, envp);
-		// argv2 = set_command_argv(argv1, args_num, envp);
-		argv2 = set_command_argv(argv1, envp);
-		exec_command_argv(argv2, envp);
+		argv1 = extract_argv(chunk_words);
+		ft_free_split(chunk_words);
+
+		if (!is_redirection_str(argv1[0]))
+		{
+			// argv2 = set_command_argv(chunk_words, args_num, envp);
+			// argv2 = set_command_argv(argv1, args_num, envp);
+			argv2 = set_command_argv(argv1, envp);
+			exec_command_argv(argv2, envp);
+		}
+		ft_free_split(argv1);
+		ft_free_split(argv2);
 	}
-	ft_free_split(argv1);
-	ft_free_split(argv2);
 	reset_redirection_fds(fds);
 	if (pipe_child)
-		exit(0);
+		exit(g_last_exit_status);
 }

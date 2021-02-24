@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 15:57:45 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/17 15:58:13 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 11:00:00 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,12 @@ bool	is_quoted_wrongly(char *str)
 	{
 		if (is_specific_char_not_escaped(str, index, is_quote_char))
 		{
-			quote = str[index];
-			index++;
-			while (index < len
-					&& !(str[index] == quote && !is_escaped(str, index)))
-			{
-				index++;
-			}
-			if (index == len)
+			skip_quotes(str, &index);
+			if (index == len + 1)
 				return (true);
 		}
-		index++;
+		else
+			index++;
 	}
 	return (false);
 }

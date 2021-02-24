@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/23 14:43:40 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 10:49:30 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	main_loop(t_list *envp)
 		put_farewell_greeting();
 		exit(EXIT_SUCCESS);
 	}
-	if (str_is_of_spaces(line) || put_message_if_syntax_error(line, envp))
+	if (str_is_of_tabs_or_spaces(line) || put_message_if_syntax_error(line, envp))
 	{
 		SAFE_FREE(line);
 		return ;

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 08:42:25 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 10:49:30 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 
 # define OVER_UCHAR_MAX			-1
 # define OVER_INT_MAX			-2
+# define SUCCESS				0
 
 pid_t	g_pid;
 int		g_last_exit_status;
@@ -140,6 +141,7 @@ bool				str_is_within_int(const char *str);
 */
 char				*dollar(char *argv, t_list *envp);
 char				*replace_dollar_value(char *argv, t_list *envp);
+// char				**get_env_replaced_words(char **words, t_list *envp);
 
 /*
 ** dollar_utils
@@ -180,7 +182,7 @@ char			*return_final(char *str, char **tmp, int j);
 /*
 **  syntax_error_check
 */
-bool				str_is_of_spaces(char *str);
+bool				str_is_of_tabs_or_spaces(char *str);
 // bool				put_message_if_syntax_error(char *command_line);
 bool				put_message_if_syntax_error(char *command_line, t_list *envp);
 int					check_syntax(char *command_line, char **command_line_words);
@@ -214,7 +216,8 @@ void				process_command_line(char *line, t_list *envp);
 void				process_one_command(char *command, t_list *envp);
 char				*remove_quotes(const char *str);
 void				set_fds(t_fd *fds);
-void				set_redirection(t_redirection_set *set, t_fd *fds);
+// void				set_redirection(t_redirection_set *set, t_fd *fds);
+int					set_redirection(t_redirection_set *set, t_fd *fds);
 void				skip_chunk(char const *str, size_t *index);
 void				skip_redirection(const char *str, size_t *index);
 void				skip_word(const char *str, size_t *index);
@@ -222,7 +225,9 @@ bool				str_is_quoted(const char *str);
 char				*turn_dollar_question_into_value(const char *str);
 void				process_pipes(char **piped_chunks, size_t i,
 											size_t chunks_num, t_list *envp);
-size_t				process_redirections(char **chunk_words, t_fd *fds,
+// size_t				process_redirections(char **chunk_words, t_fd *fds,
+// 																t_list *envp);
+int					process_redirections(char **chunk_words, t_fd *fds,
 																t_list *envp);
 void				skip_quotes(char const *str, size_t *index);
 void				skip_spaces(const char *str, size_t *index);

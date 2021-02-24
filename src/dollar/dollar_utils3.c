@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 15:21:58 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 08:14:12 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 09:28:27 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,34 +32,34 @@ char	*find_key(char *arg, t_list *envp)
 	return (variable);
 }
 
-char	*take_dollar(char *line, int *i)
+char    *take_dollar(char *line, int *i)
 {
-	char	*tmp;
+    char    *tmp;
 
-	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-	(*i)++;
-	if (line[*i] == '$')
-	{
-		SAFE_FREE(tmp);
-		tmp = ft_strdup("(process ID)");
-		(*i)++;
-		return (tmp);
-	}
-	if (ft_isdigit(line[*i]))
-	{
-		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-		(*i)++;
-		return (tmp);
-	}
-	while (line[*i] != '\'' && line[*i] != '\"'
-		&& line[*i] != '\0' && line[*i] != '$' && line[*i] != '/'
-		&& line[*i] != '\\' && line[*i] != '='
-		&& ft_isalnum(line[*i]))
-	{
-		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-		(*i)++;
-	}
-	return (tmp);
+    tmp = NULL;
+    tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+    (*i)++;
+    if (line[*i] == '$')
+    {
+        SAFE_FREE(tmp);
+        tmp = ft_strdup("(process ID)");
+        (*i)++;
+        return (tmp);
+    }
+    if (ft_isdigit(line[*i]))
+    {
+        tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+        (*i)++;
+        return (tmp);
+    }
+    while (line[*i] != '\'' && line[*i] != '\"' && line[*i] != '\0'
+            && line[*i] != '$' && line[*i] != '/' && line[*i] != '\\'
+            && line[*i] != '=' && ft_isalnum(line[*i]))
+    {
+        tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+        (*i)++;
+    }
+    return (tmp);
 }
 
 char	*take_single_quote(char *line, int *i)

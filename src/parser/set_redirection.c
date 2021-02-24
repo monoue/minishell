@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:44:55 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 08:50:23 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 10:29:13 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,15 @@ int		set_redirection(t_redirection_set *set, t_fd *fds)
 	const t_type	type = set->type;
 
 	exit_if_filename_not_set(set->filename[0]);
+	// TODO: これでクオーテーション取ってやって中身なければエラメ -> クオーテーソン外せば勝手に吐いてくれるのでは？。また、いずれにせよ、クオーテーション取った状態で open かけてやる。
+	DS(set->filename);
 	file_fd = open(set->filename, get_open_flags(type), OPEN_MODE);
+	DS(set->filename);
 	if (file_fd == ERROR)
 	{
 		put_bash_err_msg(set->filename, strerror(errno));
 		g_last_exit_status = EXIT_FAILURE;
-		return ;
+		return (ERROR);
 	}
 	if (type == TYPE_INPUT)
 	{
@@ -63,4 +66,5 @@ int		set_redirection(t_redirection_set *set, t_fd *fds)
 	}
 	close(file_fd);
 	*p_fd = std_fd;
+	return (SUCCESS);
 }

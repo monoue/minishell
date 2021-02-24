@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:03 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/23 15:03:32 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 10:21:16 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,10 @@ static t_redirection_set	*make_redirection_set(char **elements,
 		new->fd = get_fd_num(elements[0], new->type);
 
 		filename = elements[1];
-		if (dollar_or_not(filename, '$')
-			&& dollar(filename, envp)[0] == '\0')
-			exit_bash_err_msg(filename, AMBIGUOUS_ERR, EXIT_FAILURE);
+		// TODO: ここはコピペ中。実行時に吐かせる。
+		// if (dollar_or_not(filename, '$')
+		// 	&& !dollar(filename, envp))
+		// 	exit_bash_err_msg(filename, AMBIGUOUS_ERR, EXIT_FAILURE);
 		new->filename = ft_strdup(filename);
 		lstadd_back(&set, new);
 	// 	index += 2;
@@ -139,29 +140,43 @@ static t_redirection_set	*make_redirection_set(char **elements,
 	return (set);
 }
 
-static void					set_redirections(char **chunk_words, t_fd *fds,
+// static void					set_redirections(char **chunk_words, t_fd *fds,
+static int					set_redirections(char **chunk_words, t_fd *fds,
 																t_list *envp)
 {
 	t_redirection_set	*set;
+	int					ret;
 	// t_redirection_set	*tmp;
 
 	set = make_redirection_set(chunk_words, envp);
+	if (dollar_or_not(set->filename, '$') && !dollar(set->filename, envp))
+	{
+		put_bash_err_msg(set->filename, AMBIGUOUS_ERR);
+		g_last_exit_status = EXIT_FAILURE;
+		return (ERROR);
+	}
 	// tmp = set;
 	// while (set)
 	// {
-	set_redirection(set, fds);
+	ret = set_redirection(set, fds);
+	if (ret == ERROR)
+		return (ERROR);
 	// 	set = set->next;
 	// }
 	// free_redirections(tmp);
 	free_redirections(set);
+	return (SUCCESS);
 }
 
 
-size_t						process_redirections(char **chunk_words, t_fd *fds,
+// size_t						process_redirections(char **chunk_words, t_fd *fds,
+// 																t_list *envp)
+int		process_redirections(char **chunk_words, t_fd *fds,
 																t_list *envp)
 {
 	const size_t	words_num = ft_count_strs((const char **)chunk_words);
 	size_t			index;
+	int				ret;
 
 	index = 0;
 	while (index < words_num)
@@ -169,11 +184,13 @@ size_t						process_redirections(char **chunk_words, t_fd *fds,
 		if (is_redirection_str(chunk_words[index]))
 		{
 			// 1 セットずつ処理することとする
-			set_redirections(&chunk_words[index], fds, envp);
+			ret = set_redirections(&chunk_words[index], fds, envp);
+			if (ret == ERROR)
+				return (ERROR);
 			index += 2;
 		}
 		else
 			index++;
 	}
-	return (index);
+	return (SUCCESS);
 }
