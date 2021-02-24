@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:03 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 13:26:03 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 14:11:46 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ int							get_default_fd_num(t_type redirection_type)
 
 int							get_fd_num(char *redirection_str, t_type redirection_type)
 {
-	size_t	index;
-
 	if (!ft_isdigit(redirection_str[0]))
 		return (get_default_fd_num(redirection_type));
 	if (!str_is_within_int(redirection_str))
@@ -40,8 +38,7 @@ int							get_fd_num(char *redirection_str, t_type redirection_type)
 	return (ft_atoi(redirection_str));
 }
 
-static t_redirection_set	*make_redirection_set(char **elements,
-																t_list *envp)
+static t_redirection_set	*make_redirection_set(char **elements)
 {
 	t_redirection_set	*set;
 	t_redirection_set	*new;
@@ -62,25 +59,18 @@ static t_redirection_set	*make_redirection_set(char **elements,
 	return (set);
 }
 
-// static int					set_redirections(char **chunk_words, t_fd *fds,
-// 																t_list *envp)
-// {
-// 	t_redirection_set	*set;
-// 	int					ret;
+bool	redirection_filename_is_ambiguous(char *filename)
+{
+	char	**words;
+	size_t	words_num;
 
-// 	set = make_redirection_set(chunk_words, envp);
-// 	if (dollar_or_not(set->filename, '$') && !dollar(set->filename, envp))
-// 	{
-// 		put_bash_err_msg(set->filename, AMBIGUOUS_ERR);
-// 		g_last_exit_status = EXIT_FAILURE;
-// 		return (ERROR);
-// 	}
-// 	ret = set_redirection(set, fds);
-// 	if (ret == ERROR)
-// 		return (ERROR);
-// 	free_redirections(set);
-// 	return (SUCCESS);
-// }
+	if (!filename)
+		return (true);
+	words = split_command_line(filename);
+	words_num = ft_count_strs((const char **)words);
+	ft_free_split(words);
+	return (words_num > 1);
+}
 
 static int					set_redirections(char **chunk_words, t_fd *fds,
 																t_list *envp)
@@ -89,11 +79,11 @@ static int					set_redirections(char **chunk_words, t_fd *fds,
 	int					ret;
 	char				*replaced_filename;
 
-	set = make_redirection_set(chunk_words, envp);
+	set = make_redirection_set(chunk_words);
 	if (dollar_or_not(set->filename, '$'))
 	{
 		replaced_filename = dollar(set->filename, envp);
-		if (!replaced_filename)
+		if (redirection_filename_is_ambiguous(replaced_filename))
 		{
 			put_bash_err_msg(set->filename, AMBIGUOUS_ERR);
 			g_last_exit_status = EXIT_FAILURE;

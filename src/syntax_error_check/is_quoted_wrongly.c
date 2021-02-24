@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 15:57:45 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 11:00:00 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 14:17:57 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ bool	is_quoted_wrongly(char *str)
 {
 	const size_t	len = ft_strlen(str);
 	size_t			index;
-	char			quote;
 
 	index = 0;
 	while (index < len)

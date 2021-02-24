@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/21 20:09:54 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/24 14:03:33 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static bool	is_valid_arg(char *arg)
 void			check_same_key_or_not(char *key, t_list *envp, char **argv,
 																	int index)
 {
-	char	*arg;
 	int		count;
 
 	count = ft_strlen(key);
@@ -103,7 +102,6 @@ void			export(char **argv, t_list *envp)
 {
 	size_t	index;
 	char	*key;
-	char	*arg;
 
 	if (!argv[1])
 		show_export(envp);

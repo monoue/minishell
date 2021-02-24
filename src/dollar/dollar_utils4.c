@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 12:48:24 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/23 21:46:30 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/24 14:24:01 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ char	*return_final(char *str, char **tmp, int j)
 	char	*quote;
 	char	*final;
 
-	if (g_flag_dont == 0 && tmp[j][0] != '\''
+	if (!g_flag_dont && tmp[j][0] != '\''
 		&& tmp[j][0] != '\"')
 		quote = remove_escape(str);
-	else if (g_flag_dont == 0 && tmp[j][0] == '\"')
+	else if (!g_flag_dont && tmp[j][0] == '\"')
 		quote = remove_escape_dq(str);
 	else
 		quote = ft_strdup(str);
-	if (g_flag_dont == 0 && tmp[j][0] != '\''
+	if (!g_flag_dont && tmp[j][0] != '\''
 			&& tmp[j][0] != '\"')
 		final = remove_quotes(quote);
 	else

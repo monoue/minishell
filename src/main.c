@@ -6,13 +6,13 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 10:49:30 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 14:20:33 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_last_exit_status = 0;
+int			g_last_exit_status = 0;
 
 static void	main_loop(t_list *envp)
 {
@@ -31,7 +31,7 @@ static void	main_loop(t_list *envp)
 		put_farewell_greeting();
 		exit(EXIT_SUCCESS);
 	}
-	if (str_is_of_tabs_or_spaces(line) || put_message_if_syntax_error(line, envp))
+	if (str_is_of_tabs_or_spaces(line) || put_message_if_syntax_error(line))
 	{
 		SAFE_FREE(line);
 		return ;

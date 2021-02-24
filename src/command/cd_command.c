@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:49 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 11:19:41 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 14:03:11 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ void		new_pwd(t_list *envp)
 	char	*pwd;
 	char	*new_pwd;
 	char	*buf;
-	char	*key;
-	char	*arg;
-	int		count;
 
 	buf = NULL;
 	pwd = getcwd(buf, PATH_MAX);

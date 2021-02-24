@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mo oue<mmaiv@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:44:49 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/22 16:32:42 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/24 14:55:33 by monoun           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*remove_escape(const char *str)
 	size_t			start;
 	char			*ret_s;
 
-	if (g_flag_escape_db == 1)
+	if (g_flag_escape_db)
 		return (ret_s = ft_strdup(str));
 	if (!(ret_s = ft_strdup("")))
 		exit_err_msg(MALLOC_ERR);
@@ -86,7 +86,7 @@ char	*remove_escape_dq(const char *str)
 	while (index < len)
 	{
 		start = index;
-		if (str[index] == '\\' && str[index + 1] != '\'' 
+		if (str[index] == '\\' && str[index + 1] != '\''
 		&& (str[index + 1 ] == '\"' || str[index + 1] == '$' || str[index + 1] == '\\') )
 		{
 			index += 2;
@@ -94,7 +94,7 @@ char	*remove_escape_dq(const char *str)
 		}
 		else if (str[index] == '\\' && str[index + 1] == '\'')
 		{
-			index++; 
+			index++;
 			index++;
 			ret_s = ft_strnjoin_free(ret_s, &str[start], index - start);
 		}
@@ -109,4 +109,3 @@ char	*remove_escape_dq(const char *str)
 	}
 	return (ret_s);
 }
-

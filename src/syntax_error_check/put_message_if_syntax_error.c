@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 15:49:32 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 09:59:23 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 14:40:49 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,27 @@
 
 static void	put_syntax_error_message(char **words, int ret)
 {
-	ft_putstr_err("-bash: syntax error near unexpected token `");
+	ft_putstr_err("bash: syntax error near unexpected token `");
 	if (words[ret])
 		ft_putstr_err(words[ret]);
 	else
 		ft_putstr_err("newline");
-	ft_putstr_err("`\n");
+	ft_putstr_err("'\n");
 }
 
-bool		put_message_if_syntax_error(char *command_line, t_list *envp)
+bool		put_message_if_syntax_error(char *command_line)
 {
 	char	**words;
 	int		ret;
 
-	words = split_command_line(command_line, envp);
+	words = split_command_line(command_line);
 	ret = check_syntax(command_line, words);
 	if (ret == SYNTAX_QUOTED_WRONGLY || ret == SYNTAX_VALID)
 		ft_free_split(words);
 	if (ret == SYNTAX_QUOTED_WRONGLY)
 	{
 		g_last_exit_status = EXIT_FAILURE;
-		ft_putstr_err("-bash: quotes not closed\n");
+		ft_putendl_err("minishell: quotes not closed");
 		return (true);
 	}
 	if (ret != SYNTAX_VALID)

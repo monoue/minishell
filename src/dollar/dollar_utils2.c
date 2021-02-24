@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:59:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/23 13:07:16 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/24 14:22:25 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*do_single_quotation(char *argv, t_list *envp)
 		{
 			i++;
 			buf = into_single_quotes(argv, &i);
-			g_flag = 1;
+			g_flag = true;
 		}
 		i++;
 	}

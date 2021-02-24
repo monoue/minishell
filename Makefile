@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/24 09:24:17 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/24 14:00:36 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 AR = ar
 ARFLAGS = rcs
 CC = gcc
-CFLAGS = -g
+CFLAGS = -g -Wall -Wextra -Werror
 
 # PATH
 SRCS_PATH		= src/

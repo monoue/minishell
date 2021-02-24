@@ -6,13 +6,13 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 09:37:52 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 14:35:30 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		g_flag_dont;
+bool	g_flag_dont;
 
 char	*find_variable(char *variable)
 {
@@ -26,10 +26,10 @@ char	*find_variable(char *variable)
 		return (ft_strdup(""));
 	count = count_variable(variable);
 	tmp_var = ft_substr(variable, count + 1, ft_strlen(variable) - count);
-	if (g_flag == 0)
+	if (!g_flag)
 	{
 		value = skip_space_dollar(tmp_var);
-		g_space = 1;
+		g_space = true;
 	}
 	else
 		value = ft_strdup(tmp_var);
@@ -43,8 +43,8 @@ char	*replace_dollar_value(char *argv, t_list *envp)
 	char	*value;
 
 	value = NULL;
-	g_space = 0;
-	g_flag_dont = 1;
+	g_space = false;
+	g_flag_dont = true;
 	if (argv[0] == '\'')
 		return (do_single_quotation(argv, envp));
 	value = find_variable(find_key_1(argv, envp));
@@ -89,8 +89,8 @@ char	*exec_dollar(char **tmp, t_list *envp)
 	value = NULL;
 	while (tmp[j])
 	{
-		g_flag = 0;
-		g_flag_dont = 0;
+		g_flag = false;
+		g_flag_dont = false;
 		if (dollar_or_not(tmp[j], '$') && tmp[j][0] == '\"')
 			str = go_parse_dq(tmp[j], envp, 0);
 		else if (dollar_or_not(tmp[j], '$') && tmp[j][0] != '\'')
@@ -112,17 +112,17 @@ char	*dollar(char *argv, t_list *envp)
 	char	*final;
 	char	*value;
 
-	g_flag = 0;
-	g_flag_escape_db = 0;
-	g_flag_dont = 0;
-	g_global = 1;
+	g_flag = false;
+	g_flag_escape_db = false;
+	g_flag_dont = false;
+	g_global = true;
 	final = NULL;
 	tmp = do_parse(argv);
 	value = exec_dollar(tmp, envp);
 	final = ft_strdup(value);
 	SAFE_FREE(value);
 	ft_free_split(tmp);
-	if (ft_strcmp(final, "") == 0 && g_flag_escape_db == 0)
+	if (ft_strcmp(final, "") == 0 && !g_flag_escape_db)
 	{
 		free(final);
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 10:49:30 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 14:26:03 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,12 @@
 
 pid_t	g_pid;
 int		g_last_exit_status;
+
 bool	g_space;
-int		g_flag;
-int		g_flag_escape_db;
-int		g_flag_dont;
-int		g_global;
+bool	g_flag;
+bool	g_flag_escape_db;
+bool	g_flag_dont;
+bool	g_global;
 
 typedef enum		e_element_type {
 	START,
@@ -183,8 +184,7 @@ char			*return_final(char *str, char **tmp, int j);
 **  syntax_error_check
 */
 bool				str_is_of_tabs_or_spaces(char *str);
-// bool				put_message_if_syntax_error(char *command_line);
-bool				put_message_if_syntax_error(char *command_line, t_list *envp);
+bool				put_message_if_syntax_error(char *command_line);
 int					check_syntax(char *command_line, char **command_line_words);
 
 /*
@@ -234,8 +234,7 @@ void				skip_spaces(const char *str, size_t *index);
 void				exec_command_chunk(char *command_chunk, t_list *envp,
 															bool pipe_child);
 bool				is_quoted_wrongly(char *str);
-// char				**split_command_line(char const *str);
-char				**split_command_line(char const *str, t_list *envp);
+char				**split_command_line(char const *str);
 void				set_words(const char *str, char **words, size_t words_num);
 bool				str_is_quoted_by_double(const char *str);
 bool				is_quote_char(char c);

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 13:02:09 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 14:28:43 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,47 +24,42 @@ static void	exec_command_argv(char **argv, t_list *envp)
 
 char        *remove_all(char *argv)
 {
-    int        index;
-    char    *tmp;
-    char    *str;
-    char     *arg;
+	int		index;
+	char	*tmp;
+	char	*str;
+	char	*arg;
 
-    index = 0;
-    str = ft_strdup(argv);
-    if (g_global == 0)
-        tmp = remove_quotes(str);
-    if (g_global == 0 && ((argv[0] != '\"' && argv[0] != '\'')
-        || ((argv[0] == '\"' && argv[1] == '\"')
-        || (argv[0] == '\'' && argv[1] == '\''))))
-        arg = remove_escape(tmp);
-    else if (g_global == 0 && argv[0] != '\'')
-        arg = remove_escape_dq(tmp);
-    SAFE_FREE(str);
-    SAFE_FREE(tmp);
-    return (arg);
+	index = 0;
+	str = ft_strdup(argv);
+	tmp = NULL;
+	if (!g_global)
+		tmp = remove_quotes(str);
+	arg = NULL;
+	if (!g_global && ((argv[0] != '\"' && argv[0] != '\'')
+		|| ((argv[0] == '\"' && argv[1] == '\"')
+		|| (argv[0] == '\'' && argv[1] == '\''))))
+		arg = remove_escape(tmp);
+	else if (g_global == 0 && argv[0] != '\'')
+		arg = remove_escape_dq(tmp);
+	SAFE_FREE(str);
+	SAFE_FREE(tmp);
+	return (arg);
 }
 
 static char	**set_command_argv(char **argv1, t_list *envp)
 {
 	const size_t	args_num = ft_count_strs((const char **)argv1);
 	char	**argv2;
-	char	**tmp;
 	size_t	index;
-	int		j;
 
-	g_space = 0;
+	g_space = false;
 	argv2 = ft_calloc(args_num + 1, sizeof(char*));
 	if (!argv2)
 		exit_err_msg(MALLOC_ERR);
-	// if (args_num < 2)
-	// {
-	// 	argv2[0] = ft_strdup(argv1[0]);
-	// 	return (argv2);
-	// }
 	index = 0;
 	while (index < args_num)
 	{
-		g_global = 0;
+		g_global = false;
 		if (dollar_or_not(argv1[index], '$'))
 			argv2[index] = dollar(argv1[index], envp);
 		else
@@ -106,13 +101,13 @@ void		exec_command_chunk(char *command_chunk, t_list *envp,
 																bool pipe_child)
 {
 	t_fd	fds;
-	size_t	args_num;
 	char	**argv1;
 	char	**argv2;
 	char	**chunk_words;
 
-	chunk_words = split_command_line(command_chunk, envp);
+	chunk_words = split_command_line(command_chunk);
 	set_fds(&fds);
+	argv2 = NULL;
 	if (process_redirections(chunk_words, &fds, envp) == SUCCESS)
 	{
 		argv1 = extract_argv(chunk_words);

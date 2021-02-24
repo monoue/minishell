@@ -8,7 +8,7 @@ void	test_split_command_line(char *str)
 	t_list	*envp;
 
 	envp = get_env_list();
-	strs = split_command_line(str, envp);
+	strs = split_command_line(str);
 	put_strs(strs);
 }
 
