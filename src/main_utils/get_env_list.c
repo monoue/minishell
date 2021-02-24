@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 14:02:15 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/25 07:13:53 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ t_list    *get_env_list(void)
 	envp = NULL;
 	if (environ[0])
 		envp = new_env(environ[0]);
-    if (!envp)
-        exit_err_msg(MALLOC_ERR);
     index = 1;
     while (environ[index])
     {

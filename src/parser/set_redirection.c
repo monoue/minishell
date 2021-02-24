@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:44:55 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 15:55:22 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/25 07:05:15 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,11 @@ int			set_redirection(t_redirection_set *set, t_fd *fds)
 	if (file_fd == ERROR || is_bad_fd(set->fd))
 	{
 		if (file_fd == ERROR)
+		{
+			DS("hoge");
 			put_bash_err_msg(set->filename, strerror(errno));
+
+		}
 		else
 			put_bad_fd_message(set->fd);
 		g_last_exit_status = EXIT_FAILURE;
