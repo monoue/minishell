@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_chunk.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 15:45:17 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 15:39:22 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	exec_command_argv(char **argv, t_list *envp)
 		exec_reproduction(argv, envp);
 	else
 		exec_path_command(argv, envp);
+	// ft_free_split(argv);
 }
 
 char		*remove_all(char *argv)
@@ -26,7 +27,7 @@ char		*remove_all(char *argv)
 	int		index;
 	char	*tmp;
 	char	*str;
-	char	*arg;
+	char 	*arg;
 
 	index = 0;
 	tmp = NULL;
@@ -36,7 +37,7 @@ char		*remove_all(char *argv)
 	if (g_global == 0 && ((argv[0] != '\"' && argv[0] != '\'')
 		|| ((argv[0] == '\"' && argv[1] == '\"')
 		|| (argv[0] == '\'' && argv[1] == '\''))))
-		arg = remove_escape(tmp);
+		arg = remove_escape(tmp); 
 	else if (g_global == 0 && argv[0] != '\'')
 		arg = remove_escape_dq(tmp);
 	else
@@ -54,7 +55,7 @@ static char	**set_command_argv(char **argv1, t_list *envp)
 	int		j;
 	int		i;
 
-	g_space = false;
+	g_space = 0;
 	tmp = NULL;
 	if (!(argv2 = malloc(sizeof(*argv2) * (MAX_INPUT))))
 		exit_err_msg(MALLOC_ERR);
@@ -74,18 +75,22 @@ static char	**set_command_argv(char **argv1, t_list *envp)
 				if (dollar_or_not(argv1[i], '$'))
 					argv2[index] = dollar(argv1[i], envp);
 			}
-			if (argv2[index] != NULL && g_flag_escape_db == 0
+			if (argv2[index] != NULL && g_flag_escape_db == 0 
 				&& g_flag_dont == 1)
 			{
 				tmp = ft_split(argv2[index], ' ');
 				j = 0;
-				while (tmp[j])
+				if (tmp[j] != NULL)
 				{
-					free(argv2[index]);
-					argv2[index] = tmp[j];
-					index++;
-					j++;
+					while (tmp[j])
+					{
+						free(argv2[index]);
+						argv2[index] = tmp[j];
+						index++;
+						j++;
+					}
 				}
+			// ft_free_split(tmp);
 			}
 		}
 		else
@@ -127,6 +132,7 @@ void		exec_command_chunk(char *command_chunk, t_list *envp,
 	{
 		argv1 = extract_argv(chunk_words);
 		ft_free_split(chunk_words);
+
 		if (!is_redirection_str(argv1[0]))
 		{
 			argv2 = set_command_argv(argv1, envp);

@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 15:21:58 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 11:20:21 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/24 15:45:35 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,11 @@ char	*take_dollar(char *line, int *i)
 	tmp = NULL;
 	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 	(*i)++;
-	
 	if (line[*i] == '$')
 	{
 		SAFE_FREE(tmp);
-		tmp = ft_strdup("(process ID)");
 		(*i)++;
-		return (tmp);
+		return (tmp = ft_strdup("(process ID)"));
 	}
 	if (ft_isdigit(line[*i]))
 	{

@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 14:50:34 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/24 18:07:18 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static bool			str_is_within_llong(const char *str)
 	return (n <= LLONG_MAX);
 }
 
-bool			str_is_within_int(const char *str)
+bool				str_is_within_int(const char *str)
 {
 	bool				sign;
 	unsigned long long	n;
@@ -93,6 +93,7 @@ int					exit_minishell(char **argv)
 	int				exit_nbr;
 	const size_t	argv_num = ft_count_strs((const char**)argv);
 
+	
 	if (argv_num == 1)
 	{
 		put_farewell_greeting();
@@ -100,12 +101,7 @@ int					exit_minishell(char **argv)
 		exit(0);
 	}
 	if (!str_is_valid_num(argv[1]))
-	{
-		ft_putstr_err("exit\nbash: exit: ");
-		ft_putstr_err(argv[1]);
-		ft_putstr_err(": numeric argument required\n");
-		exit(255);
-	}
+		put_error_numeric(argv[1]);
 	if (argv_num > 2)
 	{
 		ft_putstr("bash: exit: too many arguments\n");

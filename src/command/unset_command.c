@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:34 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 14:51:09 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/24 16:05:46 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static bool			is_valid_arg1(char *arg)
 {
 	const size_t	len = ft_strlen(arg);
 	size_t			index;
-	// const char		*ng_chars = ".~-#*%()/|<+[]{}:;@?^!\'";
 
 	if (len == 0 || arg[0] == '=' || ft_strchr(arg, '\\') || ft_isdigit(arg[0]))
 		return (false);
@@ -82,7 +81,6 @@ void				unset(char **argv, t_list *envp)
 			arg_i++;
 			continue ;
 		}
-		
 		if (same_key(key, envp))
 			unset_key(key, envp);
 		SAFE_FREE(key);

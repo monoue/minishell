@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 15:03:40 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/24 15:41:57 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,12 @@ char	**do_parse(char *line)
 	return (tmp);
 }
 
-char	*exec_dollar(char **tmp, t_list *envp)
+char	*exec_dollar(char **tmp, t_list *envp, int j)
 {
-	int		j;
 	char	*value;
 	char	*str;
 	char	*final;
 
-	j = 0;
-	str = NULL;
 	value = NULL;
 	while (tmp[j])
 	{
@@ -122,7 +119,7 @@ char	*dollar(char *argv, t_list *envp)
 	g_global = 1;
 	final = NULL;
 	tmp = do_parse(argv);
-	value = exec_dollar(tmp, envp);
+	value = exec_dollar(tmp, envp, 0);
 	final = ft_strdup(value);
 	SAFE_FREE(value);
 	ft_free_split(tmp);

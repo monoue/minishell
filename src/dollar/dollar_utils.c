@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:58:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 10:30:33 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/24 15:43:28 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	*go_parse_dq(char *argv, t_list *envp, int j)
 
 	g_flag = 1;
 	g_flag_escape_db = 1;
-	str = NULL;
 	value = NULL;
 	tmp = do_parse2(argv);
 	j = 0;

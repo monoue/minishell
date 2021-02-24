@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 14:54:46 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/24 16:04:43 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 void			put_dbl_quotation_str(char *str)
 {
 	int		i;
-	char	dblQuo;
+	char	dblq;
 
 	i = 0;
-	dblQuo = '\"';
+	dblq = '\"';
 	while (str[i])
 	{
 		write(1, &str[i], 1);
 		if (str[i] == '=' || str[i + 1] == '\0')
-			write(1, &dblQuo, 1);
+			write(1, &dblq, 1);
 		i++;
 	}
 }
@@ -32,14 +32,14 @@ void			show_export(t_list *envp)
 {
 	int		index;
 	char	**array;
-	char	dblQota;
+	char	dblq;
 
 	if (envp->content == NULL)
 		return ;
 	array = turn_envp_into_strs(envp);
 	ascii_sort(array);
 	index = 0;
-	dblQota = '\"';
+	dblq = ('\"');
 	while (array[index])
 	{
 		if (ft_strncmp(array[index], "_=", 2) == 0)
@@ -52,11 +52,10 @@ void			show_export(t_list *envp)
 	ft_free_split(array);
 }
 
-static bool	is_valid_arg(char *arg)
+static bool		is_valid_arg(char *arg)
 {
 	const size_t	len = ft_strlen(arg);
 	size_t			index;
-	// const char		*ng_chars = ".~-#*%()/|<+[]{}:;@?^!\'";
 
 	if (arg == NULL)
 		return (false);
@@ -86,7 +85,6 @@ void			check_same_key_or_not(char *key, t_list *envp, char **argv,
 				&& ft_strcmp((char*)(envp->content), argv[index]) != 0)
 			{
 				SAFE_FREE(envp->content);
-				// arg = remove_quotes(argv[index]);
 				envp->content = ft_strdup(argv[index]);
 			}
 			envp = envp->next;
@@ -94,10 +92,8 @@ void			check_same_key_or_not(char *key, t_list *envp, char **argv,
 	}
 	else if (check_valid_arg(argv[index]))
 	{
-		// arg = remove_quotes(argv[index]);
 		add_variable(argv[index], envp);
 	}
-	// SAFE_FREE(arg);
 }
 
 void			export(char **argv, t_list *envp)
@@ -117,7 +113,6 @@ void			export(char **argv, t_list *envp)
 			index++;
 			continue ;
 		}
-		
 		check_same_key_or_not(key, envp, argv, index);
 		index++;
 		SAFE_FREE(key);

@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:49 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 14:54:20 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/24 15:56:27 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,15 @@ void		old_pwd(t_list *envp)
 	char	*pwd;
 	char	*oldpwd;
 	char	*buf;
-	char	*key;
-	int		count;
 
 	buf = NULL;
 	pwd = getcwd(buf, PATH_MAX);
 	oldpwd = ft_strjoin("OLDPWD=", pwd);
-	key = get_key(oldpwd);
-	count = ft_strlen(key);
-	if (same_key(key, envp) == 1)
+	if (same_key("OLDPWD=", envp) == 1)
 	{
 		while (envp && envp->next)
 		{
-			if (ft_strncmp((char*)envp->content, key, count) == 0)
+			if (ft_strncmp((char*)envp->content, "OLDPWD=", 7) == 0)
 			{
 				SAFE_FREE(envp->content);
 				envp->content = ft_strdup(oldpwd);
@@ -39,7 +35,6 @@ void		old_pwd(t_list *envp)
 	}
 	else
 		add_variable(oldpwd, envp);
-	SAFE_FREE(key);
 	SAFE_FREE(oldpwd);
 	SAFE_FREE(pwd);
 }
@@ -75,12 +70,32 @@ void		put_error(char *argv)
 	ft_putstr_fd("\n", 1);
 }
 
-void		cd(char **argv, t_list *envp)
+char		*find_home(t_list *envp)
 {
 	char	*variable;
 	int		count;
+	char	*str;
 
-	variable = NULL;
+	str = NULL;
+	while (envp && envp->next)
+	{
+		if (ft_strncmp((char*)envp->content, "HOME=",
+			ft_strlen("HOME=")) == 0)
+			variable = ft_strdup((char*)envp->content);
+		envp = envp->next;
+	}
+	if (variable != NULL)
+	{
+		count = ft_strrchr_int(variable, '=');
+		str = ft_substr(variable, count + 1,
+			ft_strlen(variable) - count);
+		SAFE_FREE(variable);
+	}
+	return (str);
+}
+
+void		cd(char **argv, t_list *envp)
+{
 	if (find_key("HOME=", envp) == NULL && argv[1] == NULL)
 	{
 		g_last_exit_status = EXIT_FAILURE;
@@ -88,21 +103,7 @@ void		cd(char **argv, t_list *envp)
 	}
 	old_pwd(envp);
 	if ((argv[1] == NULL) || (ft_strcmp(argv[1], "~") == 0))
-	{
-		while (envp && envp->next)
-		{
-			if (ft_strncmp((char*)envp->content, "HOME=", ft_strlen("HOME=")) == 0)
-				variable = ft_strdup((char*)envp->content);
-			envp = envp->next;
-		}
-		if (variable != NULL)
-		{
-			count = ft_strrchr_int(variable, '=');
-			argv[1] = ft_substr(variable, count + 1,
-				ft_strlen(variable) - count);
-			SAFE_FREE(variable);
-		}
-	}
+		argv[1] = find_home(envp);
 	if (chdir(argv[1]) == ERROR)
 	{
 		put_error(argv[1]);
