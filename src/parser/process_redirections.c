@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:03 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 11:57:41 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 13:26:03 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,70 +21,6 @@ static void					free_redirections(t_redirection_set *set)
 		set = set->next;
 	}
 }
-
-// static t_redirection_set	*make_redirection_list(char **elements,
-// 																t_list *envp)
-// {
-// 	t_redirection_set	*set;
-// 	t_redirection_set	*new;
-// 	size_t				index;
-// 	char				*filename;
-
-// 	index = 0;
-// 	set = NULL;
-// 	while (elements[index])
-// 	{
-// 		new = ft_calloc(1, sizeof(t_redirection_set));
-// 		if (!new)
-// 			exit_err_msg(MALLOC_ERR);
-// 		new->type = get_redirection_type(elements[index]);
-// 		filename = elements[index + 1];
-// 		if (dollar_or_not(filename, '$')
-// 			&& dollar(filename, envp)[0] == '\0')
-// 			exit_bash_err_msg(filename, AMBIGUOUS_ERR, EXIT_FAILURE);
-// 		new->filename = ft_strdup(filename);
-// 		lstadd_back(&set, new);
-// 		index += 2;
-// 	}
-// 	return (set);
-// }
-
-// static void					set_redirections(char **chunk_words, t_fd *fds,
-// 																t_list *envp)
-// {
-// 	t_redirection_set	*set;
-// 	t_redirection_set	*tmp;
-
-// 	set = make_redirection_list(chunk_words, envp);
-// 	tmp = set;
-// 	while (set)
-// 	{
-// 		set_redirection(set, fds);
-// 		set = set->next;
-// 	}
-// 	free_redirections(tmp);
-// }
-
-// size_t						process_redirections(char **chunk_words, t_fd *fds,
-// 																t_list *envp)
-// {
-// 	size_t	index;
-
-// 	index = 0;
-// 	while (chunk_words[index])
-// 	{
-// 		if (is_redirection_str(chunk_words[index]))
-// 		{
-// 			set_redirections(&chunk_words[index], fds, envp);
-// 			break ;
-// 		}
-// 		index++;
-// 	}
-// 	return (index);
-// }
-
-// static t_redirection_set	*make_redirection_list(char **elements,
-// 																t_list *envp)
 
 int							get_default_fd_num(t_type redirection_type)
 {
@@ -109,67 +45,71 @@ static t_redirection_set	*make_redirection_set(char **elements,
 {
 	t_redirection_set	*set;
 	t_redirection_set	*new;
-	// size_t				index;
 	char				*filename;
 
-	// index = 0;
 	set = NULL;
-	// while (elements[index])
-	// {
-		new = ft_calloc(1, sizeof(t_redirection_set));
-		if (!new)
-			exit_err_msg(MALLOC_ERR);
-
-		new->type = get_redirection_type(elements[0]);
-		// over 調べる関数
-		new->fd = get_fd_num(elements[0], new->type);
-
-		filename = elements[1];
-		// TODO: ここはコピペ中。実行時に吐かせる。
-		// if (dollar_or_not(filename, '$')
-		// 	&& !dollar(filename, envp))
-		// 	exit_bash_err_msg(filename, AMBIGUOUS_ERR, EXIT_FAILURE);
-		if (str_is_quoted(filename))
-			new->filename = ft_strndup(&filename[1], ft_strlen(filename) - 2);
-		else
-			new->filename = ft_strdup(filename);
-		lstadd_back(&set, new);
-	// 	index += 2;
-	// }
+	new = ft_calloc(1, sizeof(t_redirection_set));
+	if (!new)
+		exit_err_msg(MALLOC_ERR);
+	new->type = get_redirection_type(elements[0]);
+	new->fd = get_fd_num(elements[0], new->type);
+	filename = elements[1];
+	if (str_is_quoted(filename))
+		new->filename = ft_strndup(&filename[1], ft_strlen(filename) - 2);
+	else
+		new->filename = ft_strdup(filename);
+	lstadd_back(&set, new);
 	return (set);
 }
 
-// static void					set_redirections(char **chunk_words, t_fd *fds,
+// static int					set_redirections(char **chunk_words, t_fd *fds,
+// 																t_list *envp)
+// {
+// 	t_redirection_set	*set;
+// 	int					ret;
+
+// 	set = make_redirection_set(chunk_words, envp);
+// 	if (dollar_or_not(set->filename, '$') && !dollar(set->filename, envp))
+// 	{
+// 		put_bash_err_msg(set->filename, AMBIGUOUS_ERR);
+// 		g_last_exit_status = EXIT_FAILURE;
+// 		return (ERROR);
+// 	}
+// 	ret = set_redirection(set, fds);
+// 	if (ret == ERROR)
+// 		return (ERROR);
+// 	free_redirections(set);
+// 	return (SUCCESS);
+// }
+
 static int					set_redirections(char **chunk_words, t_fd *fds,
 																t_list *envp)
 {
 	t_redirection_set	*set;
 	int					ret;
-	// t_redirection_set	*tmp;
+	char				*replaced_filename;
 
 	set = make_redirection_set(chunk_words, envp);
-	if (dollar_or_not(set->filename, '$') && !dollar(set->filename, envp))
+	if (dollar_or_not(set->filename, '$'))
 	{
-		put_bash_err_msg(set->filename, AMBIGUOUS_ERR);
-		g_last_exit_status = EXIT_FAILURE;
-		return (ERROR);
+		replaced_filename = dollar(set->filename, envp);
+		if (!replaced_filename)
+		{
+			put_bash_err_msg(set->filename, AMBIGUOUS_ERR);
+			g_last_exit_status = EXIT_FAILURE;
+			return (ERROR);
+		}
+		SAFE_FREE(set->filename);
+		set->filename = ft_strdup(replaced_filename);
+		SAFE_FREE(replaced_filename);
 	}
-	// tmp = set;
-	// while (set)
-	// {
 	ret = set_redirection(set, fds);
 	if (ret == ERROR)
 		return (ERROR);
-	// 	set = set->next;
-	// }
-	// free_redirections(tmp);
 	free_redirections(set);
 	return (SUCCESS);
 }
 
-
-// size_t						process_redirections(char **chunk_words, t_fd *fds,
-// 																t_list *envp)
 int		process_redirections(char **chunk_words, t_fd *fds,
 																t_list *envp)
 {
@@ -182,7 +122,6 @@ int		process_redirections(char **chunk_words, t_fd *fds,
 	{
 		if (is_redirection_str(chunk_words[index]))
 		{
-			// 1 セットずつ処理することとする
 			ret = set_redirections(&chunk_words[index], fds, envp);
 			if (ret == ERROR)
 				return (ERROR);

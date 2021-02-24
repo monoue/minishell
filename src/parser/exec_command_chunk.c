@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 10:49:07 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 13:02:09 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ static char	**set_command_argv(char **argv1, t_list *envp)
 	argv2 = ft_calloc(args_num + 1, sizeof(char*));
 	if (!argv2)
 		exit_err_msg(MALLOC_ERR);
-	if (args_num < 2)
-	{
-		argv2[0] = ft_strdup(argv1[0]);
-		return (argv2);
-	}
+	// if (args_num < 2)
+	// {
+	// 	argv2[0] = ft_strdup(argv1[0]);
+	// 	return (argv2);
+	// }
 	index = 0;
 	while (index < args_num)
 	{
@@ -111,22 +111,15 @@ void		exec_command_chunk(char *command_chunk, t_list *envp,
 	char	**argv2;
 	char	**chunk_words;
 
-	// chunk_words = split_command_line(command_chunk);
 	chunk_words = split_command_line(command_chunk, envp);
 	set_fds(&fds);
-	// TODO: リダイレクション部分以降も execve の引数としてとれるようにする
-	// process は process で１つ、他に extract argv みたいな関数を作るのが良い。
-	// TODO: エラー処理
-	// process_redirections(chunk_words, &fds, envp);
-	if (process_redirections(chunk_words, &fds, envp) != ERROR)
+	if (process_redirections(chunk_words, &fds, envp) == SUCCESS)
 	{
 		argv1 = extract_argv(chunk_words);
 		ft_free_split(chunk_words);
 
 		if (!is_redirection_str(argv1[0]))
 		{
-			// argv2 = set_command_argv(chunk_words, args_num, envp);
-			// argv2 = set_command_argv(argv1, args_num, envp);
 			argv2 = set_command_argv(argv1, envp);
 			exec_command_argv(argv2, envp);
 		}
