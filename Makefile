@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+         #
+#    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/24 14:53:42 by sperrin          ###   ########.fr        #
+#    Updated: 2021/02/25 06:54:45 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(COMMAND_PATH)utils_command2.c \
 			$(COMMAND_PATH)utils_command3.c \
 			$(PARSER_PATH)count_command_line_words.c \
+			$(PARSER_PATH)cut_out_meta_char.c \
 			$(PARSER_PATH)exec_command_chunk.c \
 			$(PARSER_PATH)exec_reproduction.c \
 			$(PARSER_PATH)exec_path_command.c \
@@ -59,11 +60,13 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(PARSER_PATH)get_continuous_quotes_trimmed_strs.c \
 			$(PARSER_PATH)get_redirection_type.c \
 			$(PARSER_PATH)has_pipe.c \
+			$(PARSER_PATH)handle_exec_error.c \
 			$(PARSER_PATH)is_escaped.c \
 			$(PARSER_PATH)is_reproduction.c \
 			$(PARSER_PATH)is_specific_char_not_escaped.c \
 			$(PARSER_PATH)is_symbol_char.c \
 			$(PARSER_PATH)is_symbol_str.c \
+			$(PARSER_PATH)make_redirection_set.c \
 			$(PARSER_PATH)process_redirections.c \
 			$(PARSER_PATH)split_command_line.c \
 			$(PARSER_PATH)str_is_quoted.c \

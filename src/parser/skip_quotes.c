@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 12:19:29 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 14:17:39 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 16:04:34 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ void	skip_quotes(char const *str, size_t *index)
 	}
 	else
 	{
-		while (*index < len && !(str[*index] == quote && !is_escaped(str, *index)))
+		while (*index < len
+					&& !(str[*index] == quote && !is_escaped(str, *index)))
+		{
 			(*index)++;
+		}
 	}
 	(*index)++;
 }

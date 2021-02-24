@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 16:24:05 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/23 14:22:46 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 15:57:12 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,11 @@ bool	is_redirection_str_partial(const char *str)
 	r_i = 0;
 	while (redirections[r_i])
 	{
-		if (ft_strnequal(&str[s_i], redirections[r_i], ft_strlen(redirections[r_i])))
+		if (ft_strnequal(&str[s_i], redirections[r_i],
+												ft_strlen(redirections[r_i])))
+		{
 			return (true);
+		}
 		r_i++;
 	}
 	return (false);
