@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:34 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/21 20:17:50 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/24 14:51:09 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,16 @@ static int			get_target_prev_i(char *key, t_list *envp)
 
 static bool			is_valid_arg1(char *arg)
 {
-	size_t		index;
-	const char	*ng_chars = ".~-#*%()/|<+[]{}:;@?^!\'\"";
+	const size_t	len = ft_strlen(arg);
+	size_t			index;
+	// const char		*ng_chars = ".~-#*%()/|<+[]{}:;@?^!\'";
 
-	if (arg[0] == '=')
+	if (len == 0 || arg[0] == '=' || ft_strchr(arg, '\\') || ft_isdigit(arg[0]))
 		return (false);
 	index = 0;
-	if (arg[index] == 0)
-		return (true);
-	while (arg[index])
+	while (index < len && arg[index] != '=')
 	{
-		if (arg[index] == '=')
-			return (true);
-		if (ft_strchr(ng_chars, arg[index]) || ft_isdigit(arg[index]))
+		if (!ft_isalnum(arg[index]) && arg[index] != '_')
 			return (false);
 		index++;
 	}
@@ -78,13 +75,14 @@ void				unset(char **argv, t_list *envp)
 	key = NULL;
 	while (argv[arg_i])
 	{
-		if (!is_valid_arg1(argv[arg_i]))
+		key = get_key(argv[arg_i]);
+		if (!is_valid_arg1(key))
 		{
 			put_error_invalid_identifier("unset", argv[arg_i]);
 			arg_i++;
 			continue ;
 		}
-		key = get_key(argv[arg_i]);
+		
 		if (same_key(key, envp))
 			unset_key(key, envp);
 		SAFE_FREE(key);

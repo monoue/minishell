@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_chunk.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 14:28:43 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 15:26:00 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,26 @@ static void	exec_command_argv(char **argv, t_list *envp)
 	// ft_free_split(argv);
 }
 
-char        *remove_all(char *argv)
+char		*remove_all(char *argv)
 {
 	int		index;
 	char	*tmp;
 	char	*str;
-	char	*arg;
+	char 	*arg;
 
 	index = 0;
-	str = ft_strdup(argv);
 	tmp = NULL;
-	if (!g_global)
+	str = ft_strdup(argv);
+	if (g_global == 0)
 		tmp = remove_quotes(str);
-	arg = NULL;
-	if (!g_global && ((argv[0] != '\"' && argv[0] != '\'')
+	if (g_global == 0 && ((argv[0] != '\"' && argv[0] != '\'')
 		|| ((argv[0] == '\"' && argv[1] == '\"')
 		|| (argv[0] == '\'' && argv[1] == '\''))))
-		arg = remove_escape(tmp);
+		arg = remove_escape(tmp); 
 	else if (g_global == 0 && argv[0] != '\'')
 		arg = remove_escape_dq(tmp);
+	else
+		arg = ft_strdup(tmp);
 	SAFE_FREE(str);
 	SAFE_FREE(tmp);
 	return (arg);
@@ -48,37 +49,50 @@ char        *remove_all(char *argv)
 
 static char	**set_command_argv(char **argv1, t_list *envp)
 {
-	const size_t	args_num = ft_count_strs((const char **)argv1);
 	char	**argv2;
+	char	**tmp;
 	size_t	index;
+	int		j;
+	int		i;
 
-	g_space = false;
-	argv2 = ft_calloc(args_num + 1, sizeof(char*));
+	g_space = 0;
+	tmp = NULL;
+	if (!(argv2 = malloc(sizeof(*argv2) * (MAX_INPUT))))
+		exit_err_msg(MALLOC_ERR);
 	if (!argv2)
 		exit_err_msg(MALLOC_ERR);
 	index = 0;
-	while (index < args_num)
+	i = 0;
+	while (argv1[i])
 	{
-		g_global = false;
-		if (dollar_or_not(argv1[index], '$'))
-			argv2[index] = dollar(argv1[index], envp);
+		g_global = 0;
+		if (dollar_or_not(argv1[i], '$'))
+		{
+			argv2[index] = dollar(argv1[i], envp);
+			while (argv2[index] == NULL && argv1[i + 1] != NULL)
+			{
+				i++;
+				if (dollar_or_not(argv1[i], '$'))
+					argv2[index] = dollar(argv1[i], envp);
+			}
+			if (argv2[index] != NULL && g_flag_escape_db == 0 && g_flag_dont == 1)
+			{
+				tmp = ft_split(argv2[index], ' ');
+				j = 0;
+				while (tmp[j])
+				{
+					free(argv2[index]);
+					argv2[index] = tmp[j];
+					index++;
+					j++;
+				}
+			// ft_free_split(tmp);
+			}
+		}
 		else
-			argv2[index] = remove_all(argv1[index]);
-		// if (argv[index] != NULL && argv[index][0] == '\"' && argv[index][1] == ' '
-		// 		&& argv[index][2] != '\'')
-		// {
-		// 	tmp = ft_split(argv[index], ' ');
-		// 	j = 0;
-		// 	while (tmp[j])
-		// 	{
-		// 		free(argv[index]);
-		// 		argv[index] = tmp[j];
-		// 		index++;
-		// 		j++;
-		// 	}
-		// 	ft_free_split(tmp);
-		// }
+			argv2[index] = remove_all(argv1[i]);
 		index++;
+		i++;
 	}
 	return (argv2);
 }

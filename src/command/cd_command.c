@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:49 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 14:03:11 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 14:54:20 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void		cd(char **argv, t_list *envp)
 	int		count;
 
 	variable = NULL;
-	if (find_key("HOME=", envp) == NULL && !argv[1])
+	if (find_key("HOME=", envp) == NULL && argv[1] == NULL)
 	{
 		g_last_exit_status = EXIT_FAILURE;
 		return (ft_putstr_fd("bash: cd: HOME not set\n", 1));

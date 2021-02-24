@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 11:23:08 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 14:50:34 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ bool				str_is_valid_num(char *str)
 	if ((str[index] == '-' && str[index + 1] != '\0')
 	|| (str[index] == '+' && str[index + 1] != '\0'))
 		index++;
-	if (!ft_str_is_numeric(&str[index]) || (ft_strcmp(str, "") == 0) || (ft_strcmp(str, "") == 0))
+	if (!ft_str_is_numeric(&str[index]) || (ft_strcmp(str, "") == 0))
 		return (false);
 	return (str_is_within_llong(str));
 }
@@ -95,9 +95,9 @@ int					exit_minishell(char **argv)
 
 	if (argv_num == 1)
 	{
-		ft_putstr_fd("exit\n", 1);
 		put_farewell_greeting();
-		exit(EXIT_SUCCESS);
+		ft_putstr_fd("exit\n", 1);
+		exit(0);
 	}
 	if (!str_is_valid_num(argv[1]))
 	{

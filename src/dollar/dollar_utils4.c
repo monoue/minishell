@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 12:48:24 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 14:24:01 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 10:35:32 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*take_escape(char *line, int *i)
 
 	tmp = NULL;
 	while (line[*i] != '\0' && !ft_isascii1(line[*i])
-		&& !ft_isalnum(line[*i]) && line[*i] != '$')
+		&& !ft_isalnum(line[*i]) && line[*i] != '\"')
 	{
 		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 		(*i)++;
@@ -60,15 +60,14 @@ char	*return_final(char *str, char **tmp, int j)
 	char	*quote;
 	char	*final;
 
-	if (!g_flag_dont && tmp[j][0] != '\''
-		&& tmp[j][0] != '\"')
+	if (g_flag_dont == 0 && tmp[j][0] != '\''
+		&& g_flag_escape_db == 0)
 		quote = remove_escape(str);
-	else if (!g_flag_dont && tmp[j][0] == '\"')
+	else if (g_flag_dont == 0)
 		quote = remove_escape_dq(str);
 	else
 		quote = ft_strdup(str);
-	if (!g_flag_dont && tmp[j][0] != '\''
-			&& tmp[j][0] != '\"')
+	if (g_flag_dont == 0 && g_flag == 0)
 		final = remove_quotes(quote);
 	else
 		final = strdup(quote);

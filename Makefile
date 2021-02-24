@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/02/24 14:00:36 by monoue           ###   ########.fr        #
+#    Updated: 2021/02/24 14:53:42 by sperrin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,6 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			op_list.c \
 			test_functions.c \
 			$(DOLLAR_PATH)dollar.c \
-			$(DOLLAR_PATH)get_env_replaced_words.c \
 			$(DOLLAR_PATH)dollar_utils.c \
 			$(DOLLAR_PATH)dollar_utils2.c \
 			$(DOLLAR_PATH)dollar_utils3.c \

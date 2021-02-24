@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 14:03:33 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 14:54:46 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,16 @@ static bool	is_valid_arg(char *arg)
 {
 	const size_t	len = ft_strlen(arg);
 	size_t			index;
-	const char		*ng_chars = ".~-#*%()/|<+[]{}:;@?^!\'\"";
+	// const char		*ng_chars = ".~-#*%()/|<+[]{}:;@?^!\'";
 
+	if (arg == NULL)
+		return (false);
 	if (len == 0 || arg[0] == '=' || ft_strchr(arg, '\\') || ft_isdigit(arg[0]))
 		return (false);
 	index = 0;
 	while (index < len && arg[index] != '=')
 	{
-		if (ft_strchr(ng_chars, arg[index]))
+		if (!ft_isalnum(arg[index]) && arg[index] != '_')
 			return (false);
 		index++;
 	}
@@ -103,18 +105,19 @@ void			export(char **argv, t_list *envp)
 	size_t	index;
 	char	*key;
 
-	if (!argv[1])
+	if (argv[1] == NULL)
 		show_export(envp);
 	index = 1;
 	while (argv[index])
 	{
-		if (!is_valid_arg(argv[index]))
+		key = get_key(argv[index]);
+		if (!is_valid_arg(key))
 		{
 			put_error_invalid_identifier("export", argv[index]);
 			index++;
 			continue ;
 		}
-		key = get_key(argv[index]);
+		
 		check_same_key_or_not(key, envp, argv, index);
 		index++;
 		SAFE_FREE(key);
