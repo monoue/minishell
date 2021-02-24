@@ -6,17 +6,17 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:44:55 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 10:29:13 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 11:44:07 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	exit_if_filename_not_set(char c)
-{
-	if (c == '\0')
-		exit_bash_err_msg("", strerror(ENOENT), EXIT_FAILURE);
-}
+// static void	exit_if_filename_not_set(char c)
+// {
+// 	if (c == '\0')
+// 		exit_bash_err_msg("", strerror(ENOENT), EXIT_FAILURE);
+// }
 
 static int	get_open_flags(t_type type)
 {
@@ -29,7 +29,29 @@ static int	get_open_flags(t_type type)
 	return (ERROR);
 }
 
-// void		set_redirection(t_redirection_set *set, t_fd *fds)
+bool	is_bad_fd(int fd)
+{
+	if (fd == OVER_INT_MAX)
+		return (true);
+	return (fd > UCHAR_MAX);
+}
+
+void	put_bad_fd_message(int fd)
+{
+	const char	*out_of_range = "file descriptor out of range";
+	const char	*bad_fd = "Bad file descriptor";
+	char		*num_str;
+
+	if (fd == OVER_INT_MAX)
+		put_bash_err_msg(out_of_range, bad_fd);
+	else
+	{
+		num_str = ft_itoa(fd);
+		put_bash_err_msg(num_str, bad_fd);
+		SAFE_FREE(num_str);
+	}
+}
+
 int		set_redirection(t_redirection_set *set, t_fd *fds)
 {
 	int				file_fd;
@@ -37,14 +59,16 @@ int		set_redirection(t_redirection_set *set, t_fd *fds)
 	int				std_fd;
 	const t_type	type = set->type;
 
-	exit_if_filename_not_set(set->filename[0]);
-	// TODO: これでクオーテーション取ってやって中身なければエラメ -> クオーテーソン外せば勝手に吐いてくれるのでは？。また、いずれにせよ、クオーテーション取った状態で open かけてやる。
-	DS(set->filename);
 	file_fd = open(set->filename, get_open_flags(type), OPEN_MODE);
-	DS(set->filename);
 	if (file_fd == ERROR)
 	{
 		put_bash_err_msg(set->filename, strerror(errno));
+		g_last_exit_status = EXIT_FAILURE;
+		return (ERROR);
+	}
+	if (is_bad_fd(set->fd))
+	{
+		put_bad_fd_message(set->fd);
 		g_last_exit_status = EXIT_FAILURE;
 		return (ERROR);
 	}
@@ -53,7 +77,6 @@ int		set_redirection(t_redirection_set *set, t_fd *fds)
 		p_fd = &(fds->input);
 		std_fd = dup(*p_fd);
 		close(*p_fd);
-		// dup2(file_fd, STDIN_FILENO);
 		dup2(file_fd, set->fd);
 	}
 	else
@@ -61,7 +84,6 @@ int		set_redirection(t_redirection_set *set, t_fd *fds)
 		p_fd = &(fds->output);
 		std_fd = dup(*p_fd);
 		close(*p_fd);
-		// dup2(file_fd, STDERR_FILENO);
 		dup2(file_fd, set->fd);
 	}
 	close(file_fd);

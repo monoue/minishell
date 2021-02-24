@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:03 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 10:21:16 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 11:57:41 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,12 @@ int							get_default_fd_num(t_type redirection_type)
 int							get_fd_num(char *redirection_str, t_type redirection_type)
 {
 	size_t	index;
-	int		num;
 
 	if (!ft_isdigit(redirection_str[0]))
 		return (get_default_fd_num(redirection_type));
 	if (!str_is_within_int(redirection_str))
 		return (OVER_INT_MAX);
-	num = ft_atoi(redirection_str);
-	if (num > UCHAR_MAX)
-		return (OVER_UCHAR_MAX);
-	return (num);
+	return (ft_atoi(redirection_str));
 }
 
 static t_redirection_set	*make_redirection_set(char **elements,
@@ -133,7 +129,10 @@ static t_redirection_set	*make_redirection_set(char **elements,
 		// if (dollar_or_not(filename, '$')
 		// 	&& !dollar(filename, envp))
 		// 	exit_bash_err_msg(filename, AMBIGUOUS_ERR, EXIT_FAILURE);
-		new->filename = ft_strdup(filename);
+		if (str_is_quoted(filename))
+			new->filename = ft_strndup(&filename[1], ft_strlen(filename) - 2);
+		else
+			new->filename = ft_strdup(filename);
 		lstadd_back(&set, new);
 	// 	index += 2;
 	// }
