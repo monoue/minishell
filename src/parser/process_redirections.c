@@ -6,13 +6,13 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:03 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 14:11:46 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 16:21:47 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void					free_redirections(t_redirection_set *set)
+static void	free_redirections(t_redirection_set *set)
 {
 	while (set)
 	{
@@ -22,44 +22,7 @@ static void					free_redirections(t_redirection_set *set)
 	}
 }
 
-int							get_default_fd_num(t_type redirection_type)
-{
-	if (redirection_type == TYPE_INPUT)
-		return (STDIN_FILENO);
-	return (STDOUT_FILENO);
-}
-
-int							get_fd_num(char *redirection_str, t_type redirection_type)
-{
-	if (!ft_isdigit(redirection_str[0]))
-		return (get_default_fd_num(redirection_type));
-	if (!str_is_within_int(redirection_str))
-		return (OVER_INT_MAX);
-	return (ft_atoi(redirection_str));
-}
-
-static t_redirection_set	*make_redirection_set(char **elements)
-{
-	t_redirection_set	*set;
-	t_redirection_set	*new;
-	char				*filename;
-
-	set = NULL;
-	new = ft_calloc(1, sizeof(t_redirection_set));
-	if (!new)
-		exit_err_msg(MALLOC_ERR);
-	new->type = get_redirection_type(elements[0]);
-	new->fd = get_fd_num(elements[0], new->type);
-	filename = elements[1];
-	if (str_is_quoted(filename))
-		new->filename = ft_strndup(&filename[1], ft_strlen(filename) - 2);
-	else
-		new->filename = ft_strdup(filename);
-	lstadd_back(&set, new);
-	return (set);
-}
-
-bool	redirection_filename_is_ambiguous(char *filename)
+static bool	redirection_filename_is_ambiguous(char *filename)
 {
 	char	**words;
 	size_t	words_num;
@@ -72,8 +35,7 @@ bool	redirection_filename_is_ambiguous(char *filename)
 	return (words_num > 1);
 }
 
-static int					set_redirections(char **chunk_words, t_fd *fds,
-																t_list *envp)
+static int	set_redirections(char **chunk_words, t_fd *fds, t_list *envp)
 {
 	t_redirection_set	*set;
 	int					ret;
@@ -100,8 +62,7 @@ static int					set_redirections(char **chunk_words, t_fd *fds,
 	return (SUCCESS);
 }
 
-int		process_redirections(char **chunk_words, t_fd *fds,
-																t_list *envp)
+int			process_redirections(char **chunk_words, t_fd *fds, t_list *envp)
 {
 	const size_t	words_num = ft_count_strs((const char **)chunk_words);
 	size_t			index;

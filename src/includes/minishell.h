@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 15:03:19 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/24 16:30:44 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,8 @@
 # define DOLLAR_Q			"$?"
 # define COMMAND_NOT_FOUND	127
 # define SYMBOL_CHARS		"\\\'~*()/|<>[]{};?!"
-
 # define SYNTAX_VALID			-10
 # define SYNTAX_QUOTED_WRONGLY	-20
-
 # define OVER_UCHAR_MAX			-1
 # define OVER_INT_MAX			-2
 # define SUCCESS				0
@@ -143,7 +141,6 @@ bool				str_is_within_int(const char *str);
 */
 char				*dollar(char *argv, t_list *envp);
 char				*replace_dollar_value(char *argv, t_list *envp);
-// char				**get_env_replaced_words(char **words, t_list *envp);
 
 /*
 ** dollar_utils
@@ -151,35 +148,35 @@ char				*replace_dollar_value(char *argv, t_list *envp);
 char				*go_parse_dq(char *argv, t_list *envp, int j);
 char				*find_key_1(char *argv, t_list *envp);
 char				*replace_word(const char *head, char *cut_word,
-						const char *word, int i);
-char					*put_single_quotes(char *str);
+													const char *word, int i);
+char				*put_single_quotes(char *str);
 bool				ft_isascii1(int n);
 
 /*
 ** dollar_utils2
 */
-char			*skip_space_dollar(char *value);
-char			*do_single_quotation(char *argv, t_list *envp);
-int				single_quotation_or_not(char *argv);
-char			*take_dollar_dq(char *line, int *i);
-char			**do_parse2(char *line);
+char				*skip_space_dollar(char *value);
+char				*do_single_quotation(char *argv, t_list *envp);
+int					single_quotation_or_not(char *argv);
+char				*take_dollar_dq(char *line, int *i);
+char				**do_parse2(char *line);
 
 /*
 ** dollar_utils3
 */
-char			*find_key(char *arg, t_list *envp);
-char			*take_dollar(char *line, int *i);
-char			*take_single_quote(char *line, int *i);
-char			*take_ascii(char *line, int *i);
-char			*take_double_quote(char *line, int *i);
+char				*find_key(char *arg, t_list *envp);
+char				*take_dollar(char *line, int *i);
+char				*take_single_quote(char *line, int *i);
+char				*take_ascii(char *line, int *i);
+char				*take_double_quote(char *line, int *i);
 
 /*
 ** dollar_utils4
 */
-char			*take_escape(char *line, int *i);
-char			*into_single_quotes(char *argv, int *i);
-int				count_variable(char *variable);
-char			*return_final(char *str, char **tmp, int j);
+char				*take_escape(char *line, int *i);
+char				*into_single_quotes(char *argv, int *i);
+int					count_variable(char *variable);
+char				*return_final(char *str, char **tmp, int j);
 
 /*
 **  syntax_error_check
@@ -193,12 +190,14 @@ int					check_syntax(char *command_line, char **command_line_words);
 */
 int					check_syntax(char *command_line, char **command_line_words);
 size_t				count_command_line_words(char const *str);
+char				*cut_out_meta_char(const char *str, size_t *index);
 void				exec_path_command(char **argv, t_list *envp);
 void				exec_reproduction(char **argv, t_list *envp);
 char				**extract_argv(char **chunk_words);
 char				**ft_split_skipping_quotes(char const *str, char sep_c);
 char				**get_continuous_quotes_trimmed_strs(char **src_strs);
 int					get_redirection_type(char *element);
+void				handle_exec_error(const char *command);
 void				has_pipe(char **piped_chunks, t_list *envp,
 															size_t chunks_num);
 bool				is_escaped(const char *str, size_t index);
@@ -213,11 +212,11 @@ bool				is_pipe_or_break_char(char c);
 bool				is_pipe_or_break_str(char *str);
 bool				is_metachar(char c);
 bool				is_metachar_str(char *str);
+t_redirection_set	*make_redirection_set(char **elements);
 void				process_command_line(char *line, t_list *envp);
 void				process_one_command(char *command, t_list *envp);
 char				*remove_quotes(const char *str);
 void				set_fds(t_fd *fds);
-// void				set_redirection(t_redirection_set *set, t_fd *fds);
 int					set_redirection(t_redirection_set *set, t_fd *fds);
 void				skip_chunk(char const *str, size_t *index);
 void				skip_redirection(const char *str, size_t *index);
@@ -226,8 +225,6 @@ bool				str_is_quoted(const char *str);
 char				*turn_dollar_question_into_value(const char *str);
 void				process_pipes(char **piped_chunks, size_t i,
 											size_t chunks_num, t_list *envp);
-// size_t				process_redirections(char **chunk_words, t_fd *fds,
-// 																t_list *envp);
 int					process_redirections(char **chunk_words, t_fd *fds,
 																t_list *envp);
 void				skip_quotes(char const *str, size_t *index);
@@ -274,7 +271,7 @@ void				exit_fatal(void);
 void				exit_err_msg(char *err_msg);
 void				exit_bash_err_msg(const char *error_factor,
 								const char *error_reason, int exit_status);
-
-void				put_bash_err_msg(const char *error_factor, const char *error_reason);
+void				put_bash_err_msg(const char *error_factor,
+													const char *error_reason);
 
 #endif

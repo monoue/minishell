@@ -6,13 +6,13 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:53 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/23 14:14:13 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 15:41:57 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	skip_spaces(const char *str, size_t *index)
+void		skip_spaces(const char *str, size_t *index)
 {
 	const size_t	len = ft_strlen(str);
 
@@ -34,9 +34,6 @@ size_t		count_command_line_words(char const *str)
 	{
 		if (is_redirection_str_partial(&str[index]))
 			skip_redirection(str, &index);
-
-		// if (ft_strnequal(&str[index], ">>", 2) && !is_escaped(str, index))
-		// 	index += 2;
 		else if (is_specific_char_not_escaped(str, index, is_metachar))
 			index++;
 		else

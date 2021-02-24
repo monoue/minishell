@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:09 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/23 14:32:50 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/24 16:00:28 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,6 @@ static char		*cut_out_redirection(const char *str, size_t *index)
 	return (ft_strndup(&str[start], *index - start));
 }
 
-static char		*cut_out_meta_char(const char *str, size_t *index)
-{
-	const size_t start = *index;
-
-	(*index)++;
-	return (ft_strndup(&str[start], 1));
-}
-
 static char		*cut_out_one_elem(const char *str, size_t *index)
 {
 	skip_spaces(str, index);
@@ -61,7 +53,6 @@ void			set_words(const char *str, char **words, size_t words_num)
 
 	w_i = 0;
 	index = 0;
-	// DS(str);
 	while (w_i < words_num)
 	{
 		words[w_i] = cut_out_one_elem(str, &index);

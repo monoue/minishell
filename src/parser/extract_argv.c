@@ -1,11 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   extract_argv.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/24 15:49:01 by monoue            #+#    #+#             */
+/*   Updated: 2021/02/24 15:49:33 by monoue           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-// TODO: count_args. リダイレクションじゃない場合の分を先にカウント
-size_t						count_argv(char **chunk_words)
+static size_t	count_argv(char **chunk_words)
 {
 	const size_t	words_num = ft_count_strs((const char **)chunk_words);
-	size_t	index;
-	size_t	count;
+	size_t			index;
+	size_t			count;
 
 	count = 0;
 	index = 0;
@@ -22,7 +33,7 @@ size_t						count_argv(char **chunk_words)
 	return (count);
 }
 
-char	**extract_argv(char **chunk_words)
+char			**extract_argv(char **chunk_words)
 {
 	const size_t	words_num = ft_count_strs((const char **)chunk_words);
 	const size_t	argv_num = count_argv(chunk_words);
