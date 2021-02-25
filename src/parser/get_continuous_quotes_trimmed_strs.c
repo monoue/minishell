@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:24:32 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/17 14:24:33 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/25 14:11:31 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static bool	is_continuous_quotes(char *str, size_t index)
 				&& !is_escaped(str, index));
 }
 
-static char	*get_continuous_quotes_trimmed_str(char *str)
+char		*get_continuous_quotes_trimmed_str(char *str)
 {
 	const size_t	len = ft_strlen(str);
 	size_t			index;

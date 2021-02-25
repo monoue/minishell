@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/25 13:15:57 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/25 19:01:55 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,86 +47,126 @@ char		*remove_all(char *argv)
 	return (arg);
 }
 
-static char	**set_command_argv(char **argv1, t_list *envp)
+// static char	**set_command_argv(char **argv1, t_list *envp)
+// {
+// 	const size_t	arg_num = ft_count_strs((const char **)argv1);
+// 	char	**argv2;
+// 	char	**tmp;
+// 	size_t	i1;
+// 	size_t	i2;
+// 	size_t	j;
+
+// 	g_space = false;
+// 	tmp = NULL;
+// 	if (!(argv2 = malloc(sizeof(*argv2) * (MAX_INPUT))))
+// 		exit_err_msg(MALLOC_ERR);
+// 	i1 = 0;
+// 	i2 = 0;
+// 	while (i1 < arg_num)
+// 	{
+// 		g_global = false;
+// 		if (dollar_or_not(argv1[i1], '$'))
+// 		{
+// 			argv2[i2] = dollar(argv1[i1], envp);
+// 			while (argv2[i2] == NULL && argv1[i1 + 1] != NULL)
+// 			{
+// 				i1++;
+// 				if (dollar_or_not(argv1[i1], '$'))
+// 					argv2[i2] = dollar(argv1[i1], envp);
+// 			}
+// 			if (argv2[i2] && !g_flag_escape_db && g_flag_dont)
+// 			{
+
+
+// 				tmp = ft_split(argv2[i2], ' ');
+// 				j = 0;
+// 				while (tmp[j])
+// 				{
+// 					free(argv2[i2]);
+// 					argv2[i2] = tmp[j];
+// 					i2++;
+// 					j++;
+// 				}
+// 			}
+// 		}
+// 		else
+// 		{
+// 			argv2[i2] = remove_all(argv1[i1]);
+// 			i2++;
+// 		}
+// 		i1++;
+// 	}
+// 	return (argv2);
+// }
+
+void	fill_argv_with_replaced_env(char *arg, char **argv2, size_t *i2, t_list *envp)
 {
-	char	**argv2;
+	char	*dollar_applied;
 	char	**tmp;
 	size_t	index;
-	int		j;
-	int		i;
 
-	g_space = 0;
-	tmp = NULL;
-	if (!(argv2 = malloc(sizeof(*argv2) * (MAX_INPUT))))
-		exit_err_msg(MALLOC_ERR);
-	if (!argv2)
-		exit_err_msg(MALLOC_ERR);
-	index = 0;
-	i = 0;
-	while (argv1[i])
+	dollar_applied = dollar(arg, envp);
+	if (!dollar_applied)
+		return ;
+	if (g_flag_escape_db || !g_flag_dont)
 	{
-		g_global = 0;
-		if (dollar_or_not(argv1[i], '$'))
+		argv2[*i2] = ft_strdup_free(dollar_applied);
+		(*i2)++;
+		return ;
+	}
+	if ((tmp = ft_split(dollar_applied, ' ')))
+	{
+		index = 0;
+		while (tmp[index])
 		{
-			argv2[index] = dollar(argv1[i], envp);
-			while (argv2[index] == NULL && argv1[i + 1] != NULL)
-			{
-				i++;
-				if (dollar_or_not(argv1[i], '$'))
-					argv2[index] = dollar(argv1[i], envp);
-			}
-			if (argv2[index] != NULL && g_flag_escape_db == 0
-				&& g_flag_dont == 1)
-			{
-				tmp = ft_split(argv2[index], ' ');
-				j = 0;
-				if (tmp[j] != NULL)
-				{
-					while (tmp[j])
-					{
-						free(argv2[index]);
-						argv2[index] = tmp[j];
-						index++;
-						j++;
-					}
-				}
-			// ft_free_split(tmp);
-			}
-		}
-		else
-		{
-			argv2[index] = remove_all(argv1[i]);
+			argv2[*i2] = ft_strdup_free(tmp[index]);
+			(*i2)++;
 			index++;
 		}
-		i++;
+		SAFE_FREE(tmp);
 	}
+	SAFE_FREE(dollar_applied);
+}
+
+static char	**set_command_argv(char **argv1, t_list *envp)
+{
+	const size_t	arg_num = ft_count_strs((const char **)argv1);
+	char			**argv2;
+	size_t			i1;
+	size_t			i2;
+
+	g_space = false;
+	if (!(argv2 = malloc(MAX_INPUT * sizeof(char *))))
+		exit_err_msg(MALLOC_ERR);
+	i1 = 0;
+	i2 = 0;
+	while (i1 < arg_num)
+	{
+		g_global = false;
+		if (dollar_or_not(argv1[i1], '$'))
+			fill_argv_with_replaced_env(argv1[i1], argv2, &i2, envp);
+		else
+		{
+			argv2[i2] = remove_all(argv1[i1]);
+			i2++;
+		}
+		i1++;
+	}
+	argv2[i2] = NULL;
 	return (argv2);
 }
 
-// static void	reset_redirection_fds(t_fd fds)
-// {
-// 	if (fds.input != STDIN_FILENO)
-// 	{
-// 		dup2(fds.input, STDIN_FILENO);
-// 		close(fds.input);
-// 	}
-// 	if (fds.output > 2)
-// 	{
-// 		dup2(fds.output, STDOUT_FILENO);
-// 		close(fds.output);
-// 	}
-// }
 
 /*
 ** resets fds so that the outcome comes out from the pipe
 */
 
-static void	reset_redirection_fds(t_fd fds, bool err_fd_open)
+static void	reset_redirection_fds(t_fd *fds, bool err_fd_open)
 {
-	dup2(fds.output, STDOUT_FILENO);
-	dup2(fds.input, STDIN_FILENO);
-	close(fds.output);
-	close(fds.input);
+	dup2(fds->output, STDOUT_FILENO);
+	dup2(fds->input, STDIN_FILENO);
+	close(fds->output);
+	close(fds->input);
 	if (err_fd_open)
 		close(STDERR_FILENO);
 }
@@ -156,7 +196,7 @@ void		exec_command_chunk(char *command_chunk, t_list *envp,
 		}
 		ft_free_split(argv1);
 	}
-	reset_redirection_fds(fds, err_fd_open);
+	reset_redirection_fds(&fds, err_fd_open);
 	if (pipe_child)
 		exit(g_last_exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/25 13:12:50 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/25 14:07:59 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,8 @@ void				echo(char **argv);
 void				env(t_list *envp);
 void				export(char **argv, t_list *envp);
 void				unset(char **argv, t_list *envp);
-
 void				put_error_invalid_identifier(const char *command,
+
 															const char *arg);
 bool				str_is_within_int(const char *str);
 
@@ -195,6 +195,7 @@ void				exec_path_command(char **argv, t_list *envp);
 void				exec_reproduction(char **argv, t_list *envp);
 char				**extract_argv(char **chunk_words);
 char				**ft_split_skipping_quotes(char const *str, char sep_c);
+char				*get_continuous_quotes_trimmed_str(char *str);
 char				**get_continuous_quotes_trimmed_strs(char **src_strs);
 int					get_redirection_type(char *element);
 void				handle_exec_error(const char *command);
@@ -212,7 +213,6 @@ bool				is_pipe_or_break_char(char c);
 bool				is_pipe_or_break_str(char *str);
 bool				is_metachar(char c);
 bool				is_metachar_str(char *str);
-// t_redirection_set	*make_redirection_set(char **elements);
 t_redirection_set	*make_redirection_set(char **elements, bool *err_fd_open);
 void				process_command_line(char *line, t_list *envp);
 void				process_one_command(char *command, t_list *envp);

@@ -81,11 +81,11 @@ int main(int argc, char *argv[])
 	// DS(trim_continuous_quotes("hoge\"hoge\"\"hoge\"\"\"fuga\'fuga\'\'fuga\'\'\'"));
 	// printf("%s\n", trim_continuous_quotes("\"\"hoge\"\""));
 
-	t_list		*envp;
+	// t_list		*envp;
 
-	envp = get_env_list();
+	// envp = get_env_list();
 
-	DS(dollar("     \"   $USER   \" ", envp));
+	// DS(dollar("     \"   $USER   \" ", envp));
 
 
 /*
@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
 	// char	*str2 = " \" hoge \" ";
 	// char	*str3 = "   \\\"   \"  \"        ";
 	// char	*str4 = "   \\\"   \"  \"  \"      ";
-	char	*str5 = "ls hoge 2> file1";
+	char	*str5 = "exit\"\"";
 	// char	*str6 = " \'  \\\"   \" $  \"   \' hoge    ";
 	// char	*str7 = "echo \"hoge\"hoge\"hoge\">a>b";
 	(void)argc;
