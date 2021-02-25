@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/25 07:06:54 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/25 09:26:43 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ typedef enum		e_type
 typedef struct		s_redirection_set
 {
 	t_type						type;
-	int							fd;
+	int							designated_fd;
 	char						*filename;
 	struct s_redirection_set	*next;
 }					t_redirection_set;

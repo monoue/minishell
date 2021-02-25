@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:03 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 16:09:18 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/25 09:26:43 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_redirection_set	*make_redirection_set(char **elements)
 	if (!new)
 		exit_err_msg(MALLOC_ERR);
 	new->type = get_redirection_type(elements[0]);
-	new->fd = get_fd_num(elements[0], new->type);
+	new->designated_fd = get_fd_num(elements[0], new->type);
 	filename = elements[1];
 	if (str_is_quoted(filename))
 		new->filename = ft_strndup(&filename[1], ft_strlen(filename) - 2);

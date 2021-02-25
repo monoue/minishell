@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:44:55 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/25 07:05:15 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/25 09:35:23 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,33 +48,40 @@ static void	put_bad_fd_message(int fd)
 
 int			set_redirection(t_redirection_set *set, t_fd *fds)
 {
-	int				file_fd;
-	int				*p_fd;
-	int				std_fd;
+	int				fild_fd;
 	const t_type	type = set->type;
 
-	file_fd = open(set->filename, get_open_flags(type), OPEN_MODE);
-	if (file_fd == ERROR || is_bad_fd(set->fd))
+	// TODO: 削る
+	(void)fds;
+	fild_fd = open(set->filename, get_open_flags(type), OPEN_MODE);
+	if (fild_fd == ERROR || is_bad_fd(set->designated_fd))
 	{
-		if (file_fd == ERROR)
-		{
-			DS("hoge");
+		if (fild_fd == ERROR)
 			put_bash_err_msg(set->filename, strerror(errno));
-
-		}
 		else
-			put_bad_fd_message(set->fd);
+			put_bad_fd_message(set->designated_fd);
 		g_last_exit_status = EXIT_FAILURE;
 		return (ERROR);
 	}
 	if (type == TYPE_INPUT)
-		p_fd = &(fds->input);
+	{
+		// TODO: 復活させるべき。
+		// close(0);
+		// TODO: 復活させるべき。
+		// dup2(fds->input, 0);
+		// オープンしたファイルの fd に、さっきの fd を割り当てている
+		dup2(fild_fd, set->designated_fd);
+		// 元々の file_fd は不要になった。
+		close(fild_fd);
+	}
 	else
-		p_fd = &(fds->output);
-	std_fd = dup(*p_fd);
-	close(*p_fd);
-	dup2(file_fd, set->fd);
-	close(file_fd);
-	*p_fd = std_fd;
+	{
+		// TODO: 復活させるべき。
+		// close(1);
+		// TODO: 復活させるべき。
+		// dup2(fds->output, 1);
+		dup2(fild_fd, set->designated_fd);
+		close(fild_fd);
+	}
 	return (SUCCESS);
 }

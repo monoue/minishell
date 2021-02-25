@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_chunk.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 15:39:22 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/25 09:39:46 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char		*remove_all(char *argv)
 	if (g_global == 0 && ((argv[0] != '\"' && argv[0] != '\'')
 		|| ((argv[0] == '\"' && argv[1] == '\"')
 		|| (argv[0] == '\'' && argv[1] == '\''))))
-		arg = remove_escape(tmp); 
+		arg = remove_escape(tmp);
 	else if (g_global == 0 && argv[0] != '\'')
 		arg = remove_escape_dq(tmp);
 	else
@@ -75,7 +75,7 @@ static char	**set_command_argv(char **argv1, t_list *envp)
 				if (dollar_or_not(argv1[i], '$'))
 					argv2[index] = dollar(argv1[i], envp);
 			}
-			if (argv2[index] != NULL && g_flag_escape_db == 0 
+			if (argv2[index] != NULL && g_flag_escape_db == 0
 				&& g_flag_dont == 1)
 			{
 				tmp = ft_split(argv2[index], ' ');
@@ -103,18 +103,32 @@ static char	**set_command_argv(char **argv1, t_list *envp)
 	return (argv2);
 }
 
+// static void	reset_redirection_fds(t_fd fds)
+// {
+// 	if (fds.input != STDIN_FILENO)
+// 	{
+// 		dup2(fds.input, STDIN_FILENO);
+// 		close(fds.input);
+// 	}
+// 	if (fds.output > 2)
+// 	{
+// 		dup2(fds.output, STDOUT_FILENO);
+// 		close(fds.output);
+// 	}
+// }
+
+/*
+** resets fds so that the outcome comes out from the pipe
+*/
+
 static void	reset_redirection_fds(t_fd fds)
 {
-	if (fds.input != STDIN_FILENO)
-	{
-		dup2(fds.input, STDIN_FILENO);
-		close(fds.input);
-	}
-	if (fds.output > 2)
-	{
-		dup2(fds.output, STDOUT_FILENO);
-		close(fds.output);
-	}
+	// TODO: 復活させるべき
+	// これがないと、閉じない
+	dup2(fds.output, STDOUT_FILENO);
+	dup2(fds.input, STDIN_FILENO);
+	close(fds.output);
+	close(fds.input);
 }
 
 void		exec_command_chunk(char *command_chunk, t_list *envp,
@@ -137,9 +151,9 @@ void		exec_command_chunk(char *command_chunk, t_list *envp,
 		{
 			argv2 = set_command_argv(argv1, envp);
 			exec_command_argv(argv2, envp);
+			ft_free_split(argv2);
 		}
 		ft_free_split(argv1);
-		ft_free_split(argv2);
 	}
 	reset_redirection_fds(fds);
 	if (pipe_child)
