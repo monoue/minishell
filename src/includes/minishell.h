@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/25 09:26:43 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/25 13:12:50 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,8 @@ bool				is_pipe_or_break_char(char c);
 bool				is_pipe_or_break_str(char *str);
 bool				is_metachar(char c);
 bool				is_metachar_str(char *str);
-t_redirection_set	*make_redirection_set(char **elements);
+// t_redirection_set	*make_redirection_set(char **elements);
+t_redirection_set	*make_redirection_set(char **elements, bool *err_fd_open);
 void				process_command_line(char *line, t_list *envp);
 void				process_one_command(char *command, t_list *envp);
 char				*remove_quotes(const char *str);
@@ -226,7 +227,7 @@ char				*turn_dollar_question_into_value(const char *str);
 void				process_pipes(char **piped_chunks, size_t i,
 											size_t chunks_num, t_list *envp);
 int					process_redirections(char **chunk_words, t_fd *fds,
-																t_list *envp);
+																t_list *envp, bool *err_fd_open);
 void				skip_quotes(char const *str, size_t *index);
 void				skip_spaces(const char *str, size_t *index);
 void				exec_command_chunk(char *command_chunk, t_list *envp,

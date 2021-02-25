@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:44:55 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/25 10:01:00 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/25 13:15:09 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ int			set_redirection(t_redirection_set *set, t_fd *fds)
 	int				fild_fd;
 	const t_type	type = set->type;
 
-	// TODO: 削るべき
-	// (void)fds;
 	fild_fd = open(set->filename, get_open_flags(type), OPEN_MODE);
 	if (fild_fd == ERROR || is_bad_fd(set->designated_fd))
 	{
@@ -65,21 +63,14 @@ int			set_redirection(t_redirection_set *set, t_fd *fds)
 	}
 	if (type == TYPE_INPUT)
 	{
-		// TODO: 復活させるべき。
-		// close(0);
-		// TODO: 復活させるべき。
+		close(0);
 		dup2(fds->input, 0);
-		// オープンしたファイルの fd に、さっきの fd を割り当てている
 		dup2(fild_fd, set->designated_fd);
-		// 元々の file_fd は不要になった。
 		close(fild_fd);
 	}
 	else
 	{
-		// TODO: 復活させるべき。
-		// close(1);
-		// TODO: 復活させるべき。
-		// さっき新しく作ったヤツに、１を割り当てている。
+		close(1);
 		dup2(fds->output, 1);
 		dup2(fild_fd, set->designated_fd);
 		close(fild_fd);
