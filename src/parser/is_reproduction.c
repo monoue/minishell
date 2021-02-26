@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:35 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/26 14:36:51 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/26 16:44:29 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ bool	is_reproduction(char *word)
 	while (reproductions[index])
 	{
 		if (ft_strequal(continuous_quotes_trimmed_str, reproductions[index]))
+		{
+			SAFE_FREE(continuous_quotes_trimmed_str);
 			return (true);
+		}
 		index++;
 	}
 	SAFE_FREE(continuous_quotes_trimmed_str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/26 11:19:14 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/26 16:58:19 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,24 +93,24 @@ int					exit_minishell(char **argv)
 	int				exit_nbr;
 	const size_t	argv_num = ft_count_strs((const char**)argv);
 
-	
+
 	if (argv_num == 1)
 	{
+		ft_putendl_err("exit");
 		put_farewell_greeting();
-		ft_putstr_fd("exit\n", 1);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 	if (!str_is_valid_num(argv[1]))
 		put_error_numeric(argv[1]);
 	if (argv_num > 2)
 	{
-		ft_putstr("exit\n");
-		ft_putstr("bash: exit: too many arguments\n");
-		return (1);
+		ft_putendl_err("exit\n");
+		ft_putendl("bash: exit: too many arguments");
+		return (EXIT_FAILURE);
 	}
 	nbr = ft_atoll(argv[1]);
 	exit_nbr = ((nbr % 256) + 256) % 256;
-	ft_putstr_fd("exit\n", 1);
+	ft_putendl_err("exit");
 	exit(exit_nbr);
-	return (0);
+	return (EXIT_SUCCESS);
 }
