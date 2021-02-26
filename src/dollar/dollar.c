@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/26 13:20:20 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/26 17:10:12 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ char	*exec_dollar(char **tmp, t_list *envp, int j)
 			final = return_final(str, tmp, j);
 		else
 			final = ft_strdup(str);
-		if (ft_strcmp(final, " ") == 0)
-			final = NULL;
+		// if (ft_strcmp(final, " ") == 0)
+		// 	final = NULL;
 		value = ft_strjoin_free(value, final);
 		SAFE_FREE(str);
 		SAFE_FREE(final);
@@ -124,7 +124,7 @@ char	*dollar(char *argv, t_list *envp)
 	value = exec_dollar(tmp, envp, 0);
 	final = ft_strdup(value);
 	SAFE_FREE(value);
-	ft_free_split(tmp);		
+	ft_free_split(tmp);
 	if (ft_strcmp(final, "") == 0 && g_flag_escape_db == 0)
 	{
 		SAFE_FREE(final);
