@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_chunk.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/25 19:10:33 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/26 15:16:27 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static void	exec_command_argv(char **argv, t_list *envp)
 		exec_reproduction(argv, envp);
 	else
 		exec_path_command(argv, envp);
-	// ft_free_split(argv);
 }
 
 char		*remove_all(char *argv)

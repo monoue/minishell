@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:49 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/26 14:07:38 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/26 14:56:58 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,23 +72,22 @@ void		put_error(char *argv)
 
 char		*find_home(t_list *envp)
 {
-	char	*variable;
-	int		count;
-	char	*str;
+	char		*variable;
+	int			count;
+	char		*str;
+	const char	*home = "HOME=";
 
 	str = NULL;
 	while (envp && envp->next)
 	{
-		if (ft_strncmp((char*)envp->content, "HOME=",
-			ft_strlen("HOME=")) == 0)
+		if (ft_strnequal((char*)envp->content, home, ft_strlen(home)))
 			variable = ft_strdup((char*)envp->content);
 		envp = envp->next;
 	}
 	if (variable != NULL)
 	{
 		count = ft_strrchr_int(variable, '=');
-		str = ft_substr(variable, count + 1,
-			ft_strlen(variable) - count);
+		str = ft_substr(variable, count + 1, ft_strlen(variable) - count);
 		SAFE_FREE(variable);
 	}
 	return (str);
@@ -99,15 +98,15 @@ void		cd(char **argv, t_list *envp)
 	if (find_key("HOME=", envp) == NULL && argv[1] == NULL)
 	{
 		g_last_exit_status = EXIT_FAILURE;
-		return (ft_putstr_fd("bash: cd: HOME not set\n", 1));
+		return (ft_putendl("bash: cd: HOME not set"));
 	}
 	old_pwd(envp);
 	if ((argv[1] == NULL) || (ft_strcmp(argv[1], "~") == 0))
 		argv[1] = find_home(envp);
 	if (chdir(argv[1]) == ERROR)
 	{
+		g_last_exit_status = EXIT_FAILURE;
 		put_error(argv[1]);
-		g_last_exit_status = 1;
 	}
 	new_pwd(envp);
 }
