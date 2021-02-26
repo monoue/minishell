@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/26 11:47:55 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/26 11:58:43 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void				put_farewell_greeting(void);
 */
 void				pwd(char **argv);
 int					help();
-void				exit_minishell(char **argv);
+int					exit_minishell(char **argv);
 void				cd(char **argv, t_list *envp);
 void				echo(char **argv);
 void				env(t_list *envp);

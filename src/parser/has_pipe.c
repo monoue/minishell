@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:24:43 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/17 14:24:44 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/26 12:09:31 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ static void	wait_children(char **piped_chunks, size_t chunks_num, int last_pid)
 		{
 			if (WIFSIGNALED(status))
 				g_last_exit_status = (EXIT_INVALID + WTERMSIG(status));
+			else
+				g_last_exit_status = (WEXITSTATUS(status));
 		}
 		if (flag && WIFSIGNALED(status))
 		{

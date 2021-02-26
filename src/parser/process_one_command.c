@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:35 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 14:42:50 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/26 12:01:34 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static void	fork_exec_commands(char **piped_chunks, t_list *envp)
 		process_pipes(piped_chunks, 0,
 							ft_count_strs((const char**)piped_chunks), envp);
 		ft_free_split(piped_chunks);
-		exit(EXIT_SUCCESS);
+		// exit(EXIT_SUCCESS);
+		exit(g_last_exit_status);
 	}
 	g_pid = pid;
 	wait(&status);

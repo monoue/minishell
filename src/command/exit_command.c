@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/26 11:51:47 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/26 11:58:56 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ bool				str_is_valid_num(char *str)
 	return (str_is_within_llong(str));
 }
 
-void				exit_minishell(char **argv)
+int				exit_minishell(char **argv)
 {
 	int				nbr;
 	int				exit_nbr;
@@ -134,4 +134,5 @@ void				exit_minishell(char **argv)
 	exit_nbr = ((nbr % 256) + 256) % 256;
 	ft_putendl_err("exit");
 	exit(exit_nbr);
+	return (EXIT_SUCCESS);
 }
