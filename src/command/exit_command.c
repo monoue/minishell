@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 18:07:18 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/25 22:38:37 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,29 @@ bool				str_is_within_int(const char *str)
 	return (n <= INT_MAX);
 }
 
+// bool	ft_str_is_numeric(const char *str)
+// {
+// 	size_t	index;
+// 	size_t	i;
+// 	size_t	length;
+
+// 	index = 0;
+// 	i = 0;
+// 	length = ft_strlen(str);
+// 	length--;
+// 	while (str[length] == ' ')
+// 	{
+// 		i++;
+// 		length--;
+// 	}
+// 	while (str[index] != '\0' && ft_isdigit(str[index]) && str[index] != ' ')
+// 	{
+// 		if (str[index] != ' ')
+// 			index++;
+// 	}
+// 	return (index == ft_strlen(str) - i);
+// }
+
 bool				str_is_valid_num(char *str)
 {
 	size_t	index;
@@ -82,7 +105,7 @@ bool				str_is_valid_num(char *str)
 	if ((str[index] == '-' && str[index + 1] != '\0')
 	|| (str[index] == '+' && str[index + 1] != '\0'))
 		index++;
-	if (!ft_str_is_numeric(&str[index]) || (ft_strcmp(str, "") == 0))
+	if (!ft_str_is_numeric(&str[index])) //|| (ft_strcmp(str, "") == 0))
 		return (false);
 	return (str_is_within_llong(str));
 }

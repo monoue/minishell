@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 12:48:24 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 10:35:32 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/25 11:54:03 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,29 @@ char	*take_escape(char *line, int *i)
 	return (tmp);
 }
 
-char	*into_single_quotes(char *argv, int *i)
+char	**do_parse3(char *line)
 {
-	char	*tmp;
+	char	**tmp;
+	int		i;
+	int		j;
 
-	if (!(tmp = ft_strdup("")))
+	j = 0;
+	i = 0;
+	if (!(tmp = malloc(sizeof(*tmp) * (MAX_INPUT))))
 		exit_err_msg(MALLOC_ERR);
-	while (argv[*i] != '\'')
+	while (line[i])
 	{
-		tmp = ft_strnjoin_free(tmp, &argv[*i], 1);
-		(*i)++;
+		if (line[i] == '\'')
+		{
+			tmp[j++] = ft_strdup("\'");
+			i++;
+		}
+		if (line[i] == '$')
+			tmp[j++] = take_dollar(line, &i);
+		if (ft_isascii1(line[i]) || line[i] == '/')
+			tmp[j++] = take_ascii(line, &i);
+		if (line[i] == '\\')
+			tmp[j++] = take_escape(line, &i);
 	}
 	return (tmp);
 }

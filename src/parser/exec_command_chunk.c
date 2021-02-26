@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_chunk.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/25 19:01:55 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/25 19:10:33 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,12 @@ char		*remove_all(char *argv)
 	index = 0;
 	tmp = NULL;
 	str = ft_strdup(argv);
-	if (g_global == 0)
-		tmp = remove_quotes(str);
-	if (g_global == 0 && ((argv[0] != '\"' && argv[0] != '\'')
+	tmp = remove_quotes(str);
+	if (((argv[0] != '\"' && argv[0] != '\'')
 		|| ((argv[0] == '\"' && argv[1] == '\"')
 		|| (argv[0] == '\'' && argv[1] == '\''))))
 		arg = remove_escape(tmp);
-	else if (g_global == 0 && argv[0] != '\'')
+	else if (argv[0] != '\'')
 		arg = remove_escape_dq(tmp);
 	else
 		arg = ft_strdup(tmp);
@@ -155,7 +154,6 @@ static char	**set_command_argv(char **argv1, t_list *envp)
 	argv2[i2] = NULL;
 	return (argv2);
 }
-
 
 /*
 ** resets fds so that the outcome comes out from the pipe

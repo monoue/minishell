@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:59:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 10:19:20 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/25 12:10:09 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,29 +35,31 @@ char	*skip_space_dollar(char *value)
 
 char	*do_single_quotation(char *argv, t_list *envp)
 {
-	char	*buf;
-	int		i;
+	char	**tmp;
 	char	*str;
 	char	*value;
+	char	*final;
+	int		j;
 
-	i = 0;
-	str = NULL;
+	g_flag = 1;
+	g_flag_escape_db = 1;
 	value = NULL;
-	buf = NULL;
-	while (argv[i])
+	tmp = do_parse3(argv);
+	j = 0;
+	while (tmp[j])
 	{
-		if (argv[i] == '\'')
-		{
-			i++;
-			buf = into_single_quotes(argv, &i);
-			g_flag = 1;
-		}
-		i++;
+		g_flag_dont = 0;
+		if (dollar_or_not(tmp[j], '$'))
+			str = replace_dollar_value(tmp[j], envp);
+		else
+			str = ft_strdup(tmp[j]);
+		final = return_final(str, tmp, j);
+		value = ft_strnjoin_free(value, final, ft_strlen(final));
+		SAFE_FREE(str);
+		SAFE_FREE(final);
+		j++;
 	}
-	str = replace_dollar_value(buf, envp);
-	value = replace_word(argv, buf, str, 0);
-	SAFE_FREE(str);
-	SAFE_FREE(buf);
+	ft_free_split(tmp);
 	return (value);
 }
 
@@ -108,7 +110,7 @@ char	**do_parse2(char *line)
 
 	j = 0;
 	i = 0;
-	if (!(tmp = malloc(sizeof(*tmp) * (MAX_INPUT))))
+	if (!(tmp = malloc(sizeof(*tmp) * (MAX_INPUT * MAX_INPUT))))
 		exit_err_msg(MALLOC_ERR);
 	while (line[i])
 	{

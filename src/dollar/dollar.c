@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 15:41:57 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/25 11:23:21 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	**do_parse(char *line)
 
 	j = 0;
 	i = 0;
-	if (!(tmp = malloc(sizeof(*tmp) * (MAX_INPUT * MAX_INPUT))))
+	if (!(tmp = malloc(sizeof(*tmp) * (MAX_INPUT * MAX_INPUT * MAX_INPUT))))
 		exit_err_msg(MALLOC_ERR);
 	while (line[i])
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 15:57:58 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 15:58:01 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/25 19:50:04 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ char	*remove_escape(const char *str)
 	size_t			start;
 	char			*ret_s;
 
-	if (g_flag_escape_db)
-		return (ret_s = ft_strdup(str));
 	if (!(ret_s = ft_strdup("")))
 		exit_err_msg(MALLOC_ERR);
 	index = 0;

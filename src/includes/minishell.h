@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/25 14:07:59 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/25 21:56:33 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ char				*take_escape(char *line, int *i);
 char				*into_single_quotes(char *argv, int *i);
 int					count_variable(char *variable);
 char				*return_final(char *str, char **tmp, int j);
+char				**do_parse3(char *line);
 
 /*
 **  syntax_error_check

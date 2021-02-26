@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:34 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 16:05:46 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/25 17:58:53 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,25 @@ void				unset_key(char *key, t_list *envp)
 	t_list	*target;
 
 	env_i = 0;
+	target = NULL;
+	if (envp == NULL)
+		return ;
+	if (ft_strncmp(key, "_=", 2) == 0 || ft_strncmp(key, "_", 1) == 0)
+		return ;
 	target_prev_i = get_target_prev_i(key, envp);
+	if (target_prev_i == -1)
+	{
+		target = envp;
+		target->content = target->next->content;
+		target->next = target->next->next;
+		SAFE_FREE(target);
+		return ;
+	}
 	while (env_i < target_prev_i)
 	{
 		envp = envp->next;
 		env_i++;
 	}
-	if (env_i == 0)
-		envp = envp->next;
 	target = envp->next;
 	envp->next = target->next;
 	SAFE_FREE(target);
@@ -72,6 +83,8 @@ void				unset(char **argv, t_list *envp)
 
 	arg_i = 1;
 	key = NULL;
+	if (envp == NULL)
+		return ;
 	while (argv[arg_i])
 	{
 		key = get_key(argv[arg_i]);

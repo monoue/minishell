@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 15:21:58 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 15:45:35 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/25 12:13:17 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*take_single_quote(char *line, int *i)
 	tmp = NULL;
 	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 	(*i)++;
-	while (line[*i] != '\'')
+	while (line[*i] != '\'' && line[*i + 2] != '\0')
 	{
 		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 		(*i)++;
