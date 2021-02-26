@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/26 16:58:19 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/26 18:21:06 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int					exit_minishell(char **argv)
 	{
 		ft_putendl_err("exit");
 		put_farewell_greeting();
-		exit(EXIT_SUCCESS);
+		exit(g_last_exit_status);
 	}
 	if (!str_is_valid_num(argv[1]))
 		put_error_numeric(argv[1]);

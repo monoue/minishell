@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 16:04:43 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/26 17:44:52 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void			show_export(t_list *envp)
 	{
 		if (ft_strncmp(array[index], "_=", 2) == 0)
 			index++;
+		if (array[index] == NULL)
+			return ;
 		ft_putstr_fd("declare -x ", 1);
 		put_dbl_quotation_str(array[index]);
 		ft_putchar_fd('\n', 1);
@@ -51,6 +53,7 @@ void			show_export(t_list *envp)
 	}
 	ft_free_split(array);
 }
+
 
 static bool		is_valid_arg(char *arg)
 {
