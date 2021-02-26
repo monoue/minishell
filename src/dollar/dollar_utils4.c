@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 12:48:24 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/25 11:54:03 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/26 11:13:51 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,12 @@ char	*take_escape(char *line, int *i)
 
 	tmp = NULL;
 	while (line[*i] != '\0' && !ft_isascii1(line[*i])
-		&& !ft_isalnum(line[*i]) && line[*i] != '\"')
+		&& !ft_isalnum(line[*i]) && line[*i] != '\"' && line[*i] != '$')
+	{
+		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+		(*i)++;
+	}
+	if (line[*i] == '$')
 	{
 		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 		(*i)++;

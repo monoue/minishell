@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:59:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/25 12:10:09 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/26 13:24:30 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,12 @@ char	*skip_space_dollar(char *value)
 		if (value[i] != ' ')
 			tmp = ft_strnjoin_free(tmp, &value[i], 1);
 		else if (value[i] == ' ' && value[i + 1] != ' ')
-			tmp = ft_strnjoin_free(tmp, &value[i], 1);
+		{
+			if (value[i + 1] == '\0' && value[i] == ' ')
+				;
+			else
+				tmp = ft_strnjoin_free(tmp, &value[i], 1);
+		}
 		i++;
 	}
 	return (tmp);

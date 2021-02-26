@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/26 11:58:56 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/26 11:19:14 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,29 +72,6 @@ bool				str_is_within_int(const char *str)
 	return (n <= INT_MAX);
 }
 
-// bool	ft_str_is_numeric(const char *str)
-// {
-// 	size_t	index;
-// 	size_t	i;
-// 	size_t	length;
-
-// 	index = 0;
-// 	i = 0;
-// 	length = ft_strlen(str);
-// 	length--;
-// 	while (str[length] == ' ')
-// 	{
-// 		i++;
-// 		length--;
-// 	}
-// 	while (str[index] != '\0' && ft_isdigit(str[index]) && str[index] != ' ')
-// 	{
-// 		if (str[index] != ' ')
-// 			index++;
-// 	}
-// 	return (index == ft_strlen(str) - i);
-// }
-
 bool				str_is_valid_num(char *str)
 {
 	size_t	index;
@@ -110,29 +87,30 @@ bool				str_is_valid_num(char *str)
 	return (str_is_within_llong(str));
 }
 
-int				exit_minishell(char **argv)
+int					exit_minishell(char **argv)
 {
 	int				nbr;
 	int				exit_nbr;
 	const size_t	argv_num = ft_count_strs((const char**)argv);
 
-
+	
 	if (argv_num == 1)
 	{
 		put_farewell_greeting();
-		ft_putendl_err("exit");
-		exit(EXIT_SUCCESS);
+		ft_putstr_fd("exit\n", 1);
+		exit(0);
 	}
 	if (!str_is_valid_num(argv[1]))
 		put_error_numeric(argv[1]);
 	if (argv_num > 2)
 	{
+		ft_putstr("exit\n");
 		ft_putstr("bash: exit: too many arguments\n");
-		return (EXIT_FAILURE);
+		return (1);
 	}
 	nbr = ft_atoll(argv[1]);
 	exit_nbr = ((nbr % 256) + 256) % 256;
-	ft_putendl_err("exit");
+	ft_putstr_fd("exit\n", 1);
 	exit(exit_nbr);
-	return (EXIT_SUCCESS);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 15:21:58 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/25 12:13:17 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/26 10:42:41 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*take_dollar(char *line, int *i)
 	}
 	while (line[*i] != '\'' && line[*i] != '\"' && line[*i] != '\0'
 			&& line[*i] != '$' && line[*i] != '/' && line[*i] != '\\'
-			&& line[*i] != '=' && ft_isalnum(line[*i]))
+			&& line[*i] != '=' && (ft_isalnum(line[*i]) || line[*i] == '_'))
 	{
 		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 		(*i)++;
