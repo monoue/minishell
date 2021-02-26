@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/25 22:38:37 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/26 11:47:43 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,29 +110,28 @@ bool				str_is_valid_num(char *str)
 	return (str_is_within_llong(str));
 }
 
-int					exit_minishell(char **argv)
+void				exit_minishell(char **argv)
 {
 	int				nbr;
 	int				exit_nbr;
 	const size_t	argv_num = ft_count_strs((const char**)argv);
 
-	
+
 	if (argv_num == 1)
 	{
 		put_farewell_greeting();
 		ft_putstr_fd("exit\n", 1);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 	if (!str_is_valid_num(argv[1]))
 		put_error_numeric(argv[1]);
 	if (argv_num > 2)
 	{
 		ft_putstr("bash: exit: too many arguments\n");
-		return (1);
+		return (EXIT_FAILURE);
 	}
 	nbr = ft_atoll(argv[1]);
 	exit_nbr = ((nbr % 256) + 256) % 256;
 	ft_putstr_fd("exit\n", 1);
 	exit(exit_nbr);
-	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/25 21:56:33 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/26 11:47:55 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void				put_farewell_greeting(void);
 */
 void				pwd(char **argv);
 int					help();
-int					exit_minishell(char **argv);
+void				exit_minishell(char **argv);
 void				cd(char **argv, t_list *envp);
 void				echo(char **argv);
 void				env(t_list *envp);

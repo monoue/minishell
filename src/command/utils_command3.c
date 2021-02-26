@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_command3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:14:27 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 16:01:32 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/26 11:48:12 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int			dollar_or_not(char *arg, int c)
 void				put_error_numeric(char *argv)
 {
 	ft_putstr_err("exit\nbash: exit: ");
-	ft_putstr_err(&argv[1]);
+	ft_putstr_err(argv);
 	ft_putstr_err(": numeric argument required\n");
 	exit(255);
 }
