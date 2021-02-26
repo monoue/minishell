@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/17 16:01:49 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/26 14:08:05 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 void	exec_reproduction(char **argv, t_list *envp)
 {
+	g_last_exit_status = EXIT_SUCCESS;
 	if (ft_strequal(argv[0], "exit"))
 		exit_minishell(argv);
 	else if (ft_strequal(argv[0], "cd"))

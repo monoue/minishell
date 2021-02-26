@@ -6,23 +6,19 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:35 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/26 13:25:57 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/26 14:02:29 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static int	get_child_process_result(int status)
-int	get_child_process_result(int status)
+static int	get_child_process_result(int status)
 {
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
 		return (EXIT_INVALID + WTERMSIG(status));
-	// return ();
 	return (ERROR);
-	// return (g_last_exit_status);
-	// return (EXIT_SUCCESS);
 }
 
 static void	fork_exec_commands(char **piped_chunks, t_list *envp)
