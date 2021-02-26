@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 14:05:27 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/24 14:34:46 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/26 11:50:12 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 void		put_welcome_greeting(void)
 {
-	ft_putendl("\n");
-	ft_putendl("                              ,");
-	ft_putendl("              ,-.       _,---._ __  / \\");
-	ft_putendl("             /  )    .-'       `./ /   \\");
-	ft_putendl("            (  (   ,'            `/    /|");
-	ft_putendl("             \\  `-\"             \\'\\   / |");
-	ft_putendl("              `.              ,  \\ \\ /  |");
-	ft_putendl("\t       /`.          ,'-`----Y   |");
-	ft_putendl("              (            ;        |   /");
-	ft_putendl("              |  ,-.    ,-'         |  /");
-	ft_putendl("              |  | (   |  minishell | /");
-	ft_putendl("              )  |  \\  `.___________|/");
-	ft_putendl("              `--'   `--'");
-	ft_putstr("           \033[0m\033[34mBIENVENUE DANS NOTRE MINISHELL");
-	ft_putendl("\033\[0m \033[31m❤️\033[0m\n   ");
+	ft_putendl_err("\n");
+	ft_putendl_err("                              ,");
+	ft_putendl_err("              ,-.       _,---._ __  / \\");
+	ft_putendl_err("             /  )    .-'       `./ /   \\");
+	ft_putendl_err("            (  (   ,'            `/    /|");
+	ft_putendl_err("             \\  `-\"             \\'\\   / |");
+	ft_putendl_err("              `.              ,  \\ \\ /  |");
+	ft_putendl_err("\t       /`.          ,'-`----Y   |");
+	ft_putendl_err("              (            ;        |   /");
+	ft_putendl_err("              |  ,-.    ,-'         |  /");
+	ft_putendl_err("              |  | (   |  minishell | /");
+	ft_putendl_err("              )  |  \\  `.___________|/");
+	ft_putendl_err("              `--'   `--'");
+	ft_putstr_err("           \033[0m\033[34mBIENVENUE DANS NOTRE MINISHELL");
+	ft_putendl_err("\033\[0m \033[31m❤️\033[0m\n   ");
 }
 
 static void	put_cat(void)

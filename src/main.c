@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 17:46:05 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/26 11:53:11 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*ft_getline(int *cmd_status)
 			;
 		else if (ret == 0)
 		{
-			ft_putstr_fd("exit\n", 2);
+			ft_putendl_err("exit");
 			exit(*cmd_status / 256);
 		}
 	}
@@ -93,7 +93,7 @@ static void	main_loop(t_list *envp)
 
 	int			cmd_status = 0;
 
-	ft_putstr(PROMPT);
+	ft_putstr_err(PROMPT);
 	set_signal_handlers();
 //	ret = get_next_line(STDIN_FILENO, &line);
 	signal(SIGINT, handle_gl);
