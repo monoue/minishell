@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:24:43 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/26 12:09:31 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/26 13:34:35 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ static void	wait_children(char **piped_chunks, size_t chunks_num, int last_pid)
 	{
 		if (wait(&status) == last_pid)
 		{
-			if (WIFSIGNALED(status))
-				g_last_exit_status = (EXIT_INVALID + WTERMSIG(status));
-			else
+			if (WIFEXITED(status))
 				g_last_exit_status = (WEXITSTATUS(status));
+			else if (WIFSIGNALED(status))
+				g_last_exit_status = (EXIT_INVALID + WTERMSIG(status));
 		}
 		if (flag && WIFSIGNALED(status))
 		{
@@ -84,6 +84,32 @@ static void	wait_children(char **piped_chunks, size_t chunks_num, int last_pid)
 		index++;
 	}
 }
+
+// void		has_pipe(char **piped_chunks, t_list *envp, size_t chunks_num)
+// {
+// 	pid_t	pid;
+// 	int		pipe_fd[chunks_num][2];
+// 	size_t	index;
+
+// 	index = 0;
+// 	while (index < chunks_num)
+// 	{
+// 		if (index < chunks_num - 1)
+// 			pipe(pipe_fd[index]);
+// 		signal(SIGINT, sig_ignore);
+// 		signal(SIGQUIT, sig_ignore);
+// 		pid = fork();
+// 		if (pid == 0)
+// 		{
+// 			set_and_close_pipe(pipe_fd, index, chunks_num);
+// 			exec_command_chunk(piped_chunks[index], envp, true);
+// 		}
+// 		if (index > 0)
+// 			close_pipes(pipe_fd[index - 1]);
+// 		index++;
+// 	}
+// 	wait_children(piped_chunks, chunks_num, pid);
+// }
 
 void		has_pipe(char **piped_chunks, t_list *envp, size_t chunks_num)
 {
@@ -104,6 +130,10 @@ void		has_pipe(char **piped_chunks, t_list *envp, size_t chunks_num)
 			set_and_close_pipe(pipe_fd, index, chunks_num);
 			exec_command_chunk(piped_chunks[index], envp, true);
 		}
+		// TODO: 要らなければ消す
+		// else
+
+			// g_last_exit_status = get_child_process_result()
 		if (index > 0)
 			close_pipes(pipe_fd[index - 1]);
 		index++;

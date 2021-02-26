@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/26 11:58:43 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/26 13:27:11 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,8 @@ void				exec_path_command(char **argv, t_list *envp);
 void				exec_reproduction(char **argv, t_list *envp);
 char				**extract_argv(char **chunk_words);
 char				**ft_split_skipping_quotes(char const *str, char sep_c);
+// TODO: いらなければ消す
+int					get_child_process_result(int status);
 char				*get_continuous_quotes_trimmed_str(char *str);
 char				**get_continuous_quotes_trimmed_strs(char **src_strs);
 int					get_redirection_type(char *element);
