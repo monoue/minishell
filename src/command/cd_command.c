@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:49 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/26 16:51:47 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/26 17:40:31 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,16 @@ char		*find_home(t_list *envp)
 
 void		cd(char **argv, t_list *envp)
 {
-	if (find_key("HOME=", envp) == NULL && argv[1] == NULL)
+	char	*home_key;
+
+	home_key = find_key("HOME=", envp);
+	if (!home_key && argv[1] == NULL)
 	{
+		SAFE_FREE(home_key);
 		g_last_exit_status = EXIT_FAILURE;
 		return (ft_putendl_err("bash: cd: HOME not set"));
 	}
+	SAFE_FREE(home_key);
 	old_pwd(envp);
 	if ((argv[1] == NULL) || (ft_strcmp(argv[1], "~") == 0))
 		argv[1] = find_home(envp);

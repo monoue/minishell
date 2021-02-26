@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 15:21:58 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/26 10:42:41 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/26 17:37:36 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ char	*find_key(char *arg, t_list *envp)
 		tmp_list = tmp_list->next;
 	}
 	if (ft_strcmp(variable, "") == 0)
+	{
+		SAFE_FREE(variable);
 		return (NULL);
+	}
 	return (variable);
 }
 
