@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:34 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/26 17:46:50 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/26 21:06:15 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void				unset(char **argv, t_list *envp)
 			arg_i++;
 			continue ;
 		}
+		key = ft_strnjoin_free(key, "=", 1);
 		if (same_key(key, envp))
 			unset_key(key, envp);
 		SAFE_FREE(key);

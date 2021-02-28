@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/26 17:44:52 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/02/27 10:53:10 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,23 @@
 void			put_dbl_quotation_str(char *str)
 {
 	int		i;
+	int		a;
 	char	dblq;
 
 	i = 0;
+	a = 0;
 	dblq = '\"';
 	while (str[i])
 	{
 		write(1, &str[i], 1);
 		if (str[i] == '=' || str[i + 1] == '\0')
+		{
+			if (a == 0 && str[i + 1] == '\0')
+				write(1, &dblq, 1);
+			a = 1;
 			write(1, &dblq, 1);
+			
+		}
 		i++;
 	}
 }
@@ -114,6 +122,7 @@ void			export(char **argv, t_list *envp)
 		{
 			put_error_invalid_identifier("export", argv[index]);
 			index++;
+			SAFE_FREE(key);
 			continue ;
 		}
 		check_same_key_or_not(key, envp, argv, index);
