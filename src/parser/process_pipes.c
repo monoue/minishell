@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:44:43 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 11:12:17 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 11:56:16 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@ void	process_pipes(char **piped_chunks, size_t i, size_t chunks_num,
 	(void)chunks_num;
 	(void)i;
 
-
 	// int		fds[2];
 
 	// if (i == chunks_num - 1)
 	// {
 		exec_command_chunk(piped_chunks[0], envp, true);
-	// 	return ;
+		return ;
 	// }
 	// pipe(fds);
 	// if ((g_pid = fork()) == 0)
