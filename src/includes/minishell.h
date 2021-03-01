@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 16:04:28 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 16:14:24 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ void				put_farewell_greeting(void);
 */
 void				pwd(char **argv);
 int					help();
-// int					exit_minishell(char **argv);
 void				exit_minishell(char **argv);
 void				cd(char **argv, t_list *envp);
 void				echo(char **argv);
@@ -184,7 +183,7 @@ char				*remove_final(char *str, char **tmp, int j);
 /*
 ** dollar_utils5
 */
-char	*take_dollar_bis(char *line, int *i, char *tmp);
+char				*take_dollar_bis(char *line, int *i, char *tmp);
 
 /*
 **  syntax_error_check
@@ -221,7 +220,7 @@ bool				is_pipe_or_break_char(char c);
 bool				is_pipe_or_break_str(char *str);
 bool				is_metachar(char c);
 bool				is_metachar_str(char *str);
-t_redirection_set	*make_redirection_set(char **elements, bool *err_fd_open);
+t_redirection_set	*make_redirection_set(char **elements);
 void				process_command_line(char *line, t_list *envp);
 void				process_one_command(char *command, t_list *envp);
 char				*remove_quotes(const char *str);
@@ -233,7 +232,7 @@ void				skip_word(const char *str, size_t *index);
 bool				str_is_quoted(const char *str);
 char				*turn_dollar_question_into_value(const char *str);
 int					process_redirections(char **chunk_words, t_fd *fds,
-																t_list *envp, bool *err_fd_open);
+																t_list *envp);
 void				skip_quotes(char const *str, size_t *index);
 void				skip_spaces(const char *str, size_t *index);
 void				exec_command_chunk(char *command_chunk, t_list *envp,

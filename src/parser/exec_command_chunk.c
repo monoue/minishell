@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 15:49:00 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 16:14:07 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,14 +110,12 @@ static char	**set_command_argv(char **argv1, t_list *envp)
 ** resets fds so that the outcome comes out from the pipe
 */
 
-static void	reset_redirection_fds(t_fd *fds, bool err_fd_open)
+static void	reset_redirection_fds(t_fd *fds)
 {
 	dup2(fds->output, STDOUT_FILENO);
 	dup2(fds->input, STDIN_FILENO);
 	close(fds->output);
 	close(fds->input);
-	if (err_fd_open)
-		close(STDERR_FILENO);
 }
 
 void		exec_command_chunk(char *command_chunk, t_list *envp,
@@ -127,12 +125,11 @@ void		exec_command_chunk(char *command_chunk, t_list *envp,
 	char	**argv1;
 	char	**argv2;
 	char	**chunk_words;
-	bool	err_fd_open;
 
 	chunk_words = split_command_line(command_chunk);
 	set_fds(&fds);
 	argv2 = NULL;
-	if (process_redirections(chunk_words, &fds, envp, &err_fd_open) == SUCCESS)
+	if (process_redirections(chunk_words, &fds, envp) == SUCCESS)
 	{
 		argv1 = extract_argv(chunk_words);
 		ft_free_split(chunk_words);
@@ -144,7 +141,7 @@ void		exec_command_chunk(char *command_chunk, t_list *envp,
 		}
 		ft_free_split(argv1);
 	}
-	reset_redirection_fds(&fds, err_fd_open);
+	reset_redirection_fds(&fds);
 	if (pipe_child)
 		exit(g_last_exit_status);
 }

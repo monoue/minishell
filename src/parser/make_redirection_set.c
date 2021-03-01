@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:03 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 14:45:31 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 16:15:06 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int			get_fd_num(char *redirection_str, t_type redirection_type)
 	return (ft_atoi(redirection_str));
 }
 
-t_redirection_set	*make_redirection_set(char **elements, bool *err_fd_open)
+t_redirection_set	*make_redirection_set(char **elements)
 {
 	t_redirection_set	*set;
 	t_redirection_set	*new;
@@ -64,7 +64,6 @@ t_redirection_set	*make_redirection_set(char **elements, bool *err_fd_open)
 		exit_err_msg(MALLOC_ERR);
 	new->type = get_redirection_type(elements[0]);
 	new->designated_fd = get_fd_num(elements[0], new->type);
-	*err_fd_open = (new->designated_fd == 2);
 	filename = elements[1];
 	if (str_is_quoted(filename))
 		new->filename = ft_strndup(&filename[1], ft_strlen(filename) - 2);

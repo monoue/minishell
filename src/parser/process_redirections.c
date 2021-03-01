@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:03 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/25 13:07:56 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 16:14:55 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ static bool	redirection_filename_is_ambiguous(char *filename)
 	return (words_num > 1);
 }
 
-static int	set_redirections(char **chunk_words, t_fd *fds, t_list *envp, bool *err_fd_open)
+static int	set_redirections(char **chunk_words, t_fd *fds, t_list *envp)
 {
 	t_redirection_set	*set;
 	int					ret;
 	char				*replaced_filename;
 
-	set = make_redirection_set(chunk_words, err_fd_open);
+	set = make_redirection_set(chunk_words);
 	if (dollar_or_not(set->filename, '$'))
 	{
 		replaced_filename = dollar(set->filename, envp);
@@ -62,7 +62,7 @@ static int	set_redirections(char **chunk_words, t_fd *fds, t_list *envp, bool *e
 	return (SUCCESS);
 }
 
-int			process_redirections(char **chunk_words, t_fd *fds, t_list *envp, bool *err_fd_open)
+int			process_redirections(char **chunk_words, t_fd *fds, t_list *envp)
 {
 	const size_t	words_num = ft_count_strs((const char **)chunk_words);
 	size_t			index;
@@ -73,7 +73,7 @@ int			process_redirections(char **chunk_words, t_fd *fds, t_list *envp, bool *er
 	{
 		if (is_redirection_str(chunk_words[index]))
 		{
-			ret = set_redirections(&chunk_words[index], fds, envp, err_fd_open);
+			ret = set_redirections(&chunk_words[index], fds, envp);
 			if (ret == ERROR)
 				return (ERROR);
 			index += 2;
