@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:03 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/25 13:11:49 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 14:45:31 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,30 @@ static int			get_default_fd_num(t_type redirection_type)
 	if (redirection_type == TYPE_INPUT)
 		return (STDIN_FILENO);
 	return (STDOUT_FILENO);
+}
+
+static bool	str_is_within_int(const char *str)
+{
+	bool				sign;
+	unsigned long long	n;
+	size_t				index;
+
+	index = 0;
+	if (digits_num_is_over_llong_max(str))
+		return (false);
+	sign = false;
+	if (str[index] == '-' || str[index] == '+')
+	{
+		if (str[index] == '-')
+			sign = true;
+		index++;
+	}
+	n = ft_atoull(&str[index]);
+	if (n == 0)
+		return (true);
+	if (sign)
+		n--;
+	return (n <= INT_MAX);
 }
 
 static int			get_fd_num(char *redirection_str, t_type redirection_type)

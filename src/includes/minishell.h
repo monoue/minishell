@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 14:00:25 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/01 14:47:56 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,16 +125,17 @@ void				put_farewell_greeting(void);
 */
 void				pwd(char **argv);
 int					help();
-int					exit_minishell(char **argv);
+// int					exit_minishell(char **argv);
+void				exit_minishell(char **argv);
 void				cd(char **argv, t_list *envp);
 void				echo(char **argv);
 void				env(t_list *envp);
 void				export(char **argv, t_list *envp);
 void				unset(char **argv, t_list *envp);
 void				put_error_invalid_identifier(const char *command,
-
 															const char *arg);
-bool				str_is_within_int(const char *str);
+
+bool				digits_num_is_over_llong_max(const char *str);
 
 /*
 ** dollar

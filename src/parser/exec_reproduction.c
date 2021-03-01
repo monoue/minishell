@@ -6,26 +6,15 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/26 18:25:00 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 14:56:03 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-void	exec_reproduction(char **argv, t_list *envp)
+static void	exec_not_exit_reproduction(char **argv, t_list *envp)
 {
-	char		*quotes_trimmed_str;
-
-	if (g_global)
-	{
-		quotes_trimmed_str = get_continuous_quotes_trimmed_str(argv[0]);
-		SAFE_FREE(argv[0]);
-		argv[0] = ft_strdup_free(quotes_trimmed_str);
-	}
-	if (ft_strequal(argv[0], "exit"))
-		exit_minishell(argv);
-	g_last_exit_status = EXIT_SUCCESS;
 	if (ft_strequal(argv[0], "cd"))
 		cd(argv, envp);
 	else if (ft_strequal(argv[0], "pwd"))
@@ -43,4 +32,20 @@ void	exec_reproduction(char **argv, t_list *envp)
 		g_last_exit_status = 127;
 		put_bash_err_msg(argv[0], NO_COMMANDS_ERR);
 	}
+}
+
+void		exec_reproduction(char **argv, t_list *envp)
+{
+	char		*quotes_trimmed_str;
+
+	if (g_global)
+	{
+		quotes_trimmed_str = get_continuous_quotes_trimmed_str(argv[0]);
+		SAFE_FREE(argv[0]);
+		argv[0] = ft_strdup_free(quotes_trimmed_str);
+	}
+	if (ft_strequal(argv[0], "exit"))
+		return (exit_minishell(argv));
+	g_last_exit_status = EXIT_SUCCESS;
+	exec_not_exit_reproduction(argv, envp);
 }

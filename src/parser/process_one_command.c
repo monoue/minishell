@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:35 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 13:56:29 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 14:27:35 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,25 @@ static bool	is_output(char *word)
 	return (false);
 }
 
+// static void	exec_no_pipe_chunk(char **chunks, t_list *envp)
+// {
+// 	char	**chunk_words;
+
+// 	chunk_words = split_command_line(chunks[0]);
+// 	if (is_reproduction(chunk_words[0]) && !is_output(chunk_words[0]))
+// 		exec_command_chunk(chunks[0], envp, false);
+// 	else
+// 		fork_exec_commands(chunks, envp);
+// 	ft_free_split(chunk_words);
+// }
+
 static void	exec_no_pipe_chunk(char **chunks, t_list *envp)
 {
 	char	**chunk_words;
 
 	chunk_words = split_command_line(chunks[0]);
 	if (is_reproduction(chunk_words[0]) && !is_output(chunk_words[0]))
-		exec_command_chunk(chunks[0], envp, false);
+		exec_reproduction(chunk_words, envp);
 	else
 		fork_exec_commands(chunks, envp);
 	ft_free_split(chunk_words);
