@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:35 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 12:15:34 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 13:48:57 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ bool	is_exit(char *word)
 	return (false);
 }
 
-static void	fork_exec_commands(char **piped_chunks, t_list *envp, bool is_exit)
+static void	fork_exec_commands(char **piped_chunks, t_list *envp)
 {
 	int		status;
 	pid_t	pid;
@@ -63,8 +63,32 @@ static void	fork_exec_commands(char **piped_chunks, t_list *envp, bool is_exit)
 	g_pid = pid;
 	wait(&status);
 	g_last_exit_status = get_child_process_result(status);
-	if (is_exit)
-		exit(g_last_exit_status);
+}
+
+bool	is_output(char *word)
+{
+	const char	*reproductions[] = {
+		"echo",
+		"env",
+		"pwd",
+		NULL
+	};
+	size_t		index;
+	char		*continuous_quotes_trimmed_str;
+
+	continuous_quotes_trimmed_str = get_continuous_quotes_trimmed_str(word);
+	index = 0;
+	while (reproductions[index])
+	{
+		if (ft_strequal(continuous_quotes_trimmed_str, reproductions[index]))
+		{
+			SAFE_FREE(continuous_quotes_trimmed_str);
+			return (true);
+		}
+		index++;
+	}
+	SAFE_FREE(continuous_quotes_trimmed_str);
+	return (false);
 }
 
 static void	exec_no_pipe_chunk(char **chunks, t_list *envp)
@@ -72,7 +96,10 @@ static void	exec_no_pipe_chunk(char **chunks, t_list *envp)
 	char	**chunk_words;
 
 	chunk_words = split_command_line(chunks[0]);
-	fork_exec_commands(chunks, envp, is_exit(chunk_words[0]));
+	if (is_reproduction(chunk_words[0]) && !is_output(chunk_words[0]))
+		exec_command_chunk(chunks[0], envp, false);
+	else
+		fork_exec_commands(chunks, envp);
 	ft_free_split(chunk_words);
 }
 
