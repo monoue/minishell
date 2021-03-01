@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:14:27 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 08:07:16 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 08:15:06 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,55 +57,46 @@ char				*ft_strcat(char *dest, char *src)
 }
 
 // i が 0 の時、存在しないものを参照しにいってしまわないのか
-int					dollar_or_not(char *arg, int c)
-{
-	size_t	i;
-	size_t	j;
+// int					has_dollar_variable(char *arg, int c)
+// {
+// 	size_t	i;
+// 	size_t	j;
 
-	i = 0;
-	j = 0;
-	while (arg && arg[i])
-	{
-		if (arg[i] == c && arg[i - 1] != '\\' && arg[i + 1] != '\0')
-			return (1);
-		if (arg[i - 1] == '\\' && arg[i] != '$'
-			&& arg[i + 1] != '$' && arg[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
+// 	i = 0;
+// 	j = 0;
+// 	while (arg && arg[i])
+// 	{
+// 		if (arg[i] == c && arg[i - 1] != '\\' && arg[i + 1] != '\0')
+// 			return (1);
+// 		if (arg[i - 1] == '\\' && arg[i] != '$'
+// 			&& arg[i + 1] != '$' && arg[i] == c)
+// 			return (1);
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+bool				is_dollar(char c)
+{
+	return (c == '$');
 }
 
-// i が 0 の時、存在しないものを参照しにいってしまわないのか
-// bool				is_dollar(char c)
-// {
-// 	return (c == '$');
-// }
-
-// bool				dollar_or_not(char *arg)
-// {
-// 	const size_t	len = ft_strlen(arg);
-// 	size_t			index;
-
-// 	if (!arg)
-// 		return (false);
-// 	index = 0;
-// 	while (index < len)
-// 	{
-// 		if (is_specific_char_not_escaped(arg, index, is_dollar)
-// 															&& index + 1 < len)
-// 		{
-// 			return (true);
-// 		}
-// 		index++;
-// 	}
-// 	return (false);
-// }
-
-void				put_error_numeric(char *argv)
+bool				has_dollar_variable(char *arg)
 {
-	ft_putstr_err("exit\nbash: exit: ");
-	ft_putstr_err(argv);
-	ft_putstr_err(": numeric argument required\n");
-	exit(255);
+	const size_t	len = ft_strlen(arg);
+	size_t			index;
+
+	if (!arg)
+		return (false);
+	index = 0;
+	while (index < len)
+	{
+		if (is_specific_char_not_escaped(arg, index, is_dollar)
+															&& index + 1 < len)
+		{
+			return (true);
+		}
+		index++;
+	}
+	return (false);
 }

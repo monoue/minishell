@@ -6,11 +6,19 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/01 14:46:48 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 08:13:02 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	put_error_numeric(char *argv)
+{
+	ft_putstr_err("exit\nbash: exit: ");
+	ft_putstr_err(argv);
+	ft_putstr_err(": numeric argument required\n");
+	exit(255);
+}
 
 static bool	str_is_within_llong(const char *str)
 {

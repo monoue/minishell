@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:58:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 07:43:40 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 08:16:06 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*go_parse_dq(char *argv, t_list *envp, int j)
 	while (tmp[j])
 	{
 		g_flag_dont = 0;
-		if (dollar_or_not(tmp[j], '$'))
+		if (has_dollar_variable(tmp[j]))
 			str = replace_dollar_value(tmp[j], envp);
 		else
 			str = ft_strdup(tmp[j]);
