@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/26 16:35:43 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 16:47:51 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,34 +24,46 @@ t_list    *new_env(char *cont)
     return (new);
 }
 
+static bool	has_underscore_env(char **environ)
+{
+	const size_t	environ_num = ft_count_strs((const char **)environ);
+	size_t			index;
+
+	index = 0;
+	while (index < environ_num)
+	{
+        if (ft_strnequal(environ[index], "_=", 2))
+			return (true);
+		index++;
+	}
+	return (false);
+}
+
+static t_list	*make_shelllevel_and_underscore(void)
+{
+	t_list	*envp;
+    t_list	*tmp;
+
+	envp = NULL;
+	tmp = new_env("SHLVL=1");
+	ft_lstadd_back(&envp, tmp);
+	tmp = new_env("_=./minishell");
+	ft_lstadd_back(&envp, tmp);
+	return (envp);
+}
+
 t_list    *get_env_list(void)
 {
-    extern char    **environ;
-    t_list        *envp;
-    t_list        *tmp;
-    size_t        index;
-    int           i;
+    extern char	**environ;
+    t_list		*envp;
+    t_list		*tmp;
+    size_t		index;
 
     envp = NULL;
-    i = 0;
-    if (environ[0] == NULL)
-    {
-        tmp = new_env("SHLVL=1");
-        ft_lstadd_back(&envp, tmp);
-        tmp = new_env("_=./minishell");
-        ft_lstadd_back(&envp, tmp);
-        return (envp);
-    }
-    index = 0;
-    while (environ[index])
-    {
-        if (ft_strncmp(environ[index], "_=", 2) == 0)
-            i = 1;
-        index++;
-    }
-    if (environ[0])
-        envp = new_env(environ[0]);
-    if (i == 0)
+    if (!environ[0])
+		return (make_shelllevel_and_underscore());
+	envp = new_env(environ[0]);
+	if (!has_underscore_env(environ))
     {
         tmp = new_env("_=./minishell");
         ft_lstadd_back(&envp, tmp);
