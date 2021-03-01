@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_chunk.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 16:14:07 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 16:52:04 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char		*remove_all(char *argv)
 	if (((argv[0] != '\"' && argv[0] != '\'')
 		|| ((argv[0] == '\"' && argv[1] == '\"')
 		|| (argv[0] == '\'' && argv[1] == '\''))))
-		arg = remove_escape(tmp);
+		arg = remove_escape(tmp, 0);
 	else if (argv[0] != '\'')
 		arg = remove_escape_dq(tmp);
 	else

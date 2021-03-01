@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 16:14:24 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 16:51:46 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ char				*remove_final(char *str, char **tmp, int j);
 ** dollar_utils5
 */
 char				*take_dollar_bis(char *line, int *i, char *tmp);
+void				remove_escape_dq3(const char *str, int *index, int *len);
 
 /*
 **  syntax_error_check
@@ -242,7 +243,7 @@ char				**split_command_line(char const *str);
 void				set_words(const char *str, char **words, size_t words_num);
 bool				str_is_quoted_by_double(const char *str);
 bool				is_quote_char(char c);
-char				*remove_escape(const char *str);
+char				*remove_escape(const char *str, int index);
 char				*remove_escape_dq(const char *str);
 
 /*
