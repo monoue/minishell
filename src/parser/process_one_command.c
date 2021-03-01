@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:35 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 14:27:35 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 16:05:17 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ static void	fork_exec_commands(char **piped_chunks, t_list *envp)
 		exit_err_msg(strerror(errno));
 	if (pid == 0)
 	{
-		process_pipes(piped_chunks, 0,
-							ft_count_strs((const char**)piped_chunks), envp);
+		exec_command_chunk(piped_chunks[0], envp, true);
 		ft_free_split(piped_chunks);
 		exit(g_last_exit_status);
 	}
@@ -66,18 +65,6 @@ static bool	is_output(char *word)
 	SAFE_FREE(continuous_quotes_trimmed_str);
 	return (false);
 }
-
-// static void	exec_no_pipe_chunk(char **chunks, t_list *envp)
-// {
-// 	char	**chunk_words;
-
-// 	chunk_words = split_command_line(chunks[0]);
-// 	if (is_reproduction(chunk_words[0]) && !is_output(chunk_words[0]))
-// 		exec_command_chunk(chunks[0], envp, false);
-// 	else
-// 		fork_exec_commands(chunks, envp);
-// 	ft_free_split(chunk_words);
-// }
 
 static void	exec_no_pipe_chunk(char **chunks, t_list *envp)
 {

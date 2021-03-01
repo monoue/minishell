@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+         #
+#    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/03/01 15:37:27 by sperrin          ###   ########.fr        #
+#    Updated: 2021/03/01 16:04:36 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,7 +74,6 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(PARSER_PATH)str_is_quoted.c \
 			$(PARSER_PATH)process_command_line.c \
 			$(PARSER_PATH)process_one_command.c \
-			$(PARSER_PATH)process_pipes.c \
 			$(PARSER_PATH)remove_quotes.c \
 			$(PARSER_PATH)set_fds.c \
 			$(PARSER_PATH)set_words.c \

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 14:47:56 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 16:04:28 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,8 +232,6 @@ void				skip_redirection(const char *str, size_t *index);
 void				skip_word(const char *str, size_t *index);
 bool				str_is_quoted(const char *str);
 char				*turn_dollar_question_into_value(const char *str);
-void				process_pipes(char **piped_chunks, size_t i,
-											size_t chunks_num, t_list *envp);
 int					process_redirections(char **chunk_words, t_fd *fds,
 																t_list *envp, bool *err_fd_open);
 void				skip_quotes(char const *str, size_t *index);
