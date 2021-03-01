@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/01 13:31:01 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/01 15:27:30 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,14 @@ char	*exec_dollar(char **tmp, t_list *envp, int j)
 	{
 		g_flag = 0;
 		g_flag_dont = 0;
-		if (dollar_or_not(tmp[j], '$') && tmp[j][0] == '\"')
+		if (dollar_or_not(tmp[j], '$') && tmp[j][0] == '\"'
+			&& (tmp[j][0] == '$' && tmp[j][1] != '?'))
 			str = go_parse_dq(tmp[j], envp, 0);
 		else if (dollar_or_not(tmp[j], '$') && tmp[j][0] != '\''
 				&& (tmp[j][0] == '$' && tmp[j][1] != '?'))
 			str = replace_dollar_value(tmp[j], envp);
 		else
-			str = ft_strdup(tmp[j]);
+			str = ft_strdup(tmp[j]);	
 		final = remove_final(str, tmp, j);
 		value = ft_strjoin_free(value, final);
 		SAFE_FREE(str);

@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 18:33:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/26 14:30:42 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/01 14:25:01 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 bool				same_key(char *key, t_list *envp)
 {
 	size_t	count;
-	char	*tmp;
 
 	count = ft_strlen(key);
 	while (envp)
 	{
-		tmp = envp->content;
-		if (ft_strnequal(tmp, key, count))
+		if (ft_strnequal((char*)envp->content, key, count))
 			return (true);
 		envp = envp->next;
 	}

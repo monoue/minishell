@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/01 13:47:04 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/01 14:25:06 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ void			check_same_key_or_not(char *key, t_list *envp, char **argv,
 																	int index)
 {
 	int		count;
+	char	*arg;
 
+	arg = ft_strdup(argv[index]);
 	count = ft_strlen(key);
 	if (same_key(key, envp))
 	{
@@ -99,10 +101,9 @@ void			check_same_key_or_not(char *key, t_list *envp, char **argv,
 			envp = envp->next;
 		}
 	}
-	else if (check_valid_arg(argv[index]))
-	{
-		add_variable(argv[index], envp);
-	}
+	else if (check_valid_arg(arg))
+		add_variable(arg, envp);
+	SAFE_FREE(arg);
 }
 
 void			export(char **argv, t_list *envp)

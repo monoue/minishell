@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 15:08:38 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 15:49:00 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,59 @@ static void	exec_command_argv(char **argv, t_list *envp)
 		exec_reproduction(argv, envp);
 	else
 		exec_path_command(argv, envp);
+}
+
+char		*remove_all(char *argv)
+{
+	int		index;
+	char	*tmp;
+	char	*str;
+	char 	*arg;
+
+	index = 0;
+	tmp = NULL;
+	str = ft_strdup(argv);
+	tmp = remove_quotes(str);
+	if (((argv[0] != '\"' && argv[0] != '\'')
+		|| ((argv[0] == '\"' && argv[1] == '\"')
+		|| (argv[0] == '\'' && argv[1] == '\''))))
+		arg = remove_escape(tmp);
+	else if (argv[0] != '\'')
+		arg = remove_escape_dq(tmp);
+	else
+		arg = ft_strdup(tmp);
+	SAFE_FREE(str);
+	SAFE_FREE(tmp);
+	return (arg);
+}
+
+void	fill_argv_with_replaced_env(char *arg, char **argv2, size_t *i2, t_list *envp)
+{
+	char	*dollar_applied;
+	char	**tmp;
+	size_t	index;
+
+	dollar_applied = dollar(arg, envp);
+	if (!dollar_applied)
+		return ;
+	if (g_flag_escape_db || !g_flag_dont)
+	{
+		argv2[*i2] = ft_strdup_free(dollar_applied);
+		(*i2)++;
+		return ;
+	}
+	if ((tmp = ft_split(dollar_applied, ' ')))
+	{
+		index = 0;
+		while (tmp[index])
+		{
+			argv2[*i2] = ft_strdup_free(tmp[index]);
+			(*i2)++;
+			index++;
+		}
+		SAFE_FREE(tmp);
+	}
+	SAFE_FREE(dollar_applied);
 }
 
 static char	**set_command_argv(char **argv1, t_list *envp)
