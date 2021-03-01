@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:44:55 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 16:01:58 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 08:09:57 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,34 +46,34 @@ static void	put_bad_fd_message(int fd)
 	}
 }
 
+static void	put_redirection_error_message(int file_fd, t_redirection_set *set)
+{
+	if (file_fd == ERROR)
+		put_bash_err_msg(set->filename, strerror(errno));
+	else
+		put_bad_fd_message(set->designated_fd);
+}
+
 int			set_redirection(t_redirection_set *set, t_fd *fds)
 {
-	int				fild_fd;
+	int				file_fd;
 	const t_type	type = set->type;
+	const int		designated_fd = set->designated_fd;
+	const char		*filename = set->filename;
 
-	fild_fd = open(set->filename, get_open_flags(type), OPEN_MODE);
-	if (fild_fd == ERROR || is_bad_fd(set->designated_fd))
+	file_fd = open(filename, get_open_flags(type), OPEN_MODE);
+	if (file_fd == ERROR || is_bad_fd(designated_fd))
 	{
-		if (fild_fd == ERROR)
-			put_bash_err_msg(set->filename, strerror(errno));
-		else
-			put_bad_fd_message(set->designated_fd);
+		put_redirection_error_message(file_fd, set);
 		g_last_exit_status = EXIT_FAILURE;
 		return (ERROR);
 	}
+	close(designated_fd);
 	if (type == TYPE_INPUT)
-	{
-		close(set->designated_fd);
-		dup2(fds->input, set->designated_fd);
-		dup2(fild_fd, set->designated_fd);
-		close(fild_fd);
-	}
+		dup2(fds->input, designated_fd);
 	else
-	{
-		close(set->designated_fd);
-		dup2(fds->output, set->designated_fd);
-		dup2(fild_fd, set->designated_fd);
-		close(fild_fd);
-	}
+		dup2(fds->output, designated_fd);
+	dup2(file_fd, designated_fd);
+	close(file_fd);
 	return (SUCCESS);
 }

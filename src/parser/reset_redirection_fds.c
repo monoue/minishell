@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dollar_utils5.c                                    :+:      :+:    :+:   */
+/*   reset_redirection_fds.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/01 13:43:56 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/01 13:44:08 by sperrin          ###   ########.fr       */
+/*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
+/*   Updated: 2021/03/02 06:42:00 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft.h"
 
-char	*take_dollar_bis(char *line, int *i, char *tmp)
+/*
+** resets fds so that the outcome comes out from the pipe
+*/
+
+void	reset_redirection_fds(t_fd *fds)
 {
-	if (line[*i] == '$')
-	{
-		SAFE_FREE(tmp);
-		(*i)++;
-		return (tmp = ft_strdup("(process ID)"));
-	}
-	if (line[*i] == '?')
-	{
-		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-		(*i)++;
-		return (tmp);
-	}
-	return (tmp);
+	dup2(fds->output, STDOUT_FILENO);
+	dup2(fds->input, STDIN_FILENO);
+	close(fds->output);
+	close(fds->input);
 }

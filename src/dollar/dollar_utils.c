@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:58:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/01 15:26:31 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 07:43:40 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*go_parse_dq(char *argv, t_list *envp, int j)
 			str = replace_dollar_value(tmp[j], envp);
 		else
 			str = ft_strdup(tmp[j]);
-		final = return_final(str, tmp, j);
+		final = return_final(str, tmp[j][0] == '\'');
 		value = ft_strnjoin_free(value, final, ft_strlen(final));
 		SAFE_FREE(str);
 		SAFE_FREE(final);

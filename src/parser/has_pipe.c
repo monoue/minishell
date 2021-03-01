@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:24:43 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/26 14:01:47 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 06:35:36 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	set_and_close_pipe(int pipe_fd[][2], size_t index,
 	}
 }
 
-static void	wait_children(char **piped_chunks, size_t chunks_num, int last_pid)
+static void	wait_children(size_t chunks_num, int last_pid)
 {
 	int		status;
 	bool	flag;
@@ -63,10 +63,8 @@ static void	wait_children(char **piped_chunks, size_t chunks_num, int last_pid)
 
 	index = 0;
 	flag = true;
-	(void)piped_chunks;
 	while (index < chunks_num)
 	{
-		// この関数への引数に、最後のヤツかを bool で渡す
 		if (wait(&status) == last_pid)
 		{
 			if (WIFEXITED(status))
@@ -85,32 +83,6 @@ static void	wait_children(char **piped_chunks, size_t chunks_num, int last_pid)
 		index++;
 	}
 }
-
-// void		has_pipe(char **piped_chunks, t_list *envp, size_t chunks_num)
-// {
-// 	pid_t	pid;
-// 	int		pipe_fd[chunks_num][2];
-// 	size_t	index;
-
-// 	index = 0;
-// 	while (index < chunks_num)
-// 	{
-// 		if (index < chunks_num - 1)
-// 			pipe(pipe_fd[index]);
-// 		signal(SIGINT, sig_ignore);
-// 		signal(SIGQUIT, sig_ignore);
-// 		pid = fork();
-// 		if (pid == 0)
-// 		{
-// 			set_and_close_pipe(pipe_fd, index, chunks_num);
-// 			exec_command_chunk(piped_chunks[index], envp, true);
-// 		}
-// 		if (index > 0)
-// 			close_pipes(pipe_fd[index - 1]);
-// 		index++;
-// 	}
-// 	wait_children(piped_chunks, chunks_num, pid);
-// }
 
 void		has_pipe(char **piped_chunks, t_list *envp, size_t chunks_num)
 {
@@ -135,5 +107,5 @@ void		has_pipe(char **piped_chunks, t_list *envp, size_t chunks_num)
 			close_pipes(pipe_fd[index - 1]);
 		index++;
 	}
-	wait_children(piped_chunks, chunks_num, pid);
+	wait_children(chunks_num, pid);
 }
