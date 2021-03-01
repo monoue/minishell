@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/26 15:16:27 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 09:36:36 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,9 @@ static void	reset_redirection_fds(t_fd *fds, bool err_fd_open)
 	dup2(fds->input, STDIN_FILENO);
 	close(fds->output);
 	close(fds->input);
-	if (err_fd_open)
-		close(STDERR_FILENO);
+	(void)err_fd_open;
+	// if (err_fd_open)
+	// 	close(STDERR_FILENO);
 }
 
 void		exec_command_chunk(char *command_chunk, t_list *envp,
@@ -178,7 +179,8 @@ void		exec_command_chunk(char *command_chunk, t_list *envp,
 	bool	err_fd_open;
 
 	chunk_words = split_command_line(command_chunk);
-	set_fds(&fds);
+	// これを中に入れてしまうと、後ろの reset_redirection_fds との釣り合いがとれなくなる。今はしょうがない、うまくいけば後で対応させる。
+	// set_fds(&fds);
 	argv2 = NULL;
 	if (process_redirections(chunk_words, &fds, envp, &err_fd_open) == SUCCESS)
 	{

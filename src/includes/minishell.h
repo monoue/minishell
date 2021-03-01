@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/26 14:02:10 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 09:19:33 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,7 @@ t_redirection_set	*make_redirection_set(char **elements, bool *err_fd_open);
 void				process_command_line(char *line, t_list *envp);
 void				process_one_command(char *command, t_list *envp);
 char				*remove_quotes(const char *str);
-void				set_fds(t_fd *fds);
+void				set_fds(t_fd *fds, int designated_fd);
 int					set_redirection(t_redirection_set *set, t_fd *fds);
 void				skip_chunk(char const *str, size_t *index);
 void				skip_redirection(const char *str, size_t *index);
