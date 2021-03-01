@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils_command3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:14:27 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/26 16:55:07 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 13:47:57 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		add_variable(char *argv, t_list *envp)
+void				add_variable(char *argv, t_list *envp)
 {
 	t_list	*new;
 	t_list	*tmp;
@@ -26,7 +26,7 @@ void		add_variable(char *argv, t_list *envp)
 	new->next = tmp;
 }
 
-int			ft_strrchr_int(const char *s, int c)
+int					ft_strrchr_int(const char *s, int c)
 {
 	size_t	len;
 
@@ -37,7 +37,7 @@ int			ft_strrchr_int(const char *s, int c)
 	return (0);
 }
 
-char		*ft_strcat(char *dest, char *src)
+char				*ft_strcat(char *dest, char *src)
 {
 	int	d_length;
 	int	i;
@@ -56,7 +56,7 @@ char		*ft_strcat(char *dest, char *src)
 	return (dest);
 }
 
-int			dollar_or_not(char *arg, int c)
+int					dollar_or_not(char *arg, int c)
 {
 	size_t	i;
 	size_t	j;
@@ -67,7 +67,8 @@ int			dollar_or_not(char *arg, int c)
 	{
 		if (arg[i] == c && arg[i - 1] != '\\' && arg[i + 1] != '\0')
 			return (1);
-		if (arg[i - 1] == '\\' && arg[i] != '$' && arg[i + 1] != '$' && arg[i] == c)
+		if (arg[i - 1] == '\\' && arg[i] != '$'
+			&& arg[i + 1] != '$' && arg[i] == c)
 			return (1);
 		i++;
 	}

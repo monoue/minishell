@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd_command.c                                      :+:      :+:    :+:   */
+/*   dollar_utils5.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/26 17:41:21 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/01 13:56:53 by sperrin          ###   ########.fr       */
+/*   Created: 2021/03/01 13:43:56 by sperrin           #+#    #+#             */
+/*   Updated: 2021/03/01 13:44:08 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		pwd(char **argv)
+char	*take_dollar_bis(char *line, int *i, char *tmp)
 {
-	char *arg;
-
-	argv = NULL;
-	arg = getcwd(NULL, 0);
-	ft_putstr(arg);
-	ft_putchar('\n');
-	free(arg);
+	if (line[*i] == '$')
+	{
+		SAFE_FREE(tmp);
+		(*i)++;
+		return (tmp = ft_strdup("(process ID)"));
+	}
+	if (line[*i] == '?')
+	{
+		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+		(*i)++;
+		return (tmp);
+	}
+	return (tmp);
 }

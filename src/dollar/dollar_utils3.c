@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 15:21:58 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/26 21:07:14 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/01 13:42:47 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,15 @@ char	*find_key(char *arg, t_list *envp)
 char	*take_dollar(char *line, int *i)
 {
 	char	*tmp;
+	int		*a;
 
 	tmp = NULL;
 	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 	(*i)++;
-	if (line[*i] == '$')
-	{
-		SAFE_FREE(tmp);
-		(*i)++;
-		return (tmp = ft_strdup("(process ID)"));
-	}
+	a = i;
+	tmp = take_dollar_bis(line, i, tmp);
+	if (a != i)
+		return (tmp);
 	if (ft_isdigit(line[*i]))
 	{
 		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
@@ -71,7 +70,7 @@ char	*take_single_quote(char *line, int *i)
 	tmp = NULL;
 	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 	(*i)++;
-	while (line[*i] != '\'')// && line[*i + 2] != '\0')
+	while (line[*i] != '\'')
 	{
 		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 		(*i)++;

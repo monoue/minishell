@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/27 10:53:10 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/01 13:47:04 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void			put_dbl_quotation_str(char *str)
 				write(1, &dblq, 1);
 			a = 1;
 			write(1, &dblq, 1);
-			
 		}
 		i++;
 	}
@@ -61,7 +60,6 @@ void			show_export(t_list *envp)
 	}
 	ft_free_split(array);
 }
-
 
 static bool		is_valid_arg(char *arg)
 {

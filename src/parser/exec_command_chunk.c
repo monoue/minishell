@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_chunk.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/26 15:16:27 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 13:59:39 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,58 +45,6 @@ char		*remove_all(char *argv)
 	return (arg);
 }
 
-// static char	**set_command_argv(char **argv1, t_list *envp)
-// {
-// 	const size_t	arg_num = ft_count_strs((const char **)argv1);
-// 	char	**argv2;
-// 	char	**tmp;
-// 	size_t	i1;
-// 	size_t	i2;
-// 	size_t	j;
-
-// 	g_space = false;
-// 	tmp = NULL;
-// 	if (!(argv2 = malloc(sizeof(*argv2) * (MAX_INPUT))))
-// 		exit_err_msg(MALLOC_ERR);
-// 	i1 = 0;
-// 	i2 = 0;
-// 	while (i1 < arg_num)
-// 	{
-// 		g_global = false;
-// 		if (dollar_or_not(argv1[i1], '$'))
-// 		{
-// 			argv2[i2] = dollar(argv1[i1], envp);
-// 			while (argv2[i2] == NULL && argv1[i1 + 1] != NULL)
-// 			{
-// 				i1++;
-// 				if (dollar_or_not(argv1[i1], '$'))
-// 					argv2[i2] = dollar(argv1[i1], envp);
-// 			}
-// 			if (argv2[i2] && !g_flag_escape_db && g_flag_dont)
-// 			{
-
-
-// 				tmp = ft_split(argv2[i2], ' ');
-// 				j = 0;
-// 				while (tmp[j])
-// 				{
-// 					free(argv2[i2]);
-// 					argv2[i2] = tmp[j];
-// 					i2++;
-// 					j++;
-// 				}
-// 			}
-// 		}
-// 		else
-// 		{
-// 			argv2[i2] = remove_all(argv1[i1]);
-// 			i2++;
-// 		}
-// 		i1++;
-// 	}
-// 	return (argv2);
-// }
-
 void	fill_argv_with_replaced_env(char *arg, char **argv2, size_t *i2, t_list *envp)
 {
 	char	*dollar_applied;
@@ -130,6 +78,7 @@ static char	**set_command_argv(char **argv1, t_list *envp)
 {
 	const size_t	arg_num = ft_count_strs((const char **)argv1);
 	char			**argv2;
+	char			*tmp_argv;
 	size_t			i1;
 	size_t			i2;
 
@@ -146,6 +95,10 @@ static char	**set_command_argv(char **argv1, t_list *envp)
 		else
 		{
 			argv2[i2] = remove_all(argv1[i1]);
+			tmp_argv = turn_dollar_question_into_value(argv2[i2]);
+			SAFE_FREE(argv2[i2]);
+			argv2[i2] = ft_strdup(tmp_argv);
+			SAFE_FREE(tmp_argv);
 			i2++;
 		}
 		i1++;

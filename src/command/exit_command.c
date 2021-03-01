@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/26 22:45:00 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/01 13:46:17 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ bool				str_is_valid_num(char *str)
 	if ((str[index] == '-' && str[index + 1] != '\0')
 	|| (str[index] == '+' && str[index + 1] != '\0'))
 		index++;
-	if (!ft_str_is_numeric(&str[index])) //|| (ft_strcmp(str, "") == 0))
+	if (!ft_str_is_numeric(&str[index]))
 		return (false);
 	return (str_is_within_llong(str));
 }
@@ -92,7 +92,6 @@ int					exit_minishell(char **argv)
 	int				nbr;
 	int				exit_nbr;
 	const size_t	argv_num = ft_count_strs((const char**)argv);
-
 
 	if (argv_num == 1)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:59:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/26 22:47:47 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/01 13:31:12 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,23 @@ char	*skip_space_dollar(char *value)
 		if (value[i] != ' ')
 			tmp = ft_strnjoin_free(tmp, &value[i], 1);
 		else if (value[i] == ' ' && value[i + 1] != ' ')
-		{
-			// if (value[i + 1] == '\0' && value[i] == ' ')
-			// 	;
-			// else
-				tmp = ft_strnjoin_free(tmp, &value[i], 1);
-		}
+			tmp = ft_strnjoin_free(tmp, &value[i], 1);
 		i++;
 	}
 	return (tmp);
 }
 
-char	*do_single_quotation(char *argv, t_list *envp)
+char	*do_single_quotation(char *argv, t_list *envp, int j)
 {
 	char	**tmp;
 	char	*str;
 	char	*value;
 	char	*final;
-	int		j;
 
 	g_flag = 1;
 	g_flag_escape_db = 1;
 	value = NULL;
 	tmp = do_parse3(argv);
-	j = 0;
 	while (tmp[j])
 	{
 		g_flag_dont = 0;

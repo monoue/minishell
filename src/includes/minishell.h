@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/26 14:02:10 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 14:00:25 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ bool				ft_isascii1(int n);
 ** dollar_utils2
 */
 char				*skip_space_dollar(char *value);
-char				*do_single_quotation(char *argv, t_list *envp);
+char				*do_single_quotation(char *argv, t_list *envp, int j);
 int					single_quotation_or_not(char *argv);
 char				*take_dollar_dq(char *line, int *i);
 char				**do_parse2(char *line);
@@ -178,6 +178,12 @@ char				*into_single_quotes(char *argv, int *i);
 int					count_variable(char *variable);
 char				*return_final(char *str, char **tmp, int j);
 char				**do_parse3(char *line);
+char				*remove_final(char *str, char **tmp, int j);
+
+/*
+** dollar_utils5
+*/
+char	*take_dollar_bis(char *line, int *i, char *tmp);
 
 /*
 **  syntax_error_check

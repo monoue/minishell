@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:34 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/26 21:06:15 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/01 13:54:16 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,16 @@ static bool			is_valid_arg1(char *arg)
 	return (true);
 }
 
-void	*ft_memdel(void *ptr)
+void				unset_first_key(t_list *envp, t_list *target)
 {
-	if (ptr)
-	{
-		free(ptr);
-		ptr = NULL;
-	}
-	return (NULL);
+	t_list	*tmp;
+
+	tmp = envp->next;
+	target = envp;
+	SAFE_FREE(target->content);
+	target->content = target->next->content;
+	target->next = target->next->next;
+	SAFE_FREE(tmp);
 }
 
 void				unset_key(char *key, t_list *envp)
@@ -60,7 +62,6 @@ void				unset_key(char *key, t_list *envp)
 	int		target_prev_i;
 	int		env_i;
 	t_list	*target;
-	t_list	*tmp;
 
 	env_i = 0;
 	target = NULL;
@@ -70,15 +71,10 @@ void				unset_key(char *key, t_list *envp)
 		return ;
 	target_prev_i = get_target_prev_i(key, envp);
 	if (target_prev_i == -1)
-    {
-        tmp = envp->next;
-        target = envp;
-        SAFE_FREE(target->content);
-        target->content = target->next->content;
-        target->next = target->next->next;
-        SAFE_FREE(tmp);
-        return ;
-    }
+	{
+		unset_first_key(envp, target);
+		return ;
+	}
 	while (env_i < target_prev_i)
 	{
 		envp = envp->next;

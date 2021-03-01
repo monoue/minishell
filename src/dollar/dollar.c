@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/26 17:10:12 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 13:31:01 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*replace_dollar_value(char *argv, t_list *envp)
 	g_flag_dont = 1;
 	g_into_dollar = 1;
 	if (argv[0] == '\'')
-		return (do_single_quotation(argv, envp));
+		return (do_single_quotation(argv, envp, 0));
 	value = find_variable(find_key_1(argv, envp));
 	return (value);
 }
@@ -91,16 +91,12 @@ char	*exec_dollar(char **tmp, t_list *envp, int j)
 		g_flag_dont = 0;
 		if (dollar_or_not(tmp[j], '$') && tmp[j][0] == '\"')
 			str = go_parse_dq(tmp[j], envp, 0);
-		else if (dollar_or_not(tmp[j], '$') && tmp[j][0] != '\'')
+		else if (dollar_or_not(tmp[j], '$') && tmp[j][0] != '\''
+				&& (tmp[j][0] == '$' && tmp[j][1] != '?'))
 			str = replace_dollar_value(tmp[j], envp);
 		else
 			str = ft_strdup(tmp[j]);
-		if (g_flag == 0)
-			final = return_final(str, tmp, j);
-		else
-			final = ft_strdup(str);
-		// if (ft_strcmp(final, " ") == 0)
-		// 	final = NULL;
+		final = remove_final(str, tmp, j);
 		value = ft_strjoin_free(value, final);
 		SAFE_FREE(str);
 		SAFE_FREE(final);
