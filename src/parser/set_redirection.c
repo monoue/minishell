@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:44:55 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 09:20:12 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 10:05:44 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int			set_redirection(t_redirection_set *set, t_fd *fds)
 	{
 		// close(1);
 		// dup2(fds->output, 1);
-		close(set->designated_fd);
+		// close(set->designated_fd);
 		dup2(fds->output, set->designated_fd);
 		dup2(fild_fd, set->designated_fd);
 		close(fild_fd);
