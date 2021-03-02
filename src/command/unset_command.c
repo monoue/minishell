@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:34 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 10:24:15 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 14:12:10 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void				unset_key(char *key, t_list *envp)
 	target = NULL;
 	if (envp == NULL)
 		return ;
-	if (ft_strncmp(key, "_=", 2) == 0 || ft_strncmp(key, "_", 1) == 0)
+	if (ft_strcmp(key, "_=") == 0 || ft_strcmp(key, "_") == 0)
 		return ;
 	target_prev_i = get_target_prev_i(key, envp);
 	if (target_prev_i == -1)
@@ -113,4 +113,5 @@ void				unset(char **argv, t_list *envp)
 		SAFE_FREE(key);
 		arg_i++;
 	}
+	ft_free_split(arg);
 }

@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 10:20:01 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 14:12:08 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ static bool		is_valid_arg(char *arg)
 	index = 0;
 	while (index < len && arg[index] != '=')
 	{
-		if (!ft_isalnum(arg[index]) && arg[index] != '_')
+		if (!ft_isalnum(arg[index]) && arg[index] != '_' 
+		&& arg[index] != '\"' && arg[index] != '\'')
 			return (false);
 		index++;
 	}
@@ -130,4 +131,5 @@ void			export(char **argv, t_list *envp)
 		index++;
 		SAFE_FREE(key);
 	}
+	ft_free_split(arg);
 }

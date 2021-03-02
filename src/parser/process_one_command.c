@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_one_command.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:35 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 10:08:57 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 14:02:01 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ static int	get_child_process_result(int status)
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == 11)
+			return (0);
 		return (EXIT_INVALID + WTERMSIG(status));
+	}
 	return (ERROR);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 13:26:57 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 13:45:14 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ bool				digits_num_is_over_llong_max(const char *str);
 */
 char				*dollar(char *argv, t_list *envp);
 char				*replace_dollar_value(char *argv, t_list *envp);
- char				**set_command_argv(char **argv1, t_list *envp);
+char				**set_command_argv(char **argv1, t_list *envp);
 /*
 ** dollar_utils
 */

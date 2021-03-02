@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:49 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 13:17:31 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 14:19:28 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ void		cd(char **argv, t_list *envp)
 	SAFE_FREE(home_key);
 	old_pwd(envp);
 	arg = set_command_argv(argv, envp);
+	if (ft_strcmp(arg[1], "") == 0)
+		return ;
 	if ((arg[1] == NULL) || (ft_strcmp(arg[1], "~") == 0))
 		arg[1] = find_home(envp);
 	if (chdir(arg[1]) == ERROR)
@@ -114,4 +116,5 @@ void		cd(char **argv, t_list *envp)
 		g_last_exit_status = EXIT_FAILURE;
 	}
 	new_pwd(envp);
+	ft_free_split(arg);
 }

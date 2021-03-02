@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils5.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 13:43:56 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 13:26:39 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 13:44:49 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ bool	check_is_escape(const char *str, int index)
 	return (false);
 }
 
-
-char		*remove_all(char *argv)
+char	*remove_all(char *argv)
 {
 	int		index;
 	char	*tmp;

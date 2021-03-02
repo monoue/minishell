@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:35 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/26 16:44:29 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 13:33:11 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,7 @@
 bool	is_reproduction(char *word)
 {
 	const char	*reproductions[] = {
-		"cd",
-		"echo",
-		"env",
-		"exit",
-		"export",
-		"pwd",
-		"unset",
-		NULL
+		"cd", "echo", "env", "exit", "export", "pwd", "unset", NULL
 	};
 	size_t		index;
 	char		*continuous_quotes_trimmed_str;

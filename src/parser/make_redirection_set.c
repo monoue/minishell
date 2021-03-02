@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:03 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 16:15:06 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 13:33:47 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int			get_default_fd_num(t_type redirection_type)
 	return (STDOUT_FILENO);
 }
 
-static bool	str_is_within_int(const char *str)
+static bool			str_is_within_int(const char *str)
 {
 	bool				sign;
 	unsigned long long	n;
