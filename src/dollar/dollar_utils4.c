@@ -6,29 +6,29 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 12:48:24 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 09:15:21 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 07:45:45 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*take_escape(char *line, size_t *index)
+char	*take_escape(char *line, int *i)
 {
 	char	*tmp;
 
 	tmp = NULL;
-	tmp = ft_strnjoin_free(tmp, &line[*index], 1);
-	(*index)++;
-	tmp = ft_strnjoin_free(tmp, &line[*index], 1);
-	(*index)++;
+	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+	(*i)++;
+	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+	(*i)++;
 	return (tmp);
 }
 
 char	**do_parse3(char *line)
 {
 	char	**tmp;
-	size_t	i;
-	size_t	j;
+	int		i;
+	int		j;
 
 	j = 0;
 	i = 0;
@@ -51,10 +51,10 @@ char	**do_parse3(char *line)
 	return (tmp);
 }
 
-size_t	count_variable(char *variable)
+int		count_variable(char *variable)
 {
 	char	*tmp;
-	size_t	count;
+	int		count;
 
 	tmp = variable;
 	count = 0;

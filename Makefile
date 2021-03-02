@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/03/02 09:16:28 by monoue           ###   ########.fr        #
+#    Updated: 2021/03/02 06:41:43 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,6 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			op_list.c \
 			test_functions.c \
 			$(DOLLAR_PATH)dollar.c \
-			$(DOLLAR_PATH)head_char_equal.c \
 			$(DOLLAR_PATH)dollar_utils.c \
 			$(DOLLAR_PATH)dollar_utils2.c \
 			$(DOLLAR_PATH)dollar_utils3.c \

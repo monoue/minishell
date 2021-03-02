@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 09:15:30 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 08:15:34 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,6 @@ bool				digits_num_is_over_llong_max(const char *str);
 */
 char				*dollar(char *argv, t_list *envp);
 char				*replace_dollar_value(char *argv, t_list *envp);
-bool				head_char_equal(const char *str, char c);
-bool				is_dollar(char c);
 
 /*
 ** dollar_utils
@@ -160,24 +158,24 @@ bool				ft_isascii1(int n);
 char				*skip_space_dollar(char *value);
 char				*do_single_quotation(char *argv, t_list *envp, int j);
 int					single_quotation_or_not(char *argv);
-char				*take_dollar_dq(char *line, size_t *i);
+char				*take_dollar_dq(char *line, int *i);
 char				**do_parse2(char *line);
 
 /*
 ** dollar_utils3
 */
 char				*find_key(char *arg, t_list *envp);
-char				*take_dollar(char *line, size_t *i);
-char				*take_single_quote(char *line, size_t *i);
-char				*take_ascii(char *line, size_t *i);
-char				*take_double_quote(char *line, size_t *i);
+char				*take_dollar(char *line, int *i);
+char				*take_single_quote(char *line, int *i);
+char				*take_ascii(char *line, int *i);
+char				*take_double_quote(char *line, int *i);
 
 /*
 ** dollar_utils4
 */
-char				*take_escape(char *line, size_t *i);
+char				*take_escape(char *line, int *i);
 char				*into_single_quotes(char *argv, int *i);
-size_t				count_variable(char *variable);
+int					count_variable(char *variable);
 // char				*return_final(char *str, char **tmp, int j);
 char				*return_final(char *str, bool head_is_single_quote);
 char				**do_parse3(char *line);
@@ -187,7 +185,7 @@ char				*remove_final(char *str, bool head_is_single_quote);
 /*
 ** dollar_utils5
 */
-char				*take_dollar_bis(char *line, size_t *i, char *tmp);
+char				*take_dollar_bis(char *line, int *i, char *tmp);
 
 /*
 **  syntax_error_check
@@ -271,6 +269,7 @@ char				**turn_envp_into_strs(t_list *envp);
 char				*ft_strcat(char *dest, char *src);
 int					ft_strrchr_int(const char *s, int c);
 void				add_variable(char *argv, t_list *envp);
+// int					has_dollar_variable(char *argv, int c);
 bool				has_dollar_variable(char *argv);
 long long			ft_atoll(const char *str);
 unsigned long long	ft_atoull(const char *str);

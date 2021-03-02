@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:59:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 09:14:05 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 08:16:14 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		single_quotation_or_not(char *argv)
 	return (0);
 }
 
-char	*take_dollar_dq(char *line, size_t *i)
+char	*take_dollar_dq(char *line, int *i)
 {
 	char	*tmp;
 
@@ -103,8 +103,8 @@ char	*take_dollar_dq(char *line, size_t *i)
 char	**do_parse2(char *line)
 {
 	char	**tmp;
-	size_t	i;
-	size_t	j;
+	int		i;
+	int		j;
 
 	j = 0;
 	i = 0;
