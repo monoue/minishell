@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 12:48:24 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/01 16:53:59 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 09:51:15 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,10 @@ char	*take_escape(char *line, int *i)
 	char	*tmp;
 
 	tmp = NULL;
-	while (line[*i] != '\0' && !ft_isascii1(line[*i])
-		&& !ft_isalnum(line[*i]) && line[*i] != '\"' && line[*i] != '$')
-	{
-		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-		(*i)++;
-	}
-	if (line[*i] == '$')
-	{
-		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-		(*i)++;
-	}
+	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+	(*i)++;
+	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+	(*i)++;
 	return (tmp);
 }
 
@@ -78,19 +71,19 @@ char	*return_final(char *str, char **tmp, int j)
 	char	*quote;
 	char	*final;
 
+	if (g_flag_dont == 0 && g_flag == 0)
+		final = remove_quotes(str);
+	else
+		final = strdup(str);
 	if (g_flag_dont == 0 && tmp[j][0] != '\''
 		&& g_flag_escape_db == 0)
-		quote = remove_escape(str, 0);
+		quote = remove_escape(final, 0);
 	else if (g_flag_dont == 0)
-		quote = remove_escape_dq(str);
+		quote = remove_escape_dq(final);
 	else
-		quote = ft_strdup(str);
-	if (g_flag_dont == 0 && g_flag == 0)
-		final = remove_quotes(quote);
-	else
-		final = strdup(quote);
-	SAFE_FREE(quote);
-	return (final);
+		quote = ft_strdup(final);
+	SAFE_FREE(final);
+	return (quote);
 }
 
 char	*remove_final(char *str, char **tmp, int j)
@@ -106,6 +99,5 @@ char	*remove_final(char *str, char **tmp, int j)
 		final = return_final(tmp_argv, tmp, j);
 	else
 		final = ft_strdup(tmp_argv);
-	SAFE_FREE(tmp_argv);
 	return (final);
 }

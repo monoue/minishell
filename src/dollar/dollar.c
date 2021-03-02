@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/01 16:42:50 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/01 19:03:45 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,7 @@ char	*exec_dollar(char **tmp, t_list *envp, int j)
 	{
 		g_flag = 0;
 		g_flag_dont = 0;
-		if (dollar_or_not(tmp[j], '$') && tmp[j][0] == '\"'
-			&& (tmp[j][0] == '$' && tmp[j][1] != '?'))
+		if (dollar_or_not(tmp[j], '$') && tmp[j][0] == '\"')
 			str = go_parse_dq(tmp[j], envp, 0);
 		else if (dollar_or_not(tmp[j], '$') && tmp[j][0] != '\''
 				&& (tmp[j][0] == '$' && tmp[j][1] != '?'))

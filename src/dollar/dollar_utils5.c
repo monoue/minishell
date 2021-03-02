@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 13:43:56 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/01 16:42:47 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 09:51:28 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,19 @@ char	*take_dollar_bis(char *line, int *i, char *tmp)
 	return (tmp);
 }
 
-void	remove_escape_dq3(const char *str, int *index, int *len)
+void	check_escape(const char *str, int *index, int *len)
 {
 	if (str[*index] == '\\')
 		(*index)++;
-	while (index < len && str[*index] != '\\')
+	while (*index < *len && str[*index] != '\\')
 		(*index)++;
+}
+
+bool	check_is_escape(const char *str, int index)
+{
+	if (str[index] == '\\' && str[index + 1] != '\''
+		&& (str[index + 1] == '\"' || str[index + 1] == '$'
+		|| str[index + 1] == '\\'))
+		return (true);
+	return (false);
 }

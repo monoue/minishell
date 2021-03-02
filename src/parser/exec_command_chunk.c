@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 16:52:04 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 10:20:45 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,10 @@ void	fill_argv_with_replaced_env(char *arg, char **argv2, size_t *i2, t_list *en
 	SAFE_FREE(dollar_applied);
 }
 
-static char	**set_command_argv(char **argv1, t_list *envp)
+char	**set_command_argv(char **argv1, t_list *envp)
 {
 	const size_t	arg_num = ft_count_strs((const char **)argv1);
 	char			**argv2;
-	char			*tmp_argv;
 	size_t			i1;
 	size_t			i2;
 
@@ -86,7 +85,7 @@ static char	**set_command_argv(char **argv1, t_list *envp)
 	if (!(argv2 = malloc(sizeof(char *) * MAX_INPUT)))
 		exit_err_msg(MALLOC_ERR);
 	i1 = 0;
-	i2 = 0;
+	i2 = 0;	
 	while (i1 < arg_num)
 	{
 		g_global = false;
@@ -95,9 +94,6 @@ static char	**set_command_argv(char **argv1, t_list *envp)
 		else
 		{
 			argv2[i2] = remove_all(argv1[i1]);
-			tmp_argv = turn_dollar_question_into_value(argv2[i2]);
-			SAFE_FREE(argv2[i2]);
-			argv2[i2] = ft_strdup_free(tmp_argv);
 			i2++;
 		}
 		i1++;

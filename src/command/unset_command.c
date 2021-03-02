@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:34 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/01 13:54:16 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 10:24:15 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,19 @@ void				unset(char **argv, t_list *envp)
 {
 	int		arg_i;
 	char	*key;
+	char	**arg;
 
+	arg = set_command_argv(argv, envp);
 	arg_i = 1;
 	key = NULL;
 	if (envp == NULL)
 		return ;
-	while (argv[arg_i])
+	while (arg[arg_i])
 	{
-		key = get_key(argv[arg_i]);
+		key = get_key(arg[arg_i]);
 		if (!is_valid_arg1(key))
 		{
-			put_error_invalid_identifier("unset", argv[arg_i]);
+			put_error_invalid_identifier("unset", arg[arg_i]);
 			SAFE_FREE(key);
 			arg_i++;
 			continue ;

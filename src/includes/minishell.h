@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 16:51:46 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 10:20:39 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ bool				digits_num_is_over_llong_max(const char *str);
 */
 char				*dollar(char *argv, t_list *envp);
 char				*replace_dollar_value(char *argv, t_list *envp);
-
+ char				**set_command_argv(char **argv1, t_list *envp);
 /*
 ** dollar_utils
 */
@@ -184,8 +184,8 @@ char				*remove_final(char *str, char **tmp, int j);
 ** dollar_utils5
 */
 char				*take_dollar_bis(char *line, int *i, char *tmp);
-void				remove_escape_dq3(const char *str, int *index, int *len);
-
+void				check_escape(const char *str, int *index, int *len);
+bool				check_is_escape(const char *str, int index);
 /*
 **  syntax_error_check
 */
@@ -243,7 +243,7 @@ char				**split_command_line(char const *str);
 void				set_words(const char *str, char **words, size_t words_num);
 bool				str_is_quoted_by_double(const char *str);
 bool				is_quote_char(char c);
-char				*remove_escape(const char *str, int index);
+char				*remove_escape(const char *str, size_t index);
 char				*remove_escape_dq(const char *str);
 
 /*

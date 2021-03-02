@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/01 14:25:06 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 10:20:01 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,21 +110,23 @@ void			export(char **argv, t_list *envp)
 {
 	size_t	index;
 	char	*key;
+	char	**arg;
 
-	if (argv[1] == NULL)
+	arg = set_command_argv(argv, envp);
+	if (arg[1] == NULL)
 		show_export(envp);
 	index = 1;
-	while (argv[index])
+	while (arg[index])
 	{
-		key = get_key(argv[index]);
+		key = get_key(arg[index]);
 		if (!is_valid_arg(key))
 		{
-			put_error_invalid_identifier("export", argv[index]);
+			put_error_invalid_identifier("export", arg[index]);
 			index++;
 			SAFE_FREE(key);
 			continue ;
 		}
-		check_same_key_or_not(key, envp, argv, index);
+		check_same_key_or_not(key, envp, arg, index);
 		index++;
 		SAFE_FREE(key);
 	}

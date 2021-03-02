@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:49 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/26 17:40:31 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 12:58:35 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ char		*find_home(t_list *envp)
 void		cd(char **argv, t_list *envp)
 {
 	char	*home_key;
+	char	**arg;
 
 	home_key = find_key("HOME=", envp);
 	if (!home_key && argv[1] == NULL)
@@ -104,11 +105,12 @@ void		cd(char **argv, t_list *envp)
 	}
 	SAFE_FREE(home_key);
 	old_pwd(envp);
-	if ((argv[1] == NULL) || (ft_strcmp(argv[1], "~") == 0))
-		argv[1] = find_home(envp);
+	arg = set_command_argv(argv, envp);
+	if ((arg[1] == NULL) || (ft_strcmp(arg[1], "~") == 0))
+		arg[1] = find_home(envp);
 	if (chdir(argv[1]) == ERROR)
 	{
-		put_error(argv[1]);
+		put_error(arg[1]);
 		g_last_exit_status = EXIT_FAILURE;
 	}
 	new_pwd(envp);

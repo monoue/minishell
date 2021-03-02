@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 15:21:58 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/01 13:42:47 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/01 18:48:45 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,11 @@ char	*take_double_quote(char *line, int *i)
 	(*i)++;
 	while (line[*i] != '\"')
 	{
+		if (line[*i] == '\\' && line[*i + 1] == '\"')
+		{
+			tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+			(*i)++;
+		}
 		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 		(*i)++;
 	}

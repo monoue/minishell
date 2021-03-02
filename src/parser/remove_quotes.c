@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 15:57:58 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 16:42:51 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 09:49:41 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ char	*remove_quotes(const char *str)
 	return (ret_s);
 }
 
-char	*remove_escape(const char *str, int index)
+char	*remove_escape(const char *str, size_t index)
 {
-	const int		len = ft_strlen(str);
+	const size_t	len = ft_strlen(str);
 	size_t			start;
 	char			*ret_s;
 
@@ -69,25 +69,16 @@ char	*remove_escape(const char *str, int index)
 	return (ret_s);
 }
 
-bool	check_escape(const char *str, int index)
+char	*exec_escape_dq(const char *str, int index, int len, int start)
 {
-	if (str[index] == '\\' && str[index + 1] != '\''
-		&& (str[index + 1] == '\"' || str[index + 1] == '$'
-		|| str[index + 1] == '\\'))
-		return (1);
-	return (0);
-}
-
-char	*remove_escape_dq2(const char *str, int index, int start, int len)
-{
-	char	*ret_s;
+	char			*ret_s;
 
 	if (!(ret_s = ft_strdup("")))
 		exit_err_msg(MALLOC_ERR);
 	while (index < len)
 	{
 		start = index;
-		if (check_escape(str, index))
+		if (check_is_escape(str, index))
 		{
 			index += 2;
 			ret_s = ft_strnjoin_free(ret_s, &str[start + 1], 1);
@@ -99,7 +90,7 @@ char	*remove_escape_dq2(const char *str, int index, int start, int len)
 		}
 		else
 		{
-			remove_escape_dq3(str, &index, &len);
+			check_escape(str, &index, &len);
 			ret_s = ft_strnjoin_free(ret_s, &str[start], index - start);
 		}
 	}
@@ -113,10 +104,11 @@ char	*remove_escape_dq(const char *str)
 	size_t			start;
 	char			*ret_s;
 
+	start = 0;
+	index = 0;
 	if (!(ret_s = ft_strdup("")))
 		exit_err_msg(MALLOC_ERR);
+	ret_s = exec_escape_dq(str, index, len, start);
 	index = 0;
-	start = 0;
-	ret_s = remove_escape_dq2(str, index, start, len);
 	return (ret_s);
 }
