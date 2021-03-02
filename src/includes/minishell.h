@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 08:15:34 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 08:08:41 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,10 +269,11 @@ char				**turn_envp_into_strs(t_list *envp);
 char				*ft_strcat(char *dest, char *src);
 int					ft_strrchr_int(const char *s, int c);
 void				add_variable(char *argv, t_list *envp);
-// int					has_dollar_variable(char *argv, int c);
-bool				has_dollar_variable(char *argv);
+int					dollar_or_not(char *argv, int c);
+// bool				dollar_or_not(char *argv, int c);
 long long			ft_atoll(const char *str);
 unsigned long long	ft_atoull(const char *str);
+void				put_error_numeric(char *argv);
 
 /*
 ** exit

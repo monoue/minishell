@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 08:16:40 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 06:32:46 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static char	**set_command_argv(char **argv1, t_list *envp)
 	while (i1 < arg_num)
 	{
 		g_global = false;
-		if (has_dollar_variable(argv1[i1]))
+		if (dollar_or_not(argv1[i1], '$'))
 			fill_argv_with_replaced_env(argv1[i1], argv2, &i2, envp);
 		else
 		{

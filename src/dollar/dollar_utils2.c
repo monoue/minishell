@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:59:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 08:16:14 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 07:44:10 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*do_single_quotation(char *argv, t_list *envp, int j)
 	while (tmp[j])
 	{
 		g_flag_dont = 0;
-		if (has_dollar_variable(tmp[j]))
+		if (dollar_or_not(tmp[j], '$'))
 			str = replace_dollar_value(tmp[j], envp);
 		else
 			str = ft_strdup(tmp[j]);
