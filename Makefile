@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/03/03 07:13:05 by monoue           ###   ########.fr        #
+#    Updated: 2021/03/03 08:53:17 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SORT_FILES_PATH	= sort_files/
 PARSER_PATH		= parser/
 COMMAND_PATH	= command/
 DOLLAR_PATH		= dollar/
-EXIT_PATH		= exit/
+ERROR_EXIT_PATH		= error_exit/
 SYNTAX_ERROR_CHECK_PATH	= syntax_error_check/
 LIBFT_PATH		= libft/
 
@@ -32,24 +32,27 @@ INCLUDE	= -I./libft -I./src/includes
 BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(MAIN_UTILS_PATH)get_env_list.c \
 			$(MAIN_UTILS_PATH)set_signal_handlers.c \
-			op_list.c \
 			$(DOLLAR_PATH)dollar.c \
 			$(DOLLAR_PATH)dollar_utils.c \
 			$(DOLLAR_PATH)dollar_utils2.c \
 			$(DOLLAR_PATH)dollar_utils3.c \
 			$(DOLLAR_PATH)dollar_utils4.c \
 			$(DOLLAR_PATH)dollar_utils5.c \
+			$(COMMAND_PATH)add_variable.c \
 			$(COMMAND_PATH)cd_command.c \
 			$(COMMAND_PATH)pwd_command.c \
 			$(COMMAND_PATH)echo_command.c \
 			$(COMMAND_PATH)env_command.c \
 			$(COMMAND_PATH)exit_command.c \
 			$(COMMAND_PATH)export_command.c \
+			$(COMMAND_PATH)ft_strrchr_int.c \
+			$(COMMAND_PATH)get_key.c \
+			$(COMMAND_PATH)has_dollar_variable.c \
 			$(COMMAND_PATH)put_error_invalid_identifier.c \
+			$(COMMAND_PATH)same_key.c \
+			$(COMMAND_PATH)turn_envp_into_strs.c \
 			$(COMMAND_PATH)unset_command.c \
-			$(COMMAND_PATH)utils_command.c \
-			$(COMMAND_PATH)utils_command2.c \
-			$(COMMAND_PATH)utils_command3.c \
+			$(COMMAND_PATH)export_utils.c \
 			$(COMMAND_PATH)digits_num_is_over_llong_max.c \
 			$(PARSER_PATH)count_command_line_words.c \
 			$(PARSER_PATH)cut_out_meta_char.c \
@@ -68,6 +71,7 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(PARSER_PATH)is_specific_char_not_escaped.c \
 			$(PARSER_PATH)is_symbol_char.c \
 			$(PARSER_PATH)is_symbol_str.c \
+			$(PARSER_PATH)lstadd_back.c \
 			$(PARSER_PATH)make_redirection_set.c \
 			$(PARSER_PATH)process_redirections.c \
 			$(PARSER_PATH)split_command_line.c \
@@ -87,7 +91,7 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(SYNTAX_ERROR_CHECK_PATH)is_quoted_wrongly.c \
 			$(SYNTAX_ERROR_CHECK_PATH)check_syntax.c \
 			$(SYNTAX_ERROR_CHECK_PATH)put_message_if_syntax_error.c \
-			$(EXIT_PATH)exit.c
+			$(ERROR_EXIT_PATH)error_exit_utils.c
 
 SRCS_NAME = $(BASE) main.c
 

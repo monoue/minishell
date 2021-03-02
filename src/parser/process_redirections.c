@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:03 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/03 06:50:31 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/03 08:08:54 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	set_redirections(char **chunk_words, t_fd *fds, t_list *envp)
 	char				*replaced_filename;
 
 	set = make_redirection_set(chunk_words);
-	if (dollar_or_not(set->filename, '$'))
+	if (has_dollar_variable(set->filename))
 	{
 		replaced_filename = dollar(set->filename, envp);
 		if (redirection_filename_is_ambiguous(replaced_filename))

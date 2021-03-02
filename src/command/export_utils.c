@@ -6,23 +6,11 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:37:10 by sperrin           #+#    #+#             */
-/*   Updated: 2021/02/18 17:08:43 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/03 08:25:15 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-const char *g_commands[] = {
-	"cd",
-	"help"
-	"echo",
-	"env",
-	"exit",
-	"export",
-	"pwd",
-	"unset",
-	NULL
-};
 
 bool	check_valid_arg(char *argv)
 {
@@ -64,32 +52,4 @@ void	ascii_sort(char **args)
 		}
 		i++;
 	}
-}
-
-bool	is_command(char *argv)
-{
-	size_t		index;
-
-	index = 0;
-	while (g_commands[index])
-	{
-		if (ft_strequal(argv, g_commands[index]))
-			return (true);
-		index++;
-	}
-	return (false);
-}
-
-bool	pipe_or_not_pipe(char **argv)
-{
-	int		i;
-
-	i = 0;
-	while (argv[i])
-	{
-		if ((ft_strequal(argv[i], "|")) || (!is_command(argv[0])))
-			return (true);
-		i++;
-	}
-	return (false);
 }

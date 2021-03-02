@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_chunk.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 18:04:09 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/03 08:08:59 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char		**set_command_argv(char **argv1, t_list *envp)
 	while (i1 < arg_num)
 	{
 		g_global = false;
-		if (dollar_or_not(argv1[i1], '$'))
+		if (has_dollar_variable(argv1[i1]))
 			fill_argv_with_replaced_env(argv1[i1], argv2, &i2, envp);
 		else
 		{

@@ -6,13 +6,13 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/03 07:48:55 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/03 08:44:07 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void			put_dbl_quotation_str(char *str)
+static void	put_dbl_quotation_str(char *str)
 {
 	int		i;
 	int		a;
@@ -35,7 +35,7 @@ void			put_dbl_quotation_str(char *str)
 	}
 }
 
-void			show_export(t_list *envp)
+static void	show_export(t_list *envp)
 {
 	int		index;
 	char	**array;
@@ -61,7 +61,7 @@ void			show_export(t_list *envp)
 	ft_free_split(array);
 }
 
-static bool		is_valid_arg(char *arg)
+static bool	is_valid_arg(char *arg)
 {
 	const size_t	len = ft_strlen(arg);
 	size_t			index;
@@ -83,7 +83,7 @@ static bool		is_valid_arg(char *arg)
 	return (true);
 }
 
-void			check_same_key_or_not(char *key, t_list *envp, char **argv,
+static void	check_same_key_or_not(char *key, t_list *envp, char **argv,
 																	int index)
 {
 	int		count;
@@ -109,7 +109,7 @@ void			check_same_key_or_not(char *key, t_list *envp, char **argv,
 	SAFE_FREE(arg);
 }
 
-void			export(char **argv, t_list *envp)
+void		export(char **argv, t_list *envp)
 {
 	size_t	index;
 	char	*key;

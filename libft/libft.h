@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 11:56:31 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/11 12:14:35 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/03 08:18:26 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,4 +136,6 @@ char				*ft_strnjoin_free(char *s1, const char *s2, size_t n);
 char				*ft_substr_free(char *original_s, unsigned int start_index,
 																	size_t len);
 void				ft_putchar_err(char c);
+long long			ft_atoll(const char *str);
+unsigned long long	ft_atoull(const char *str);
 #endif

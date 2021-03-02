@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:34 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/03 07:38:44 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/03 08:12:45 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static bool			is_valid_arg1(char *arg)
 	return (true);
 }
 
-void				unset_first_key(t_list *envp, t_list *target)
+static void			unset_first_key(t_list *envp, t_list *target)
 {
 	t_list	*tmp;
 
@@ -57,7 +57,7 @@ void				unset_first_key(t_list *envp, t_list *target)
 	SAFE_FREE(tmp);
 }
 
-void				unset_key(char *key, t_list *envp)
+static void			unset_key(char *key, t_list *envp)
 {
 	int		target_prev_i;
 	int		env_i;

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/03 07:53:44 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/03 08:48:03 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ typedef struct		s_fd {
 /*
 ** list operation
 */
-t_redirection_set	*lstlast(t_redirection_set *chunk);
 void				lstadd_back(t_redirection_set **chunks,
 											t_redirection_set *new);
 
@@ -254,7 +253,6 @@ char				*remove_escape_dq(const char *str);
 /*
 ** utils command
 */
-bool				is_command(char *argv);
 void				ascii_sort(char **args);
 bool				check_valid_arg(char *argv);
 
@@ -269,13 +267,9 @@ char				**turn_envp_into_strs(t_list *envp);
 /*
 ** utils command 3
 */
-char				*ft_strcat(char *dest, char *src);
 int					ft_strrchr_int(const char *s, int c);
 void				add_variable(char *argv, t_list *envp);
-int					dollar_or_not(char *argv, int c);
-long long			ft_atoll(const char *str);
-unsigned long long	ft_atoull(const char *str);
-void				put_error_numeric(char *argv);
+bool				has_dollar_variable(char *argv);
 
 /*
 ** exit
