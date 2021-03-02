@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 20:16:48 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/03 06:35:15 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static bool	str_is_valid_num(char *str)
 	return (str_is_within_llong(str));
 }
 
-static void	exit_minishell2(int argv_num, char **arg)
+static void	exit_minishell2(int argv_num, char **arg, bool pipe_child)
 {
 	int	nbr;
 	int	exit_nbr;
@@ -59,10 +59,12 @@ static void	exit_minishell2(int argv_num, char **arg)
 	if (argv_num > 2)
 	{
 		put_bash_err_msg("exit", "too many arguments");
-		ft_free_split(arg);//ここでft_free_split(argv)の代わりにFREEをした、大丈夫？
+		ft_free_split(arg);
 		g_last_exit_status = EXIT_FAILURE;
 		return ;
 	}
+	if (!pipe_child)
+		put_farewell_greeting();
 	nbr = ft_atoll(arg[1]);
 	exit_nbr = ((nbr % 256) + 256) % 256;
 	ft_free_split(arg);
@@ -75,14 +77,9 @@ void		exit_minishell(char **argv, t_list *envp, bool pipe_child)
 	size_t	argv_num;
 
 	arg = set_command_argv(argv, envp);
-	// ft_free_split(argv);ここはダブルFREEだったからEXIT_MINISHELL2のput_bash_err_msgのあとft_free_split(arg)がやって
-	//そうしたらLEAKもなくなるよ
 	argv_num = ft_count_strs((const char **)arg);
 	if (!pipe_child)
-	{
 		ft_putendl_err("exit");
-		put_farewell_greeting();
-	}
 	if (argv_num == 1)
 	{
 		put_farewell_greeting();
@@ -92,8 +89,9 @@ void		exit_minishell(char **argv, t_list *envp, bool pipe_child)
 	if (!str_is_valid_num(arg[1]))
 	{
 		put_error_numeric(arg[1]);
+		put_farewell_greeting();
 		ft_free_split(arg);
 		exit(255);
 	}
-	exit_minishell2(argv_num, arg);
+	exit_minishell2(argv_num, arg, pipe_child);
 }
