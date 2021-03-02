@@ -3,29 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   cd_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:49 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 19:33:29 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/03 07:51:52 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		old_pwd(t_list *envp)
+static void	old_pwd(t_list *envp)
 {
-	char	*pwd;
-	char	*oldpwd;
-	char	*buf;
+	const char	*oldpwd_key = "OLDPWD=";
+	char		*pwd;
+	char		*oldpwd;
+	char		*buf;
 
 	buf = NULL;
 	pwd = getcwd(buf, PATH_MAX);
-	oldpwd = ft_strjoin("OLDPWD=", pwd);
-	if (same_key("OLDPWD=", envp) == 1)
+	oldpwd = ft_strjoin(oldpwd_key, pwd);
+	if (same_key(oldpwd_key, envp))
 	{
 		while (envp && envp->next)
 		{
-			if (ft_strncmp((char*)envp->content, "OLDPWD=", 7) == 0)
+			if (ft_strnequal((char*)envp->content, oldpwd_key,
+														ft_strlen(oldpwd_key)))
 			{
 				SAFE_FREE(envp->content);
 				envp->content = ft_strdup(oldpwd);
@@ -39,18 +41,19 @@ void		old_pwd(t_list *envp)
 	SAFE_FREE(pwd);
 }
 
-void		new_pwd(t_list *envp)
+static void	new_pwd(t_list *envp)
 {
-	char	*pwd;
-	char	*new_pwd;
-	char	*buf;
+	const char	*pwd_key = "PWD=";
+	char		*pwd;
+	char		*new_pwd;
+	char		*buf;
 
 	buf = NULL;
 	pwd = getcwd(buf, PATH_MAX);
-	new_pwd = ft_strjoin("PWD=", pwd);
+	new_pwd = ft_strjoin(pwd_key, pwd);
 	while (envp && envp->next)
 	{
-		if (ft_strncmp((char*)envp->content, "PWD=", 4) == 0)
+		if (ft_strnequal((char*)envp->content, pwd_key, ft_strlen(pwd_key)))
 		{
 			SAFE_FREE(envp->content);
 			envp->content = ft_strdup(new_pwd);
@@ -61,25 +64,25 @@ void		new_pwd(t_list *envp)
 	SAFE_FREE(pwd);
 }
 
-void		put_error(char *argv)
+static void	put_error(char *argv)
 {
-	ft_putstr_fd("bash: cd: ", 1);
-	ft_putstr_fd(argv, 1);
-	ft_putstr_fd(": ", 1);
-	ft_putstr_fd(strerror(errno), 1);
-	ft_putstr_fd("\n", 1);
+	ft_putstr("bash: cd: ");
+	ft_putstr(argv);
+	ft_putstr(": ");
+	ft_putendl(strerror(errno));
 }
 
-char		*find_home(t_list *envp)
+static char	*find_home(t_list *envp)
 {
-	char	*variable;
-	int		count;
-	char	*str;
+	const char	*home_key = "HOME=";
+	char		*variable;
+	int			count;
+	char		*str;
 
 	str = NULL;
 	while (envp && envp->next)
 	{
-		if (ft_strncmp((char*)envp->content, "HOME=", ft_strlen("HOME=")) == 0)
+		if (ft_strnequal((char*)envp->content, home_key, ft_strlen(home_key)))
 			variable = ft_strdup((char*)envp->content);
 		envp = envp->next;
 	}
@@ -101,14 +104,15 @@ void		cd(char **argv, t_list *envp)
 	{
 		SAFE_FREE(home_key);
 		g_last_exit_status = EXIT_FAILURE;
-		return (ft_putendl_err("bash: cd: HOME not set"));
+		put_bash_err_msg("cd", "HOME not set");
+		return ;
 	}
 	SAFE_FREE(home_key);
 	arg = set_command_argv(argv, envp);
 	old_pwd(envp);
-	if ((arg[1] == NULL) || (ft_strcmp(arg[1], "~") == 0))
+	if ((arg[1] == NULL) || (ft_strequal(arg[1], "~")))
 		arg[1] = find_home(envp);
-	if (ft_strequal(arg[1], "") && g_global == 0)
+	if (ft_strequal(arg[1], "") && !g_global)
 		;
 	else if (chdir(arg[1]) == ERROR)
 	{

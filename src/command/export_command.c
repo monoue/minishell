@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/03 07:05:34 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/03 07:48:55 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void			show_export(t_list *envp)
 	dblq = ('\"');
 	while (array[index])
 	{
-		if (ft_strncmp(array[index], "_=", 2) == 0)
+		if (ft_strnequal(array[index], "_=", 2))
 			index++;
 		if (array[index] == NULL)
 			return ;
@@ -76,8 +76,7 @@ static bool		is_valid_arg(char *arg)
 		if (!ft_isalnum(arg[index]) && arg[index] != '_'
 		&& arg[index] != '\"' && arg[index] != '\'')
 			return (false);
-		if ((arg[index] == '\"' || arg[index] == '\'')
-			&& g_escape == 1)
+		if ((arg[index] == '\"' || arg[index] == '\'') && g_escape)
 			return (false);
 		index++;
 	}
@@ -96,8 +95,8 @@ void			check_same_key_or_not(char *key, t_list *envp, char **argv,
 	{
 		while (envp && envp->next)
 		{
-			if (ft_strncmp((char*)(envp->content), key, count) == 0
-				&& ft_strcmp((char*)(envp->content), argv[index]) != 0)
+			if (ft_strnequal((char*)(envp->content), key, count)
+				&& !ft_strequal((char*)(envp->content), argv[index]))
 			{
 				SAFE_FREE(envp->content);
 				envp->content = ft_strdup(argv[index]);

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:34 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 16:52:10 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/03 07:38:44 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void				unset_key(char *key, t_list *envp)
 	target = NULL;
 	if (envp == NULL)
 		return ;
-	if (ft_strcmp(key, "_=") == 0 || ft_strcmp(key, "_") == 0)
+	if (ft_strequal(key, "_=") || ft_strequal(key, "_"))
 		return ;
 	target_prev_i = get_target_prev_i(key, envp);
 	if (target_prev_i == -1)

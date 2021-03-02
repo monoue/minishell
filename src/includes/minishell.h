@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/03 07:06:11 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/03 07:53:44 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,7 +263,7 @@ bool				check_valid_arg(char *argv);
 */
 char				*get_key(char *argv);
 void				*delete_variable(void *ptr);
-bool				same_key(char *key, t_list *envp);
+bool				same_key(const char *key, t_list *envp);
 char				**turn_envp_into_strs(t_list *envp);
 
 /*

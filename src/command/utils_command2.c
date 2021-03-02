@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils_command2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 18:33:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/01 14:25:01 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/03 07:53:35 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool				same_key(char *key, t_list *envp)
+bool				same_key(const char *key, t_list *envp)
 {
 	size_t	count;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 15:21:58 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 20:03:47 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/03 07:39:26 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ char	*find_key(char *arg, t_list *envp)
 	tmp_list = envp;
 	while (tmp_list && tmp_list->next)
 	{
-		if (ft_strncmp((char*)tmp_list->content, arg, ft_strlen(arg)) == 0)
+		if (ft_strnequal((char*)tmp_list->content, arg, ft_strlen(arg)))
 			variable = ft_strnjoin_free(variable,
 			(char*)tmp_list->content, ft_strlen((char*)tmp_list->content));
 		tmp_list = tmp_list->next;
 	}
-	if (ft_strcmp(variable, "") == 0)
+	if (ft_strequal(variable, ""))
 	{
 		SAFE_FREE(variable);
 		return (NULL);

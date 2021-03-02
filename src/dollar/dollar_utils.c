@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:58:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 20:04:38 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/03 07:48:40 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*go_parse_dq(char *argv, t_list *envp, int j)
 	tmp = do_parse2(argv);
 	while (tmp[j])
 	{
-		g_flag_dont = 0;
+		g_flag_dont = false;
 		if (dollar_or_not(tmp[j], '$')
 			&& (tmp[j][0] == '$' && tmp[j][1] != '?'))
 			str = replace_dollar_value(tmp[j], envp);
@@ -52,7 +52,7 @@ char	*find_key_1(char *argv, t_list *envp)
 	variable = NULL;
 	while (tmp_list && tmp_list->next)
 	{
-		if (ft_strncmp((char*)tmp_list->content, arg, ft_strlen(arg)) == 0)
+		if (ft_strnequal((char*)tmp_list->content, arg, ft_strlen(arg)))
 			variable = ft_strdup((char*)tmp_list->content);
 		tmp_list = tmp_list->next;
 	}

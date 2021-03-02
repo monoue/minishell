@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:59:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/01 13:31:12 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/03 07:32:57 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ char	*do_single_quotation(char *argv, t_list *envp, int j)
 	char	*value;
 	char	*final;
 
-	g_flag = 1;
-	g_flag_escape_db = 1;
+	g_flag = true;
+	g_flag_escape_db = true;
 	value = NULL;
 	tmp = do_parse3(argv);
 	while (tmp[j])
 	{
-		g_flag_dont = 0;
+		g_flag_dont = false;
 		if (dollar_or_not(tmp[j], '$'))
 			str = replace_dollar_value(tmp[j], envp);
 		else

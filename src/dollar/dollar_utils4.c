@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 12:48:24 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 18:37:04 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/03 07:34:55 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,21 +70,20 @@ char	*return_final(char *str, char **tmp, int j)
 {
 	char	*quote;
 	char	*final;
-	int		a;
+	int		flag;
 
-	a = 0;
+	flag = false;
 	if (tmp[j][0] == '\'')
-		a = 1;
-	if (g_flag_dont == 0 && g_flag == 0)
+		flag = true;
+	if (!g_flag_dont && !g_flag)
 		final = remove_quotes(str);
 	else
 		final = strdup(str);
 	if (tmp[j][0] == '\\' && (tmp[j][1] == '\"' || tmp[j][1] == '\''))
-		g_escape = 1;
-	if (g_flag_dont == 0 && g_flag_escape_db == 0
-			&& a != 1)
+		g_escape = true;
+	if (!g_flag_dont && !g_flag_escape_db && !flag)
 		quote = remove_escape(final, 0);
-	else if (g_flag_dont == 0 && a != 1)
+	else if (!g_flag_dont && !flag)
 		quote = remove_escape_dq(final);
 	else
 		quote = ft_strdup(final);
@@ -101,7 +100,7 @@ char	*remove_final(char *str, char **tmp, int j)
 		tmp_argv = turn_dollar_question_into_value(str);
 	else
 		tmp_argv = ft_strdup(str);
-	if (g_flag == 0)
+	if (!g_flag)
 		final = return_final(tmp_argv, tmp, j);
 	else
 		final = ft_strdup(tmp_argv);
