@@ -6,13 +6,13 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:24:38 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 08:08:08 by monoue           ###   ########.fr       */
+/*   Updated: 2021/02/23 15:10:11 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_redirection_type(const char *element)
+int	get_redirection_type(char *element)
 {
 	const t_redirection_combination combs[] = {
 		{">", TYPE_OUTPUT},

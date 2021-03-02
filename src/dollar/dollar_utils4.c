@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 12:48:24 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 07:45:45 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 16:53:59 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,17 @@ char	*take_escape(char *line, int *i)
 	char	*tmp;
 
 	tmp = NULL;
-	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-	(*i)++;
-	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-	(*i)++;
+	while (line[*i] != '\0' && !ft_isascii1(line[*i])
+		&& !ft_isalnum(line[*i]) && line[*i] != '\"' && line[*i] != '$')
+	{
+		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+		(*i)++;
+	}
+	if (line[*i] == '$')
+	{
+		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+		(*i)++;
+	}
 	return (tmp);
 }
 
@@ -66,78 +73,39 @@ int		count_variable(char *variable)
 	return (count);
 }
 
-// char	*return_final(char *str, char **tmp, int j)
-// {
-// 	char	*quote;
-// 	char	*final;
-
-// 	if (!g_flag_dont && !g_flag)
-// 		final = remove_quotes(str);
-// 	else
-// 		final = strdup(str);
-// 	if (!g_flag_dont)
-// 	{
-// 		if (tmp[j][0] != '\'' && !g_flag_escape_db)
-// 			quote = remove_escape(final);
-// 		else
-// 			quote = remove_escape_dq(final);
-// 	}
-// 	else
-// 		quote = ft_strdup(final);
-// 	SAFE_FREE(final);
-// 	return (quote);
-// }
-
-// char	*remove_final(char *str, char **tmp, int j)
-// {
-// 	char	*final;
-// 	char	*tmp_argv;
-
-// 	if (tmp[j][0] != '\'')
-// 		tmp_argv = turn_dollar_question_into_value(str);
-// 	else
-// 		tmp_argv = ft_strdup(str);
-// 	if (!g_flag)
-// 		final = return_final(tmp_argv, tmp, j);
-// 	else
-// 		final = ft_strdup(tmp_argv);
-// 	return (final);
-// }
-
-char	*return_final(char *str, bool head_is_single_quote)
+char	*return_final(char *str, char **tmp, int j)
 {
 	char	*quote;
 	char	*final;
 
-	if (!g_flag_dont && !g_flag)
-		final = remove_quotes(str);
+	if (g_flag_dont == 0 && tmp[j][0] != '\''
+		&& g_flag_escape_db == 0)
+		quote = remove_escape(str, 0);
+	else if (g_flag_dont == 0)
+		quote = remove_escape_dq(str);
 	else
-		final = strdup(str);
-	if (!g_flag_dont)
-	{
-		if (!head_is_single_quote && !g_flag_escape_db)
-			quote = remove_escape(final);
-		else
-			quote = remove_escape_dq(final);
-	}
+		quote = ft_strdup(str);
+	if (g_flag_dont == 0 && g_flag == 0)
+		final = remove_quotes(quote);
 	else
-		quote = ft_strdup(final);
-	SAFE_FREE(final);
-	return (quote);
+		final = strdup(quote);
+	SAFE_FREE(quote);
+	return (final);
 }
 
-char	*remove_final(char *str, bool head_is_single_quote)
+char	*remove_final(char *str, char **tmp, int j)
 {
 	char	*final;
 	char	*tmp_argv;
 
-	if (!head_is_single_quote)
+	if (tmp[j][0] != '\'')
 		tmp_argv = turn_dollar_question_into_value(str);
 	else
 		tmp_argv = ft_strdup(str);
-	if (!g_flag)
-		final = return_final(tmp_argv, head_is_single_quote);
+	if (g_flag == 0)
+		final = return_final(tmp_argv, tmp, j);
 	else
 		final = ft_strdup(tmp_argv);
+	SAFE_FREE(tmp_argv);
 	return (final);
 }

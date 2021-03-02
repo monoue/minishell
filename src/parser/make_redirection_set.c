@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:03 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 08:09:16 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 16:15:06 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int			get_default_fd_num(t_type redirection_type)
 	return (STDOUT_FILENO);
 }
 
-static bool			str_is_within_int(const char *str)
+static bool	str_is_within_int(const char *str)
 {
 	bool				sign;
 	unsigned long long	n;
@@ -43,8 +43,7 @@ static bool			str_is_within_int(const char *str)
 	return (n <= INT_MAX);
 }
 
-static int			get_redirection_fd_num(const char *redirection_str,
-														t_type redirection_type)
+static int			get_fd_num(char *redirection_str, t_type redirection_type)
 {
 	if (!ft_isdigit(redirection_str[0]))
 		return (get_default_fd_num(redirection_type));
@@ -57,15 +56,15 @@ t_redirection_set	*make_redirection_set(char **elements)
 {
 	t_redirection_set	*set;
 	t_redirection_set	*new;
-	const char			*redirection = elements[0];
-	const char			*filename = elements[1];
+	char				*filename;
 
 	set = NULL;
 	new = ft_calloc(1, sizeof(t_redirection_set));
 	if (!new)
 		exit_err_msg(MALLOC_ERR);
-	new->type = get_redirection_type(redirection);
-	new->designated_fd = get_redirection_fd_num(redirection, new->type);
+	new->type = get_redirection_type(elements[0]);
+	new->designated_fd = get_fd_num(elements[0], new->type);
+	filename = elements[1];
 	if (str_is_quoted(filename))
 		new->filename = ft_strndup(&filename[1], ft_strlen(filename) - 2);
 	else

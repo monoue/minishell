@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 08:08:41 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 16:51:46 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,16 +176,15 @@ char				*take_double_quote(char *line, int *i);
 char				*take_escape(char *line, int *i);
 char				*into_single_quotes(char *argv, int *i);
 int					count_variable(char *variable);
-// char				*return_final(char *str, char **tmp, int j);
-char				*return_final(char *str, bool head_is_single_quote);
+char				*return_final(char *str, char **tmp, int j);
 char				**do_parse3(char *line);
-// char				*remove_final(char *str, char **tmp, int j);
-char				*remove_final(char *str, bool head_is_single_quote);
+char				*remove_final(char *str, char **tmp, int j);
 
 /*
 ** dollar_utils5
 */
 char				*take_dollar_bis(char *line, int *i, char *tmp);
+void				remove_escape_dq3(const char *str, int *index, int *len);
 
 /*
 **  syntax_error_check
@@ -206,7 +205,7 @@ char				**extract_argv(char **chunk_words);
 char				**ft_split_skipping_quotes(char const *str, char sep_c);
 char				*get_continuous_quotes_trimmed_str(char *str);
 char				**get_continuous_quotes_trimmed_strs(char **src_strs);
-int					get_redirection_type(const char *element);
+int					get_redirection_type(char *element);
 void				handle_exec_error(const char *command);
 void				has_pipe(char **piped_chunks, t_list *envp,
 															size_t chunks_num);
@@ -226,7 +225,6 @@ t_redirection_set	*make_redirection_set(char **elements);
 void				process_command_line(char *line, t_list *envp);
 void				process_one_command(char *command, t_list *envp);
 char				*remove_quotes(const char *str);
-void				reset_redirection_fds(t_fd *fds);
 void				set_fds(t_fd *fds);
 int					set_redirection(t_redirection_set *set, t_fd *fds);
 void				skip_chunk(char const *str, size_t *index);
@@ -245,7 +243,7 @@ char				**split_command_line(char const *str);
 void				set_words(const char *str, char **words, size_t words_num);
 bool				str_is_quoted_by_double(const char *str);
 bool				is_quote_char(char c);
-char				*remove_escape(const char *str);
+char				*remove_escape(const char *str, int index);
 char				*remove_escape_dq(const char *str);
 
 /*
@@ -270,7 +268,6 @@ char				*ft_strcat(char *dest, char *src);
 int					ft_strrchr_int(const char *s, int c);
 void				add_variable(char *argv, t_list *envp);
 int					dollar_or_not(char *argv, int c);
-// bool				dollar_or_not(char *argv, int c);
 long long			ft_atoll(const char *str);
 unsigned long long	ft_atoull(const char *str);
 void				put_error_numeric(char *argv);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_command3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:14:27 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 08:07:16 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 14:21:19 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ char				*ft_strcat(char *dest, char *src)
 	return (dest);
 }
 
-// i が 0 の時、存在しないものを参照しにいってしまわないのか
 int					dollar_or_not(char *arg, int c)
 {
 	size_t	i;
@@ -75,32 +74,6 @@ int					dollar_or_not(char *arg, int c)
 	}
 	return (0);
 }
-
-// i が 0 の時、存在しないものを参照しにいってしまわないのか
-// bool				is_dollar(char c)
-// {
-// 	return (c == '$');
-// }
-
-// bool				dollar_or_not(char *arg)
-// {
-// 	const size_t	len = ft_strlen(arg);
-// 	size_t			index;
-
-// 	if (!arg)
-// 		return (false);
-// 	index = 0;
-// 	while (index < len)
-// 	{
-// 		if (is_specific_char_not_escaped(arg, index, is_dollar)
-// 															&& index + 1 < len)
-// 		{
-// 			return (true);
-// 		}
-// 		index++;
-// 	}
-// 	return (false);
-// }
 
 void				put_error_numeric(char *argv)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_chunk.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 06:32:46 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 16:52:04 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ static void	exec_command_argv(char **argv, t_list *envp)
 		exec_path_command(argv, envp);
 }
 
-static char	*remove_all(char *argv)
+char		*remove_all(char *argv)
 {
 	int		index;
 	char	*tmp;
 	char	*str;
-	char	*arg;
+	char 	*arg;
 
 	index = 0;
 	tmp = NULL;
@@ -35,7 +35,7 @@ static char	*remove_all(char *argv)
 	if (((argv[0] != '\"' && argv[0] != '\'')
 		|| ((argv[0] == '\"' && argv[1] == '\"')
 		|| (argv[0] == '\'' && argv[1] == '\''))))
-		arg = remove_escape(tmp);
+		arg = remove_escape(tmp, 0);
 	else if (argv[0] != '\'')
 		arg = remove_escape_dq(tmp);
 	else
@@ -45,8 +45,7 @@ static char	*remove_all(char *argv)
 	return (arg);
 }
 
-static void	fill_argv_with_replaced_env(char *arg, char **argv2, size_t *i2,
-																t_list *envp)
+void	fill_argv_with_replaced_env(char *arg, char **argv2, size_t *i2, t_list *envp)
 {
 	char	*dollar_applied;
 	char	**tmp;
@@ -79,6 +78,7 @@ static char	**set_command_argv(char **argv1, t_list *envp)
 {
 	const size_t	arg_num = ft_count_strs((const char **)argv1);
 	char			**argv2;
+	char			*tmp_argv;
 	size_t			i1;
 	size_t			i2;
 
@@ -95,12 +95,27 @@ static char	**set_command_argv(char **argv1, t_list *envp)
 		else
 		{
 			argv2[i2] = remove_all(argv1[i1]);
+			tmp_argv = turn_dollar_question_into_value(argv2[i2]);
+			SAFE_FREE(argv2[i2]);
+			argv2[i2] = ft_strdup_free(tmp_argv);
 			i2++;
 		}
 		i1++;
 	}
 	argv2[i2] = NULL;
 	return (argv2);
+}
+
+/*
+** resets fds so that the outcome comes out from the pipe
+*/
+
+static void	reset_redirection_fds(t_fd *fds)
+{
+	dup2(fds->output, STDOUT_FILENO);
+	dup2(fds->input, STDIN_FILENO);
+	close(fds->output);
+	close(fds->input);
 }
 
 void		exec_command_chunk(char *command_chunk, t_list *envp,

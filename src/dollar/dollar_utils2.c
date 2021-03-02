@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:59:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 07:44:10 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/01 13:31:12 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*do_single_quotation(char *argv, t_list *envp, int j)
 			str = replace_dollar_value(tmp[j], envp);
 		else
 			str = ft_strdup(tmp[j]);
-		final = return_final(str, tmp[j][0] == '\'');
+		final = return_final(str, tmp, j);
 		value = ft_strnjoin_free(value, final, ft_strlen(final));
 		SAFE_FREE(str);
 		SAFE_FREE(final);
