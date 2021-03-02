@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_chunk.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 16:55:52 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 18:04:09 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ char		**set_command_argv(char **argv1, t_list *envp)
 		exit_err_msg(MALLOC_ERR);
 	i1 = 0;
 	i2 = 0;
+	g_escape = 0;
 	while (i1 < arg_num)
 	{
 		g_global = false;

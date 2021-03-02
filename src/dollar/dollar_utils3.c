@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 15:21:58 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 16:54:37 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 20:03:47 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,28 @@ char	*take_dollar(char *line, int *i)
 char	*take_single_quote(char *line, int *i)
 {
 	char	*tmp;
+	int		a;
+	int		b;
 
 	tmp = NULL;
+	b = 0;
 	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 	(*i)++;
 	if (line[*i] == '\"' && line[*i + 1] == '\0')
 		return (tmp);
-	while (line[*i] != '\'' && line[*i])
+	a = (*i);
+	b = check_quote(a, line);
+	if (b != 0)
 	{
+		while (line[*i] != '\'' && line[*i] && line[*i] != '\"')
+		{
+			tmp = ft_strnjoin_free(tmp, &line[*i], 1);
+			(*i)++;
+		}
 		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 		(*i)++;
+		return (tmp);
 	}
-	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-	(*i)++;
 	return (tmp);
 }
 

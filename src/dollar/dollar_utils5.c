@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils5.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 13:43:56 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 13:44:49 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 20:03:08 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ char	*remove_all(char *argv)
 	tmp = NULL;
 	str = ft_strdup(argv);
 	tmp = remove_quotes(str);
+	if (argv[0] == '\\' && (argv[1] == '\"' || argv[1] == '\''))
+		g_escape = 1;
 	if (((argv[0] != '\"' && argv[0] != '\'')
 		|| ((argv[0] == '\"' && argv[1] == '\"')
 		|| (argv[0] == '\'' && argv[1] == '\''))))
@@ -68,4 +70,18 @@ char	*remove_all(char *argv)
 	SAFE_FREE(str);
 	SAFE_FREE(tmp);
 	return (arg);
+}
+
+int		check_quote(int a, char *line)
+{
+	int	b;
+
+	b = 0;
+	while (line[a])
+	{
+		if (line[a] == '\'')
+			b++;
+		a++;
+	}
+	return (b);
 }

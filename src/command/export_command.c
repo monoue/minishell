@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 16:50:11 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 18:05:47 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ static bool		is_valid_arg(char *arg)
 	{
 		if (!ft_isalnum(arg[index]) && arg[index] != '_'
 		&& arg[index] != '\"' && arg[index] != '\'')
+			return (false);
+		if ((arg[index] == '\"' || arg[index] == '\'') 
+			&& g_escape == 1)
 			return (false);
 		index++;
 	}

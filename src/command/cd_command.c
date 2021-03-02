@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:49 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 16:50:34 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 19:33:29 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,11 @@ void		cd(char **argv, t_list *envp)
 		return (ft_putendl_err("bash: cd: HOME not set"));
 	}
 	SAFE_FREE(home_key);
-	old_pwd(envp);
 	arg = set_command_argv(argv, envp);
+	old_pwd(envp);
 	if ((arg[1] == NULL) || (ft_strcmp(arg[1], "~") == 0))
 		arg[1] = find_home(envp);
-	if (ft_strequal(arg[1], ""))
+	if (ft_strequal(arg[1], "") && g_global == 0)
 		;
 	else if (chdir(arg[1]) == ERROR)
 	{

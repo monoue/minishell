@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 15:54:47 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 20:16:48 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static void	exit_minishell2(int argv_num, char **arg)
 	if (argv_num > 2)
 	{
 		put_bash_err_msg("exit", "too many arguments");
+		ft_free_split(arg);//ここでft_free_split(argv)の代わりにFREEをした、大丈夫？
 		g_last_exit_status = EXIT_FAILURE;
 		return ;
 	}
@@ -74,7 +75,8 @@ void		exit_minishell(char **argv, t_list *envp, bool pipe_child)
 	size_t	argv_num;
 
 	arg = set_command_argv(argv, envp);
-	ft_free_split(argv);
+	// ft_free_split(argv);ここはダブルFREEだったからEXIT_MINISHELL2のput_bash_err_msgのあとft_free_split(arg)がやって
+	//そうしたらLEAKもなくなるよ
 	argv_num = ft_count_strs((const char **)arg);
 	if (!pipe_child)
 	{

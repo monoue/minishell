@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 16:55:07 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 20:03:27 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ bool	g_flag_escape_db;
 bool	g_flag_dont;
 bool	g_global;
 bool	g_into_dollar;
+bool	g_escape;
 
 typedef enum		e_element_type {
 	START,
@@ -187,6 +188,7 @@ char				*take_dollar_bis(char *line, int *i, char *tmp);
 void				check_escape(const char *str, int *index, int *len);
 bool				check_is_escape(const char *str, int index);
 char				*remove_all(char *argv);
+int					check_quote(int a, char *line);
 
 /*
 **  syntax_error_check
