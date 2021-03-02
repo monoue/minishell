@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 13:45:14 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 15:06:10 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void				put_farewell_greeting(void);
 */
 void				pwd(char **argv);
 int					help();
-void				exit_minishell(char **argv, t_list *envp);
+void				exit_minishell(char **argv, t_list *envp, bool pipe_child);
 void				cd(char **argv, t_list *envp);
 void				echo(char **argv);
 void				env(t_list *envp);
@@ -202,11 +202,13 @@ int					check_syntax(char *command_line, char **command_line_words);
 size_t				count_command_line_words(char const *str);
 char				*cut_out_meta_char(const char *str, size_t *index);
 void				exec_path_command(char **argv, t_list *envp);
-void				exec_reproduction(char **argv, t_list *envp);
+// void				exec_reproduction(char **argv, t_list *envp);
+void				exec_reproduction(char **argv, t_list *envp, bool pipe_child);
 char				**extract_argv(char **chunk_words);
 char				**ft_split_skipping_quotes(char const *str, char sep_c);
 char				*get_continuous_quotes_trimmed_str(char *str);
 char				**get_continuous_quotes_trimmed_strs(char **src_strs);
+int					get_child_process_result(int status);
 int					get_redirection_type(char *element);
 void				handle_exec_error(const char *command);
 void				has_pipe(char **piped_chunks, t_list *envp,

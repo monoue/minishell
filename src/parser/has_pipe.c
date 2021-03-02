@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:24:43 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 13:32:24 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 14:27:32 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,7 @@ static void	wait_children(size_t chunks_num, int last_pid)
 	while (index < chunks_num)
 	{
 		if (wait(&status) == last_pid)
-		{
-			if (WIFEXITED(status))
-				g_last_exit_status = (WEXITSTATUS(status));
-			else if (WIFSIGNALED(status))
-				g_last_exit_status = (EXIT_INVALID + WTERMSIG(status));
-		}
+			g_last_exit_status = get_child_process_result(status);
 		if (flag && WIFSIGNALED(status))
 		{
 			flag = false;

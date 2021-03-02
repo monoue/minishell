@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/03/01 16:04:36 by monoue           ###   ########.fr        #
+#    Updated: 2021/03/02 14:26:54 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,7 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(PARSER_PATH)exec_path_command.c \
 			$(PARSER_PATH)extract_argv.c \
 			$(PARSER_PATH)ft_split_skipping_quotes.c \
+			$(PARSER_PATH)get_child_process_result.c \
 			$(PARSER_PATH)get_continuous_quotes_trimmed_strs.c \
 			$(PARSER_PATH)get_redirection_type.c \
 			$(PARSER_PATH)has_pipe.c \

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 15:53:36 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 15:16:17 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	ft_getline_2(int *cmd_status, char **stock, int *flag)
 	char	*tmp;
 
 	ret = read(0, buf, BUFFER_SIZE);
-	if (g_tmp == 1)
+	if (g_tmp)
 	{
 		*cmd_status = 256;
 		free(*stock);
@@ -57,6 +57,7 @@ static char	*ft_getline(int *cmd_status)
 		if (ret == 0 && !(*stock))
 		{
 			ft_putendl_err("exit");
+			put_farewell_greeting();
 			exit(*cmd_status / 256);
 		}
 	}
