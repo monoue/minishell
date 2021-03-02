@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/03/02 14:26:54 by monoue           ###   ########.fr        #
+#    Updated: 2021/03/03 07:13:05 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 AR = ar
 ARFLAGS = rcs
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 # PATH
 SRCS_PATH		= src/
@@ -33,7 +33,6 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(MAIN_UTILS_PATH)get_env_list.c \
 			$(MAIN_UTILS_PATH)set_signal_handlers.c \
 			op_list.c \
-			test_functions.c \
 			$(DOLLAR_PATH)dollar.c \
 			$(DOLLAR_PATH)dollar_utils.c \
 			$(DOLLAR_PATH)dollar_utils2.c \
@@ -91,13 +90,10 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(EXIT_PATH)exit.c
 
 SRCS_NAME = $(BASE) main.c
-TEST_NAME = $(BASE) test.c
 
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
-TEST = $(addprefix $(SRCS_PATH), $(TEST_NAME))
 OBJS = $(SRCS:%.c=%.o)
 DEPS	= $(SRCS:.c=.d)
-TOBJS = $(TEST:%.c=%.o)
 LIBFT	= libft/libft.a
 
 .c.o:
@@ -112,13 +108,6 @@ $(LIBFT):
 	make -C libft
 
 all: $(NAME)
-
-test: $(TOBJS) $(LIBFT)
-	@$(CC) -o $@ $^
-
-bonus: $(BOBJS)
-	@$(MAKE) -C $(LIBFT_PATH);
-	@$(CC) $^ -L$(LIBFT_PATH) -lft -o $(NAME)
 
 clean:
 	$(MAKE) -C $(LIBFT_PATH) clean
