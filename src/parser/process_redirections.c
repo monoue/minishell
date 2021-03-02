@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:03 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/03 06:44:58 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/03 06:50:31 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,10 @@ static bool	redirection_filename_is_ambiguous(char *filename)
 static int	set_redirections(char **chunk_words, t_fd *fds, t_list *envp)
 {
 	t_redirection_set	*set;
+	int					ret;
 	char				*replaced_filename;
-	char				**argv;
 
-	argv = set_command_argv(chunk_words, envp);
-	set = make_redirection_set(argv);
-	ft_free_split(argv);
+	set = make_redirection_set(chunk_words);
 	if (dollar_or_not(set->filename, '$'))
 	{
 		replaced_filename = dollar(set->filename, envp);
@@ -57,7 +55,8 @@ static int	set_redirections(char **chunk_words, t_fd *fds, t_list *envp)
 		set->filename = ft_strdup(replaced_filename);
 		SAFE_FREE(replaced_filename);
 	}
-	if (set_redirection(set, fds) == ERROR)
+	ret = set_redirection(set, fds);
+	if (ret == ERROR)
 		return (ERROR);
 	free_redirections(set);
 	return (SUCCESS);
