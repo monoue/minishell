@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 12:48:24 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 13:05:09 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 15:22:57 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,19 @@ char	*return_final(char *str, char **tmp, int j)
 {
 	char	*quote;
 	char	*final;
+	int		a;
 
+	a = 0;
+	if (tmp[j][0] == '\'')
+		a = 1;
 	if (g_flag_dont == 0 && g_flag == 0)
 		final = remove_quotes(str);
 	else
 		final = strdup(str);
-	if (g_flag_dont == 0 && tmp[j][0] != '\''
-		&& g_flag_escape_db == 0)
+	if (g_flag_dont == 0 && g_flag_escape_db == 0
+			&& a != 1)
 		quote = remove_escape(final, 0);
-	else if (g_flag_dont == 0)
+	else if (g_flag_dont == 0 && a != 1)
 		quote = remove_escape_dq(final);
 	else
 		quote = ft_strdup(final);
