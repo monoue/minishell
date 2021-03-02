@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 10:20:39 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 13:26:57 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void				put_farewell_greeting(void);
 */
 void				pwd(char **argv);
 int					help();
-void				exit_minishell(char **argv);
+void				exit_minishell(char **argv, t_list *envp);
 void				cd(char **argv, t_list *envp);
 void				echo(char **argv);
 void				env(t_list *envp);
@@ -186,6 +186,8 @@ char				*remove_final(char *str, char **tmp, int j);
 char				*take_dollar_bis(char *line, int *i, char *tmp);
 void				check_escape(const char *str, int *index, int *len);
 bool				check_is_escape(const char *str, int index);
+char				*remove_all(char *argv);
+
 /*
 **  syntax_error_check
 */

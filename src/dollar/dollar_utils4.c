@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 12:48:24 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 09:51:15 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 13:05:09 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,6 @@ char	*remove_final(char *str, char **tmp, int j)
 		final = return_final(tmp_argv, tmp, j);
 	else
 		final = ft_strdup(tmp_argv);
+	SAFE_FREE(tmp_argv);
 	return (final);
 }

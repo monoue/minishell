@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 20:01:34 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 13:08:06 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void		exec_reproduction(char **argv, t_list *envp)
 		argv[0] = ft_strdup_free(quotes_trimmed_str);
 	}
 	if (ft_strequal(argv[0], "exit"))
-		return (exit_minishell(argv));
+		return (exit_minishell(argv, envp));
 	g_last_exit_status = EXIT_SUCCESS;
 	exec_not_exit_reproduction(argv, envp);
 }

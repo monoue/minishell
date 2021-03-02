@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:49 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 12:58:35 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 13:17:31 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void		cd(char **argv, t_list *envp)
 	arg = set_command_argv(argv, envp);
 	if ((arg[1] == NULL) || (ft_strcmp(arg[1], "~") == 0))
 		arg[1] = find_home(envp);
-	if (chdir(argv[1]) == ERROR)
+	if (chdir(arg[1]) == ERROR)
 	{
 		put_error(arg[1]);
 		g_last_exit_status = EXIT_FAILURE;

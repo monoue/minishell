@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/01 14:46:48 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 13:22:23 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,30 +51,42 @@ static bool	str_is_valid_num(char *str)
 	return (str_is_within_llong(str));
 }
 
-void		exit_minishell(char **argv)
+void		exit_minishell2(int argv_num, char **arg, int exit_nbr, int nbr)
 {
-	int				nbr;
-	int				exit_nbr;
-	const size_t	argv_num = ft_count_strs((const char**)argv);
-
-	ft_putendl_err("exit");
-	if (argv_num == 1)
-	{
-		put_farewell_greeting();
-		exit(g_last_exit_status);
-	}
-	if (!str_is_valid_num(argv[1]))
-	{
-		put_error_numeric(argv[1]);
-		exit(255);
-	}
 	if (argv_num > 2)
 	{
 		put_bash_err_msg("exit", "too many arguments");
 		g_last_exit_status = EXIT_FAILURE;
 		return ;
 	}
-	nbr = ft_atoll(argv[1]);
+	nbr = ft_atoll(arg[1]);
 	exit_nbr = ((nbr % 256) + 256) % 256;
+	ft_free_split(arg);
 	exit(exit_nbr);
+}
+
+void		exit_minishell(char **argv, t_list *envp)
+{
+	int				nbr;
+	int				exit_nbr;
+	char			**arg;
+	const size_t	argv_num = ft_count_strs((const char**)argv);
+
+	nbr = 0;
+	exit_nbr = 0;
+	arg = set_command_argv(argv, envp);
+	ft_putendl_err("exit");
+	if (argv_num == 1)
+	{
+		put_farewell_greeting();
+		ft_free_split(arg);
+		exit(g_last_exit_status);
+	}
+	if (!str_is_valid_num(arg[1]))
+	{
+		put_error_numeric(arg[1]);
+		ft_free_split(arg);
+		exit(255);
+	}
+	exit_minishell2(argv_num, arg, exit_nbr, nbr);
 }

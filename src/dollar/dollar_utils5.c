@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 13:43:56 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 09:51:28 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 13:26:39 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,29 @@ bool	check_is_escape(const char *str, int index)
 		|| str[index + 1] == '\\'))
 		return (true);
 	return (false);
+}
+
+
+char		*remove_all(char *argv)
+{
+	int		index;
+	char	*tmp;
+	char	*str;
+	char	*arg;
+
+	index = 0;
+	tmp = NULL;
+	str = ft_strdup(argv);
+	tmp = remove_quotes(str);
+	if (((argv[0] != '\"' && argv[0] != '\'')
+		|| ((argv[0] == '\"' && argv[1] == '\"')
+		|| (argv[0] == '\'' && argv[1] == '\''))))
+		arg = remove_escape(tmp, 0);
+	else if (argv[0] != '\'')
+		arg = remove_escape_dq(tmp);
+	else
+		arg = ft_strdup(tmp);
+	SAFE_FREE(str);
+	SAFE_FREE(tmp);
+	return (arg);
 }

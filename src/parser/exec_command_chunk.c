@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 10:20:45 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 13:26:33 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,8 @@ static void	exec_command_argv(char **argv, t_list *envp)
 		exec_path_command(argv, envp);
 }
 
-char		*remove_all(char *argv)
-{
-	int		index;
-	char	*tmp;
-	char	*str;
-	char 	*arg;
-
-	index = 0;
-	tmp = NULL;
-	str = ft_strdup(argv);
-	tmp = remove_quotes(str);
-	if (((argv[0] != '\"' && argv[0] != '\'')
-		|| ((argv[0] == '\"' && argv[1] == '\"')
-		|| (argv[0] == '\'' && argv[1] == '\''))))
-		arg = remove_escape(tmp, 0);
-	else if (argv[0] != '\'')
-		arg = remove_escape_dq(tmp);
-	else
-		arg = ft_strdup(tmp);
-	SAFE_FREE(str);
-	SAFE_FREE(tmp);
-	return (arg);
-}
-
-void	fill_argv_with_replaced_env(char *arg, char **argv2, size_t *i2, t_list *envp)
+void		fill_argv_with_replaced_env(char *arg, char **argv2,
+								size_t *i2, t_list *envp)
 {
 	char	*dollar_applied;
 	char	**tmp;
@@ -74,7 +51,7 @@ void	fill_argv_with_replaced_env(char *arg, char **argv2, size_t *i2, t_list *en
 	SAFE_FREE(dollar_applied);
 }
 
-char	**set_command_argv(char **argv1, t_list *envp)
+char		**set_command_argv(char **argv1, t_list *envp)
 {
 	const size_t	arg_num = ft_count_strs((const char **)argv1);
 	char			**argv2;
@@ -85,7 +62,7 @@ char	**set_command_argv(char **argv1, t_list *envp)
 	if (!(argv2 = malloc(sizeof(char *) * MAX_INPUT)))
 		exit_err_msg(MALLOC_ERR);
 	i1 = 0;
-	i2 = 0;	
+	i2 = 0;
 	while (i1 < arg_num)
 	{
 		g_global = false;
