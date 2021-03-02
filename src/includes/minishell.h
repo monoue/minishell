@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 15:06:10 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 16:55:07 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,8 +202,8 @@ int					check_syntax(char *command_line, char **command_line_words);
 size_t				count_command_line_words(char const *str);
 char				*cut_out_meta_char(const char *str, size_t *index);
 void				exec_path_command(char **argv, t_list *envp);
-// void				exec_reproduction(char **argv, t_list *envp);
-void				exec_reproduction(char **argv, t_list *envp, bool pipe_child);
+void				exec_reproduction(char **argv, t_list *envp,
+															bool pipe_child);
 char				**extract_argv(char **chunk_words);
 char				**ft_split_skipping_quotes(char const *str, char sep_c);
 char				*get_continuous_quotes_trimmed_str(char *str);

@@ -6,14 +6,13 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 15:04:31 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 16:55:52 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-// static void	exec_command_argv(char **argv, t_list *envp)
 static void	exec_command_argv(char **argv, t_list *envp, bool pipe_child)
 {
 	if (is_reproduction(argv[0]))
@@ -110,7 +109,6 @@ void		exec_command_chunk(char *command_chunk, t_list *envp,
 		if (!is_redirection_str(argv1[0]))
 		{
 			argv2 = set_command_argv(argv1, envp);
-			// exec_command_argv(argv2, envp);
 			exec_command_argv(argv2, envp, pipe_child);
 			ft_free_split(argv2);
 		}

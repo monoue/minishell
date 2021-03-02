@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 15:04:54 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 16:56:05 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static void	exec_not_exit_reproduction(char **argv, t_list *envp)
 	}
 }
 
-// void		exec_reproduction(char **argv, t_list *envp)
 void		exec_reproduction(char **argv, t_list *envp, bool pipe_child)
 {
 	char		*quotes_trimmed_str;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:58:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 14:35:48 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 16:53:53 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ char	*go_parse_dq(char *argv, t_list *envp, int j)
 	char	*value;
 	char	*final;
 
-	g_flag = 1;
-	g_flag_escape_db = 1;
+	g_flag = true;
+	g_flag_escape_db = true;
 	value = NULL;
 	tmp = do_parse2(argv);
 	j = 0;

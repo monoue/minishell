@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_command3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:14:27 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/01 14:21:19 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 15:47:13 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void				add_variable(char *argv, t_list *envp)
 	t_list	*tmp;
 
 	new = malloc(sizeof(t_list));
+	if (!new)
+		exit_err_msg(MALLOC_ERR);
 	new->content = ft_strdup(argv);
 	while (envp && envp->next && envp->next->next)
 		envp = envp->next;

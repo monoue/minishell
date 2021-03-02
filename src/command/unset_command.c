@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:34 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 14:12:10 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 16:52:10 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,10 @@ void				unset(char **argv, t_list *envp)
 	char	*key;
 	char	**arg;
 
-	arg = set_command_argv(argv, envp);
-	arg_i = 1;
-	key = NULL;
 	if (envp == NULL)
 		return ;
+	arg = set_command_argv(argv, envp);
+	arg_i = 1;
 	while (arg[arg_i])
 	{
 		key = get_key(arg[arg_i]);

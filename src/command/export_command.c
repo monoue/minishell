@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 14:12:08 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 16:50:11 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static bool		is_valid_arg(char *arg)
 	index = 0;
 	while (index < len && arg[index] != '=')
 	{
-		if (!ft_isalnum(arg[index]) && arg[index] != '_' 
+		if (!ft_isalnum(arg[index]) && arg[index] != '_'
 		&& arg[index] != '\"' && arg[index] != '\'')
 			return (false);
 		index++;
@@ -128,8 +128,8 @@ void			export(char **argv, t_list *envp)
 			continue ;
 		}
 		check_same_key_or_not(key, envp, arg, index);
-		index++;
 		SAFE_FREE(key);
+		index++;
 	}
 	ft_free_split(arg);
 }

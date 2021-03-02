@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:05 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 15:14:40 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 15:54:47 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,12 @@ static void	exit_minishell2(int argv_num, char **arg)
 
 void		exit_minishell(char **argv, t_list *envp, bool pipe_child)
 {
-	char			**arg;
-	const size_t	argv_num = ft_count_strs((const char**)argv);
+	char	**arg;
+	size_t	argv_num;
 
 	arg = set_command_argv(argv, envp);
+	ft_free_split(argv);
+	argv_num = ft_count_strs((const char **)arg);
 	if (!pipe_child)
 	{
 		ft_putendl_err("exit");

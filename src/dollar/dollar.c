@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 13:57:44 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 16:28:32 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	**do_parse(char *line)
 char	*exec_dollar(char **tmp, t_list *envp, int j)
 {
 	char	*value;
-	char	*str;
+	char	*pre_final;
 	char	*final;
 
 	value = NULL;
@@ -90,15 +90,15 @@ char	*exec_dollar(char **tmp, t_list *envp, int j)
 		g_flag = false;
 		g_flag_dont = false;
 		if (dollar_or_not(tmp[j], '$') && tmp[j][0] == '\"')
-			str = go_parse_dq(tmp[j], envp, 0);
+			pre_final = go_parse_dq(tmp[j], envp, 0);
 		else if (dollar_or_not(tmp[j], '$') && tmp[j][0] != '\''
 				&& (tmp[j][0] == '$' && tmp[j][1] != '?'))
-			str = replace_dollar_value(tmp[j], envp);
+			pre_final = replace_dollar_value(tmp[j], envp);
 		else
-			str = ft_strdup(tmp[j]);
-		final = remove_final(str, tmp, j);
+			pre_final = ft_strdup(tmp[j]);
+		final = remove_final(pre_final, tmp, j);
 		value = ft_strjoin_free(value, final);
-		SAFE_FREE(str);
+		SAFE_FREE(pre_final);
 		SAFE_FREE(final);
 		j++;
 	}
@@ -107,7 +107,7 @@ char	*exec_dollar(char **tmp, t_list *envp, int j)
 
 char	*dollar(char *argv, t_list *envp)
 {
-	char	**tmp;
+	char	**parsed_arg;
 	char	*final;
 	char	*value;
 
@@ -116,11 +116,10 @@ char	*dollar(char *argv, t_list *envp)
 	g_flag_dont = false;
 	g_global = true;
 	final = NULL;
-	tmp = do_parse(argv);
-	value = exec_dollar(tmp, envp, 0);
-	final = ft_strdup(value);
-	SAFE_FREE(value);
-	ft_free_split(tmp);
+	parsed_arg = do_parse(argv);
+	value = exec_dollar(parsed_arg, envp, 0);
+	ft_free_split(parsed_arg);
+	final = ft_strdup_free(value);
 	if (ft_strequal(final, "") && !g_flag_escape_db)
 	{
 		SAFE_FREE(final);

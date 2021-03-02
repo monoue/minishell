@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 15:57:58 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 09:49:41 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/02 16:47:59 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,5 @@ char	*exec_escape_dq(const char *str, int index, int len, int start)
 
 char	*remove_escape_dq(const char *str)
 {
-	const size_t	len = ft_strlen(str);
-	size_t			index;
-	size_t			start;
-	char			*ret_s;
-
-	start = 0;
-	index = 0;
-	if (!(ret_s = ft_strdup("")))
-		exit_err_msg(MALLOC_ERR);
-	ret_s = exec_escape_dq(str, index, len, start);
-	index = 0;
-	return (ret_s);
+	return (exec_escape_dq(str, 0, ft_strlen(str), 0));
 }
