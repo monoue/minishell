@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/02 08:16:30 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 09:11:40 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ char	*find_variable(char *variable)
 		return (ft_strdup(""));
 	count = count_variable(variable);
 	tmp_var = ft_substr(variable, count + 1, ft_strlen(variable) - count);
-	if (g_flag == 0)
+	if (!g_flag)
 	{
 		value = skip_space_dollar(tmp_var);
-		g_space = 1;
+		g_space = true;
 	}
 	else
 		value = ft_strdup(tmp_var);
@@ -41,9 +41,9 @@ char	*replace_dollar_value(char *argv, t_list *envp)
 	char	*value;
 
 	value = NULL;
-	g_space = 0;
-	g_flag_dont = 1;
-	g_into_dollar = 1;
+	g_space = false;
+	g_flag_dont = true;
+	g_into_dollar = true;
 	if (argv[0] == '\'')
 		return (do_single_quotation(argv, envp, 0));
 	value = find_variable(find_key_1(argv, envp));
@@ -52,106 +52,81 @@ char	*replace_dollar_value(char *argv, t_list *envp)
 
 char	**do_parse(char *line)
 {
-	char	**tmp;
-	int		i;
-	int		j;
+	char	**parsed_arg;
+	size_t	index;
+	size_t	strs_i;
 
-	j = 0;
-	i = 0;
-	if (!(tmp = malloc(sizeof(*tmp) * (MAX_INPUT * MAX_INPUT * MAX_INPUT))))
+	if (!(parsed_arg = malloc(sizeof(char *) * (MAX_INPUT * MAX_INPUT * MAX_INPUT))))
 		exit_err_msg(MALLOC_ERR);
-	while (line[i])
+	index = 0;
+	strs_i = 0;
+	while (line[index])
 	{
-		if (line[i] == '$' && (line[i + 1] == '\"' || line[i + 1] == '\''))
-			i++;
-		if (line[i] == '$')
-			tmp[j++] = take_dollar(line, &i);
-		if (line[i] == '\'')
-			tmp[j++] = take_single_quote(line, &i);
-		if (ft_isascii1(line[i]) || line[i] == '/')
-			tmp[j++] = take_ascii(line, &i);
-		if (line[i] == '\\')
-			tmp[j++] = take_escape(line, &i);
-		if (line[i] == '\"')
-			tmp[j++] = take_double_quote(line, &i);
+		if (is_dollar(line[index]) && is_quote_char(line[index + 1]))
+			index++;
+		if (is_dollar(line[index]))
+			parsed_arg[strs_i++] = take_dollar(line, &index);
+		if (line[index] == '\'')
+			parsed_arg[strs_i++] = take_single_quote(line, &index);
+		if (ft_isascii1(line[index]) || line[index] == '/')
+			parsed_arg[strs_i++] = take_ascii(line, &index);
+		if (line[index] == '\\')
+			parsed_arg[strs_i++] = take_escape(line, &index);
+		if (line[index] == '\"')
+			parsed_arg[strs_i++] = take_double_quote(line, &index);
 	}
-	return (tmp);
+	return (parsed_arg);
 }
 
-// char	*exec_dollar(char **tmp, t_list *envp, int j)
-// {
-// 	char	*value;
-// 	char	*str;
-// 	char	*final;
-
-// 	value = NULL;
-// 	while (tmp[j])
-// 	{
-// 		g_flag = 0;
-// 		g_flag_dont = 0;
-// 		if (dollar_or_not(tmp[j], '$') && tmp[j][0] == '\"')
-// 			str = go_parse_dq(tmp[j], envp, 0);
-// 		else if (dollar_or_not(tmp[j], '$') && tmp[j][0] != '\''
-// 				&& (tmp[j][0] == '$' && tmp[j][1] != '?'))
-// 			str = replace_dollar_value(tmp[j], envp);
-// 		else
-// 			str = ft_strdup(tmp[j]);
-// 		final = remove_final(str, tmp, j);
-// 		value = ft_strjoin_free(value, final);
-// 		SAFE_FREE(str);
-// 		SAFE_FREE(final);
-// 		j++;
-// 	}
-// 	return (value);
-// }
-
-char	*exec_dollar(char **tmp, t_list *envp, int j)
+char	*get_pre_final(char *str, t_list *envp)
 {
-	char	*value;
-	char	*str;
-	char	*final;
+	if (has_dollar_variable(str) && head_char_equal(str, '\"'))
+		return (go_parse_dq(str, envp, 0));
+	if (has_dollar_variable(str) && head_char_equal(str, '$') && str[1] != '?')
+		return (replace_dollar_value(str, envp));
+	return (ft_strdup(str));
+}
+
+char	*exec_dollar(char **parsed_arg, t_list *envp, size_t index)
+{
+	char			*value;
+	char			*pre_final;
+	char			*final;
+	const size_t	strs_num = ft_count_strs((const char **) parsed_arg);
 
 	value = NULL;
-	while (tmp[j])
+	while (index < strs_num)
 	{
 		g_flag = false;
 		g_flag_dont = false;
-		if (has_dollar_variable(tmp[j]) && tmp[j][0] == '\"')
-			str = go_parse_dq(tmp[j], envp, 0);
-		else if (has_dollar_variable(tmp[j]) && tmp[j][0] != '\''
-				&& (tmp[j][0] == '$' && tmp[j][1] != '?'))
-			str = replace_dollar_value(tmp[j], envp);
-		else
-			str = ft_strdup(tmp[j]);
-		final = remove_final(str, tmp[j][0] == '\'');
-		value = ft_strjoin_free(value, final);
-		SAFE_FREE(str);
-		SAFE_FREE(final);
-		j++;
+		pre_final = get_pre_final(parsed_arg[index], envp);
+		final = remove_final(pre_final,
+									head_char_equal(parsed_arg[index], '\''));
+		SAFE_FREE(pre_final);
+		value = ft_strjoin_free_both(value, final);
+		index++;
 	}
 	return (value);
 }
 
-char	*dollar(char *argv, t_list *envp)
+char	*dollar(char *arg, t_list *envp)
 {
-	char	**tmp;
-	char	*final;
+	char	**parsed_arg;
 	char	*value;
 
 	g_flag = false;
 	g_flag_escape_db = false;
 	g_flag_dont = false;
 	g_global = true;
-	final = NULL;
-	tmp = do_parse(argv);
-	value = exec_dollar(tmp, envp, 0);
-	final = ft_strdup(value);
-	SAFE_FREE(value);
-	ft_free_split(tmp);
-	if (ft_strcmp(final, "") == 0 && !g_flag_escape_db)
+	parsed_arg = do_parse(arg);
+	value = exec_dollar(parsed_arg, envp, 0);
+	ft_free_split(parsed_arg);
+	if (!value)
+		return (NULL);
+	if (ft_strlen(value) == 0 && !g_flag_escape_db)
 	{
-		SAFE_FREE(final);
+		SAFE_FREE(value);
 		return (NULL);
 	}
-	return (final);
+	return (value);
 }
