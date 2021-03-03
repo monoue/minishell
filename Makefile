@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/03/03 08:53:17 by monoue           ###   ########.fr        #
+#    Updated: 2021/03/03 10:02:46 by sperrin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(DOLLAR_PATH)dollar_utils3.c \
 			$(DOLLAR_PATH)dollar_utils4.c \
 			$(DOLLAR_PATH)dollar_utils5.c \
+			$(DOLLAR_PATH)dollar_utils6.c \
 			$(COMMAND_PATH)add_variable.c \
 			$(COMMAND_PATH)cd_command.c \
 			$(COMMAND_PATH)pwd_command.c \

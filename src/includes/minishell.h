@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/03 08:48:03 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/03 10:14:37 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,12 @@ void				check_escape(const char *str, int *index, int *len);
 bool				check_is_escape(const char *str, int index);
 char				*remove_all(char *argv);
 int					check_quote(int a, char *line);
+
+/*
+** dollar_utils6
+*/
+char				*skip_space_dq(char *value);
+char				*skip_space_sq(char *value);
 
 /*
 **  syntax_error_check

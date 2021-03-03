@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:59:42 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/03 08:09:20 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/03 10:08:23 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,12 @@
 
 char	*skip_space_dollar(char *value)
 {
-	int		i;
-	int		j;
 	char	*tmp;
 
-	i = 0;
-	j = 0;
-	if (!(tmp = ft_strdup("")))
-		exit_err_msg(MALLOC_ERR);
-	while (value[i])
-	{
-		if (value[i] != ' ')
-			tmp = ft_strnjoin_free(tmp, &value[i], 1);
-		else if (value[i] == ' ' && value[i + 1] != ' ')
-			tmp = ft_strnjoin_free(tmp, &value[i], 1);
-		i++;
-	}
+	if (g_flag_escape_db == 1)
+		tmp = skip_space_dq(value);
+	else
+		tmp = skip_space_sq(value);
 	return (tmp);
 }
 
