@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/03 08:44:07 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/04 10:37:25 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,21 @@ static void	put_dbl_quotation_str(char *str)
 	i = 0;
 	a = 0;
 	dblq = '\"';
-	while (str[i])
+	while (str[i] != '=')
 	{
 		write(1, &str[i], 1);
-		if (str[i] == '=' || str[i + 1] == '\0')
-		{
-			if (a == 0 && str[i + 1] == '\0')
-				write(1, &dblq, 1);
-			a = 1;
+		i++;
+	}
+	write(1, &str[i], 1);
+	write(1, &dblq, 1);
+	i++;
+	if (str[i] == '\0')
+		write(1, &dblq, 1);
+	while (str[i])
+	{	
+		write(1, &str[i], 1);
+		if (str[i + 1] == '\0')
 			write(1, &dblq, 1);
-		}
 		i++;
 	}
 }
@@ -93,7 +98,7 @@ static void	check_same_key_or_not(char *key, t_list *envp, char **argv,
 	count = ft_strlen(key);
 	if (same_key(key, envp))
 	{
-		while (envp && envp->next)
+		while (envp)
 		{
 			if (ft_strnequal((char*)(envp->content), key, count)
 				&& !ft_strequal((char*)(envp->content), argv[index]))

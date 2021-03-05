@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:21 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/01 13:56:53 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/03 19:40:26 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void		pwd(char **argv)
 {
-	char *arg;
+	char	*buf;
 
-	argv = NULL;
-	arg = getcwd(NULL, 0);
-	ft_putstr(arg);
-	ft_putchar('\n');
-	free(arg);
+	(void)argv;
+	buf = getcwd(NULL, 1025);
+	ft_putstr_fd(buf, 1);
+	ft_putstr_fd("\n", 1);
+	SAFE_FREE(buf);
 }

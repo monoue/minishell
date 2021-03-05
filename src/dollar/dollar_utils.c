@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:58:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/03 08:09:25 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/03 18:57:50 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*find_key_1(char *argv, t_list *envp)
 	arg = ft_strnjoin(&argv[1], "=", 1);
 	tmp_list = envp;
 	variable = NULL;
-	while (tmp_list && tmp_list->next)
+	while (tmp_list)
 	{
 		if (ft_strnequal((char*)tmp_list->content, arg, ft_strlen(arg)))
 			variable = ft_strdup((char*)tmp_list->content);
