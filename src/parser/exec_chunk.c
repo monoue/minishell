@@ -1,25 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_command_chunk.c                               :+:      :+:    :+:   */
+/*   exec_chunk.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/03 08:08:59 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/05 16:51:59 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
-
-static void	exec_command_argv(char **argv, t_list *envp, bool pipe_child)
-{
-	if (is_reproduction(argv[0]))
-		exec_reproduction(argv, envp, pipe_child);
-	else
-		exec_path_command(argv, envp);
-}
 
 void		fill_argv_with_replaced_env(char *arg, char **argv2,
 								size_t *i2, t_list *envp)
@@ -114,6 +106,28 @@ void		exec_command_chunk(char *command_chunk, t_list *envp,
 			ft_free_split(argv2);
 		}
 		ft_free_split(argv1);
+	}
+	reset_redirection_fds(&fds);
+	if (pipe_child)
+		exit(g_last_exit_status);
+}
+
+void		exec_reproduction_chunk(char *command_chunk, t_list *envp,
+																bool pipe_child)
+{
+	t_fd	fds;
+	char	**argv;
+	char	**chunk_words;
+
+	chunk_words = split_command_line(command_chunk);
+	set_fds(&fds);
+	if (process_redirections(chunk_words, &fds, envp) == SUCCESS)
+	{
+		argv = extract_argv(chunk_words);
+		ft_free_split(chunk_words);
+		if (!is_redirection_str(argv[0]))
+			exec_command_argv(argv, envp, pipe_child);
+		ft_free_split(argv);
 	}
 	reset_redirection_fds(&fds);
 	if (pipe_child)

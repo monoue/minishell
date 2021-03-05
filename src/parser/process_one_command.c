@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:35 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 15:07:18 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/05 16:58:52 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	exec_no_pipe_chunk(char **chunks, t_list *envp)
 
 	chunk_words = split_command_line(chunks[0]);
 	if (is_reproduction(chunk_words[0]) && !is_output(chunk_words[0]))
-		exec_reproduction(chunk_words, envp, false);
+		exec_reproduction_chunk(chunks[0], envp, false);
 	else
 		fork_exec_commands(chunks, envp);
 	ft_free_split(chunk_words);

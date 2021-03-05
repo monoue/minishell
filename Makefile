@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+         #
+#    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/03/03 10:02:46 by sperrin          ###   ########.fr        #
+#    Updated: 2021/03/05 16:48:53 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,8 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(COMMAND_PATH)digits_num_is_over_llong_max.c \
 			$(PARSER_PATH)count_command_line_words.c \
 			$(PARSER_PATH)cut_out_meta_char.c \
-			$(PARSER_PATH)exec_command_chunk.c \
+			$(PARSER_PATH)exec_chunk.c \
+			$(PARSER_PATH)exec_command_argv.c \
 			$(PARSER_PATH)exec_reproduction.c \
 			$(PARSER_PATH)exec_path_command.c \
 			$(PARSER_PATH)extract_argv.c \

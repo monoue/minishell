@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/03 10:14:37 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/05 16:55:41 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,8 @@ int					check_syntax(char *command_line, char **command_line_words);
 int					check_syntax(char *command_line, char **command_line_words);
 size_t				count_command_line_words(char const *str);
 char				*cut_out_meta_char(const char *str, size_t *index);
+void				exec_command_argv(char **argv, t_list *envp,
+															bool pipe_child);
 void				exec_path_command(char **argv, t_list *envp);
 void				exec_reproduction(char **argv, t_list *envp,
 															bool pipe_child);
@@ -247,6 +249,8 @@ int					process_redirections(char **chunk_words, t_fd *fds,
 void				skip_quotes(char const *str, size_t *index);
 void				skip_spaces(const char *str, size_t *index);
 void				exec_command_chunk(char *command_chunk, t_list *envp,
+															bool pipe_child);
+void				exec_reproduction_chunk(char *command_chunk, t_list *envp,
 															bool pipe_child);
 bool				is_quoted_wrongly(char *str);
 char				**split_command_line(char const *str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/04 10:37:25 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/05 16:54:45 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	put_dbl_quotation_str(char *str)
 	if (str[i] == '\0')
 		write(1, &dblq, 1);
 	while (str[i])
-	{	
+	{
 		write(1, &str[i], 1);
 		if (str[i + 1] == '\0')
 			write(1, &dblq, 1);
