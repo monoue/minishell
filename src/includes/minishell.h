@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/05 16:55:41 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/07 12:38:36 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ bool	g_flag_dont;
 bool	g_global;
 bool	g_into_dollar;
 bool	g_escape;
+bool	g_plus;
 
 typedef enum		e_element_type {
 	START,
@@ -113,6 +114,9 @@ void				lstadd_back(t_redirection_set **chunks,
 */
 t_list				*get_env_list(void);
 void				set_signal_handlers(void);
+void				change_shlvl(t_list *envp);
+char            	*replace_shlvl_value(char *arg);
+
 /*
 ** put_welcome_greeting
 */
@@ -134,6 +138,9 @@ void				put_error_invalid_identifier(const char *command,
 															const char *arg);
 
 bool				digits_num_is_over_llong_max(const char *str);
+char				*skip_plus(char *str);
+void				remplace_value(char *arg, t_list *envp, int i);
+char				*plus_or_not(char *arg);
 
 /*
 ** dollar

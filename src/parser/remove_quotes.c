@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 15:57:58 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 16:47:59 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/05 18:25:10 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,32 @@ char	*exec_escape_dq(const char *str, int index, int len, int start)
 char	*remove_escape_dq(const char *str)
 {
 	return (exec_escape_dq(str, 0, ft_strlen(str), 0));
+}
+
+char		*skip_plus(char *str)
+{
+	const size_t	len = ft_strlen(str);
+	size_t			start;
+	size_t			index;
+	char			*ret_s;
+
+	if (!(ret_s = ft_strdup("")))
+		exit_err_msg(MALLOC_ERR);
+	index = 0;
+	while (index < len)
+	{
+		start = index;
+		if (str[index] == '+')
+		{
+			index += 2;
+			ret_s = ft_strnjoin_free(ret_s, &str[start + 1], 1);
+		}
+		else
+		{
+			while (index < len && str[index] != '+')
+				index++;
+			ret_s = ft_strnjoin_free(ret_s, &str[start], index - start);
+		}
+	}
+	return (ret_s);
 }

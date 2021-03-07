@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/03/05 16:48:53 by monoue           ###   ########.fr        #
+#    Updated: 2021/03/07 12:31:52 by sperrin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ INCLUDE	= -I./libft -I./src/includes
 
 BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(MAIN_UTILS_PATH)get_env_list.c \
+			$(MAIN_UTILS_PATH)change_shlvl.c \
 			$(MAIN_UTILS_PATH)set_signal_handlers.c \
 			$(DOLLAR_PATH)dollar.c \
 			$(DOLLAR_PATH)dollar_utils.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/05 16:54:45 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/05 18:32:48 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static bool	is_valid_arg(char *arg)
 	while (index < len && arg[index] != '=')
 	{
 		if (!ft_isalnum(arg[index]) && arg[index] != '_'
-		&& arg[index] != '\"' && arg[index] != '\'')
+		&& arg[index] != '\"' && arg[index] != '\'' && arg[index] != '+')
 			return (false);
 		if ((arg[index] == '\"' || arg[index] == '\'') && g_escape)
 			return (false);
@@ -94,18 +94,15 @@ static void	check_same_key_or_not(char *key, t_list *envp, char **argv,
 	int		count;
 	char	*arg;
 
-	arg = ft_strdup(argv[index]);
 	count = ft_strlen(key);
+	arg = plus_or_not(argv[index]);
 	if (same_key(key, envp))
 	{
 		while (envp)
 		{
 			if (ft_strnequal((char*)(envp->content), key, count)
-				&& !ft_strequal((char*)(envp->content), argv[index]))
-			{
-				SAFE_FREE(envp->content);
-				envp->content = ft_strdup(argv[index]);
-			}
+				&& !ft_strequal((char*)(envp->content), arg))
+				remplace_value(arg, envp, 0);
 			envp = envp->next;
 		}
 	}

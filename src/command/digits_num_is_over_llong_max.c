@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   digits_num_is_over_llong_max.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:41:39 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/01 15:41:40 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/05 18:35:31 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,31 @@ bool		digits_num_is_over_llong_max(const char *str)
 	while (str[index] == '0')
 		index++;
 	return (ft_strlen(&str[index]) > LLONG_MAX_DIGITS);
+}
+
+char		*plus_or_not(char *arg)
+{
+	char	*argv;
+
+	argv = NULL;
+	if (g_plus == 0)
+		argv = ft_strdup(arg);
+	else if (g_plus == 1)
+		argv = skip_plus(arg);
+	return (argv);
+}
+
+void		remplace_value(char *arg, t_list *envp, int i)
+{
+	while (arg[i] != '=')
+		i++;
+	i++;
+	if (g_plus == 1)
+		envp->content = ft_strjoin_free(envp->content, &arg[i]);
+	else if (g_plus == 0)
+	{
+		SAFE_FREE(envp->content);
+		envp->content = ft_strdup(arg);
+	}
+	return ;
 }
