@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   digits_num_is_over_llong_max.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:41:39 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/05 18:35:31 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/08 12:40:17 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,14 @@ char		*plus_or_not(char *arg)
 
 void		remplace_value(char *arg, t_list *envp, int i)
 {
-	while (arg[i] != '=')
+	const int	len = ft_strlen(arg);
+
+	while (i < len && arg[i] != '=')
 		i++;
 	i++;
-	if (g_plus == 1)
+	if (i > len)
+		;
+	else if (g_plus == 1)
 		envp->content = ft_strjoin_free(envp->content, &arg[i]);
 	else if (g_plus == 0)
 	{
