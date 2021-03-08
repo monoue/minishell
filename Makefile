@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+         #
+#    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/03/07 12:31:52 by sperrin          ###   ########.fr        #
+#    Updated: 2021/03/09 08:48:19 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -122,7 +122,7 @@ clean:
 
 fclean: clean
 	$(MAKE) -C $(LIBFT_PATH) fclean
-	$(RM) $(NAME) test
+	$(RM) $(NAME)
 
 re: fclean all
 

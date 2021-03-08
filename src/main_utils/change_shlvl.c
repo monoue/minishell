@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 12:30:52 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/08 10:47:34 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/09 08:29:55 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char			*get_value(char *value)
 		value = ft_itoa(int_value);
 		return (value);
 	}
-	int_value = atoi(value);
+	int_value = ft_atoi(value);
 	if (int_value > 999)
 		int_value = 1;
 	if (int_value < 0)

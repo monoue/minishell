@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 12:48:24 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/03 07:34:55 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/09 08:41:04 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*return_final(char *str, char **tmp, int j)
 	if (!g_flag_dont && !g_flag)
 		final = remove_quotes(str);
 	else
-		final = strdup(str);
+		final = ft_strdup(str);
 	if (tmp[j][0] == '\\' && (tmp[j][1] == '\"' || tmp[j][1] == '\''))
 		g_escape = true;
 	if (!g_flag_dont && !g_flag_escape_db && !flag)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/07 12:38:02 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/09 08:38:35 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static t_list	*make_shelllevel_and_underscore(void)
 	char	buf[1024 + 1];
 
 	envp = NULL;
-	str = strdup("PWD=");
+	str = ft_strdup("PWD=");
 	getcwd(buf, 1024);
 	str = ft_strjoin_free(str, buf);
 	tmp = new_env(str);
