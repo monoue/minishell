@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 14:58:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/03 18:57:50 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/08 16:21:35 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*go_parse_dq(char *argv, t_list *envp, int j)
 	{
 		g_flag_dont = false;
 		if (has_dollar_variable(tmp[j])
-			&& (tmp[j][0] == '$' && tmp[j][1] != '?'))
+			&& !check_dollar_question(tmp[j]))
 			str = replace_dollar_value(tmp[j], envp);
 		else
 			str = ft_strdup(tmp[j]);

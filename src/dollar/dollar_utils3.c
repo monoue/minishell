@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 15:21:58 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/03 07:39:26 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/08 17:08:24 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*take_single_quote(char *line, int *i)
 	b = check_quote(a, line);
 	if (b != 0)
 	{
-		while (line[*i] != '\'' && line[*i] && line[*i] != '\"')
+		while (line[*i] != '\'')
 		{
 			tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 			(*i)++;

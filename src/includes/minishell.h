@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/08 10:45:43 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/08 16:09:36 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,7 @@ int					check_quote(int a, char *line);
 */
 char				*skip_space_dq(char *value);
 char				*skip_space_sq(char *value);
+bool				check_dollar_question(char *arg);
 
 /*
 **  syntax_error_check

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 10:29:14 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/03 08:09:13 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/08 17:55:05 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*exec_dollar(char **tmp, t_list *envp, int j)
 		if (has_dollar_variable(tmp[j]) && tmp[j][0] == '\"')
 			pre_final = go_parse_dq(tmp[j], envp, 0);
 		else if (has_dollar_variable(tmp[j]) && tmp[j][0] != '\''
-				&& (tmp[j][0] == '$' && tmp[j][1] != '?'))
+				&& !check_dollar_question(tmp[j]))
 			pre_final = replace_dollar_value(tmp[j], envp);
 		else
 			pre_final = ft_strdup(tmp[j]);

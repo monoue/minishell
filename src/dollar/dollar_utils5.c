@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 13:43:56 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/04 10:14:04 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/08 17:26:38 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ bool	check_is_escape(const char *str, int index)
 {
 	if (str[index] == '\\' && str[index + 1] != '\''
 		&& (str[index + 1] == '\"' || str[index + 1] == '$'
-		|| str[index + 1] == '\\'))
+		|| str[index + 1] == '\\' || str[index + 1] == '`'))
 		return (true);
 	return (false);
 }

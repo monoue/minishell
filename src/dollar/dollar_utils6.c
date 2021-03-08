@@ -6,7 +6,7 @@
 /*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 10:01:11 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/03 10:06:59 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/08 16:09:19 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,18 @@ char	*skip_space_sq(char *value)
 		i++;
 	}
 	return (tmp);
+}
+
+bool	check_dollar_question(char *arg)
+{
+	int		i;
+
+	i = 0;
+	while (arg[i])
+	{
+		if (arg[i] == '$' && arg[i + 1] == '?')
+			return (true);
+		i++;
+	}
+	return (false);
 }
