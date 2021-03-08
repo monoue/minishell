@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_shlvl.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 12:30:52 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/07 13:38:26 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/08 10:47:34 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ char			*get_value(char *value)
 	int_value = atoi(value);
 	if (int_value > 999)
 		int_value = 1;
-    if (int_value < 0)
-        int_value = 0;
+	if (int_value < 0)
+		int_value = 0;
 	if (int_value == 999)
 		return (NULL);
 	int_value += 1;

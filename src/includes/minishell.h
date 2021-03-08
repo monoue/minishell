@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/07 12:38:36 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/08 10:45:43 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void				lstadd_back(t_redirection_set **chunks,
 t_list				*get_env_list(void);
 void				set_signal_handlers(void);
 void				change_shlvl(t_list *envp);
-char            	*replace_shlvl_value(char *arg);
+char				*replace_shlvl_value(char *arg);
 
 /*
 ** put_welcome_greeting
