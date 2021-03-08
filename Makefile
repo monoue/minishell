@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+         #
+#    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/03/07 12:31:52 by sperrin          ###   ########.fr        #
+#    Updated: 2021/03/08 11:56:18 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,7 +107,7 @@ LIBFT	= libft/libft.a
 		$(CC) $(CFLAGS) $(INCLUDE) -c -MMD -MP -MF $(<:.c=.d) $< -o $(<:.c=.o)
 
 $(NAME): $(OBJS) $(LIBFT)
-	@$(CC) -o $@ $^
+	@$(CC) -fsanitize=address -o $@ $^
 
 -include $(DEPS)
 
