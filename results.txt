@@ -1,1 +1,625 @@
 
+[OK]  cat /dev/random | head -c 100 | wc -c
+100
+100
+
+[OK]  export a="aaa"; echo "$a", '$a', $a
+aaa, $a, aaa
+aaa, $a, aaa
+
+[OK]  echo "\$$a"
+$
+$
+
+[OK]  export a="echo abc > test1.txt"; $a
+abc > test1.txt
+abc > test1.txt
+
+[OK]  export A ; echo hello > $A
+
+
+
+[OK]  export A= ; echo hello > $A
+
+
+
+[OK]  export A='a b c' ; echo hello > $A
+
+
+
+[OK]  export a=" a "; export b=" bbb "; echo $a$b
+a bbb
+a bbb
+
+[OK]  export a='a' b=' b ' c='c ' d=' d' e='e e'; echo $a$a $a$b $a$c $a$d $a$e | cat -e; echo $b$a $b$b $b$c $b$d $b$e | cat -e; echo $c$a $c$b $c$c $c$d $c$e | cat -e; echo $d$a $d$b $d$c $d$d $d$e | cat -e; echo $e$a $e$b $e$c $e$d $e$e | cat -e
+aa a b ac a d ae e$ b a b b b c b d b e e$ c a c b c c c d c e e$ da d b dc d d de e$ e ea e e b e ec e e d e ee e$
+aa a b ac a d ae e$ b a b b b c b d b e e$ c a c b c c c d c e e$ da d b dc d d de e$ e ea e e b e ec e e d e ee e$
+
+[OK]  echo ^*@^@#890#aAS
+^*@^@#890#aAS
+^*@^@#890#aAS
+
+[OK]  export TEST=echo ; ''$TEST 1
+1
+1
+
+[OK]  export TEST=echo ; ""''$T'ES'T 1
+
+
+
+[KO]  $A
+
+
+
+[KO]  $OLDPWD
+
+
+
+[OK]  export ECHO=echo'"' ; $ECHO 1
+
+
+
+[OK]  export ECHO=echo"'" ; $ECHO 1
+
+
+
+[OK]  export 'ECHO=echo""' ; $ECHO 1
+
+
+
+[OK]  export "ECHO=echo''" ; $ECHO 1
+
+
+
+[OK]  export PATH=' ';echo $PATH
+
+
+
+[OK]  export A=" " ;echo $A
+
+
+
+[OK]  export A='' B=" " C=" " D=" d " ; echo $A $B $C $D | cat -e ; echo $A$B''"$C"$D | cat -e
+d$ d$
+d$ d$
+
+[OK]  export A='a' B=' ' C=' c ' ; echo $A$B$A | cat -e ; echo $A$A$A $A $A | cat -e ; echo $C$B $B$C | cat -e ; echo $A$C $A$B$C
+a a$ aaa a a$ c c$ a c a c
+a a$ aaa a a$ c c$ a c a c
+
+[OK]  export A='a' B=' ' ; echo $A$B$A ; echo $A $B $A; echo $A$B$B$B$A
+a a a a a a
+a a a a a a
+
+[OK]  exit -
+
+
+
+[OK]  exit +1
+
+
+
+[OK]  exit +0
+
+
+
+[OK]  exit ' 3'
+
+
+
+[KO]  exit '	 3'
+
+
+
+[OK]  exit Mollitia asperiores
+
+
+
+[OK]  exit 123 456 asperiores
+
+
+
+[OK]  exit 18446744073709551615
+
+
+
+[OK]  exit 9223372036854775808
+
+
+
+[OK]  mkdir ccc ; echo '#!/bin/sh' 'echo hello' > ccc/ddd ; chmod +x ccc/ddd ; ccc/ddd ; rm -rf ccc
+
+
+
+[OK]  unknowncommand
+
+
+
+[OK]  unknowncommand ; commandunknown
+
+
+
+[OK]  unknowncommand | commandunknown
+
+
+
+[OK]  unknowncommand > nani ; file nani ; rm nani
+nani: empty
+nani: empty
+
+[OK]  asdfas | echo hello | echo world > WORLD | asdfas ; file WORLD; rm WORLD
+WORLD: ASCII text
+WORLD: ASCII text
+
+[OK]  echo '#!/bin/bash' > a ; echo 'echo hello'>>a ; ./a; echo $?;chmod +x a; ./a; echo $? ; rm a
+126 hello 0
+126 hello 0
+
+[OK]  /bin/ls ; echo $?
+Makefile libft minishell results.txt src test.sh 0
+Makefile libft minishell results.txt src test.sh 0
+
+[OK]  /home ; echo $?
+126
+126
+
+[OK]  $PWD/minishell ; echo $SHLVL
+3
+3
+
+[KO]  $OLDPWD ; echo $?
+127
+0
+
+[OK]  ./. ; echo $?
+126
+126
+
+[OK]  ./.. ; echo $?
+126
+126
+
+[OK]  ./... ; echo $?
+127
+127
+
+[OK]  touch aaa ; ./aaa ; rm aaa
+
+
+
+[OK]  touch bbb ; chmod +x bbb ; ./bbb ; rm bbb
+
+
+
+[OK]  mkdir ccc ; ./ccc ; rmdir ccc
+
+
+
+[OK]  mkdir ccc ; touch ccc/ddd ; chmod +x ccc/ddd ; ccc/ddd ; rm -rf ccc
+
+
+
+[OK]  touch eee ; echo "echo \$SHLVL" > eee ; echo exit >> eee ; ./minishell < eee ; rm eee
+4 exit
+4 exit
+
+[OK]  touch fff ; echo "echo \$SHLVL" > fff ; echo exit >> fff ; ././././././././minishell < fff ; rm fff
+4 exit
+4 exit
+
+[OK]  touch ggg ; echo "echo \$SHLVL" > ggg ; echo exit >> ggg ; .///././/./././minishell < ggg ; rm ggg
+4 exit
+4 exit
+
+[OK]  touch hhh ; echo "echo \$SHLVL" > hhh ; echo \$OLDPWD >> hhh ; echo exit >> hhh ; .///././/./././minishell < hhh; rm hhh
+4 exit
+4 exit
+
+[OK]  echo | cat -e
+$
+$
+
+[OK]  echo 1 | cat -e
+1$
+1$
+
+[OK]  echo 1 2 3 | cat -e
+1 2 3$
+1 2 3$
+
+[OK]  echo 1 2 3 | cat -e
+1 2 3$
+1 2 3$
+
+[OK]  echo 1 2 3 | cat -e
+1 2 3$
+1 2 3$
+
+[OK]  echo -n | cat -e
+
+
+
+[OK]  echo -""n | cat -e
+
+
+
+[OK]  echo ""-""n"" | cat -e
+
+
+
+[OK]  echo -n hello | cat -e
+hello
+hello
+
+[OK]  echo -n ""h""el""""lo | cat -e
+hello
+hello
+
+[OK]  echo -nnnnnnnn hello | cat -e
+hello
+hello
+
+[OK]  echo ""-nn""n""""nnn""nn hello | cat -e
+hello
+hello
+
+[OK]  echo -n1 | cat -e
+-n1$
+-n1$
+
+[OK]  echo -n -n | cat -e
+
+
+
+[OK]  echo -n -n hello | cat -e
+hello
+hello
+
+[OK]  echo -n -nnnnn hello | cat -e
+hello
+hello
+
+[OK]  echo -nnnnn -nnnnn hello | cat -e
+hello
+hello
+
+[OK]  echo -n -n -n | cat -e
+
+
+
+[OK]  echo -n -n -n hello | cat -e
+hello
+hello
+
+[OK]  echo -n -nnnn -n hello -n -nnnnn -n | cat -e
+hello -n -nnnnn -n
+hello -n -nnnnn -n
+
+[OK]  echo -nnnn -nnnn -n hello -n -nnnnn -n | cat -e
+hello -n -nnnnn -n
+hello -n -nnnnn -n
+
+[OK]  echo -n -nnnn -n hello -n -nnnnn -n world | cat -e
+hello -n -nnnnn -n world
+hello -n -nnnnn -n world
+
+[OK]  echo -""n -nnnn -n hello -n -nnnnn -n world | cat -e
+hello -n -nnnnn -n world
+hello -n -nnnnn -n world
+
+[OK]  echo - n1 | cat -e
+- n1$
+- n1$
+
+[OK]  echo - n 1 | cat -e
+- n 1$
+- n 1$
+
+[OK]  echo -n 1 | cat -e
+1
+1
+
+[OK]  echo -n 1 2 3 | cat -e
+1 2 3
+1 2 3
+
+[OK]  echo -n 1 2 3 | cat -e
+1 2 3
+1 2 3
+
+[OK]  echo 1 2 3 -n | cat -e
+1 2 3 -n$
+1 2 3 -n$
+
+[OK]  echo -n 1 2 3 -n | cat -e
+1 2 3 -n
+1 2 3 -n
+
+[OK]  echo -n 1 2 -n 3 -n | cat -e
+1 2 -n 3 -n
+1 2 -n 3 -n
+
+[OK]  echo 1 2 3 -n | cat -e
+1 2 3 -n$
+1 2 3 -n$
+
+[OK]  echo -n 1 2 3 -n | cat -e
+1 2 3 -n
+1 2 3 -n
+
+[OK]  echo a '' b '' c '' d | cat -e
+a b c d$
+a b c d$
+
+[OK]  echo a "" b "" c "" d | cat -e
+a b c d$
+a b c d$
+
+[OK]  echo -n a '' b '' c '' d | cat -e
+a b c d
+a b c d
+
+[OK]  echo -n a "" b "" c "" d | cat -e
+a b c d
+a b c d
+
+[OK]  echo '' '' '' Echo 1 | cat -e
+Echo 1$
+Echo 1$
+
+[OK]  eCho 1 | cat -e
+1$
+1$
+
+[OK]  ecHo 1 | cat -e
+1$
+1$
+
+[OK]  echO 1 | cat -e
+1$
+1$
+
+[OK]  EchO 1 | cat -e
+1$
+1$
+
+[OK]  eCHo 1 | cat -e
+1$
+1$
+
+[OK]  EcHo 1 | cat -e
+1$
+1$
+
+[OK]  eChO 1 | cat -e
+1$
+1$
+
+[OK]  ECHO 1 | cat -e
+1$
+1$
+
+[OK]  unset PATH ; echo 1 | cat -e
+
+
+
+[OK]  unset PATH ; ECHO 1 | cat -e
+
+
+
+[OK]  ''e''c''h''o'' 1 | cat -e
+1$
+1$
+
+[OK]  ''e''c''h''o'''''' 1 | cat -e
+1$
+1$
+
+[OK]  ""e""c""h""o"" 1 | cat -e
+1$
+1$
+
+[OK]  ""e""c""h""o"""""" 1 | cat -e
+1$
+1$
+
+[KO]  mkdir a ; cd a ; rm -fr ../a ; cd ; pwd
+
+/Users/monoue
+
+[KO]  mkdir a ; cd a ; rm -fr ../a ; cd "" ; pwd
+
+/Users/monoue/Documents/minishell/fixing/a
+
+[KO]  mkdir a ; cd a ; rm -fr ../a ; cd . ; pwd
+
+/Users/monoue/Documents/minishell/fixing/a/.
+
+[KO]  mkdir a ; cd a ; rm -fr ../a ; cd ./ ; pwd
+
+/Users/monoue/Documents/minishell/fixing/a/./
+
+[KO]  mkdir a ; cd a ; rm -fr ../a ; cd ./././ ; pwd
+
+/Users/monoue/Documents/minishell/fixing/a/./././
+
+[KO]  mkdir a ; cd a ; rm -fr ../a ; cd ./././///././///// ; pwd
+
+/Users/monoue/Documents/minishell/fixing/a/./././///././/////
+
+[OK]  mkdir a ; cd a ; rm -fr ../a ; cd .. ; pwd
+/Users/monoue/Documents/minishell/fixing
+/Users/monoue/Documents/minishell/fixing
+
+[OK]  mkdir a ; cd a ; rm -fr ../a ; cd ../ ; pwd
+/Users/monoue/Documents/minishell/fixing
+/Users/monoue/Documents/minishell/fixing
+
+[KO]  mkdir a ; cd a ; rm -fr ../a ; export HOME= PWD= OLDPWD= ; cd ; pwd ; echo $HOME $PWD $OLDPWD
+
+/Users/monoue/Documents/minishell/fixing/a
+
+[KO]  mkdir a ; cd a ; rm -fr ../a ; export HOME= PWD= OLDPWD= ; cd "" ; pwd ; echo $HOME $PWD $OLDPWD
+
+/Users/monoue/Documents/minishell/fixing/a
+
+[KO]  mkdir a ; cd a ; rm -fr ../a ; export HOME= PWD= OLDPWD= ; cd $HOME ; pwd ; echo $HOME $PWD $OLDPWD
+bash: cd: : No such file or directory
+/Users/monoue/Documents/minishell/fixing/a
+
+[KO]  mkdir a ; cd a ; rm -fr ../a ; export HOME= PWD= OLDPWD= ; cd . ; pwd ; echo $HOME $PWD $OLDPWD
+
+/Users/monoue/Documents/minishell/fixing/a/. /Users/monoue/Documents/minishell/fixing/a/.
+
+[KO]  mkdir a ; cd a ; rm -fr ../a ; export HOME= PWD= OLDPWD= ; cd . ; pwd ; echo $HOME $PWD $OLDPWD ; cd . ; pwd ; echo $HOME $PWD $OLDPWD
+
+/Users/monoue/Documents/minishell/fixing/a/. /Users/monoue/Documents/minishell/fixing/a/. /Users/monoue/Documents/minishell/fixing/a/./. /Users/monoue/Documents/minishell/fixing/a/./. /Users/monoue/Documents/minishell/fixing/a/.
+
+[KO]  mkdir a ; cd a ; rm -fr ../a ; export HOME= PWD= OLDPWD= ; cd . ; pwd ; echo $HOME $PWD $OLDPWD ; cd . ; pwd ; echo $HOME $PWD $OLDPWD ; cd // ; pwd ; cd home ; pwd ; echo $HOME $PWD $OLDPWD
+$HOME $PWD $OLDPWD $HOME $PWD $OLDPWD / /home $HOME $PWD $OLDPWD
+/Users/monoue/Documents/minishell/fixing/a/. /Users/monoue/Documents/minishell/fixing/a/. /Users/monoue/Documents/minishell/fixing/a/./. /Users/monoue/Documents/minishell/fixing/a/./. /Users/monoue/Documents/minishell/fixing/a/. // //home //home //
+
+[OK]  mkdir a ; cd a ; rm -fr ../a ; export HOME= PWD= OLDPWD= ; cd .. ; pwd ; echo $HOME $PWD $OLDPWD
+/Users/monoue/Documents/minishell/fixing /Users/monoue/Documents/minishell/fixing
+/Users/monoue/Documents/minishell/fixing /Users/monoue/Documents/minishell/fixing
+
+[OK]  cd /.// ; pwd
+/
+/
+
+[OK]  cd /./////././//// ; pwd
+/
+/
+
+[KO]  cd // ; pwd
+/
+//
+
+[KO]  cd //...........////// ; pwd
+bash: cd: //...........//////: No such file or directory /Users/monoue/Documents/minishell/fixing
+/Users/monoue/Documents/minishell/fixing
+
+[KO]  cd // ; pwd ; cd / ; pwd
+/ /
+// /
+
+[KO]  cd // ; pwd ; cd / ; pwd ; cd /// ; pwd
+/ / /
+// / /
+
+[KO]  cd // ; pwd ; cd bin ; pwd
+/ /bin
+// //bin
+
+[KO]  cd //. ; pwd
+/
+//
+
+[KO]  cd //./ ; pwd
+/
+//
+
+[KO]  cd //.///./././//// ; pwd
+/
+//
+
+[OK]  cd /// ; pwd
+/
+/
+
+[OK]  cd ///./// ; pwd
+/
+/
+
+[OK]  cd //// ; pwd
+/
+/
+
+[OK]  cd ////./././////// ; pwd
+/
+/
+
+[OK]  cd ///// ; pwd
+/
+/
+
+[OK]  cd /bin ; pwd
+/bin
+/bin
+
+[OK]  cd /usr/bin ; pwd
+/usr/bin
+/usr/bin
+
+[OK]  cd /home ; pwd
+/home
+/home
+
+[OK]  cd /home ; pwd ; cd .. ; ls -l
+/home total 12 drwxrwxr-x+ 51 root admin 1632 1 27 14:43 Applications drwxr-xr-x+ 66 root wheel 2112 1 15 15:29 Library drwxr-xr-x 2 root wheel 64 2 26 2019 Network drwxr-xr-x 3 root admin 96 11 7 2019 Previous Content drwxr-xr-x@ 5 root wheel 160 9 21 2019 System drwxr-xr-x 72 root admin 2304 2 15 20:01 Users drwxr-xr-x+ 3 root wheel 96 3 11 07:51 Volumes drwxr-xr-x@ 39 root wheel 1248 2 10 04:47 bin drwxrwxr-t 2 root admin 64 2 26 2019 cores dr-xr-xr-x 3 root wheel 4635 3 10 16:52 dev lrwxr-xr-x@ 1 root wheel 11 11 7 2019 etc -> private/etc drwx------ 15 exam applications 480 11 27 15:30 exam drwxrwxrwt 62 root wheel 1984 2 15 20:01 goinfre dr-xr-xr-x 2 root wheel 64 11 7 2019 home drwxrwxrwt 2 root wheel 64 1 6 2020 iSCSI -rw-r--r-- 1 root wheel 313 5 31 2019 installer.failurerequests dr-xr-xr-x 2 root wheel 64 11 7 2019 net drwxr-xr-x 3 root wheel 96 11 7 2019 nfs drwxr-xr-x 6 root wheel 192 11 7 2019 private drwxr-xr-x@ 65 root wheel 2080 2 10 04:47 sbin dr-xr-xr-x 2 root wheel 1 3 10 16:53 sgoinfre lrwxr-xr-x@ 1 root wheel 11 11 7 2019 tmp -> private/tmp drwxr-xr-x@ 9 root wheel 288 3 31 2020 usr lrwxr-xr-x@ 1 root wheel 11 11 7 2019 var -> private/var
+/home total 12 drwxrwxr-x+ 51 root admin 1632 1 27 14:43 Applications drwxr-xr-x+ 66 root wheel 2112 1 15 15:29 Library drwxr-xr-x 2 root wheel 64 2 26 2019 Network drwxr-xr-x 3 root admin 96 11 7 2019 Previous Content drwxr-xr-x@ 5 root wheel 160 9 21 2019 System drwxr-xr-x 72 root admin 2304 2 15 20:01 Users drwxr-xr-x+ 3 root wheel 96 3 11 07:51 Volumes drwxr-xr-x@ 39 root wheel 1248 2 10 04:47 bin drwxrwxr-t 2 root admin 64 2 26 2019 cores dr-xr-xr-x 3 root wheel 4635 3 10 16:52 dev lrwxr-xr-x@ 1 root wheel 11 11 7 2019 etc -> private/etc drwx------ 15 exam applications 480 11 27 15:30 exam drwxrwxrwt 62 root wheel 1984 2 15 20:01 goinfre dr-xr-xr-x 2 root wheel 64 11 7 2019 home drwxrwxrwt 2 root wheel 64 1 6 2020 iSCSI -rw-r--r-- 1 root wheel 313 5 31 2019 installer.failurerequests dr-xr-xr-x 2 root wheel 64 11 7 2019 net drwxr-xr-x 3 root wheel 96 11 7 2019 nfs drwxr-xr-x 6 root wheel 192 11 7 2019 private drwxr-xr-x@ 65 root wheel 2080 2 10 04:47 sbin dr-xr-xr-x 2 root wheel 1 3 10 16:53 sgoinfre lrwxr-xr-x@ 1 root wheel 11 11 7 2019 tmp -> private/tmp drwxr-xr-x@ 9 root wheel 288 3 31 2020 usr lrwxr-xr-x@ 1 root wheel 11 11 7 2019 var -> private/var
+
+[KO]  cd //home ; pwd
+/home
+//home
+
+[KO]  cd //home ; pwd ; cd .. ; ls -l
+/home total 12 drwxrwxr-x+ 51 root admin 1632 1 27 14:43 Applications drwxr-xr-x+ 66 root wheel 2112 1 15 15:29 Library drwxr-xr-x 2 root wheel 64 2 26 2019 Network drwxr-xr-x 3 root admin 96 11 7 2019 Previous Content drwxr-xr-x@ 5 root wheel 160 9 21 2019 System drwxr-xr-x 72 root admin 2304 2 15 20:01 Users drwxr-xr-x+ 3 root wheel 96 3 11 07:51 Volumes drwxr-xr-x@ 39 root wheel 1248 2 10 04:47 bin drwxrwxr-t 2 root admin 64 2 26 2019 cores dr-xr-xr-x 3 root wheel 4635 3 10 16:52 dev lrwxr-xr-x@ 1 root wheel 11 11 7 2019 etc -> private/etc drwx------ 15 exam applications 480 11 27 15:30 exam drwxrwxrwt 62 root wheel 1984 2 15 20:01 goinfre dr-xr-xr-x 2 root wheel 64 11 7 2019 home drwxrwxrwt 2 root wheel 64 1 6 2020 iSCSI -rw-r--r-- 1 root wheel 313 5 31 2019 installer.failurerequests dr-xr-xr-x 2 root wheel 64 11 7 2019 net drwxr-xr-x 3 root wheel 96 11 7 2019 nfs drwxr-xr-x 6 root wheel 192 11 7 2019 private drwxr-xr-x@ 65 root wheel 2080 2 10 04:47 sbin dr-xr-xr-x 2 root wheel 1 3 10 16:53 sgoinfre lrwxr-xr-x@ 1 root wheel 11 11 7 2019 tmp -> private/tmp drwxr-xr-x@ 9 root wheel 288 3 31 2020 usr lrwxr-xr-x@ 1 root wheel 11 11 7 2019 var -> private/var
+//home total 12 drwxrwxr-x+ 51 root admin 1632 1 27 14:43 Applications drwxr-xr-x+ 66 root wheel 2112 1 15 15:29 Library drwxr-xr-x 2 root wheel 64 2 26 2019 Network drwxr-xr-x 3 root admin 96 11 7 2019 Previous Content drwxr-xr-x@ 5 root wheel 160 9 21 2019 System drwxr-xr-x 72 root admin 2304 2 15 20:01 Users drwxr-xr-x+ 3 root wheel 96 3 11 07:51 Volumes drwxr-xr-x@ 39 root wheel 1248 2 10 04:47 bin drwxrwxr-t 2 root admin 64 2 26 2019 cores dr-xr-xr-x 3 root wheel 4635 3 10 16:52 dev lrwxr-xr-x@ 1 root wheel 11 11 7 2019 etc -> private/etc drwx------ 15 exam applications 480 11 27 15:30 exam drwxrwxrwt 62 root wheel 1984 2 15 20:01 goinfre dr-xr-xr-x 2 root wheel 64 11 7 2019 home drwxrwxrwt 2 root wheel 64 1 6 2020 iSCSI -rw-r--r-- 1 root wheel 313 5 31 2019 installer.failurerequests dr-xr-xr-x 2 root wheel 64 11 7 2019 net drwxr-xr-x 3 root wheel 96 11 7 2019 nfs drwxr-xr-x 6 root wheel 192 11 7 2019 private drwxr-xr-x@ 65 root wheel 2080 2 10 04:47 sbin dr-xr-xr-x 2 root wheel 1 3 10 16:53 sgoinfre lrwxr-xr-x@ 1 root wheel 11 11 7 2019 tmp -> private/tmp drwxr-xr-x@ 9 root wheel 288 3 31 2020 usr lrwxr-xr-x@ 1 root wheel 11 11 7 2019 var -> private/var
+
+[KO]  cd //./home ; pwd
+/home
+//home
+
+[KO]  cd //./home ; pwd ; cd .. ; ls -l
+/home total 12 drwxrwxr-x+ 51 root admin 1632 1 27 14:43 Applications drwxr-xr-x+ 66 root wheel 2112 1 15 15:29 Library drwxr-xr-x 2 root wheel 64 2 26 2019 Network drwxr-xr-x 3 root admin 96 11 7 2019 Previous Content drwxr-xr-x@ 5 root wheel 160 9 21 2019 System drwxr-xr-x 72 root admin 2304 2 15 20:01 Users drwxr-xr-x+ 3 root wheel 96 3 11 07:51 Volumes drwxr-xr-x@ 39 root wheel 1248 2 10 04:47 bin drwxrwxr-t 2 root admin 64 2 26 2019 cores dr-xr-xr-x 3 root wheel 4635 3 10 16:52 dev lrwxr-xr-x@ 1 root wheel 11 11 7 2019 etc -> private/etc drwx------ 15 exam applications 480 11 27 15:30 exam drwxrwxrwt 62 root wheel 1984 2 15 20:01 goinfre dr-xr-xr-x 2 root wheel 64 11 7 2019 home drwxrwxrwt 2 root wheel 64 1 6 2020 iSCSI -rw-r--r-- 1 root wheel 313 5 31 2019 installer.failurerequests dr-xr-xr-x 2 root wheel 64 11 7 2019 net drwxr-xr-x 3 root wheel 96 11 7 2019 nfs drwxr-xr-x 6 root wheel 192 11 7 2019 private drwxr-xr-x@ 65 root wheel 2080 2 10 04:47 sbin dr-xr-xr-x 2 root wheel 1 3 10 16:53 sgoinfre lrwxr-xr-x@ 1 root wheel 11 11 7 2019 tmp -> private/tmp drwxr-xr-x@ 9 root wheel 288 3 31 2020 usr lrwxr-xr-x@ 1 root wheel 11 11 7 2019 var -> private/var
+//home total 12 drwxrwxr-x+ 51 root admin 1632 1 27 14:43 Applications drwxr-xr-x+ 66 root wheel 2112 1 15 15:29 Library drwxr-xr-x 2 root wheel 64 2 26 2019 Network drwxr-xr-x 3 root admin 96 11 7 2019 Previous Content drwxr-xr-x@ 5 root wheel 160 9 21 2019 System drwxr-xr-x 72 root admin 2304 2 15 20:01 Users drwxr-xr-x+ 3 root wheel 96 3 11 07:51 Volumes drwxr-xr-x@ 39 root wheel 1248 2 10 04:47 bin drwxrwxr-t 2 root admin 64 2 26 2019 cores dr-xr-xr-x 3 root wheel 4635 3 10 16:52 dev lrwxr-xr-x@ 1 root wheel 11 11 7 2019 etc -> private/etc drwx------ 15 exam applications 480 11 27 15:30 exam drwxrwxrwt 62 root wheel 1984 2 15 20:01 goinfre dr-xr-xr-x 2 root wheel 64 11 7 2019 home drwxrwxrwt 2 root wheel 64 1 6 2020 iSCSI -rw-r--r-- 1 root wheel 313 5 31 2019 installer.failurerequests dr-xr-xr-x 2 root wheel 64 11 7 2019 net drwxr-xr-x 3 root wheel 96 11 7 2019 nfs drwxr-xr-x 6 root wheel 192 11 7 2019 private drwxr-xr-x@ 65 root wheel 2080 2 10 04:47 sbin dr-xr-xr-x 2 root wheel 1 3 10 16:53 sgoinfre lrwxr-xr-x@ 1 root wheel 11 11 7 2019 tmp -> private/tmp drwxr-xr-x@ 9 root wheel 288 3 31 2020 usr lrwxr-xr-x@ 1 root wheel 11 11 7 2019 var -> private/var
+
+[KO]  cd "//home" ; pwd
+/home
+//home
+
+[KO]  cd "//home" ; pwd ; cd .. ; ls -l
+/home total 12 drwxrwxr-x+ 51 root admin 1632 1 27 14:43 Applications drwxr-xr-x+ 66 root wheel 2112 1 15 15:29 Library drwxr-xr-x 2 root wheel 64 2 26 2019 Network drwxr-xr-x 3 root admin 96 11 7 2019 Previous Content drwxr-xr-x@ 5 root wheel 160 9 21 2019 System drwxr-xr-x 72 root admin 2304 2 15 20:01 Users drwxr-xr-x+ 3 root wheel 96 3 11 07:51 Volumes drwxr-xr-x@ 39 root wheel 1248 2 10 04:47 bin drwxrwxr-t 2 root admin 64 2 26 2019 cores dr-xr-xr-x 3 root wheel 4635 3 10 16:52 dev lrwxr-xr-x@ 1 root wheel 11 11 7 2019 etc -> private/etc drwx------ 15 exam applications 480 11 27 15:30 exam drwxrwxrwt 62 root wheel 1984 2 15 20:01 goinfre dr-xr-xr-x 2 root wheel 64 11 7 2019 home drwxrwxrwt 2 root wheel 64 1 6 2020 iSCSI -rw-r--r-- 1 root wheel 313 5 31 2019 installer.failurerequests dr-xr-xr-x 2 root wheel 64 11 7 2019 net drwxr-xr-x 3 root wheel 96 11 7 2019 nfs drwxr-xr-x 6 root wheel 192 11 7 2019 private drwxr-xr-x@ 65 root wheel 2080 2 10 04:47 sbin dr-xr-xr-x 2 root wheel 1 3 10 16:53 sgoinfre lrwxr-xr-x@ 1 root wheel 11 11 7 2019 tmp -> private/tmp drwxr-xr-x@ 9 root wheel 288 3 31 2020 usr lrwxr-xr-x@ 1 root wheel 11 11 7 2019 var -> private/var
+//home total 12 drwxrwxr-x+ 51 root admin 1632 1 27 14:43 Applications drwxr-xr-x+ 66 root wheel 2112 1 15 15:29 Library drwxr-xr-x 2 root wheel 64 2 26 2019 Network drwxr-xr-x 3 root admin 96 11 7 2019 Previous Content drwxr-xr-x@ 5 root wheel 160 9 21 2019 System drwxr-xr-x 72 root admin 2304 2 15 20:01 Users drwxr-xr-x+ 3 root wheel 96 3 11 07:51 Volumes drwxr-xr-x@ 39 root wheel 1248 2 10 04:47 bin drwxrwxr-t 2 root admin 64 2 26 2019 cores dr-xr-xr-x 3 root wheel 4635 3 10 16:52 dev lrwxr-xr-x@ 1 root wheel 11 11 7 2019 etc -> private/etc drwx------ 15 exam applications 480 11 27 15:30 exam drwxrwxrwt 62 root wheel 1984 2 15 20:01 goinfre dr-xr-xr-x 2 root wheel 64 11 7 2019 home drwxrwxrwt 2 root wheel 64 1 6 2020 iSCSI -rw-r--r-- 1 root wheel 313 5 31 2019 installer.failurerequests dr-xr-xr-x 2 root wheel 64 11 7 2019 net drwxr-xr-x 3 root wheel 96 11 7 2019 nfs drwxr-xr-x 6 root wheel 192 11 7 2019 private drwxr-xr-x@ 65 root wheel 2080 2 10 04:47 sbin dr-xr-xr-x 2 root wheel 1 3 10 16:53 sgoinfre lrwxr-xr-x@ 1 root wheel 11 11 7 2019 tmp -> private/tmp drwxr-xr-x@ 9 root wheel 288 3 31 2020 usr lrwxr-xr-x@ 1 root wheel 11 11 7 2019 var -> private/var
+
+[KO]  mkdir test_dir ; cd test_dir ; rm -rf ../test_dir ; pwd ; echo $PWD $OLDPWD ; unset PWD OLDPWD ; pwd ; echo $PWD $OLDPWD ; cd . ; pwd ; echo $PWD $OLDPWD ; cd . ; pwd ; echo $PWD $OLDPWD ; cd .. ; pwd ; echo $PWD $OLDPWD
+$PWD $OLDPWD $PWD $OLDPWD $PWD $OLDPWD $PWD $OLDPWD /Users/monoue/Documents/minishell/fixing $PWD $OLDPWD
+/Users/monoue/Documents/minishell/fixing/test_dir /Users/monoue/Documents/minishell/fixing/test_dir /Users/monoue/Documents/minishell/fixing /Users/monoue/Documents/minishell/fixing/test_dir /Users/monoue/Documents/minishell/fixing/test_dir/. /Users/monoue/Documents/minishell/fixing/test_dir/. /Users/monoue/Documents/minishell/fixing/test_dir/./. /Users/monoue/Documents/minishell/fixing/test_dir/./. /Users/monoue/Documents/minishell/fixing/test_dir/. /Users/monoue/Documents/minishell/fixing /Users/monoue/Documents/minishell/fixing /Users/monoue/Documents/minishell/fixing/test_dir/./.
+
+[KO]  mkdir test_dir ; cd test_dir ; rm -rf ../test_dir ; cd . ; pwd ; cd . ; pwd ; cd .. ; pwd
+/Users/monoue/Documents/minishell/fixing
+/Users/monoue/Documents/minishell/fixing/test_dir/. /Users/monoue/Documents/minishell/fixing/test_dir/./. /Users/monoue/Documents/minishell/fixing
+
+[KO]  mkdir test_dir ; cd test_dir ; rm -rf ../test_dir ; cd . ; cd . ; echo $PWD ; echo $OLDPWD ; cd .. ; pwd
+/Users/monoue/Documents/minishell/fixing
+/Users/monoue/Documents/minishell/fixing/test_dir/./. /Users/monoue/Documents/minishell/fixing/test_dir/. /Users/monoue/Documents/minishell/fixing
+
+[KO]  mkdir test_dir ; cd test_dir ; rm -rf ../test_dir ; cd . ; pwd ; cd . ; pwd ; cd .. ; pwd
+/Users/monoue/Documents/minishell/fixing
+/Users/monoue/Documents/minishell/fixing/test_dir/. /Users/monoue/Documents/minishell/fixing/test_dir/./. /Users/monoue/Documents/minishell/fixing
+
+[KO]  unset PWD ; cd ; echo $? ; pwd ; echo $PWD ; echo $OLDPWD
+
+0 /Users/monoue /Users/monoue
+
+[KO]  unset PWD ; cd "" ; echo $? ; pwd ; echo $PWD ; echo $OLDPWD
+0 /Users/monoue/Documents/minishell/fixing /Users/monoue/Documents/minishell/fixing
+0 /Users/monoue/Documents/minishell/fixing /Users/monoue/Documents/minishell/fixing
+
+[KO]  unset OLDPWD ; cd ; echo $? ; pwd ; echo $PWD ; echo $OLDPWD
+
+0 /Users/monoue /Users/monoue /Users/monoue/Documents/minishell/fixing
+
+[OK]  unset OLDPWD ; cd "" ; echo $? ; pwd ; echo $PWD ; echo $OLDPWD
+0 /Users/monoue/Documents/minishell/fixing /Users/monoue/Documents/minishell/fixing /Users/monoue/Documents/minishell/fixing
+0 /Users/monoue/Documents/minishell/fixing /Users/monoue/Documents/minishell/fixing /Users/monoue/Documents/minishell/fixing
+
+[KO]  unset PWD OLDPWD ; cd ; echo $? ; pwd ; unset PWD ; pwd ; echo $PWD ; echo $OLDPWD
+
+0 /Users/monoue /Users/monoue
+
+[KO]  unset PWD OLDPWD ; cd "" ; echo $? ; pwd ;unset PWD ; pwd ; echo $PWD ; echo $OLDPWD
+0 /Users/monoue/Documents/minishell/fixing /Users/monoue/Documents/minishell/fixing /Users/monoue/Documents/minishell/fixing
+0 /Users/monoue/Documents/minishell/fixing /Users/monoue/Documents/minishell/fixing
+
