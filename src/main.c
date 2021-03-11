@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/03 06:33:20 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/11 10:05:07 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	ft_getline_2(int *cmd_status, char **stock, int *flag)
 		*stock = ft_strdup("");
 		g_tmp = false;
 	}
-	if (buf[ret - 1] == '\n')
+	if (ret > 0 && buf[ret - 1] == '\n')
 	{
 		*flag = false;
 		buf[ret - 1] = 0;
@@ -89,7 +89,8 @@ static void	main_loop(t_list *envp)
 	signal(SIGQUIT, handle_gl);
 	line = ft_getline(&cmd_status);
 	set_signal_handlers();
-	if (str_is_of_tabs_or_spaces(line) || put_message_if_syntax_error(line))
+	if (str_is_of_tabs_or_spaces(line) || put_message_if_syntax_error(line)
+		|| (has_dollar_variable(line) && !(dollar(line, envp))))
 	{
 		SAFE_FREE(line);
 		return ;

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 16:56:05 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/11 09:32:53 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	exec_not_exit_reproduction(char **argv, t_list *envp)
 		unset(argv, envp);
 	else
 	{
-		g_last_exit_status = 127;
+		g_last_exit_status = COMMAND_NOT_FOUND;
 		put_bash_err_msg(argv[0], NO_COMMANDS_ERR);
 	}
 }

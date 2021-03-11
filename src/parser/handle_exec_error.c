@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:24:05 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 15:47:06 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/11 09:34:15 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,5 @@ void	handle_exec_error(const char *command)
 		exit_bash_err_msg(command, strerror(EISDIR), 126);
 	if (errno == ENOTDIR)
 		exit_bash_err_msg(command, strerror(ENOTDIR), 126);
-	exit_bash_err_msg(command, NO_COMMANDS_ERR, 127);
+	exit_bash_err_msg(command, NO_COMMANDS_ERR, COMMAND_NOT_FOUND);
 }

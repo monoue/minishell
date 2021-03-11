@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:24:05 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 12:58:49 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/11 09:32:37 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ void		exec_path_command(char **argv, t_list *envp)
 	char		**paths;
 	char		*path_str;
 
+	// TODO
+	// printf("%s\n", argv[0]);
 	if (ft_strchr(argv[0], '/'))
 	{
 		exec_absolute_path(argv, envp);
@@ -102,11 +104,11 @@ void		exec_path_command(char **argv, t_list *envp)
 	{
 		path_str = get_path_str(envp);
 		if (!path_str)
-			exit_bash_err_msg(argv[0], strerror(ENOENT), 127);
+			exit_bash_err_msg(argv[0], strerror(ENOENT), COMMAND_NOT_FOUND);
 		paths = get_paths(path_str);
 		if (path_str)
 			SAFE_FREE(path_str);
 		exec_all_paths(paths, argv, envp);
-		exit_bash_err_msg(argv[0], NO_COMMANDS_ERR, 127);
+		exit_bash_err_msg(argv[0], NO_COMMANDS_ERR, COMMAND_NOT_FOUND);
 	}
 }
