@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/05 16:51:59 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/11 14:28:41 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ static void	reset_redirection_fds(t_fd *fds)
 {
 	dup2(fds->output, STDOUT_FILENO);
 	dup2(fds->input, STDIN_FILENO);
-	close(fds->output);
-	close(fds->input);
 }
 
 void		exec_command_chunk(char *command_chunk, t_list *envp,
@@ -102,7 +100,8 @@ void		exec_command_chunk(char *command_chunk, t_list *envp,
 		if (!is_redirection_str(argv1[0]))
 		{
 			argv2 = set_command_argv(argv1, envp);
-			exec_command_argv(argv2, envp, pipe_child);
+			if (argv2[0])
+				exec_command_argv(argv2, envp, pipe_child);
 			ft_free_split(argv2);
 		}
 		ft_free_split(argv1);

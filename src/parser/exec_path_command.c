@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:24:05 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/11 09:32:37 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/11 14:32:17 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,6 @@ void		exec_path_command(char **argv, t_list *envp)
 	char		**paths;
 	char		*path_str;
 
-	// TODO
-	// printf("%s\n", argv[0]);
 	if (ft_strchr(argv[0], '/'))
 	{
 		exec_absolute_path(argv, envp);

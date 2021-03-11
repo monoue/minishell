@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_str_is_numeric.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 10:27:33 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/25 22:38:05 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/11 14:01:05 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,11 @@
 
 bool	ft_str_is_numeric(const char *str)
 {
-	size_t	index;
-	size_t	i;
-	size_t	length;
+	const size_t	len = ft_strlen(str);
+	size_t			index;
 
 	index = 0;
-	i = 0;
-	length = ft_strlen(str);
-	length--;
-	while (str[length] == ' ')
-	{
-		i++;
-		length--;
-	}
-	while (str[index] != '\0' && ft_isdigit(str[index]) && str[index] != ' ')
-	{
-		if (str[index] != ' ')
-			index++;
-	}
-	return (index == ft_strlen(str) - i);
+	while (index < len && ft_isdigit(str[index]))
+		index++;
+	return (index == len);
 }
