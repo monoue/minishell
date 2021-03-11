@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/11 10:20:11 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/11 10:31:42 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,19 +80,26 @@ static void	handle_gl(int sig)
 bool	command_line_value_is_empty(char *line, t_list *envp)
 {
 	char	*line2;
+	char	*line3;
 	bool	ret;
 
 	// if (str_is_of_tabs_or_spaces(line))
 	// 	return (true);
-	line2 = line;
-	if (str_is_quoted_by_double(line2))
+	if (str_is_quoted_by_double(line))
 		line2 = remove_quotes(line);
-	if (has_dollar_variable(line2))
-		line2 = dollar(line2, envp);
-	if (!line2)
+	else
+		line2 = ft_strdup(line);
+	if (!has_dollar_variable(line2))
+	{
+		ret = str_is_of_tabs_or_spaces(line2);
+		SAFE_FREE(line2);
+		return (ret);
+	}
+	line3 = dollar(line2, envp);
+	if (!line3)
 		return (true);
-	ret = str_is_of_tabs_or_spaces(line2);
-	SAFE_FREE(line2);
+	ret = str_is_of_tabs_or_spaces(line3);
+	SAFE_FREE(line3);
 	return (ret);
 }
 
