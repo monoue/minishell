@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/11 10:05:07 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/11 10:20:11 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,25 @@ static void	handle_gl(int sig)
 		ft_putstr_err("\b\b  \b\b");
 }
 
+bool	command_line_value_is_empty(char *line, t_list *envp)
+{
+	char	*line2;
+	bool	ret;
+
+	// if (str_is_of_tabs_or_spaces(line))
+	// 	return (true);
+	line2 = line;
+	if (str_is_quoted_by_double(line2))
+		line2 = remove_quotes(line);
+	if (has_dollar_variable(line2))
+		line2 = dollar(line2, envp);
+	if (!line2)
+		return (true);
+	ret = str_is_of_tabs_or_spaces(line2);
+	SAFE_FREE(line2);
+	return (ret);
+}
+
 static void	main_loop(t_list *envp)
 {
 	char		*line;
@@ -89,7 +108,8 @@ static void	main_loop(t_list *envp)
 	signal(SIGQUIT, handle_gl);
 	line = ft_getline(&cmd_status);
 	set_signal_handlers();
-	if (str_is_of_tabs_or_spaces(line) || put_message_if_syntax_error(line)
+	// if (str_is_of_tabs_or_spaces(line) || put_message_if_syntax_error(line)
+	if (command_line_value_is_empty(line, envp) || put_message_if_syntax_error(line)
 		|| (has_dollar_variable(line) && !(dollar(line, envp))))
 	{
 		SAFE_FREE(line);
