@@ -6,7 +6,7 @@
 #    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/03/12 14:07:25 by monoue           ###   ########.fr        #
+#    Updated: 2021/03/12 15:32:51 by monoue           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ BASE	  = $(MAIN_UTILS_PATH)put_greeting.c \
 			$(COMMAND_PATH)has_dollar_variable.c \
 			$(COMMAND_PATH)put_error_invalid_identifier.c \
 			$(COMMAND_PATH)same_key.c \
+			$(COMMAND_PATH)set_home.c \
 			$(COMMAND_PATH)turn_envp_into_strs.c \
 			$(COMMAND_PATH)unset_command.c \
 			$(COMMAND_PATH)export_utils.c \

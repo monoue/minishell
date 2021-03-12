@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/12 13:02:49 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/12 15:32:36 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ void				put_error_invalid_identifier(const char *command,
 
 bool				digits_num_is_over_llong_max(const char *str);
 char				*skip_plus(char *str, size_t index, int pass);
+void				set_home(char ***argv, t_list *envp);
 void				remplace_value(char *arg, t_list *envp, int i);
 char				*plus_or_not(char *arg);
 
