@@ -44,13 +44,14 @@ static t_list	*make_shelllevel_and_underscore(void)
 	t_list	*envp;
 	t_list	*tmp;
 	char	*str;
-	char	buf[1024 + 1];
+	char	buf[MAX_INPUT + 1];
 
 	envp = NULL;
 	str = ft_strdup("PWD=");
-	getcwd(buf, 1024);
+	getcwd(buf, MAX_INPUT);
 	str = ft_strjoin_free(str, buf);
 	tmp = new_env(str);
+	SAFE_FREE(str);
 	ft_lstadd_back(&envp, tmp);
 	tmp = new_env("SHLVL=1");
 	ft_lstadd_back(&envp, tmp);
@@ -59,12 +60,10 @@ static t_list	*make_shelllevel_and_underscore(void)
 	return (envp);
 }
 
-t_list			*get_env_list(void)
+t_list			*get_env_list(size_t index, t_list *envp)
 {
 	extern char	**environ;
-	t_list		*envp;
 	t_list		*tmp;
-	size_t		index;
 
 	envp = NULL;
 	if (!environ[0])
@@ -75,12 +74,16 @@ t_list			*get_env_list(void)
 		tmp = new_env("_=./minishell");
 		ft_lstadd_back(&envp, tmp);
 	}
-	index = 1;
 	while (environ[index])
 	{
-		tmp = new_env(environ[index]);
-		ft_lstadd_back(&envp, tmp);
-		index++;
+		if (ft_strncmp(environ[index], "OLDPWD=", 7) == 0)
+			index++;
+		else
+		{
+			tmp = new_env(environ[index]);
+			ft_lstadd_back(&envp, tmp);
+			index++;
+		}
 	}
 	change_shlvl(envp);
 	return (envp);

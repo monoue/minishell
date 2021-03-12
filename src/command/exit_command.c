@@ -54,7 +54,7 @@ static bool	str_is_valid_num(char *str)
 	if ((str[index] == '-' && str[index + 1] != '\0')
 		|| (str[index] == '+' && str[index + 1] != '\0'))
 		index++;
-	if (!ft_str_is_numeric(&str[index]))
+	if (!ft_str_is_numeric_bis(&str[index]))
 		return (false);
 	return (str_is_within_llong(str));
 }

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:49 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/11 14:38:03 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/12 11:35:36 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static void	old_pwd(t_list *envp)
 	char		*buf;
 
 	buf = NULL;
-	pwd = getcwd(buf, PATH_MAX);
-	oldpwd = ft_strjoin(oldpwd_key, pwd);
+	pwd = find_key("PWD=", envp);
+	oldpwd = ft_strjoin(oldpwd_key, &pwd[4]);
 	if (same_key(oldpwd_key, envp))
 	{
 		while (envp && envp->next)
@@ -66,33 +66,11 @@ static void	new_pwd(t_list *envp)
 
 static void	put_error(char *argv)
 {
-	ft_putstr("bash: cd: ");
-	ft_putstr(argv);
-	ft_putstr(": ");
-	ft_putendl(strerror(errno));
+	ft_putstr_err("bash: cd: ");
+	ft_putstr_err(argv);
+	ft_putstr_err(": ");
+	ft_putendl_err(strerror(errno));
 }
-
-// static char	*find_home(t_list *envp)
-// {
-// 	const char	*home_key = "HOME=";
-// 	char		*variable;
-// 	int			count;
-// 	char		*str;
-
-// 	str = NULL;
-// 	while (envp && envp->next)
-// 	{
-// 		if (ft_strnequal((char*)envp->content, home_key, ft_strlen(home_key)))
-// 			variable = ft_strdup((char*)envp->content);
-// 		envp = envp->next;
-// 	}
-// 	if (variable != NULL)
-// 	{
-// 		count = ft_strrchr_int(variable, '=');
-// 		str = ft_substr_free(variable, count + 1, ft_strlen(variable) - count);
-// 	}
-// 	return (str);
-// }
 
 static char	*find_home(t_list *envp)
 {
@@ -116,25 +94,25 @@ static char	*find_home(t_list *envp)
 	return (str);
 }
 
-void		cd(char **argv, t_list *envp)
+void		cd(char **argv, t_list *envp, char *home_key)
 {
-	char	*home_key;
 	char	**arg;
 
 	home_key = find_key("HOME=", envp);
 	if (!home_key && argv[1] == NULL)
 	{
-		SAFE_FREE(home_key);
-		g_last_exit_status = EXIT_FAILURE;
-		put_bash_err_msg("cd", "HOME not set");
+		error_cd(home_key);
 		return ;
 	}
 	SAFE_FREE(home_key);
 	arg = set_command_argv(argv, envp);
 	old_pwd(envp);
 	if ((arg[1] == NULL) || (ft_strequal(arg[1], "~")))
+	{
 		arg[1] = find_home(envp);
-	if (ft_strequal(arg[1], "") && !g_global)
+		arg[2] = NULL;
+	}
+	if ((ft_strequal(arg[1], "") && !g_global) || str_is_of_spaces(arg[1]))
 		;
 	else if (chdir(arg[1]) == ERROR)
 	{

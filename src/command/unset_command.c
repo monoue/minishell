@@ -38,7 +38,12 @@ static bool			is_valid_arg1(char *arg)
 	index = 0;
 	while (index < len && arg[index])
 	{
-		if (!ft_isalnum(arg[index]) && arg[index] != '_' && arg[index] == '=')
+		if (arg[index] == '=')
+			return (false);
+		if (!ft_isalnum(arg[index]) && arg[index] != '_'
+		&& arg[index] != '\"' && arg[index] != '\'')
+			return (false);
+		if ((arg[index] == '\"' || arg[index] == '\'') && g_escape)
 			return (false);
 		index++;
 	}

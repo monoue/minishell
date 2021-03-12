@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils5.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 13:43:56 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/08 17:26:38 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/12 07:24:19 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*take_dollar_bis(char *line, int *i, char *tmp)
 	{
 		SAFE_FREE(tmp);
 		(*i)++;
-		return (tmp = ft_strdup("(process ID)"));
+		return (tmp = ft_strdup("(processID)"));
 	}
 	if (line[*i] == '?')
 	{
@@ -48,28 +48,28 @@ bool	check_is_escape(const char *str, int index)
 
 char	*remove_all(char *argv)
 {
-	int		index;
-	char	*tmp;
 	char	*str;
+	char	**tmp;
 	char	*arg;
+	char	*final;
+	int		i;
 
-	index = 0;
-	tmp = NULL;
-	str = ft_strdup(argv);
-	tmp = remove_quotes(str);
-	if (argv[0] == '\\' && (argv[1] == '\"' || argv[1] == '\''))
-		g_escape = 1;
-	if (((argv[0] != '\"' && argv[0] != '\'')
-		|| ((argv[0] == '\"' && argv[1] == '\"')
-		|| (argv[0] == '\'' && argv[1] == '\''))))
-		arg = remove_escape(tmp, 0);
-	else if (argv[0] != '\'')
-		arg = remove_escape_dq(tmp);
-	else
-		arg = ft_strdup(tmp);
-	SAFE_FREE(str);
-	SAFE_FREE(tmp);
-	return (arg);
+	i = 0;
+	final = ft_strdup("");
+	tmp = do_parse(argv);
+	while (tmp[i])
+	{
+		if (tmp[i][0] == '\\' && (tmp[i][1] == '\"' || tmp[i][1] == '\''))
+			g_escape = 1;
+		str = return_value(tmp, i, arg, str);
+		final = ft_strjoin_free(final, str);
+		i++;
+		SAFE_FREE(arg);
+		SAFE_FREE(str);
+	}
+	tmp[i] = NULL;
+	ft_free_split(tmp);
+	return (final);
 }
 
 int		check_quote(int a, char *line)

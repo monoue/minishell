@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:24:05 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/11 14:32:17 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/12 11:34:40 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,11 @@ void		exec_path_command(char **argv, t_list *envp)
 	{
 		path_str = get_path_str(envp);
 		if (!path_str)
-			exit_bash_err_msg(argv[0], strerror(ENOENT), COMMAND_NOT_FOUND);
+			exit_bash_err_msg(argv[0], strerror(ENOENT), 127);
 		paths = get_paths(path_str);
 		if (path_str)
 			SAFE_FREE(path_str);
 		exec_all_paths(paths, argv, envp);
-		exit_bash_err_msg(argv[0], NO_COMMANDS_ERR, COMMAND_NOT_FOUND);
+		exit_bash_err_msg(argv[0], NO_COMMANDS_ERR, 127);
 	}
 }

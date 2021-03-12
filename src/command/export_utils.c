@@ -53,3 +53,26 @@ void	ascii_sort(char **args)
 		i++;
 	}
 }
+
+bool	ft_str_is_numeric_bis(const char *str)
+{
+	size_t	index;
+	size_t	i;
+	size_t	length;
+
+	index = 0;
+	i = 0;
+	length = ft_strlen(str);
+	length--;
+	while (str[length] == ' ')
+	{
+		i++;
+		length--;
+	}
+	while (str[index] != '\0' && ft_isdigit(str[index]) && str[index] != ' ')
+	{
+		if (str[index] != ' ')
+			index++;
+	}
+	return (index == ft_strlen(str) - i);
+}

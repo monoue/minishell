@@ -102,26 +102,27 @@ char	*remove_escape_dq(const char *str)
 	return (exec_escape_dq(str, 0, ft_strlen(str), 0));
 }
 
-char	*skip_plus(char *str)
+char	*skip_plus(char *str, size_t index, int pass)
 {
 	const size_t	len = ft_strlen(str);
 	size_t			start;
-	size_t			index;
 	char			*ret_s;
 
 	if (!(ret_s = ft_strdup("")))
 		exit_err_msg(MALLOC_ERR);
-	index = 0;
 	while (index < len)
 	{
 		start = index;
-		if (str[index] == '+')
+		if (str[index] == '+' && pass == 0)
 		{
 			index += 2;
+			pass = 1;
 			ret_s = ft_strnjoin_free(ret_s, &str[start + 1], 1);
 		}
 		else
 		{
+			while (str[index] == '+')
+				index++;
 			while (index < len && str[index] != '+')
 				index++;
 			ret_s = ft_strnjoin_free(ret_s, &str[start], index - start);

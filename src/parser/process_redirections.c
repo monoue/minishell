@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_redirections.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:45:03 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/08 11:30:42 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/11 23:47:47 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	set_redirections(char **chunk_words, t_fd *fds, t_list *envp)
 		SAFE_FREE(set->filename);
 		set->filename = ft_strdup_free(replaced_filename);
 	}
-	if (set_redirection(set, fds) == ERROR)
+	if (set_redirection(set, fds, 0) == ERROR)
 		return (ERROR);
 	free_redirections(set);
 	return (SUCCESS);

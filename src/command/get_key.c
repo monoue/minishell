@@ -34,7 +34,7 @@ char	*get_key(char *argv)
 	tmp_key = ft_strndup(argv, len);
 	if (!tmp_key)
 		exit_err_msg(MALLOC_ERR);
-	key = skip_plus(tmp_key);
+	key = skip_plus(tmp_key, 0, 0);
 	SAFE_FREE(tmp_key);
 	return (key);
 }

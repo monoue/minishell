@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_reproduction.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/11 09:32:53 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/11 22:30:56 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 
 static void	exec_not_exit_reproduction(char **argv, t_list *envp)
 {
+	char	*home_key;
+
+	home_key = NULL;
 	if (ft_strequal(argv[0], "cd"))
-		cd(argv, envp);
+		cd(argv, envp, home_key);
 	else if (ft_strequal(argv[0], "pwd"))
 		pwd(argv);
 	else if (ft_strequal(argv[0], "echo"))
@@ -29,7 +32,7 @@ static void	exec_not_exit_reproduction(char **argv, t_list *envp)
 		unset(argv, envp);
 	else
 	{
-		g_last_exit_status = COMMAND_NOT_FOUND;
+		g_last_exit_status = 127;
 		put_bash_err_msg(argv[0], NO_COMMANDS_ERR);
 	}
 }

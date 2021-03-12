@@ -113,5 +113,6 @@ char	**do_parse2(char *line)
 		if (line[i] == '\\')
 			tmp[j++] = take_escape(line, &i);
 	}
+	tmp[j] = NULL;
 	return (tmp);
 }

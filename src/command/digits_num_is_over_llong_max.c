@@ -32,7 +32,7 @@ char		*plus_or_not(char *arg)
 	if (g_plus == 0)
 		argv = ft_strdup(arg);
 	else if (g_plus == 1)
-		argv = skip_plus(arg);
+		argv = skip_plus(arg, 0, 0);
 	return (argv);
 }
 
@@ -53,4 +53,11 @@ void		remplace_value(char *arg, t_list *envp, int i)
 		envp->content = ft_strdup(arg);
 	}
 	return ;
+}
+
+void		error_cd(char *home_key)
+{
+	SAFE_FREE(home_key);
+	g_last_exit_status = EXIT_FAILURE;
+	put_bash_err_msg("cd", "HOME not set");
 }

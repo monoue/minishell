@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:55 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/11 10:50:17 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/02 14:12:07 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,26 +44,6 @@ static size_t	skip_options(char **argv, bool *option_n)
 	return (index);
 }
 
-// static void		put_echo_targets(char **targets)
-// {
-// 	size_t	index;
-
-// 	if (!targets)
-// 		return ;
-// 	index = 0;
-// 	// TODO
-// 	// 多分、これで変な風になっている…。
-// 	if (targets[index] == NULL && targets[index + 1] != NULL)
-// 		index++;
-// 	while (targets[index])
-// 	{
-// 		if (index != 0 && targets[index - 1] != NULL)
-// 			ft_putchar(' ');
-// 		ft_putstr(targets[index]);
-// 		index++;
-// 	}
-// }
-
 static void		put_echo_targets(char **targets)
 {
 	size_t	index;
@@ -71,10 +51,6 @@ static void		put_echo_targets(char **targets)
 	if (!targets)
 		return ;
 	index = 0;
-	// TODO
-	// 多分、これで変な風になっている…。
-	// if (targets[index] == NULL && targets[index + 1] != NULL)
-	// 	index++;
 	while (targets[index])
 	{
 		if (index != 0 && targets[index - 1] != NULL)
@@ -83,22 +59,6 @@ static void		put_echo_targets(char **targets)
 		index++;
 	}
 }
-
-// void			echo(char **argv)
-// {
-// 	size_t	index;
-// 	bool	option_n;
-
-// 	if (!argv[1] && !argv[2])
-// 	{
-// 		ft_putendl("");
-// 		return ;
-// 	}
-// 	index = skip_options(argv, &option_n);
-// 	put_echo_targets(&argv[index]);
-// 	if (!option_n)
-// 		ft_putchar('\n');
-// }
 
 void			echo(char **argv)
 {

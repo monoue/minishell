@@ -14,11 +14,10 @@
 
 void		pwd(char **argv)
 {
-	char	*buf;
+	char	buf[MAX_INPUT + 1];
 
 	(void)argv;
-	buf = getcwd(NULL, 1025);
+	getcwd(buf, MAX_INPUT);
 	ft_putstr_fd(buf, 1);
 	ft_putstr_fd("\n", 1);
-	SAFE_FREE(buf);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_redirection.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:44:55 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/02 13:35:14 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/11 23:31:23 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,15 @@ static void	put_bad_fd_message(int fd)
 	}
 }
 
-int			set_redirection(t_redirection_set *set, t_fd *fds)
+int			set_redirection(t_redirection_set *set, t_fd *fds, int fild_fd)
 {
-	int				fild_fd;
 	const t_type	type = set->type;
 
+	if (!set->filename)
+	{
+		put_bash_err_msg(set->filename, "bash: : No such file or directory");
+		return (ERROR);
+	}
 	fild_fd = open(set->filename, get_open_flags(type), OPEN_MODE);
 	if (fild_fd == ERROR || is_bad_fd(set->designated_fd))
 	{

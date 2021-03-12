@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 12:30:52 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/09 08:29:55 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/12 11:34:23 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char			*find_arg(t_list *envp)
 	t_list	*tmp;
 	char	*arg;
 
+	arg = NULL;
 	tmp = envp;
 	while (tmp)
 	{
@@ -32,6 +33,8 @@ char			*get_value(char *value)
 {
 	int		int_value;
 
+	if (!value)
+		return (NULL);
 	if (!ft_isdigit(value[0]))
 	{
 		int_value = 1;
@@ -51,15 +54,14 @@ char			*get_value(char *value)
 	return (value);
 }
 
-char			*replace_shlvl_value(char *arg)
+char			*replace_shlvl_value(char *arg, int i)
 {
 	char	*value;
 	char	*key;
-	int		i;
+	char	*str;
 
-	i = 0;
-	if (!(value = ft_strdup("")))
-		exit_err_msg(MALLOC_ERR);
+	if (!arg)
+		return (NULL);
 	if (!(key = ft_strdup("")))
 		exit_err_msg(MALLOC_ERR);
 	while (arg[i] != '=')
@@ -74,8 +76,9 @@ char			*replace_shlvl_value(char *arg)
 		value = ft_strnjoin_free(value, &arg[i], 1);
 		i++;
 	}
-	value = get_value(value);
-	key = ft_strjoin_free(key, value);
+	str = get_value(value);
+	key = ft_strjoin_free(key, str);
+	SAFE_FREE(str);
 	SAFE_FREE(value);
 	return (key);
 }
@@ -86,7 +89,9 @@ void			change_shlvl(t_list *envp)
 	char	*key;
 
 	arg = find_arg(envp);
-	key = replace_shlvl_value(arg);
+	if (!arg)
+		return ;
+	key = replace_shlvl_value(arg, 0);
 	while (envp)
 	{
 		if (ft_strnequal((char*)(envp->content), "SHLVL=", ft_strlen("SHLVL=")))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_chunk.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/11 14:28:41 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/11 22:56:37 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ static void	reset_redirection_fds(t_fd *fds)
 {
 	dup2(fds->output, STDOUT_FILENO);
 	dup2(fds->input, STDIN_FILENO);
+	close(fds->output);
+	close(fds->input);
 }
 
 void		exec_command_chunk(char *command_chunk, t_list *envp,

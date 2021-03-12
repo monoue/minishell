@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: monoue <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/30 15:33:41 by monoue            #+#    #+#              #
-#    Updated: 2021/03/11 08:53:52 by monoue           ###   ########.fr        #
+#    Updated: 2021/03/12 00:00:29 by sperrin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CFLAGS = -Wall -Wextra -Werror
 # PATH
 SRCS_PATH		= src/
 MAIN_UTILS_PATH	= main_utils/
-SORT_FILES_PATH	= sort_files/
+
 PARSER_PATH		= parser/
 COMMAND_PATH	= command/
 DOLLAR_PATH		= dollar/
@@ -107,7 +107,7 @@ LIBFT	= libft/libft.a
 		$(CC) $(CFLAGS) $(INCLUDE) -c -MMD -MP -MF $(<:.c=.d) $< -o $(<:.c=.o)
 
 $(NAME): $(OBJS) $(LIBFT)
-	@$(CC) -fsanitize=address -g -o $@ $^
+	@$(CC) -o $@ $^
 
 -include $(DEPS)
 

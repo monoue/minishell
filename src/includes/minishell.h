@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/08 16:09:36 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/11 23:18:16 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ bool	g_global;
 bool	g_into_dollar;
 bool	g_escape;
 bool	g_plus;
+bool	g_flag_master;
 
 typedef enum		e_element_type {
 	START,
@@ -112,10 +113,10 @@ void				lstadd_back(t_redirection_set **chunks,
 /*
 ** main
 */
-t_list				*get_env_list(void);
+t_list				*get_env_list(size_t index, t_list *envp);
 void				set_signal_handlers(void);
 void				change_shlvl(t_list *envp);
-char				*replace_shlvl_value(char *arg);
+char				*replace_shlvl_value(char *arg, int i);
 
 /*
 ** put_welcome_greeting
@@ -129,7 +130,7 @@ void				put_farewell_greeting(void);
 void				pwd(char **argv);
 int					help();
 void				exit_minishell(char **argv, t_list *envp, bool pipe_child);
-void				cd(char **argv, t_list *envp);
+void				cd(char **argv, t_list *envp, char *home_key);
 void				echo(char **argv);
 void				env(t_list *envp);
 void				export(char **argv, t_list *envp);
@@ -138,7 +139,7 @@ void				put_error_invalid_identifier(const char *command,
 															const char *arg);
 
 bool				digits_num_is_over_llong_max(const char *str);
-char				*skip_plus(char *str);
+char				*skip_plus(char *str, size_t index, int pass);
 void				remplace_value(char *arg, t_list *envp, int i);
 char				*plus_or_not(char *arg);
 
@@ -166,6 +167,7 @@ char				*do_single_quotation(char *argv, t_list *envp, int j);
 int					single_quotation_or_not(char *argv);
 char				*take_dollar_dq(char *line, int *i);
 char				**do_parse2(char *line);
+char				**do_parse(char *line);
 
 /*
 ** dollar_utils3
@@ -175,6 +177,7 @@ char				*take_dollar(char *line, int *i);
 char				*take_single_quote(char *line, int *i);
 char				*take_ascii(char *line, int *i);
 char				*take_double_quote(char *line, int *i);
+bool				ft_str_is_numeric_bis(const char *str);
 
 /*
 ** dollar_utils4
@@ -201,11 +204,12 @@ int					check_quote(int a, char *line);
 char				*skip_space_dq(char *value);
 char				*skip_space_sq(char *value);
 bool				check_dollar_question(char *arg);
-
+char				*return_value(char **tmp, int i, char *arg, char *str);
+void				error_cd(char *home_key);
 /*
 **  syntax_error_check
 */
-bool				str_is_of_tabs_or_spaces(char *str);
+bool				str_is_of_spaces(char *str);
 bool				put_message_if_syntax_error(char *command_line);
 int					check_syntax(char *command_line, char **command_line_words);
 
@@ -246,7 +250,8 @@ void				process_command_line(char *line, t_list *envp);
 void				process_one_command(char *command, t_list *envp);
 char				*remove_quotes(const char *str);
 void				set_fds(t_fd *fds);
-int					set_redirection(t_redirection_set *set, t_fd *fds);
+int					set_redirection(t_redirection_set *set,
+						t_fd *fds, int fild_fd);
 void				skip_chunk(char const *str, size_t *index);
 void				skip_redirection(const char *str, size_t *index);
 void				skip_word(const char *str, size_t *index);

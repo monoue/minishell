@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/11 10:31:42 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/11 23:34:32 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	ft_getline_2(int *cmd_status, char **stock, int *flag)
 		*stock = ft_strdup("");
 		g_tmp = false;
 	}
-	if (ret > 0 && buf[ret - 1] == '\n')
+	if (buf[ret - 1] == '\n')
 	{
 		*flag = false;
 		buf[ret - 1] = 0;
@@ -77,32 +77,6 @@ static void	handle_gl(int sig)
 		ft_putstr_err("\b\b  \b\b");
 }
 
-bool	command_line_value_is_empty(char *line, t_list *envp)
-{
-	char	*line2;
-	char	*line3;
-	bool	ret;
-
-	// if (str_is_of_tabs_or_spaces(line))
-	// 	return (true);
-	if (str_is_quoted_by_double(line))
-		line2 = remove_quotes(line);
-	else
-		line2 = ft_strdup(line);
-	if (!has_dollar_variable(line2))
-	{
-		ret = str_is_of_tabs_or_spaces(line2);
-		SAFE_FREE(line2);
-		return (ret);
-	}
-	line3 = dollar(line2, envp);
-	if (!line3)
-		return (true);
-	ret = str_is_of_tabs_or_spaces(line3);
-	SAFE_FREE(line3);
-	return (ret);
-}
-
 static void	main_loop(t_list *envp)
 {
 	char		*line;
@@ -115,9 +89,7 @@ static void	main_loop(t_list *envp)
 	signal(SIGQUIT, handle_gl);
 	line = ft_getline(&cmd_status);
 	set_signal_handlers();
-	// if (str_is_of_tabs_or_spaces(line) || put_message_if_syntax_error(line)
-	if (command_line_value_is_empty(line, envp) || put_message_if_syntax_error(line)
-		|| (has_dollar_variable(line) && !(dollar(line, envp))))
+	if (str_is_of_spaces(line) || put_message_if_syntax_error(line))
 	{
 		SAFE_FREE(line);
 		return ;
@@ -129,8 +101,9 @@ int			main(void)
 {
 	t_list		*envp;
 
+	envp = NULL;
 	put_welcome_greeting();
-	envp = get_env_list();
+	envp = get_env_list(1, envp);
 	while (42)
 		main_loop(envp);
 }
