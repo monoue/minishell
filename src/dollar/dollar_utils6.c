@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 10:01:11 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/12 13:52:21 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/12 14:03:45 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,26 +75,3 @@ bool	check_dollar_question(char *arg)
 	}
 	return (false);
 }
-
-// char	*return_value(char **tmp, int i, char *arg, char *str)
-// {
-
-// 	if (((tmp[i][0] != '\"' && tmp[i][0] != '\'')
-// 		|| ((tmp[i][0] == '\"' && tmp[i][1] == '\"')
-// 		|| (tmp[i][0] == '\'' && tmp[i][1] == '\''))))
-// 	{
-// 		str = remove_quotes(tmp[i]);
-// 		arg = remove_escape(str, 0);
-// 	}
-// 	else if (tmp[i][0] != '\'')
-// 	{
-// 		str = remove_escape_dq(tmp[i]);
-// 		arg = remove_quotes(str);
-// 	}
-// 	else
-// 	{
-// 		str = remove_quotes(tmp[i]);
-// 		arg = ft_strdup(str);
-// 	}
-// 	return (arg);
-// }
