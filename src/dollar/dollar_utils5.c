@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils5.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 13:43:56 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/12 07:24:19 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/12 13:54:26 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,30 +46,75 @@ bool	check_is_escape(const char *str, int index)
 	return (false);
 }
 
-char	*remove_all(char *argv)
-{
-	char	*str;
-	char	**tmp;
-	char	*arg;
-	char	*final;
-	int		i;
+// char	*remove_all(char *argv)
+// {
+// 	char	*str;
+// 	char	**tmp;
+// 	char	*arg;
+// 	char	*final;
+// 	int		i;
 
-	i = 0;
-	final = ft_strdup("");
-	tmp = do_parse(argv);
-	while (tmp[i])
-	{
-		if (tmp[i][0] == '\\' && (tmp[i][1] == '\"' || tmp[i][1] == '\''))
-			g_escape = 1;
-		str = return_value(tmp, i, arg, str);
-		final = ft_strjoin_free(final, str);
-		i++;
-		SAFE_FREE(arg);
-		SAFE_FREE(str);
-	}
-	tmp[i] = NULL;
-	ft_free_split(tmp);
-	return (final);
+// 	i = 0;
+// 	final = ft_strdup("");
+// 	tmp = do_parse(argv);
+// 	while (tmp[i])
+// 	{
+// 		if (tmp[i][0] == '\\' && (tmp[i][1] == '\"' || tmp[i][1] == '\''))
+// 			g_escape = 1;
+// 		str = return_value(tmp, i, arg, str);
+// 		final = ft_strjoin_free_both(final, str);
+// 		i++;
+// 		SAFE_FREE(arg);
+// 	}
+// 	tmp[i] = NULL;
+// 	ft_free_split(tmp);
+// 	return (final);
+// }
+
+static bool	quote_check(char *str)
+{
+	return (((str[0] != '\"' && str[0] != '\'')
+        || ((str[0] == '\"' && str[1] == '\"')
+        || (str[0] == '\'' && str[1] == '\''))));
+}
+
+char    *remove_all(char *argv)
+{
+    char    *str;
+    char    **tmp;
+    char    *arg;
+    char    *final;
+    int        index;
+
+    index = 0;
+    final = ft_strdup("");
+    tmp = do_parse(argv);
+    while (tmp[index])
+    {
+        if (tmp[index][0] == '\\' && (tmp[index][1] == '\"' || tmp[index][1] == '\''))
+            g_escape = 1;
+        if (quote_check(tmp[index]))
+        {
+            str = remove_quotes(tmp[index]);
+            arg = remove_escape(str, 0);
+        }
+        else if (tmp[index][0] != '\'')
+        {
+            str = remove_escape_dq(tmp[index]);
+            arg = remove_quotes(str);
+            SAFE_FREE(str);
+        }
+        else
+        {
+            str = remove_quotes(tmp[index]);
+            arg = ft_strdup(str);
+        }
+        final = ft_strjoin_free_both(final, arg);
+        index++;
+    }
+    tmp[index] = NULL;
+    ft_free_split(tmp);
+    return (final);
 }
 
 int		check_quote(int a, char *line)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/11 23:34:32 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/12 12:33:23 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static void	main_loop(t_list *envp)
 	signal(SIGQUIT, handle_gl);
 	line = ft_getline(&cmd_status);
 	set_signal_handlers();
-	if (str_is_of_spaces(line) || put_message_if_syntax_error(line))
+	if (str_is_of_tabs_or_spaces(line) || put_message_if_syntax_error(line))
 	{
 		SAFE_FREE(line);
 		return ;

@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:40:49 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/12 11:35:36 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/12 12:33:23 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ static char	*find_home(t_list *envp)
 		count = ft_strrchr_int(variable, '=');
 		str = ft_substr_free(variable, count + 1, ft_strlen(variable) - count);
 	}
+	if (str_is_of_tabs_or_spaces(str))
+		SAFE_FREE(str);
 	return (str);
 }
 
@@ -112,7 +114,7 @@ void		cd(char **argv, t_list *envp, char *home_key)
 		arg[1] = find_home(envp);
 		arg[2] = NULL;
 	}
-	if ((ft_strequal(arg[1], "") && !g_global) || str_is_of_spaces(arg[1]))
+	if (!arg[1] || (ft_strequal(arg[1], "") && !g_global))
 		;
 	else if (chdir(arg[1]) == ERROR)
 	{

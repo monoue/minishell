@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 12:30:52 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/12 11:34:23 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/12 13:01:46 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char			*find_arg(t_list *envp)
 char			*get_value(char *value)
 {
 	int		int_value;
+	char	*str;
 
 	if (!value)
 		return (NULL);
@@ -49,14 +50,12 @@ char			*get_value(char *value)
 	if (int_value == 999)
 		return (NULL);
 	int_value += 1;
-	SAFE_FREE(value);
-	value = ft_itoa(int_value);
-	return (value);
+	str = ft_itoa(int_value);
+	return (str);
 }
 
-char			*replace_shlvl_value(char *arg, int i)
+char			*replace_shlvl_value(char *arg, int i, char *value)
 {
-	char	*value;
 	char	*key;
 	char	*str;
 
@@ -77,8 +76,7 @@ char			*replace_shlvl_value(char *arg, int i)
 		i++;
 	}
 	str = get_value(value);
-	key = ft_strjoin_free(key, str);
-	SAFE_FREE(str);
+	key = ft_strjoin_free_both(key, str);
 	SAFE_FREE(value);
 	return (key);
 }
@@ -87,11 +85,14 @@ void			change_shlvl(t_list *envp)
 {
 	char	*arg;
 	char	*key;
+	char	*value;
 
 	arg = find_arg(envp);
 	if (!arg)
 		return ;
-	key = replace_shlvl_value(arg, 0);
+	if (!(value = ft_strdup("")))
+		exit_err_msg(MALLOC_ERR);
+	key = replace_shlvl_value(arg, 0, value);
 	while (envp)
 	{
 		if (ft_strnequal((char*)(envp->content), "SHLVL=", ft_strlen("SHLVL=")))

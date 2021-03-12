@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/11 23:18:16 by sperrin          ###   ########.fr       */
+/*   Updated: 2021/03/12 13:02:49 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void				lstadd_back(t_redirection_set **chunks,
 t_list				*get_env_list(size_t index, t_list *envp);
 void				set_signal_handlers(void);
 void				change_shlvl(t_list *envp);
-char				*replace_shlvl_value(char *arg, int i);
+char				*replace_shlvl_value(char *arg, int i, char *value);
 
 /*
 ** put_welcome_greeting
@@ -209,7 +209,7 @@ void				error_cd(char *home_key);
 /*
 **  syntax_error_check
 */
-bool				str_is_of_spaces(char *str);
+bool				str_is_of_tabs_or_spaces(char *str);
 bool				put_message_if_syntax_error(char *command_line);
 int					check_syntax(char *command_line, char **command_line_words);
 
