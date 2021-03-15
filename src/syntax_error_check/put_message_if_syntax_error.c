@@ -6,7 +6,7 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 15:49:32 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 14:40:49 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/16 07:12:13 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool		put_message_if_syntax_error(char *command_line)
 	if (ret == SYNTAX_QUOTED_WRONGLY)
 	{
 		g_last_exit_status = EXIT_FAILURE;
-		ft_putendl_err("minishell: quotes not closed");
+		ft_putendl_err("minishell: multiline command");
 		return (true);
 	}
 	if (ret != SYNTAX_VALID)

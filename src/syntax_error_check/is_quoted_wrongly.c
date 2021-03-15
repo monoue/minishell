@@ -6,13 +6,33 @@
 /*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 15:57:45 by monoue            #+#    #+#             */
-/*   Updated: 2021/02/24 14:17:57 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/16 07:09:08 by monoue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_quoted_wrongly(char *str)
+static bool	is_escape_end(char *str)
+{
+	const size_t	len = ft_strlen(str);
+	size_t			index;
+	size_t			count;
+
+	if (!len)
+		return (false);
+	index = len - 1;
+	count = 0;
+	while (str[index] == '\\')
+	{
+		count++;
+		if (index == 0)
+			break ;
+		index--;
+	}
+	return (count % 2);
+}
+
+bool		is_quoted_wrongly(char *str)
 {
 	const size_t	len = ft_strlen(str);
 	size_t			index;
@@ -29,5 +49,5 @@ bool	is_quoted_wrongly(char *str)
 		else
 			index++;
 	}
-	return (false);
+	return (is_escape_end(str));
 }
