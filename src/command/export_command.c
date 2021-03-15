@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:41:09 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/12 13:26:06 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/15 21:31:47 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	show_export(t_list *envp)
 		if (ft_strnequal(array[index], "_=", 2))
 			index++;
 		if (array[index] == NULL)
-			return ;
+			break ;
 		ft_putstr_fd("declare -x ", 1);
 		put_dbl_quotation_str(array[index]);
 		ft_putchar_fd('\n', 1);
@@ -78,10 +78,12 @@ static bool	is_valid_arg(char *arg)
 	index = 0;
 	while (index < len && arg[index] != '=')
 	{
-		if (!ft_isalnum(arg[index]) && arg[index] != '_'
-		&& arg[index] != '\"' && arg[index] != '\'' && arg[index] != '+')
+		if (arg[index] == '+' && arg[index + 1] == '=')
+			return (true);
+		else if (!ft_isalnum(arg[index]) && arg[index] != '_'
+		&& arg[index] != '\"' && arg[index] != '\'')
 			return (false);
-		if ((arg[index] == '\"' || arg[index] == '\'') && g_escape)
+		else if ((arg[index] == '\"' || arg[index] == '\'') && g_escape)
 			return (false);
 		index++;
 	}
@@ -100,8 +102,7 @@ static void	check_same_key_or_not(char *key, t_list *envp, char **argv,
 	{
 		while (envp)
 		{
-			if (ft_strnequal((char*)(envp->content), key, count)
-				&& !ft_strequal((char*)(envp->content), arg))
+			if (ft_strnequal((char*)(envp->content), key, count))
 				remplace_value(arg, envp, 0);
 			envp = envp->next;
 		}

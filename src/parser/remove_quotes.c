@@ -113,7 +113,7 @@ char	*skip_plus(char *str, size_t index, int pass)
 	while (index < len)
 	{
 		start = index;
-		if (str[index] == '+' && pass == 0)
+		if (str[index] == '+' && str[index + 1] == '=' && pass == 0)
 		{
 			index += 2;
 			pass = 1;

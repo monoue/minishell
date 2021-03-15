@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   digits_num_is_over_llong_max.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:41:39 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/08 12:40:17 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/15 22:05:49 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,10 @@ void		remplace_value(char *arg, t_list *envp, int i)
 	return ;
 }
 
-void		error_cd(char *home_key)
+void		error_cd(char *home_key, char **arg)
 {
 	SAFE_FREE(home_key);
 	g_last_exit_status = EXIT_FAILURE;
 	put_bash_err_msg("cd", "HOME not set");
+	ft_free_split(arg);
 }

@@ -22,11 +22,11 @@ char	*skip_space_dq(char *value)
 	j = ft_strlen(value);
 	if (!(tmp = ft_strdup("")))
 		exit_err_msg(MALLOC_ERR);
-	while (value[i] == ' ')
+	while (value[i] == ' ' || value[i] == '\t')
 		i++;
 	while (i < j)
 	{
-		while (value[i] != ' ' && value[i])
+		while (value[i] != ' ' && value[i] && value[i] != '\t')
 		{
 			tmp = ft_strnjoin_free(tmp, &value[i], 1);
 			i++;
@@ -50,7 +50,7 @@ char	*skip_space_sq(char *value)
 		exit_err_msg(MALLOC_ERR);
 	while (i < j)
 	{
-		while (value[i] != ' ' && value[i])
+		while (value[i] != ' ' && value[i] && value[i] != '\t')
 		{
 			tmp = ft_strnjoin_free(tmp, &value[i], 1);
 			i++;

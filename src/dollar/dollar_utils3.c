@@ -119,17 +119,23 @@ char	*take_double_quote(char *line, int *i)
 	tmp = NULL;
 	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 	(*i)++;
-	while (line[*i] != '\"')
+	while (line[*i] && line[*i] != '\"')
 	{
-		if (line[*i] == '\\' && line[*i + 1] == '\"')
+		if (line[*i] == '\\' && line[*i + 1] != '\0')
+		{
+			tmp = ft_strnjoin_free(tmp, &line[*i], 2);
+			(*i) += 2;
+		}
+		else
 		{
 			tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 			(*i)++;
 		}
+	}
+	if (line[*i] != '\0')
+	{
 		tmp = ft_strnjoin_free(tmp, &line[*i], 1);
 		(*i)++;
 	}
-	tmp = ft_strnjoin_free(tmp, &line[*i], 1);
-	(*i)++;
 	return (tmp);
 }

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec_path_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:24:05 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/12 11:34:40 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/14 17:11:11 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-static void	exec_all_paths(char **paths, char **argv, t_list *envp)
+static void		exec_all_paths(char **paths, char **argv, t_list *envp)
 {
 	const char	*command = argv[0];
 	char		*full_command_path;
@@ -35,7 +35,7 @@ static void	exec_all_paths(char **paths, char **argv, t_list *envp)
 	}
 }
 
-static char	*get_path_str(t_list *envp)
+static char		*get_path_str(t_list *envp)
 {
 	const char		*path_indicator = "PATH=";
 	const size_t	len = ft_strlen(path_indicator);
@@ -51,7 +51,7 @@ static char	*get_path_str(t_list *envp)
 	return (NULL);
 }
 
-static char	**get_paths(char *path_str)
+static char		**get_paths(char *path_str)
 {
 	char	**paths_without_slash;
 	char	**complete_paths;
@@ -78,17 +78,17 @@ static char	**get_paths(char *path_str)
 	return (complete_paths);
 }
 
-static void	exec_absolute_path(char **argv, t_list *envp)
+static void		exec_absolute_path(char **argv, t_list *envp)
 {
-	const char	*command = argv[0];
-	char		**environ;
+	const char		*command = argv[0];
+	char			**environ;
 
 	environ = turn_envp_into_strs(envp);
 	errno = 0;
 	execve(command, argv, environ);
 }
 
-void		exec_path_command(char **argv, t_list *envp)
+void			exec_path_command(char **argv, t_list *envp)
 {
 	char		**paths;
 	char		*path_str;

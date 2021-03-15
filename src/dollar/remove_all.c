@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_all.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 13:43:56 by sperrin           #+#    #+#             */
-/*   Updated: 2021/03/12 14:10:02 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/14 11:53:33 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ static char	*remove_all_sub(char *tmp)
 	}
 	else if (tmp[0] != '\'')
 	{
-		str = remove_escape_dq(tmp);
-		arg = remove_quotes(str);
+		if (g_into_dollar == false)
+			str = remove_quotes(tmp);
+		else
+			str = ft_strdup(tmp);
+		arg = remove_escape_dq(str);
 	}
 	else
 	{
@@ -57,9 +60,7 @@ char		*remove_all(char *argv)
 	{
 		if (tmp[index][0] == '\\'
 			&& (tmp[index][1] == '\"' || tmp[index][1] == '\''))
-		{
 			g_escape = true;
-		}
 		arg = remove_all_sub(tmp[index]);
 		final = ft_strjoin_free_both(final, arg);
 		index++;

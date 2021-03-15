@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/12 12:32:51 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/14 22:19:55 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ static t_list	*make_shelllevel_and_underscore(void)
 	getcwd(buf, MAX_INPUT);
 	str = ft_strjoin_free(str, buf);
 	tmp = new_env(str);
-	SAFE_FREE(str);
 	ft_lstadd_back(&envp, tmp);
 	tmp = new_env("SHLVL=1");
 	ft_lstadd_back(&envp, tmp);
 	tmp = new_env("_=./minishell");
 	ft_lstadd_back(&envp, tmp);
+	SAFE_FREE(str);
 	return (envp);
 }
 

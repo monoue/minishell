@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:11 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/12 15:32:36 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/15 22:06:04 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@
 # include <signal.h>
 # include <errno.h>
 # include <limits.h>
+
+# include <stdlib.h>
+# include <unistd.h>
+# include <string.h>
+# include <dirent.h>
+# include <sys/stat.h>
 
 # define ERR_MSG		"error: "
 # define FATAL_ERR_MSG	ERR_MSG"fatal\n"
@@ -206,7 +212,7 @@ char				*skip_space_dq(char *value);
 char				*skip_space_sq(char *value);
 bool				check_dollar_question(char *arg);
 char				*return_value(char **tmp, int i, char *arg, char *str);
-void				error_cd(char *home_key);
+void				error_cd(char *home_key, char **arg);
 /*
 **  syntax_error_check
 */

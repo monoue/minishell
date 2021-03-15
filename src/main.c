@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 07:40:57 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/12 12:33:23 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/14 21:28:57 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		g_last_exit_status = 0;
 bool	g_tmp = false;
 
-static int	ft_getline_2(int *cmd_status, char **stock, int *flag)
+static int		ft_getline_2(int *cmd_status, char **stock, int *flag)
 {
 	char	buf[BUFFER_SIZE + 1];
 	int		ret;
@@ -25,6 +25,7 @@ static int	ft_getline_2(int *cmd_status, char **stock, int *flag)
 	if (g_tmp)
 	{
 		*cmd_status = 256;
+		g_last_exit_status = 256;
 		free(*stock);
 		*stock = ft_strdup("");
 		g_tmp = false;
@@ -41,7 +42,7 @@ static int	ft_getline_2(int *cmd_status, char **stock, int *flag)
 	return (ret);
 }
 
-static char	*ft_getline(int *cmd_status)
+static char		*ft_getline(int *cmd_status)
 {
 	char	*stock;
 	int		flag;
@@ -58,13 +59,13 @@ static char	*ft_getline(int *cmd_status)
 		{
 			ft_putendl_err("exit");
 			put_farewell_greeting();
-			exit(*cmd_status / 256);
+			exit(g_last_exit_status);
 		}
 	}
 	return (stock);
 }
 
-static void	handle_gl(int sig)
+static void		handle_gl(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -77,7 +78,7 @@ static void	handle_gl(int sig)
 		ft_putstr_err("\b\b  \b\b");
 }
 
-static void	main_loop(t_list *envp)
+static void		main_loop(t_list *envp)
 {
 	char		*line;
 	int			cmd_status;
@@ -97,7 +98,7 @@ static void	main_loop(t_list *envp)
 	process_command_line(line, envp);
 }
 
-int			main(void)
+int				main(void)
 {
 	t_list		*envp;
 

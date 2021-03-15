@@ -14,10 +14,10 @@
 
 void	put_error_invalid_identifier(const char *command, const char *arg)
 {
-	ft_putstr("bash: ");
-	ft_putstr(command);
-	ft_putstr(": `");
-	ft_putstr(arg);
-	ft_putendl("': not a valid identifier");
+	ft_putstr_fd("bash: ", 2);
+	ft_putstr_fd(command, 2);
+	ft_putstr_fd(": `", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
 	g_last_exit_status = EXIT_FAILURE;
 }

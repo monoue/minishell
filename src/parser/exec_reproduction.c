@@ -3,38 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   exec_reproduction.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: monoue <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sperrin <sperrin@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:23:47 by monoue            #+#    #+#             */
-/*   Updated: 2021/03/12 13:16:01 by monoue           ###   ########.fr       */
+/*   Updated: 2021/03/14 12:01:49 by sperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
+char		*remove_all_bis(char *argv)
+{
+	char	*arg;
+	char	*arg_tmp;
+
+	arg_tmp = remove_escape(argv, 0);
+	if (g_escape == 0 && g_into_dollar == 0)
+		arg = remove_quotes(arg_tmp);
+	else
+		arg = ft_strdup(arg_tmp);
+	SAFE_FREE(arg_tmp);
+	return (arg);
+}
+
 static void	exec_not_exit_reproduction(char **argv, t_list *envp)
 {
 	char	*home_key;
+	char	*arg;
 
+	arg = remove_all_bis(argv[0]);
 	home_key = NULL;
-	if (ft_strequal(argv[0], "cd"))
+	if (ft_strequal(arg, "cd"))
 		cd(argv, envp, home_key);
-	else if (ft_strequal(argv[0], "pwd"))
+	else if (ft_strequal(arg, "pwd"))
 		pwd(argv);
-	else if (ft_strequal(argv[0], "echo"))
+	else if (ft_strequal(arg, "echo"))
 		echo(argv);
-	else if (ft_strequal(argv[0], "env"))
+	else if (ft_strequal(arg, "env"))
 		env(envp);
-	else if (ft_strequal(argv[0], "export"))
+	else if (ft_strequal(arg, "export"))
 		export(argv, envp);
-	else if (ft_strequal(argv[0], "unset"))
+	else if (ft_strequal(arg, "unset"))
 		unset(argv, envp);
 	else
 	{
 		g_last_exit_status = 127;
-		put_bash_err_msg(argv[0], NO_COMMANDS_ERR);
+		put_bash_err_msg(arg, NO_COMMANDS_ERR);
+		SAFE_FREE(arg);
 	}
+	SAFE_FREE(arg);
 }
 
 void		exec_reproduction(char **argv, t_list *envp, bool pipe_child)
